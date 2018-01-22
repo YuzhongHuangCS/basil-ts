@@ -7,7 +7,7 @@ A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (
 ### Docker
 
 ```bash
-cd ~/Work/SAGE-wardassoc/basil-ts
+cd ~/Work/SAGE-ward-share/basil-ts
 docker build -t basil-ts ./ 
 docker images
 
@@ -18,7 +18,9 @@ export FLASK_APP=/home/basil-ts/app.py
 flask run --host=0.0.0.0
 ```
 
-Here's how to try out the sample request you sent. This should return a ridiculously long JSON answer:
+http://0.0.0.0:5000 should show a hello world message.
+
+Here's how to try out the sample request you sent. This should return a ridiculously long JSON answer, because the data end almost a year before the forecast date:
 
 ```
 curl -H "Content-Type: application/json" -vX POST -d @test/example1.json http://0.0.0.0:5000/forecast
