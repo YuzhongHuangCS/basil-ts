@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -vX POST -d @test/example2.json http://0.0.0.0:5000/forecast
