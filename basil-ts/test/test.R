@@ -45,27 +45,34 @@ expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
 
 # Sample requests from backcast IFPs --------------------------------------
 
+# TODO save a couple of example responses for ISI
+
 x <- main("basil-ts/test/requests/example1.json")
+x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/example1.json")
 x$options
 x$model_info
 
-# 65
+# 65: brent oil price; fin. daily; question daily
 x <- main("basil-ts/test/requests/ifp65a.json")
+x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp65a.json")
 x$options
 x$model_info
 
 # 12
 x <- main("basil-ts/test/requests/ifp12a.json")
+x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp12a.json")
 x$options
 x$model_info
 
 # 5: ACLED
 x <- main("basil-ts/test/requests/ifp5a.json")
+x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp5a.json")
 x$options
 x$model_info
 
 # 68: earthquakes, half-month question
 x <- main("basil-ts/test/requests/ifp68a.json")
+x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp68a.json")
 x$options
 x$model_info
 

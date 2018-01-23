@@ -182,7 +182,7 @@ main <- function(fh = "basil-ts/request.json") {
   target$normdate <- cast_date(target$date, question_period$period)
   
   # Aggregate
-  # TODO fill in missing time periods when aggregating
+  # TODO fill in missing time periods when aggregating; month and half-month data only, i think
   # TODO identify and fix partial time period data
   partial    <- target[target$date >= question_period$date, ]
   target_agg <- target[target$date < question_period$date, ]
@@ -229,6 +229,7 @@ main <- function(fh = "basil-ts/request.json") {
   
   # Fit statistics
   # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
+  # TODO get some basic heuristics for what is good
   resid <- mdl$x - mdl$fitted
   rmse  <- sqrt(mean(resid^2))
   rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
