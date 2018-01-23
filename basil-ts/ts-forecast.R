@@ -130,8 +130,40 @@ make_dates <- function(data_end, h, pd) {
   x
 }
 
+guess_series_type <- function(x, question) {
+  stopifnot(length(question)==1)
+  xvals <- unique(x)
+  distinctvals <- length(xvals)
+  min0  <- min(xvals)==0
+  max1  <- max(xvals)==1
+  q_count <- str_detect(tolower(question), "(how many)(ACLED)(atrocities)")
+  # default
+  out <- "continuous"
+  if ((min0 & !max1) | q_count)      out <- "count"
+  if (min0 & max1 & distinctvals==2) out <- "binary"
+  out
+}
+
+enforce_series_type <- function(x, type) {
+  if (type=="continuous") {
+    x <- x
+  } else if (type=="count") {
+    x[x < 0] <- 0
+  } else if (type=="binary") {
+    x[x < 0] <- 0
+    x[x > 1] <- 1
+  }
+  x
+}
+
+skewness <- function(x) {
+  n <- length(x)
+  (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
+}
+
+
 main <- function(fh = "basil-ts/request.json") {
-  #fh = "basil-ts/test/requests/ifp65a.json"
+  #fh = "basil-ts/test/requests/ifp5a.json"
   
   request <- jsonlite::fromJSON(fh)
   #unlink(fh)
@@ -146,10 +178,12 @@ main <- function(fh = "basil-ts/request.json") {
     value = as.numeric(request$ts[, 2])
   )
   data_period     <- parse_data_period(target$date)
+  series_type     <- guess_series_type(target$value, request$metadata$title)
   target$normdate <- cast_date(target$date, question_period$period)
   
   # Aggregate
   # TODO fill in missing time periods when aggregating
+  # TODO identify and fix partial time period data
   partial    <- target[target$date >= question_period$date, ]
   target_agg <- target[target$date < question_period$date, ]
   target_agg <- aggregate(target$value, by = list(target$normdate), FUN = sum) %>%
@@ -164,24 +198,44 @@ main <- function(fh = "basil-ts/request.json") {
     h <- round(h / 30.35)
   }
   
-  # TODO set start and frequency based on period
+  # TODO set start based on period
+  fr <- switch(question_period$period,
+               "month" = 12,
+               "half-month" = 24,
+               "week" = 52.17857,
+               "day" = 364.25)
   target_ts <- ts(
-    data = as.numeric(target_agg$value)
+    data = as.numeric(target_agg$value),
     # start = c(as.integer(substr(min(in_data$date), 1, 4)), 
     #           as.integer(substr(min(in_data$date), 6, 7))),
-    # frequency = 12
+    frequency = fr
   )
   
-  # TODO set lambda as neede
+  # Estimate model and forecast
   # TODO enforce forecast value constraints
   # TODO update forecast with partial info
-  mdl      <- auto.arima(target_ts)
+  lambda   <- NULL
+  if (series_type %in% c("count", "continuous")) {
+    skew <- skewness(as.vector(target_ts))
+    if (skew > 2) lambda <- .5
+  }
+  mdl      <- auto.arima(target_ts, lambda = lambda)
   fcast    <- forecast(mdl, h = h)
   catfcast <- category_forecasts(fcast, options$cutpoints)
   
   data_end <- max(target_agg$normdate)
   pd <- question_period$period
   fcast_dates <- make_dates(data_end, h, pd)
+  
+  # Fit statistics
+  # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
+  resid <- mdl$x - mdl$fitted
+  rmse  <- sqrt(mean(resid^2))
+  rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
+  resid_rwf <- mdl$x - naive(mdl$x)$fitted
+  rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
+  # mase doesn't work when any baseline forecast is 0, bc /0
+  #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
   
   result <- list(
     raw_forecasts = data.frame(
@@ -198,9 +252,18 @@ main <- function(fh = "basil-ts/request.json") {
     ),
     metadata = list(
       hfcId = request$metadata$hfcId,
-      forecastCreatedAt = now(),
+      forecastCreatedAt = lubridate::now()
+    ),
+    model_info = list(
       data_period = data_period,
-      question_period = question_period$period
+      question_period = question_period$period,
+      series_type = series_type,
+      h = h,
+      skew = skew,
+      lambda = lambda,
+      rmse = rmse,
+      rmse_mean = rmse_mean,
+      rmse_rwf  = rmse_rwf
     )
   )
   
