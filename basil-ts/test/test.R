@@ -24,4 +24,27 @@ cast_date(x, "week")
 cast_date(x, "half-month")
 cast_date(x, "month")
 
-main("basil-ts/basil-ts/request.json")$options
+x <- main("basil-ts/test/requests/example1.json")
+x$options
+x$metadata
+
+# 65
+x <- main("basil-ts/test/requests/ifp65a.json")
+x$options
+x$metadata
+
+# 12
+x <- main("basil-ts/test/requests/ifp12a.json")
+x$options
+x$metadata
+
+# 5
+x <- main("basil-ts/test/requests/ifp5a.json")
+x$options
+x$metadata
+
+# 68: earthquakes, half-month question
+x <- main("basil-ts/test/requests/ifp68a.json")
+x$options
+x$metadata
+

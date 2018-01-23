@@ -1,8 +1,10 @@
 #
-#   Do some univariate time series forecasts for IFPs from the readiness eval
+#   Create example requests from backcasting IFPs
 #   Andreas Beger
-#   2018-01-17
+#   23 January 2018
 #
+
+setwd("/media/andybega/DATA/Work/SAGE-ward-share/basil-ts/test/ready-eval-examples")
 
 library("lubridate")
 library("dplyr")

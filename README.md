@@ -23,7 +23,9 @@ http://0.0.0.0:5000 should show a hello world message.
 Here's how to try out the sample request you sent. This should return a ridiculously long JSON answer, because the data end almost a year before the forecast date:
 
 ```
-curl -H "Content-Type: application/json" -vX POST -d @test/example1.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast | tail
+
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/ifp12a.json http://0.0.0.0:5000/forecast 
 ```
 
 

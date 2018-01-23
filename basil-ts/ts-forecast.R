@@ -1,9 +1,11 @@
 
-
-library("forecast")
-library("lubridate")
-library("jsonlite")
-library("stringr")
+suppressPackageStartupMessages({
+  library("methods")
+  library("forecast")
+  library("lubridate")
+  library("jsonlite")
+  library("stringr")
+})
 
 #' Segmentize forecast density
 #' 
@@ -58,7 +60,8 @@ parse_options <- function(x) {
 
 parse_data_period <- function(x) {
   tdiff <- as.integer(unique(diff(x)))
-  if (all(tdiff==1)) {
+  if (all(tdiff < 7)) {
+    # why not ==1? because finanical time series skip weekends and holidays...
     period <- "day"
   } else if (all(tdiff==7)) {
     period <- "week"
@@ -73,7 +76,7 @@ parse_data_period <- function(x) {
 }
 
 parse_question_period <- function(x) {
-  dates <- str_extract_all(x, "([0-9]{0,2}[A-Za-z ]+[0-9]{4})")[[1]]
+  dates <- str_extract_all(x, "([0-9 ]{0,3}[A-Za-z]+[ ]{1}[0-9]{4})")[[1]]
   if (length(dates)==1 & all(str_detect(dates, "[0-9]{1,2}[A-Za-z ]+[0-9]{4}"))) {
     period <- "day"
     date   <- as.Date(dates, format = "%d %B %Y")
@@ -112,7 +115,7 @@ make_dates <- function(data_end, h, pd) {
   } else if (pd=="week") {
     x <- data_end + 7*1:h
   } else if (pd=="half-month") {
-    if (day(start)==16) {
+    if (day(data_end)==16) {
       mm <- rep(1:ceiling(h/2), each = 2)[1:h]
       x <- data_end %m+% months(mm)
       x <- `day<-`(x, rep_len(c(1, 16), length = h))
@@ -127,15 +130,15 @@ make_dates <- function(data_end, h, pd) {
   x
 }
 
-
-fh <- "basil-ts/request.json"
-#fh = "test/requests/example1.json"
-fh = "basil-ts/test/example1.json"
-
 main <- function(fh = "basil-ts/request.json") {
-  request <- jsonlite::fromJSON(fh)
+  #fh = "basil-ts/test/requests/ifp65a.json"
   
-  options         <- parse_options(request$metadata$options$name)
+  request <- jsonlite::fromJSON(fh)
+  #unlink(fh)
+  # missing file makes error more obvious in Flask
+  unlink("basil-ts/forecast.json")
+  
+  options         <- parse_options(request$metadata$options[, 1])
   question_period <- parse_question_period(request$metadata$title)
   
   target <- data.frame(
@@ -195,7 +198,9 @@ main <- function(fh = "basil-ts/request.json") {
     ),
     metadata = list(
       hfcId = request$metadata$hfcId,
-      forecastCreatedAt = now()
+      forecastCreatedAt = now(),
+      data_period = data_period,
+      question_period = question_period$period
     )
   )
   
@@ -204,4 +209,4 @@ main <- function(fh = "basil-ts/request.json") {
   invisible(result)
 }
 
-
+main()
