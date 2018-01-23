@@ -23,7 +23,7 @@ def get_forecast():
     with open("basil-ts/request.json", "w") as outfile:
         json.dump(content, outfile)
         
-    subprocess.call("Rscript --vanilla basil-ts/ts-forecast.R", shell = True)
+    subprocess.call("Rscript --vanilla basil-ts/ts-forecast.R -e 'main()'", shell = True)
     
     # old code when intermediary was CSV file
     #fcasts = pd.read_csv('basil-ts/forecast.csv')
