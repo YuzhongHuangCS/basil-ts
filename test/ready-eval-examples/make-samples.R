@@ -100,7 +100,7 @@ rr$ts <- filter(df, date < "2017-07-01")
 rr %>% toJSON(dataframe = "values") %>% writeLines("../requests/ifp5b.json")
 
 # data ends before question, but partial month in
-rr$ts <- filter(df, date < "2017-08-15") 
+rr$ts <- filter(df, date < "2017-07-15") 
 rr %>% toJSON(dataframe = "values") %>% writeLines("../requests/ifp5c.json")
 
 # partial info for outcome in question period

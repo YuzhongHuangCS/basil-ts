@@ -45,6 +45,31 @@ category_forecasts <- function(fc, cp) {
   catp
 }
 
+halfmonth <- function(x) {
+  stopifnot(is.Date(x))
+  paste(substr(x, 6, 7), ifelse(substr(x, 9, 10) < 16, "01", "16"), sep = "-")
+}
+
+lbl <- paste(sprintf("%02d", rep(1:12, 1, each = 2)), c("01", "16"), sep = "-")
+N_DAYS_IN_HALFMONTHS <- as.Date(c(sprintf("2017-%s", lbl), "2018-01-01")) %>% diff() %>% as.integer()
+names(N_DAYS_IN_HALFMONTHS) <- lbl
+
+days_in_halfmonth <- function(x) {
+  halfmonth_x <- halfmonth(x)
+  n_days <- N_DAYS_IN_HALFMONTHS[halfmonth_x]
+  n_days[halfmonth_x == "02-16" & leap_year(x)] <- 14L
+  n_days
+}
+
+days_in_period <- function(x, period) {
+  if (period=="month") {
+    days_in_month(x)
+  } else if (period=="halfmonth") {
+    days_in_halfmonth(x)
+  } else {
+    stop("Unrecognized period")
+  }
+}
 
 parse_options <- function(x) {
   cutpoints <- x %>% 
@@ -66,7 +91,7 @@ parse_data_period <- function(x) {
   } else if (all(tdiff==7)) {
     period <- "week"
   } else if (all(tdiff %in% 13:17)) {
-    period <- "half-month"
+    period <- "halfmonth"
   } else if (all(tdiff %in% 28:31)) {
     period <- "month"
   } else {
@@ -84,23 +109,32 @@ parse_question_period <- function(x) {
     period <- "month"
     date   <- as.Date(sprintf("1 %s", dates), format = "%d %B %Y")
   } else if (length(dates)==2) {
-    period <- "half-month"
-    date   <- as.Date(dates[1], format = "%d %B %Y")
-    date   <- `day<-`(date, ifelse(day(date) < 15, 1, 15))
+    dates <- as.Date(dates, format = "%d %B %Y")
+    if ( (day(dates[1])==1 & day(dates[2])==15) | (day(dates[1]) %in% c(15, 16) & day(dates[2]) %in% 28:31)) {
+      period <- "halfmonth"
+      date   <- dates[1]
+      if (day(date)==15) day(date) <- 16L
+    } else if (day(dates[1])==1 & day(dates[2]) %in% c(28:31)) {
+      period <- "month"
+      date   <- dates[1]
+    } else {
+      period <- "custom"
+      date   <- dates
+    }
   } else {
-    stop("no clue")
+    stop("Unrecognized question period")
   }
   list(period = period, date = date)
 }
 
 cast_date <- function(x, period) {
   stopifnot(is.Date(x))
-  if (period=="day") {
+  if (period %in% c("day", "custom")) {
     out <- x
   } else if (period=="week") {
     stop("not implemented")
-  } else if (period=="half-month") {
-    out <- `day<-`(x, ifelse(day(x) < 15, 1, 16))
+  } else if (period=="halfmonth") {
+    out <- `day<-`(x, ifelse(day(x) < 16, 1, 16))
   } else if (period=="month") {
     out <- `day<-`(x, 1)
   } else {
@@ -110,11 +144,11 @@ cast_date <- function(x, period) {
 }
 
 make_dates <- function(data_end, h, pd) {
-  if (pd=="day") {
+  if (pd %in% c("day", "custom")) {
     x <- data_end + 1:h
   } else if (pd=="week") {
     x <- data_end + 7*1:h
-  } else if (pd=="half-month") {
+  } else if (pd=="halfmonth") {
     if (day(data_end)==16) {
       mm <- rep(1:ceiling(h/2), each = 2)[1:h]
       x <- data_end %m+% months(mm)
@@ -163,7 +197,7 @@ skewness <- function(x) {
 
 
 main <- function(fh = "basil-ts/request.json") {
-  #fh = "basil-ts/test/requests/ifp5a.json"
+  #fh = "test/requests/ifp68a.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
@@ -183,17 +217,28 @@ main <- function(fh = "basil-ts/request.json") {
   target$normdate <- cast_date(target$date, question_period$period)
   
   # Aggregate
-  # TODO fill in missing time periods when aggregating; month and half-month data only, i think
-  # TODO identify and fix partial time period data
-  partial    <- target[target$date >= question_period$date, ]
-  target_agg <- target[target$date < question_period$date, ]
-  target_agg <- aggregate(target$value, by = list(target$normdate), FUN = sum) %>%
-    setNames(c("normdate", "value"))
+  # TODO fill in missing time periods when aggregating; month and halfmonth data only, i think
+  partial    <- target[target$date >= question_period$date[1], ]
+  target_agg <- target[target$date < question_period$date[1], ]
+  # check for partial training data
+  if (question_period$period %in% c("month", "halfmonth") & data_period=="day" & series_type=="count") {
+    target_agg$rows <- 1
+    target_agg <- aggregate(target_agg[, c("value", "rows")], by = list(target_agg$normdate), FUN = sum) %>%
+      setNames(c("normdate", "value", "rows"))
+    target_agg$days  <- days_in_period(target_agg$normdate, question_period$period)
+    # don't extrapolate if less than half period; drop in that case
+    target_agg <- target_agg[target_agg$rows / target_agg$days > .5, ]
+    # extrapolate for partials with more than x
+    target_agg$value <- as.integer(target_agg$days / target_agg$rows * target_agg$value)
+  } else {
+    target_agg <- aggregate(target_agg[, c("value")], by = list(target_agg$normdate), FUN = sum) %>%
+      setNames(c("normdate", "value"))
+  }
   
   # How many time periods do I need to forecast ahead?
-  h  <- as.integer(question_period$date - max(target_agg$normdate))
+  h  <- as.integer(question_period$date[1] - max(target_agg$normdate))
   pd <- question_period$period
-  if (pd=="half-month") {
+  if (pd=="halfmonth") {
     h <- round(h / 15.18)
   } else if (pd=="month") {
     h <- round(h / 30.35)
@@ -202,7 +247,7 @@ main <- function(fh = "basil-ts/request.json") {
   # TODO set start based on period
   fr <- switch(question_period$period,
                "month" = 12,
-               "half-month" = 24,
+               "halfmonth" = 24,
                "week" = 52.17857,
                "day" = 364.25)
   target_ts <- ts(
