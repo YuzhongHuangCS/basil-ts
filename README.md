@@ -23,9 +23,16 @@ http://0.0.0.0:5000 should show a hello world message.
 Here's how to try out the sample request you sent. This should return a ridiculously long JSON answer, because the data end almost a year before the forecast date:
 
 ```
+# assumes wd is basil-ts already
+# the sample request from ISI, returns really long answer so only check last bit
 curl -H "Content-Type: application/json" -vX POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast | tail
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast > test/responses/example1.json
 
-curl -H "Content-Type: application/json" -vX POST -d @test/requests/ifp12a.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/ifp12a.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/ifp12a.json http://0.0.0.0:5000/forecast > test/responses/ifp12a.json
+
+# this should return error (ifp12.json does not exist)
+curl -H "Content-Type: application/json" -vX POST -d @test/requests/ifp12.json http://0.0.0.0:5000/forecast 
 ```
 
 

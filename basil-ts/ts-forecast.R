@@ -164,6 +164,7 @@ skewness <- function(x) {
 
 main <- function(fh = "basil-ts/request.json") {
   #fh = "basil-ts/test/requests/ifp5a.json"
+  #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
   #unlink(fh)
@@ -215,6 +216,7 @@ main <- function(fh = "basil-ts/request.json") {
   # TODO enforce forecast value constraints
   # TODO update forecast with partial info
   lambda   <- NULL
+  skew     <- NULL
   if (series_type %in% c("count", "continuous")) {
     skew <- skewness(as.vector(target_ts))
     if (skew > 2) lambda <- .5
@@ -268,7 +270,7 @@ main <- function(fh = "basil-ts/request.json") {
     )
   )
   
-  toJSON(result, "columns") %>% writeLines("basil-ts/forecast.json")
+  toJSON(result, "columns", POSIXt = "ISO8601") %>% writeLines("basil-ts/forecast.json")
   #write.csv(result, file = "basil-ts/forecast.csv", row.names = FALSE)
   invisible(result)
 }
