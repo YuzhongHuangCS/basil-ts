@@ -51,7 +51,11 @@ def get_forecast():
     with open("basil-ts/request.json", "w") as outfile:
         json.dump(content, outfile)
         
-    subprocess.call("Rscript --vanilla basil-ts/ts-forecast.R", shell = True)
+    try:
+        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R"], shell = False,
+                                stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
     
     # old code when intermediary was CSV file
     #fcasts = pd.read_csv('basil-ts/forecast.csv')
