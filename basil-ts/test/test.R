@@ -1,5 +1,5 @@
 
-source("basil-ts/basil-ts/ts-forecast.R")
+source("basil-ts/ts-forecast.R")
 
 library("testthat")
 
@@ -25,7 +25,7 @@ cast_date(x, "week")
 cast_date(x, "half-month")
 cast_date(x, "month")
 
-samples <- dir("basil-ts/test/requests", pattern = "*\\.json", full.names = TRUE)
+samples <- dir("/test/requests", pattern = "*\\.json", full.names = TRUE)
 samples <- lapply(samples, jsonlite::fromJSON)
 questions <- unique(sapply(samples, function(x) x$metadata$title))
 
@@ -47,32 +47,32 @@ expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
 
 # TODO save a couple of example responses for ISI
 
-x <- main("basil-ts/test/requests/example1.json")
-x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/example1.json")
+x <- main("/test/requests/example1.json")
+x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("/test/responses/example1.json")
 x$options
 x$model_info
 
 # 65: brent oil price; fin. daily; question daily
-x <- main("basil-ts/test/requests/ifp65a.json")
-x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp65a.json")
+x <- main("/test/requests/ifp65a.json")
+x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("/test/responses/ifp65a.json")
 x$options
 x$model_info
 
 # 12
-x <- main("basil-ts/test/requests/ifp12a.json")
-x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp12a.json")
+x <- main("/test/requests/ifp12a.json")
+x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("/test/responses/ifp12a.json")
 x$options
 x$model_info
 
 # 5: ACLED
-x <- main("basil-ts/test/requests/ifp5a.json")
-x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp5a.json")
+x <- main("/test/requests/ifp5a.json")
+x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("/test/responses/ifp5a.json")
 x$options
 x$model_info
 
 # 68: earthquakes, half-month question
-x <- main("basil-ts/test/requests/ifp68a.json")
-x %>% toJSON(., "columns") %>% writeLines("basil-ts/test/responses/ifp68a.json")
+x <- main("/test/requests/ifp68a.json")
+x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("/test/responses/ifp68a.json")
 x$options
 x$model_info
 

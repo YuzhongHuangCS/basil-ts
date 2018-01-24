@@ -1,1 +1,74 @@
-{"raw_forecasts":{"date":["2017-08-01"],"l95":[-0.4115],"l80":[-0.3835],"mean":[-0.3307],"u80":[-0.2779],"u95":[-0.2499],"_row":["95%"]},"options":{"name":["Less than -1.76","Between -1.76 and -0.76, inclusive","More than -0.76 but less than 0.10","Between 0.10 and 1.10, inclusive","More than 1.10"],"phat":[7.9425e-264,1.044e-25,1,0,0]},"metadata":{"hfcId":{},"forecastCreatedAt":["2018-01-23 21:49:14"]},"model_info":{"data_period":["month"],"question_period":["month"],"series_type":["continuous"],"h":[1],"skew":[1.0368],"lambda":{},"rmse":[0.0407],"rmse_mean":[0.564],"rmse_rwf":[0.0617]}}
+{
+  "metadata": {
+    "forecastCreatedAt": [
+      "2018-01-24T10:00:30"
+    ], 
+    "hfcId": {}
+  }, 
+  "model_info": {
+    "data_period": [
+      "month"
+    ], 
+    "h": [
+      1
+    ], 
+    "lambda": {}, 
+    "question_period": [
+      "month"
+    ], 
+    "rmse": [
+      0.0407
+    ], 
+    "rmse_mean": [
+      0.564
+    ], 
+    "rmse_rwf": [
+      0.0617
+    ], 
+    "series_type": [
+      "continuous"
+    ], 
+    "skew": [
+      1.0368
+    ]
+  }, 
+  "options": {
+    "name": [
+      "Less than -1.76", 
+      "Between -1.76 and -0.76, inclusive", 
+      "More than -0.76 but less than 0.10", 
+      "Between 0.10 and 1.10, inclusive", 
+      "More than 1.10"
+    ], 
+    "phat": [
+      7.9425e-264, 
+      1.044e-25, 
+      1, 
+      0, 
+      0
+    ]
+  }, 
+  "raw_forecasts": {
+    "_row": [
+      "95%"
+    ], 
+    "date": [
+      "2017-08-01"
+    ], 
+    "l80": [
+      -0.3835
+    ], 
+    "l95": [
+      -0.4115
+    ], 
+    "mean": [
+      -0.3307
+    ], 
+    "u80": [
+      -0.2779
+    ], 
+    "u95": [
+      -0.2499
+    ]
+  }
+}
