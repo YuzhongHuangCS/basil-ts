@@ -201,12 +201,16 @@ main <- function(fh = "basil-ts/request.json") {
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
-  #unlink(fh)
   # missing file makes error more obvious in Flask
+  unlink(fh)
   unlink("basil-ts/forecast.json")
   
   options         <- parse_options(request$metadata$options[, 1])
   question_period <- parse_question_period(request$metadata$title)
+  
+  if (question_period=="custom") {
+    stop("Custom question periods are not implemented yet")
+  }
   
   target <- data.frame(
     date  = as.Date(request$ts[, 1]),

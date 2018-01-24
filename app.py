@@ -4,6 +4,7 @@
 
 from flask import Flask, jsonify, request
 from datetime import datetime
+import os
 import subprocess
 import pandas as pd
 import json
@@ -50,7 +51,10 @@ def get_forecast():
     
     with open("basil-ts/request.json", "w") as outfile:
         json.dump(content, outfile)
-        
+    
+    # TODO...? if multiple requests come in at the same time, could it happen that files are mixed up?
+    # maybe name the request and forecast.json files with unique ID (UUID)
+    # https://stackoverflow.com/questions/2961509/python-how-to-create-a-unique-file-name
     try:
         subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R"], shell = False,
                                 stderr=subprocess.STDOUT)
@@ -64,6 +68,7 @@ def get_forecast():
     #response = make_response(answer)
     #response.mimetype = "application/json"
     fcasts = json.load(open('basil-ts/forecast.json'))
+    os.remove("basil-ts/forecast.json")
     return(jsonify(fcasts))
 
 if __name__ == '__main__':
