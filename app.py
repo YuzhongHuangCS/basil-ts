@@ -54,24 +54,30 @@ def get_forecast():
     request_id = str(uuid.uuid4())
     request_fh = "basil-ts/request-" + request_id + ".json"
     
+    # Check request is valid
+    
+    ts = pd.DataFrame.from_records(content['ts'])
+    # Check first column is convertible to datetime
+    # TODO right now this will parse integers as dates, which is not OK. But R down the line throws an error for it.
+    try: 
+        pd.to_datetime(ts[ts.columns[0]])
+    except ValueError: 
+        raise InvalidUsage("Request contains invalid time series", status_code=400, 
+                           payload = {'error_message': 'first column could not be parsed to datetime'})
+    # Reject multi-variate time-series
+    if ts.shape[1] > 2:
+        raise InvalidUsage("Request contains invalid time series", status_code=400,
+                           payload = {'error_message': 'time series has more than one value column; support for multi-variate time-series is not implemented'})
+    
+    # Pass request to R script
     with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
-    
-    # TODO...? if multiple requests come in at the same time, could it happen that files are mixed up?
-    # maybe name the request and forecast.json files with unique ID (UUID)
-    # https://stackoverflow.com/questions/2961509/python-how-to-create-a-unique-file-name
     try:
         subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id], shell = False,
                                 stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
-    
-    # old code when intermediary was CSV file
-    #fcasts = pd.read_csv('basil-ts/forecast.csv')
-    #fcasts = fcasts.set_index('date')
-    #answer = fcasts.reset_index().to_json(orient = "records", lines = True)
-    #response = make_response(answer)
-    #response.mimetype = "application/json"
+
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
     fcasts = json.load(open(resp_fh))
     os.remove(resp_fh)

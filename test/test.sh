@@ -27,8 +27,11 @@ test_request foo.json error
 # Example from ISI
 test_request example1.json ok
 
+# Multivariate time series, should fail
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example2.json http://0.0.0.0:5000/forecast
+
 # 65: oil prices
-test_request ifp65a ok
+test_request ifp65a.json ok
 # forecasts should be for two time periods
 curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp65b.json http://0.0.0.0:5000/forecast
 
