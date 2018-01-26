@@ -8,6 +8,7 @@ import os
 import subprocess
 import pandas as pd
 import json
+import uuid
 
 app = Flask(__name__)
 
@@ -49,14 +50,18 @@ def get_forecast():
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
     
-    with open("basil-ts/request.json", "w") as outfile:
+    # create request UUID (for filenames)
+    request_id = str(uuid.uuid4())
+    request_fh = "basil-ts/request-" + request_id + ".json"
+    
+    with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
     
     # TODO...? if multiple requests come in at the same time, could it happen that files are mixed up?
     # maybe name the request and forecast.json files with unique ID (UUID)
     # https://stackoverflow.com/questions/2961509/python-how-to-create-a-unique-file-name
     try:
-        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R"], shell = False,
+        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id], shell = False,
                                 stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
@@ -67,8 +72,9 @@ def get_forecast():
     #answer = fcasts.reset_index().to_json(orient = "records", lines = True)
     #response = make_response(answer)
     #response.mimetype = "application/json"
-    fcasts = json.load(open('basil-ts/forecast.json'))
-    os.remove("basil-ts/forecast.json")
+    resp_fh = 'basil-ts/forecast-' + request_id + '.json'
+    fcasts = json.load(open(resp_fh))
+    os.remove(resp_fh)
     return(jsonify(fcasts))
 
 if __name__ == '__main__':

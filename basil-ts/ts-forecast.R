@@ -196,14 +196,17 @@ skewness <- function(x) {
 }
 
 
-main <- function(fh = "basil-ts/request.json") {
+main <- function() {
+  args <- commandArgs(trailingOnly=TRUE)
+  request_id <- args[1]
+  fh <- paste0("basil-ts/request-", request_id, ".json")
+  
   #fh = "test/requests/ifp68a.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
   unlink(fh)
-  unlink("basil-ts/forecast.json")
   
   options         <- parse_options(request$metadata$options[, 1])
   question_period <- parse_question_period(request$metadata$title)
@@ -319,8 +322,8 @@ main <- function(fh = "basil-ts/request.json") {
     )
   )
   
-  toJSON(result, "columns", POSIXt = "ISO8601") %>% writeLines("basil-ts/forecast.json")
-  #write.csv(result, file = "basil-ts/forecast.csv", row.names = FALSE)
+  out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
+  toJSON(result, "columns", POSIXt = "ISO8601") %>% writeLines(out_fh)
   invisible(result)
 }
 
