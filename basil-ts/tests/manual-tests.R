@@ -1,6 +1,8 @@
 
 source("basil-ts/ts-forecast.R")
 
+library("testthat")
+
 df <- rbind(
   c("August 2017", "month"),
   c("between 15 October 2017 and 31 October 2017", "half-month"),
@@ -50,7 +52,6 @@ x$options
 x$model_info
 
 # 65: brent oil price; fin. daily; question daily
-
 x <- main("test/requests/ifp65a.json")
 x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("test/responses/ifp65a.json")
 x$options
