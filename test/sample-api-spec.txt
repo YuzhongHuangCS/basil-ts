@@ -1,0 +1,145 @@
+Notes:
+	No event type going fwd
+	Start out with month as fixed fmt?
+
+	Have a stable of forecasts that the user does/doesn't use for each IFP.
+	Maintain URIs that resolve to a forecast
+
+	clarify the types:
+		non-negative,
+		more from Andy
+		bounds?
+		death count
+			integer >= 0
+			unbounded upper
+
+	Two request types:
+		this country, this URI
+		"crystal ball magic" with this payload TS
+
+	Response:
+		Add a "relevance" or "quality" field
+		Way to "refuse to answer" the question. (204)
+
+	Examples:
+		Forecasting history chart
+			Show case with one forecast
+			2+ forecasts
+		Funnel Plot
+			Add dates to x-axis
+		NEW version of Similarity Tool
+
+
+= Preamble =
+	We are going to call your forecasting tool(s) as an API. This has already been set up to a certain extent regarding the flask wrapper we set up last week. At this point we need to decide upon a data format that we can give you s.t. you can make the forecasts with complete knowledge of the IFP/dataset. Below is our preliminary version of this format for your feedback.
+
+= What we pass to you =
+	We will send a JSON document matching the following format:
+
+	This is the high-level document
+	{
+		"ifp": {}, # the IFP document
+
+		"payload": {
+			"question_type": "Boolean", (one of "Boolean", "Multinomial", or "Ordered Multinomial" depending on the question type)
+			"separations": SEPARATION_SPEC,
+			"historical_data": DATA_SPEC
+		}	
+	}
+
+	SEPARATION_SPEC
+		This will be a vector indicating the separations in an ordered multinomial IFP. The values with be real numbers with the exception of the first and last entry. The first entry has the possibility of having the value "-INF", indicating that the lower end is unbounded. The last entry has the possibility of being "INF", indicating that the upper end is unbounded. 
+		For example, consider the IFP "What will be the daily closing price of gold on 27 December 2017 in USD?" Imagine it has the following options:
+			Less than $1,200
+			Between $1,200 and $1,230, inclusive
+			More than $1,230 but less than $1,255
+			Between $1,255 and $1,285, inclusive
+			More than $1,285
+		The resulting "separations" value will be 
+		{
+			"parsed_options": {
+				"unit": "number",
+				"values": [
+					"<700000",
+					"700000-800000",
+					"800001-900000",
+					"900001-1000000",
+					">=1000001"
+				]
+			},
+			"original_options": [
+				"Less than $1,200"
+				"Between $1,200 and $1,230, inclusive"
+				"More than $1,230 but less than $1,255"
+				"Between $1,255 and $1,285, inclusive"
+				"More than $1,285"
+			]
+		}
+		"Less than $1,200"
+		"Between $1,200 and $1,230, inclusive"
+		"More than $1,230 but less than $1,255"
+		"Between $1,255 and $1,285, inclusive"
+		"More than $1,285"
+		["-INF", 1200, 1230, 1255, 1285, "INF"]
+
+	DATA_SPEC
+		We envision two possible data types: EVENTS, and TIMESERIES. These are defined separately.
+
+	EVENTS
+		This will be a JSON document containing two fields.
+		{
+			"events": [ (It will be a list of events, where each event has)
+				{	
+					"date": "2017-12-21T00:40:36Z", (the ISO 8601 formatted data)
+					"type": "bombing", (this will be a 'controlled but expanding' set of possible event types)
+					"site": "ACLED",  (the site where the event was collected)
+					<Other fields TBD. Andy, we would love your input here: What are the minimum fields to define an event that will be available in all events?>
+				},
+				...
+			],
+			"metadata": {
+				"type": "attacks",  (the type of events in the data)
+				"attributes": {}  (TBD)
+			}
+		}
+
+	TIMESERIES
+		This will be a JSON document containing 3 fields
+		{
+			"ts": [ (An array of arrays. Each sub-array is the time and the fields defined in the "dimensions" array.)
+				["2017-12-21T00:40:36Z", 3],
+				["2017-12-22T00:40:36Z", 0],
+				...
+			]
+			"metadata": { (some relevant metadata about the time series.)
+				"name": ...,
+				"aggregation_type": ...,
+				...
+			}
+			"dimensions": [ (A list of the dimensions in the time series. The first dimension will be a date.)
+				"DATE",
+				{
+					"type": "int", (the datatype {float, int, string})
+					"semantic_type": "deaths" (what the value represents)
+				},
+				...
+			]
+		}
+
+		This holds for the binary and *ordered* multinomial cases as there is ultimately 1 value being forecast. For multinomial questions, "ts" will become a dictionary with each key being an option.
+
+= What you will return=
+	A JSON array formatted as follows:
+	{
+		"ts": [
+			[
+				"2018-01-01T00:40:36Z", (the date of the forecast for the day)
+				1.0,  (the actual value)
+				0.4,  (the lower bound on the 95% confidence interval)
+				1.3  (the upper bound on the 95% confidence interval)
+			],
+			...
+		],
+		"option_probabilities": [0.1, ...] #probabilities in the order that we sent them in the separation spec
+		"forecast_is_usable": 0 | 1 #whether we can use this forecast.
+	}

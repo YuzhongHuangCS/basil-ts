@@ -56,7 +56,7 @@ def get_forecast():
     
     # Check request is valid
     
-    ts = pd.DataFrame.from_records(content['ts'])
+    ts = pd.DataFrame.from_records(content['payload']['historical_data']['ts'])
     # Check first column is convertible to datetime
     # TODO right now this will parse integers as dates, which is not OK. But R down the line throws an error for it.
     try: 

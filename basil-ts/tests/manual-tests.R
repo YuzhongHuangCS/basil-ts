@@ -3,21 +3,19 @@ source("basil-ts/ts-forecast.R")
 
 library("testthat")
 
-df <- rbind(
-  c("August 2017", "month"),
-  c("between 15 October 2017 and 31 October 2017", "half-month"),
-  # week
-  c("27 December 2017", "day")
-  # custom for unusual periods? just # of days?
-) %>% as.data.frame() %>% setNames(c("string", "answer"))
+parse_question_period("August 2017")
+parse_question_period("between 15 October 2017 and 31 October 2017")
+parse_question_period("between 1 October 2017 and 15 October 2017")
+parse_question_period("between 1 October 2017 and 31 October 2017")
+parse_question_period("On 27 December 2017")
 
-lapply(df$string, parse_question_period)
+bb_seq_period("2017-08-01", length.out = 5, bb_period("month"))
+bb_seq_period("2017-08-01", length.out = 5, bb_period("day"))
+bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 7))
+bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 14))
 
-make_dates(as.Date("2017-01-01"), 5, "day")
-make_dates(as.Date("2017-01-01"), 5, "week")
-make_dates(as.Date("2017-01-01"), 5, "half-month")
-make_dates(as.Date("2017-01-16"), 5, "half-month")
-make_dates(as.Date("2017-01-01"), 5, "month")
+
+bb_diff_period("2017-08-01", "2018-05-01", pd = bb_period("month"))
 
 x <- as.Date(c("2017-01-01", "2017-01-15", "2017-01-16", "2017-02-01"))
 cast_date(x, "day")
@@ -40,7 +38,6 @@ x <- c(-1, 0, 1, 2)
 expect_equal(enforce_series_type(x, "continuous"), x)
 expect_equal(enforce_series_type(x, "count"), c(0, 0, 1, 2))
 expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
-
 
 
 
