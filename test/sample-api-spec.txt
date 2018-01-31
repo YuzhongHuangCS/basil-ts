@@ -28,7 +28,7 @@ Notes:
 		Funnel Plot
 			Add dates to x-axis
 		NEW version of Similarity Tool
-
+		
 
 = Preamble =
 	We are going to call your forecasting tool(s) as an API. This has already been set up to a certain extent regarding the flask wrapper we set up last week. At this point we need to decide upon a data format that we can give you s.t. you can make the forecasts with complete knowledge of the IFP/dataset. Below is our preliminary version of this format for your feedback.
@@ -43,7 +43,8 @@ Notes:
 		"payload": {
 			"question_type": "Boolean", (one of "Boolean", "Multinomial", or "Ordered Multinomial" depending on the question type)
 			"separations": SEPARATION_SPEC,
-			"historical_data": DATA_SPEC
+			"historical_data": DATA_SPEC,
+			
 		}	
 	}
 

@@ -124,7 +124,7 @@ days_in_period <- function(x, period) {
   }
 }
 
-parse_options <- function(x) {
+parse_raw_options <- function(x) {
   cutpoints <- x %>% 
     str_extract_all(., "[-0-9\\.,]+") %>%
     unlist() %>%
@@ -134,6 +134,21 @@ parse_options <- function(x) {
   if (length(cutpoints)==0) cutpoints <- 1
   
   list(cutpoints = cutpoints, options = x)
+}
+
+#' Parse parsed option cutpoints
+#' 
+#' @example 
+#' seps <- c("<1229.85", "1229.85-1268.42", "1268.42-1301.63", "1301.63-1340.19", ">1340.19")
+#' parse_separations(seps)
+parse_separations <- function(x) {
+  cutpoints <- x %>%
+    str_extract_all("[0-9\\.]+") %>%
+    unlist() %>%
+    as.numeric() %>%
+    unique()
+  if (length(cutpoints)==0) cutpoints <- 1
+  list(cutpoints = cutpoints, separations = x)
 }
 
 parse_data_period <- function(x) {
@@ -162,7 +177,7 @@ parse_question_period <- function(x) {
   dates <- str_extract_all(x, "([0-9 ]{0,3}[A-Za-z]+[ ]{1}[0-9]{4})")[[1]]
   if (length(dates)==1 & all(str_detect(dates, "[0-9]{1,2}[A-Za-z ]+[0-9]{4}"))) {
     pd <- bb_period("day")
-    date   <- as.Date(dates, format = "%d %B %Y")
+    date   <- rep(as.Date(dates, format = "%d %B %Y"), 2)
   } else if (length(dates)==1 & all(str_detect(dates, "[A-Za-z]+[ ]{1}[0-9]{4}"))) {
     pd <- bb_period("month")
     date   <- as.Date(sprintf("1 %s", dates), format = "%d %B %Y")
@@ -248,15 +263,17 @@ main <- function() {
   # missing file makes error more obvious in Flask
   unlink(fh)
   
-  options         <- parse_options(request$payload$separations$original_options)
-  question_period <- parse_question_period(request$ifp$title)
+  ifp_name <- request$ifp$name
+  
+  options         <- parse_separations(request$payload$separations$values)
+  question_period <- parse_question_period(ifp_name)
   
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
   data_period     <- parse_data_period(target$date)
-  series_type     <- guess_series_type(target$value, request$ifp$title)
+  series_type     <- guess_series_type(target$value, ifp_name)
   
   # Check if need to aggregate
   if (bb_equal_period(data_period$period, question_period$period)) {
@@ -284,6 +301,11 @@ main <- function() {
       target_agg <- aggregate(target_agg[, c("value")], by = list(target_agg$normdate), FUN = sum) %>%
         setNames(c("normdate", "value"))
     }
+  }
+  
+  # Cut down training data if needed to speed up model estimation
+  if (nrow(target_agg > 2000)) {
+    target_agg <- tail(target_agg, 2000)
   }
   
   # How many time periods do I need to forecast ahead?
@@ -342,7 +364,7 @@ main <- function() {
     ) %>% as.matrix(),
     option_probabilities = catfcast,
     forecast_is_usable = usable, 
-    forecastCreatedAt = lubridate::now(),
+    forecast_created_at = lubridate::now(),
     model_info = list(
       data_period = data_period$period,
       question_period = question_period$period,
