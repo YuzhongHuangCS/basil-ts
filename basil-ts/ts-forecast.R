@@ -1,4 +1,10 @@
 
+# TODO
+# - handle partial training info
+# - handle partial outcome info
+# - convert old sample requests to new API format
+# - automate the testing
+
 suppressPackageStartupMessages({
   library("methods")
   library("forecast")
@@ -45,11 +51,17 @@ category_forecasts <- function(fc, cp) {
   catp
 }
 
+#' Create period object
+#' 
+#' To handle weird time periods that are not months or days use a fixed option, which 
+#' is any period with a constant day difference in dates
 bb_period <- function(x, days = NA) {
   stopifnot(x %in% c("month", "day", "fixed"))
   list(period = x, days = days)
 }
 
+#' Number of periods between two periods
+#' 
 bb_diff_period <- function(d1, d2, pd) {
   d1 <- as.Date(d1)
   d2 <- as.Date(d2)
@@ -63,10 +75,14 @@ bb_diff_period <- function(d1, d2, pd) {
   } else {
     stop("Unrecognized period/not implemented")
   }
-  attr(out, "bb_period") <- pd
+  attr(out, "period") <- pd
   out
 }
 
+#' Sequence of periods
+#' 
+#' This is like seq.Date, but handles fixed day difference periods (seq.Date only handles weeks like this)
+#' 
 bb_seq_period <- function(date, length.out, pd) {
   date <- as.Date(date)
   if (pd$period=="month") {
@@ -98,43 +114,6 @@ bb_equal_period <- function(pd1, pd2) {
   all(t1, t2)
 }
 
-halfmonth <- function(x) {
-  stopifnot(is.Date(x))
-  paste(substr(x, 6, 7), ifelse(substr(x, 9, 10) < 16, "01", "16"), sep = "-")
-}
-
-lbl <- paste(sprintf("%02d", rep(1:12, 1, each = 2)), c("01", "16"), sep = "-")
-N_DAYS_IN_HALFMONTHS <- as.Date(c(sprintf("2017-%s", lbl), "2018-01-01")) %>% diff() %>% as.integer()
-names(N_DAYS_IN_HALFMONTHS) <- lbl
-
-days_in_halfmonth <- function(x) {
-  halfmonth_x <- halfmonth(x)
-  n_days <- N_DAYS_IN_HALFMONTHS[halfmonth_x]
-  n_days[halfmonth_x == "02-16" & leap_year(x)] <- 14L
-  n_days
-}
-
-days_in_period <- function(x, period) {
-  if (period=="month") {
-    days_in_month(x)
-  } else if (period=="halfmonth") {
-    days_in_halfmonth(x)
-  } else {
-    stop("Unrecognized period")
-  }
-}
-
-parse_raw_options <- function(x) {
-  cutpoints <- x %>% 
-    str_extract_all(., "[-0-9\\.,]+") %>%
-    unlist() %>%
-    str_replace_all(., ",", "") %>%
-    as.numeric() %>%
-    unique()
-  if (length(cutpoints)==0) cutpoints <- 1
-  
-  list(cutpoints = cutpoints, options = x)
-}
 
 #' Parse parsed option cutpoints
 #' 
@@ -151,9 +130,11 @@ parse_separations <- function(x) {
   list(cutpoints = cutpoints, separations = x)
 }
 
+
 parse_data_period <- function(x) {
   tdiff <- as.integer(unique(diff(x)))
   if (length(tdiff)==1) {
+    # fixed difference in dates
     if (tdiff[1]==1) {
       pd <- bb_period("day")
       days   <- NA
@@ -173,14 +154,19 @@ parse_data_period <- function(x) {
   list(period = pd)
 }
 
+#' Parse date period in question
+#' 
 parse_question_period <- function(x) {
   dates <- str_extract_all(x, "([0-9 ]{0,3}[A-Za-z]+[ ]{1}[0-9]{4})")[[1]]
   if (length(dates)==1 & all(str_detect(dates, "[0-9]{1,2}[A-Za-z ]+[0-9]{4}"))) {
+    # matches like 27 December 2017
     pd <- bb_period("day")
-    date   <- rep(as.Date(dates, format = "%d %B %Y"), 2)
+    dates <- rep(as.Date(dates, format = "%d %B %Y"), 2)
   } else if (length(dates)==1 & all(str_detect(dates, "[A-Za-z]+[ ]{1}[0-9]{4}"))) {
+    # matches like December 2017
     pd <- bb_period("month")
-    date   <- as.Date(sprintf("1 %s", dates), format = "%d %B %Y")
+    dates  <- as.Date(sprintf("1 %s", dates), format = "%d %B %Y")
+    dates  <- c(dates, dates + days_in_month(dates) - 1)
   } else if (length(dates)==2) {
     dates <- as.Date(dates, format = "%d %B %Y")
     # if ( (day(dates[1])==1 & day(dates[2])==15) | (day(dates[1]) %in% c(15, 16) & day(dates[2]) %in% 28:31)) {
@@ -188,34 +174,22 @@ parse_question_period <- function(x) {
     #   date   <- dates[1]
     #   if (day(date)==15) day(date) <- 16L
     #} else 
-    if (day(dates[1])==1 & day(dates[2]) %in% c(28:31)) {
+    if (day(dates[1])==1 & day(dates[2])==days_in_month(dates[2])) {
+      # first and last date of month
       pd <- bb_period("month")
       date   <- dates[1]
     } else {
-      pd <- bb_period("fixed", days = as.integer(dates[2]-dates[1]))
+      # add +1 to days because in question, dates are inclusive, i.e. 1 to 6 December is a whole week
+      pd <- bb_period("fixed", days = as.integer(dates[2]-dates[1] + 1))
       date   <- dates
     }
   } else {
     stop("Unrecognized question period")
   }
-  list(period = pd, date = date)
+  list(period = pd, dates = dates %>% setNames(NULL))
 }
 
-cast_date <- function(x, period) {
-  stopifnot(is.Date(x))
-  if (period %in% c("day", "fixed")) {
-    out <- x
-  } else if (period=="week") {
-    stop("not implemented")
-  } else if (period=="halfmonth") {
-    out <- `day<-`(x, ifelse(day(x) < 16, 1, 16))
-  } else if (period=="month") {
-    out <- `day<-`(x, 1)
-  } else {
-    stop("Unrecognized period")
-  }
-  out
-}
+
 
 guess_series_type <- function(x, question) {
   stopifnot(length(question)==1)
@@ -223,16 +197,21 @@ guess_series_type <- function(x, question) {
   distinctvals <- length(xvals)
   min0  <- min(xvals)==0
   max1  <- max(xvals)==1
-  q_count <- str_detect(tolower(question), "(how many)(ACLED)(atrocities)")
+  q_count <- any(str_detect(tolower(question), c("how many", "ACLED", "atrocities")))
   q_cont  <- all(str_detect(tolower(question), c("what", "price")))
+  q_binary <- str_detect(tolower(question), "any")
   # default
   out <- "continuous"
   if (q_cont) out <- "continuous"
-  if ((min0 & !max1) | q_count)      out <- "count"
-  if (min0 & max1 & distinctvals==2 & !q_cont) out <- "binary"
+  if (min0 | q_count)      out <- "count"
+  if (min0 & max1 & distinctvals==2 & !q_count) out <- "binary"
   out
 }
 
+#' Enforce value constraints
+#' 
+#' Enforce value constraints for different types of series, e.g. count
+#' 
 enforce_series_type <- function(x, type) {
   if (type=="continuous") {
     x <- x
@@ -245,90 +224,80 @@ enforce_series_type <- function(x, type) {
   x
 }
 
+#' Calculate skewness
+#' 
 skewness <- function(x) {
   n <- length(x)
   (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
 }
 
 
+# Main script -------------------------------------------------------------
+
 main <- function() {
   args <- commandArgs(trailingOnly=TRUE)
   request_id <- args[1]
   fh <- paste0("basil-ts/request-", request_id, ".json")
   
-  #fh = "test/requests/example1.json"
+  #fh = "test/requests/example4.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
   unlink(fh)
   
+  # Pull out needed info
+  seps     <- request$payload$separations$values
   ifp_name <- request$ifp$name
-  
-  options         <- parse_separations(request$payload$separations$values)
-  question_period <- parse_question_period(ifp_name)
-  
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
+  
+  # Parse characteristics
+  options         <- parse_separations(seps)
+  question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
   
-  # Check if need to aggregate
-  if (bb_equal_period(data_period$period, question_period$period)) {
-    target$normdate <- target$date
-    target_agg <- target
-  } else {
-    # Aggregate
-    target$normdate <- cast_date(target$date, question_period$period)
-    
-    # Aggregate
-    # TODO fill in missing time periods when aggregating; month and halfmonth data only, i think
-    partial    <- target[target$date >= question_period$date[1], ]
-    target_agg <- target[target$date < question_period$date[1], ]
-    # check for partial training data
-    if (question_period$period %in% c("month", "halfmonth") & data_period$period=="day" & series_type=="count") {
-      target_agg$rows <- 1
-      target_agg <- aggregate(target_agg[, c("value", "rows")], by = list(target_agg$normdate), FUN = sum) %>%
-        setNames(c("normdate", "value", "rows"))
-      target_agg$days  <- days_in_period(target_agg$normdate, question_period$period)
-      # don't extrapolate if less than half period; drop in that case
-      target_agg <- target_agg[target_agg$rows / target_agg$days > .5, ]
-      # extrapolate for partials with more than x
-      target_agg$value <- as.integer(target_agg$days / target_agg$rows * target_agg$value)
-    } else {
-      target_agg <- aggregate(target_agg[, c("value")], by = list(target_agg$normdate), FUN = sum) %>%
-        setNames(c("normdate", "value"))
-    }
-  }
-  
-  # Cut down training data if needed to speed up model estimation
-  if (nrow(target_agg > 2000)) {
-    target_agg <- tail(target_agg, 2000)
+  # Check that data are aggregated correctly
+  if (!bb_equal_period(data_period$period, question_period$period)) {
+    mssg <- paste(
+      sprintf("Request data appear to not be aggregated correctly:"),
+      sprintf("  Data dates: ...%s", paste(tail(target$date), collapse = ", ")),
+      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                 paste0("fixed, %s days", question_period$period$days),
+                                                 question_period$period$period)),
+      sprintf("  Question title: %s", ifp_name),
+      sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                       paste0("fixed, %s days", question_period$period$days),
+                                                       question_period$period$period)),
+      sep = "\n"
+    )
+    stop(mssg)
   }
   
   # How many time periods do I need to forecast ahead?
-  h <- bb_diff_period(max(target_agg$normdate), question_period$date[1], question_period$period)
+  h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
   # What will those dates be?
-  fcast_dates <- bb_seq_period(max(target_agg$date), length.out = h + 1, question_period$period) %>% tail(h)
+  fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
   
-  # TODO set start based on period
-  fr <- switch(question_period$period$period,
-               "month" = 12,
-               "halfmonth" = 24,
-               "week" = 52.17857,
-               "day" = 364.25,
-               "fixed" = 364.25 / question_period$days)
+  # Determine periods per year for ts frequency
+  x <- aggregate(target[, c("date")], by = list(year = lubridate::year(target$date)), FUN = length)$x
+  x <- head(x, length(x)-1) %>% tail(length(.)-1)
+  fr <- mean(x)
+  
+  # Cut down training data if needed to speed up model estimation
+  if (nrow(target > 1500)) {
+    target <- tail(target, 1500)
+  }
+  
   target_ts <- ts(
-    data = as.numeric(target_agg$value),
-    # start = c(as.integer(substr(min(in_data$date), 1, 4)), 
-    #           as.integer(substr(min(in_data$date), 6, 7))),
+    data = as.numeric(target$value),
     frequency = fr
   )
   
   # Estimate model and forecast
-  # TODO enforce forecast value constraints
   # TODO update forecast with partial info
   lambda   <- NULL
   skew     <- NULL
@@ -342,7 +311,6 @@ main <- function() {
   
   # Fit statistics
   # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-  # TODO get some basic heuristics for what is good
   resid <- mdl$x - mdl$fitted
   rmse  <- sqrt(mean(resid^2))
   rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
@@ -351,8 +319,6 @@ main <- function() {
   # mase doesn't work when any baseline forecast is 0, bc /0
   #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
   usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
-  
-  
   
   result <- list(
     ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
