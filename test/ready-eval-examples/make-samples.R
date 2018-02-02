@@ -21,20 +21,26 @@ ifps <- read_excel("test-ifps.xlsx")
 make_request <- function(question, ifp_list = ifps) {
   ifp <- ifp_list %>% filter(`discover question id`==question)
   
+  seps <- ifp$`answer name` %>% 
+    str_extract_all(., "[-0-9\\.,]+") %>%
+    sapply(., paste, collapse = "-") %>%
+    str_replace_all(., ",", "")
+  
   out <- list(
     payload = list(
       separations = list(
-        parsed_options = NA,
+        values = seps,
         original_options = ifp$`answer name`
       ),
       historical_data = list(
         ts = data.frame(NULL)
-      )
+      ),
+      `last-event-date` = NA
     ),
     ifp = list(
-      title = unique(ifp$`question name`),
-      startingAt = unique(ifp$`question starts`),
-      endingAt = unique(ifp$`question ends at`),
+      name = unique(ifp$`question name`),
+      starts_at = unique(ifp$`question starts`),
+      ends_at = unique(ifp$`question ends at`),
       options = data.frame(name = ifp$`answer name`)
     )
   )
@@ -97,24 +103,33 @@ df <- acled %>%
             data.frame(date = seq(min(.$date), max(.$date), by = "day")),
             by = "date") %>%
   replace_na(list(value = 0)) %>%
-  arrange(date)
+  mutate(date2 = date, date = `day<-`(date, 1)) %>%
+  arrange(date2)
 
 rr <- make_request(5)
 
 # data right up to question
-rr$ts <- filter(df, date < "2017-08-01")  %>% as.matrix()
+dd <- "2017-07-31"
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5a.json")
 
 # data ends before question
-rr$ts <- filter(df, date < "2017-07-01")  %>% as.matrix()
+dd <- "2017-06-30"
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5b.json")
 
 # data ends before question, but partial month in
-rr$ts <- filter(df, date < "2017-07-15")  %>% as.matrix()
+dd <- "2017-07-16"
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5c.json")
 
 # partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-08-10")  %>% as.matrix()
+dd <- "2017-08-10"
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5d.json")
 
 
