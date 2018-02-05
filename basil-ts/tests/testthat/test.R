@@ -43,15 +43,11 @@ test_that("Question dates and periods are correctly parsed", {
 
 test_that("Sample requests do not throw error", {
   expect_error(main("test/requests/example1.json"), NA)
-  expect_error(main("test/requests/ifp65a.json"), NA)
-  expect_error(main("test/requests/ifp12a.json"), NA)
   
   expect_error(main("test/requests/ifp5a.json"), NA)
   expect_error(main("test/requests/ifp5b.json"), NA)
   expect_error(main("test/requests/ifp5c.json"), NA)
   expect_error(main("test/requests/ifp5d.json"), NA)
-  
-  expect_error(main("test/requests/ifp68a.json"), NA)
 })
 
 test_that("Series types are correctly ID's", {

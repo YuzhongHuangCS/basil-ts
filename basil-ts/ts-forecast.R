@@ -24,7 +24,7 @@ category_forecasts <- function(fc, cp) {
   # for forecasts with h > 1, assume last is the one we want
   # determine forecast density SE
   mu <- tail(as.numeric(fc$mean), 1)
-  ul <- tail(fc$upper[, 1], 1)
+  ul <- tail(fc$upper[, "95%"], 1)
   
   # BoxCox is lambda was given
   if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
@@ -35,10 +35,7 @@ category_forecasts <- function(fc, cp) {
   }
   
   # re-calculate forecast density SE
-  level <- 80
-  if (!grepl("80", colnames(fc$upper)[1])) {
-    stop("Only works if first level is 80%, fix function")
-  }
+  level <- 95
   se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
   
   cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
@@ -231,6 +228,13 @@ skewness <- function(x) {
   (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
 }
 
+#' Update forecast 
+#' 
+#' Update forecast with partial outcome information
+update_forecast <- function(x, yobs, ydays, data_period) {
+  
+}
+
 
 # Main script -------------------------------------------------------------
 
@@ -248,7 +252,7 @@ main <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "test/requests/example4.json"
+  #fh = "test/requests/example1.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
@@ -262,7 +266,7 @@ main <- function(fh = NULL) {
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
-  last_date <- request$payload$`last-event-date`
+  last_date <- as.Date(request$payload$`last-event-date`)
   
   # Parse characteristics
   options         <- parse_separations(seps)
@@ -288,10 +292,28 @@ main <- function(fh = NULL) {
   }
   
   # Check for partial outcome info
-  if (series_type=="count") {
-    if (data_end >= max(target_date) && data_end < question_period$dates[1]) {
-      NULL
-    }
+  if (series_type=="count" & data_period$period$period!="day") {
+    
+    gt_train_end <- last_date >= max(target$date)
+    gt_question_start <- last_date >= question_period$dates[1]
+    
+    if (gt_train_end & !gt_question_start) {
+      # partial info in last training data period
+      # if more than half of period, extrapolate, else discard that period
+      pd_days <- ifelse(data_period$period$period=="month", 
+                        target$date %>% max() %>% lubridate::days_in_month(),
+                        data_period$period$days)
+      avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
+      if (avail > pd_days/2) {
+        target$value[nrow(target)] <- target$value[nrow(target)] * pd_days / avail
+      } else {
+        target <- target[-nrow(target), ]
+      }
+    } else if (gt_train_end & gt_question_start) {
+      # partial outcome info
+      stop("Partial outcome updating not implemented yet")
+      
+    } 
   }
   
   # How many time periods do I need to forecast ahead?
@@ -342,8 +364,8 @@ main <- function(fh = NULL) {
     ts = data.frame(
       date = fcast_dates,
       mean = fcast$mean %>% enforce_series_type(series_type),
-      l95  = fcast$lower[, 2] %>% enforce_series_type(series_type),
-      u95  = fcast$upper[, 2] %>% enforce_series_type(series_type)
+      l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
+      u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
     ) %>% as.matrix(),
     option_probabilities = catfcast,
     forecast_is_usable = usable, 

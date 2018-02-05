@@ -120,17 +120,23 @@ rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% s
 rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5b.json")
 
+# data ends before question, but partial month in (less than half)
+dd <- "2017-07-10"
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
+rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5c.json")
+
 # data ends before question, but partial month in
 dd <- "2017-07-16"
 rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
 rr$payload$`last-event-date` <- dd
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5c.json")
+rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5d.json")
 
 # partial info for outcome in question period
 dd <- "2017-08-10"
 rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(date) %>% summarize(value = sum(value)) %>% as.matrix()
 rr$payload$`last-event-date` <- dd
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5d.json")
+rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp5e.json")
 
 
 #
