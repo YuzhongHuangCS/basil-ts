@@ -234,17 +234,26 @@ skewness <- function(x) {
 
 # Main script -------------------------------------------------------------
 
-main <- function() {
+main <- function(fh = NULL) {
+  test <- FALSE
   args <- commandArgs(trailingOnly=TRUE)
-  request_id <- args[1]
-  fh <- paste0("basil-ts/request-", request_id, ".json")
+  if (length(args) > 0) {
+    request_id <- args[1]
+    fh <- paste0("basil-ts/request-", request_id, ".json")
+  } else if (length(args)==0 && is.null(fh)) {
+    # Function is being sourced
+    return(TRUE)
+  } else {
+    request_id <- "test"
+    test <- TRUE
+  }
   
   #fh = "test/requests/example4.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
-  unlink(fh)
+  if (!test) unlink(fh)
   
   # Pull out needed info
   seps     <- request$payload$separations$values
@@ -253,6 +262,7 @@ main <- function() {
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
+  last_date <- request$payload$`last-event-date`
   
   # Parse characteristics
   options         <- parse_separations(seps)
@@ -263,7 +273,7 @@ main <- function() {
   # Check that data are aggregated correctly
   if (!bb_equal_period(data_period$period, question_period$period)) {
     mssg <- paste(
-      sprintf("Request data appear to not be aggregated correctly:"),
+      sprintf("Request data appear to not be aggregated correctly"),
       sprintf("  Data dates: ...%s", paste(tail(target$date), collapse = ", ")),
       sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
                                                  paste0("fixed, %s days", question_period$period$days),
@@ -275,6 +285,13 @@ main <- function() {
       sep = "\n"
     )
     stop(mssg)
+  }
+  
+  # Check for partial outcome info
+  if (series_type=="count") {
+    if (data_end >= max(target_date) && data_end < question_period$dates[1]) {
+      NULL
+    }
   }
   
   # How many time periods do I need to forecast ahead?

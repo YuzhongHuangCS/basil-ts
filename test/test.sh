@@ -27,6 +27,8 @@ test_request foo.json error
 # Example from ISI
 test_request example1.json ok
 
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
+
 # Multivariate time series, should fail
 curl -H "Content-Type: application/json" -X POST -d @test/requests/example2.json http://0.0.0.0:5000/forecast
 
