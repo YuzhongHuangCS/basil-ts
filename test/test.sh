@@ -21,16 +21,36 @@ test_request () {
   fi
 }
 
+request () {
+  REQUEST=$1
+  RESPONSE=`curl -H "Content-Type: application/json" -X POST -d @test/requests/$1 http://0.0.0.0:5000/forecast`
+  echo "$RESPONSE"
+}
+
 # empty JSON (file does not exist)
 test_request foo.json error
 
 # Example from ISI
 test_request example1.json ok
 
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
-
+request example1.json 
 # Multivariate time series, should fail
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example2.json http://0.0.0.0:5000/forecast
+request example2.json
+# no correct date
+request example3.json
+
+# 5: ACLED, daily data aggregated to monthly for question
+request ifp5a.json
+# data ends month before question, should be two forecasts
+request ifp5b.json
+# partial data for month before question (less than half/more than half)
+request ifp5c.json
+request ifp5d.json
+# partial data for question period (update forecast compared to 5a)
+request ifp5e.json
+
+
+#### not updated to new API format yet
 
 # 65: oil prices
 test_request ifp65a.json ok
@@ -42,14 +62,6 @@ curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp12a.json h
 # forecasts should be for two time periods
 curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp12b.json http://0.0.0.0:5000/forecast
 
-# 5: ACLED, daily data aggregated to monthly for question
-curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp5a.json http://0.0.0.0:5000/forecast
-# data ends month before question, should be two forecasts
-curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp5b.json http://0.0.0.0:5000/forecast
-# partial data for month before question
-curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp5c.json http://0.0.0.0:5000/forecast
-# partial data for question period (update forecast compared to 5a)
-curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp5d.json http://0.0.0.0:5000/forecast
 
 # 68
 curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp68a.json http://0.0.0.0:5000/forecast

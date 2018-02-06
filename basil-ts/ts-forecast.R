@@ -1,9 +1,9 @@
 
 # TODO
-# - handle partial training info
-# - handle partial outcome info
 # - convert old sample requests to new API format
 # - automate the testing
+# - truncated normal for catfcast? this might already be covered by existing func
+# - better lambda picking?
 
 suppressPackageStartupMessages({
   library("methods")
@@ -24,28 +24,107 @@ category_forecasts <- function(fc, cp) {
   # for forecasts with h > 1, assume last is the one we want
   # determine forecast density SE
   mu <- tail(as.numeric(fc$mean), 1)
-  ul <- tail(fc$upper[, "95%"], 1)
   
   # BoxCox is lambda was given
   if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
     lambda <- fc$model$lambda
     cp <- BoxCox(cp, lambda)
     mu <- BoxCox(mu, lambda)
+  }
+  
+  se <- forecast_se(fc)
+  
+  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
+  catp <- diff(cumprob)
+  catp
+}
+
+#' Update forecast 
+#' 
+#' Update forecast with partial outcome information
+update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
+  if (length(x$mean) > 1) {
+    stop("Can only update 1 forecast")
+  }
+  
+  N <- ifelse(data_period$period$period=="month", 
+              fcast_date %>% lubridate::days_in_month(),
+              data_period$period$days)
+  
+  bc_transform <- !is.null(x$model$lambda) & is.null(x$model$constant)
+  if (bc_transform) {
+    lambda <- x$model$lambda
+  } else {
+    lambda <- NULL
+  }
+  
+  new_pars <- update_agg_norm(x$mean, x$se, yobs, yn, N, lambda)
+  
+  # CI calculation has to be done on transformed scale
+  level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
+  nint <- length(level)
+  lower <- x$lower
+  upper <- x$upper
+  for (i in 1:nint) {
+    qq <- qnorm(0.5 * (1 + level[i] / 100))
+    lower[, i] <- new_pars["mean"] - qq * new_pars["se"]
+    upper[, i] <- new_pars["mean"] + qq * new_pars["se"]
+  }
+  
+  if (bc_transform) {
+    new_pars["mean"] <- InvBoxCox(new_pars["mean"], lambda)
+    upper[, ] <- apply(upper, 2, InvBoxCox, lambda)
+    lower[, ] <- apply(lower, 2, InvBoxCox, lambda)
+  } 
+  
+  x$mean[]   <- new_pars[1]
+  x$se     <- new_pars[2]
+  x$lower[, ] <- lower
+  x$upper[, ] <- upper
+  
+  # Enforce minimum already observed count
+  x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
+  x
+}
+
+#' Update normal forecast
+#' 
+#' Update normal density with partial observed outcomes under assumption that it
+#' is a sum of smaller normal densities. 
+#' 
+update_agg_norm <- function(mean, se, yobs, yn, N, lambda = NULL) {
+  mean_t <- mean/N
+  se_t   <- sqrt(se^2/N)
+  n <- yn
+  if (is.null(lambda)) {
+    mean_star <- as.numeric(yobs + (N-n)*mean_t)
+  } else {
+    mean_star <- as.numeric(BoxCox(yobs + (N-n)*mean_t, lambda))
+  }
+  se_star <- sqrt((N-n)*se_t^2)
+  c(mean = mean_star, se = se_star)
+}
+
+#' Calculate SE in forecast object
+#' 
+#' Calculate implicity SE used for normal density prediction intervals.
+forecast_se <- function(x) {
+  mu <- tail(as.numeric(x$mean), 1)
+  ul <- tail(x$upper[, "95%"], 1)
+  
+  # BoxCox is lambda was given
+  if (!is.null(x$model$lambda) & is.null(x$model$constant)) {
+    lambda <- x$model$lambda
+    mu <- BoxCox(mu, lambda)
     ul <- BoxCox(ul, lambda)
+  } else if (!is.null(x$model$lambda) & !is.null(x$model$constant)) {
+    stop("Don't know how to handle BoxCox with constant")
   }
   
   # re-calculate forecast density SE
   level <- 95
   se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
-  
-  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
-  catp <- diff(cumprob)
-  
-  # for binary questions, return only "yes" answer
-  if (length(catp)==2) {
-    catp <- catp[2]
-  }
-  catp
+  se
 }
 
 #' Create period object
@@ -228,19 +307,14 @@ skewness <- function(x) {
   (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
 }
 
-#' Update forecast 
-#' 
-#' Update forecast with partial outcome information
-update_forecast <- function(x, yobs, ydays, data_period) {
-  
-}
-
 
 # Main script -------------------------------------------------------------
 
+#' Basil-TS time-series forecaster for SAGE
+#' 
 main <- function(fh = NULL) {
-  test <- FALSE
   args <- commandArgs(trailingOnly=TRUE)
+  test <- FALSE
   if (length(args) > 0) {
     request_id <- args[1]
     fh <- paste0("basil-ts/request-", request_id, ".json")
@@ -252,7 +326,7 @@ main <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "test/requests/example1.json"
+  #fh = "test/requests/ifp5a.json"
   #fh = "basil-ts/basil-ts/request.json"
   
   request <- jsonlite::fromJSON(fh)
@@ -266,7 +340,10 @@ main <- function(fh = NULL) {
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
-  last_date <- as.Date(request$payload$`last-event-date`)
+  last_date <- ifelse(is.null(request$payload$`last-event-date`),
+                      max(target$date),
+                      request$payload$`last-event-date`)
+  last_date <- as.Date(last_date, origin = "1970-01-01")
   
   # Parse characteristics
   options         <- parse_separations(seps)
@@ -292,34 +369,37 @@ main <- function(fh = NULL) {
   }
   
   # Check for partial outcome info
+  partial_outcome <- FALSE
   if (series_type=="count" & data_period$period$period!="day") {
     
-    gt_train_end <- last_date >= max(target$date)
+    gt_train_end      <- last_date >= max(target$date)
     gt_question_start <- last_date >= question_period$dates[1]
     
     if (gt_train_end & !gt_question_start) {
       # partial info in last training data period
       # if more than half of period, extrapolate, else discard that period
+      
       pd_days <- ifelse(data_period$period$period=="month", 
                         target$date %>% max() %>% lubridate::days_in_month(),
                         data_period$period$days)
       avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
+      
+      # only use if > half of period days have data; because danger of extrapolating
       if (avail > pd_days/2) {
         target$value[nrow(target)] <- target$value[nrow(target)] * pd_days / avail
       } else {
         target <- target[-nrow(target), ]
       }
-    } else if (gt_train_end & gt_question_start) {
-      # partial outcome info
-      stop("Partial outcome updating not implemented yet")
       
+    } else if (gt_train_end & gt_question_start) {
+      # we have partial outcome info
+      
+      partial_outcome <- TRUE
+      yobs <- target$value[nrow(target)]
+      yn   <- as.integer(last_date - max(target$date) + 1)
+      target <- target[-nrow(target), ]
     } 
   }
-  
-  # How many time periods do I need to forecast ahead?
-  h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
-  # What will those dates be?
-  fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
   
   # Determine periods per year for ts frequency
   x <- aggregate(target[, c("date")], by = list(year = lubridate::year(target$date)), FUN = length)$x
@@ -336,16 +416,25 @@ main <- function(fh = NULL) {
     frequency = fr
   )
   
+  # How many time periods do I need to forecast ahead?
+  h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
+  # What will those dates be?
+  fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
+  
   # Estimate model and forecast
-  # TODO update forecast with partial info
   lambda   <- NULL
   skew     <- NULL
-  if (series_type %in% c("count", "continuous")) {
+  if (series_type %in% c("count")) {
     skew <- skewness(as.vector(target_ts))
     if (skew > 2) lambda <- .5
+    #if (skew > 2) lambda <- BoxCox.lambda(target_ts)
   }
   mdl      <- auto.arima(target_ts, lambda = lambda)
   fcast    <- forecast(mdl, h = h)
+  fcast$se <- forecast_se(fcast)
+  if (partial_outcome) {
+    fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
+  }
   catfcast <- category_forecasts(fcast, options$cutpoints)
   
   # Fit statistics
@@ -378,6 +467,7 @@ main <- function(fh = NULL) {
       h = h,
       skew = skew,
       lambda = lambda,
+      mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
       rmse = rmse,
       rmse_mean = rmse_mean,
       rmse_rwf  = rmse_rwf

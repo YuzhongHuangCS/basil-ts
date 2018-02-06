@@ -79,7 +79,7 @@ export FLASK_APP=app.py
 flask run --host=0.0.0.0
 
 # from another terminal
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example4.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
 
 deactivate
 ```
@@ -114,11 +114,4 @@ flask run
 deactivate
 ```
 
-For API:
-
-http://flask-restplus.readthedocs.io/en/stable/quickstart.html
-
-https://flask-restful.readthedocs.io/en/latest/
-
-http://michal.karzynski.pl/blog/2016/06/19/building-beautiful-restful-apis-using-flask-swagger-ui-flask-restplus/
 

@@ -31,47 +31,6 @@ pmenorm <- function(q, mean=0, sd=1, lower=-Inf, upper=Inf, sderr=0, meanerr=0, 
   ret
 }
 
-#' Update normal forecast
-#' 
-#' Update normal density with partial observed outcomes under assumption that it
-#' is a sum of smaller normal densities. 
-#' 
-update_agg_norm <- function(mean, se, yobs, yn, N) {
-  mean_t <- mean/N
-  se_t   <- sqrt(se^2/N)
-  n=yn
-  mean_star <- sum(yobs) + (N-n)*mean_t
-  se_star <- sqrt((N-n)*se_t^2)
-  c(mean_star, se_star)
-}
-
-#' Update forecast 
-#' 
-#' Update forecast with partial outcome information
-update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
-  if (length(x$mean) > 1) {
-    stop("Can only update 1 forecast")
-  }
-  
-  N <- ifelse(data_period$period$period=="month", 
-              fcast_date %>% lubridate::days_in_month(),
-              data_period$period$days)
-  
-  new_pars <- update_agg_norm(x$mean, x$se, yobs, yn, N)
-  x$mean[]   <- new_pars[1]
-  x$se     <- new_pars[2]
-  level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
-  nint <- length(level)
-  for (i in 1:nint) {
-    qq <- qnorm(0.5 * (1 + level[i] / 100))
-    x$lower[, i] <- x$mean - qq * x$se
-    x$upper[, i] <- x$mean + qq * x$se
-  }
-  # Enforce minimum already observed count
-  x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
-  x
-}
-
 #' Segmentize forecast density
 #' 
 #' Given answer categories and forecast::forecast object, determine forecast
@@ -99,27 +58,6 @@ category_forecasts <- function(fc, cp) {
 }
 
 
-#' Calculate SE in forecast object
-#' 
-#' Calculate implicity SE used for normal density prediction intervals.
-forecast_se <- function(x) {
-  mu <- tail(as.numeric(x$mean), 1)
-  ul <- tail(x$upper[, "95%"], 1)
-  
-  # BoxCox is lambda was given
-  if (!is.null(x$model$lambda) & is.null(x$model$constant)) {
-    lambda <- fc$model$lambda
-    mu <- BoxCox(mu, lambda)
-    ul <- BoxCox(ul, lambda)
-  } else if (!is.null(x$model$lambda) & !is.null(x$model$constant)) {
-    stop("Don't know how to handle BoxCox with constant")
-  }
-  
-  # re-calculate forecast density SE
-  level <- 95
-  se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
-  se
-}
 
 
 
