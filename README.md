@@ -63,6 +63,12 @@ curl -H "Content-Type: application/json" -X POST -d @tests/requests/example3.jso
 curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.json http://0.0.0.0:5000/forecast 
 ```
 
+### API tests
+
+```bash
+python3 tests/test_api.py
+```
+
 ## Response format
 
 ```

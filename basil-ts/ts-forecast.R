@@ -326,8 +326,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "test/requests/ifp5a.json"
-  #fh = "basil-ts/basil-ts/request.json"
+  #fh = "tests/requests/ifp5a.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
