@@ -2,27 +2,56 @@
 
 A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (`basil-ts`). 
 
-## Setup
+## Setup/running
 
 ### Docker
 
+To start a container running the forecaster in a Docker container:
+
 ```bash
 cd ~/Work/SAGE-ward-share/basil-ts
+
+# build/run app
 docker build -t basil-ts ./ 
-docker images
-
 docker run -dp 5000:5000 -it --name basil-ts basil-ts
-docker exec -it basil-ts bin/bash
-cd /home/basil-ts
-export FLASK_APP=/home/basil-ts/app.py
-flask run --host=0.0.0.0
+
+# hello world
+curl http://0.0.0.0:5000; echo
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
 ```
 
-http://0.0.0.0:5000 should show a hello world message.
+### macOS
 
-Here's how to try out the sample request you sent. This should return a ridiculously long JSON answer, because the data end almost a year before the forecast date:
+This will skip the Docker part and just run the app in the local terminal:
 
+```bash
+cd ~/Work/SAGE-wardassoc/basil-ts
+
+if [ ! -d "env" ]; then
+  echo "Setting up Python environment"
+  python3 -m venv env
+fi
+source env/bin/activate
+pip3 install -r requirements.txt
+python3 app.py
+
+# later
+deactivate
 ```
+
+From another terminal:
+
+```bash
+# hello world
+curl http://0.0.0.0:5000; echo
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
+```
+
+### More example requests
+
+Some more example request, including ones that fail with known causes:
+
+```bash
 # assumes wd is basil-ts already
 curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
 
@@ -31,9 +60,10 @@ curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp12.json ht
 # more intentional errors
 curl -H "Content-Type: application/json" -X POST -d @test/requests/example2.json http://0.0.0.0:5000/forecast 
 curl -H "Content-Type: application/json" -X POST -d @test/requests/example3.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example4.json http://0.0.0.0:5000/forecast 
 ```
 
-### Response format
+## Response format
 
 ```
 {
@@ -65,53 +95,5 @@ curl -H "Content-Type: application/json" -X POST -d @test/requests/example3.json
 } 
 ```
 
-*****
-
-## Misc notes
-
-### macOS
-
-```bash
-cd ~/Work/SAGE-wardassoc/basil-ts
-
-source env/bin/activate
-export FLASK_APP=app.py
-flask run --host=0.0.0.0
-
-# from another terminal
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
-
-deactivate
-```
-
-First time around setup
-
-```bash
-cd ~/Work/SAGE-wardassoc/basil-ts
-
-python3 -m venv env
-source env/bin/activate
-pip3 install -r requirements.txt
-```
-
-### Setup notes
-
-```bash
-cd ~/Work/SAGE-wardassoc/basil-ts
-
-python3 -m venv env
-source env/bin/activate
-
-pip3 install Flask
-pip3 freeze > requirements.txt
-
-export FLASK_APP=basil-ts.py
-flask run
-
-# in browser, now try http://127.0.0.1:5000/
-
-# when done, leave python environment
-deactivate
-```
 
 
