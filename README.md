@@ -17,7 +17,7 @@ docker run -dp 5000:5000 -it --name basil-ts basil-ts
 
 # hello world
 curl http://0.0.0.0:5000; echo
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example1.json http://0.0.0.0:5000/forecast
 ```
 
 ### macOS
@@ -44,7 +44,7 @@ From another terminal:
 ```bash
 # hello world
 curl http://0.0.0.0:5000; echo
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example1.json http://0.0.0.0:5000/forecast
 ```
 
 ### More example requests
@@ -53,14 +53,14 @@ Some more example request, including ones that fail with known causes:
 
 ```bash
 # assumes wd is basil-ts already
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example1.json http://0.0.0.0:5000/forecast
 
 # this should return error (ifp12.json does not exist)
-curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp12.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/ifp12.json http://0.0.0.0:5000/forecast 
 # more intentional errors
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example2.json http://0.0.0.0:5000/forecast 
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example3.json http://0.0.0.0:5000/forecast 
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example4.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example2.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example3.json http://0.0.0.0:5000/forecast 
+curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.json http://0.0.0.0:5000/forecast 
 ```
 
 ## Response format

@@ -79,7 +79,8 @@ def get_forecast():
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
 
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
-    fcasts = json.load(open(resp_fh))
+    with open(resp_fh, "rb") as resp:
+        fcasts = json.load(resp)
     os.remove(resp_fh)
     return(jsonify(fcasts))
 
