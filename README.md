@@ -24,7 +24,7 @@ Here's how to try out the sample request you sent. This should return a ridiculo
 
 ```
 # assumes wd is basil-ts already
-curl -H "Content-Type: application/json" -X POST -d @test/requests/example4.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @test/requests/example1.json http://0.0.0.0:5000/forecast
 
 # this should return error (ifp12.json does not exist)
 curl -H "Content-Type: application/json" -X POST -d @test/requests/ifp12.json http://0.0.0.0:5000/forecast 

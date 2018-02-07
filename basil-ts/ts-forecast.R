@@ -312,7 +312,7 @@ skewness <- function(x) {
 
 #' Basil-TS time-series forecaster for SAGE
 #' 
-main <- function(fh = NULL) {
+r_basil_ts <- function(fh = NULL) {
   args <- commandArgs(trailingOnly=TRUE)
   test <- FALSE
   if (length(args) > 0) {
@@ -350,6 +350,13 @@ main <- function(fh = NULL) {
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  
+  # Check data end does not exceed question end
+  if (last_date >= question_period$dates[2]) {
+    stop(sprintf(
+      "Payload data (to '%s') exceed question end date ('%s'), there is nothing to forecast.",
+      last_date, question_period$date[2]))
+  }
   
   # Check that data are aggregated correctly
   if (!bb_equal_period(data_period$period, question_period$period)) {
@@ -479,4 +486,4 @@ main <- function(fh = NULL) {
   invisible(result)
 }
 
-main()
+r_basil_ts()
