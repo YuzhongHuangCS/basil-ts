@@ -3,10 +3,12 @@
 #   Andreas Beger
 #   23 January 2018
 #   updated 30 January 2018 for new API spec
+#   updated 8 February 2018, redo #68
 #
 
 oldwd = getwd()
-setwd("/media/andybega/DATA/Work/SAGE-ward-share/basil-ts/test/ready-eval-examples")
+setwd("~/Work/SAGE-ward-share/basil-ts/tests/ready-eval-examples")
+source("../../basil-ts/ts-forecast.R")
 
 library("jsonlite")
 library("readxl")
@@ -15,37 +17,9 @@ library("dplyr")
 library("tidyr")
 library("rio")
 library("readr")
+library("stringr")
 
-ifps <- read_excel("test-ifps.xlsx")
-
-make_request <- function(question, ifp_list = ifps) {
-  ifp <- ifp_list %>% filter(`discover question id`==question)
-  
-  seps <- ifp$`answer name` %>% 
-    str_extract_all(., "[-0-9\\.,]+") %>%
-    sapply(., paste, collapse = "-") %>%
-    str_replace_all(., ",", "")
-  
-  out <- list(
-    payload = list(
-      separations = list(
-        values = seps,
-        original_options = ifp$`answer name`
-      ),
-      historical_data = list(
-        ts = data.frame(NULL)
-      ),
-      `last-event-date` = NA
-    ),
-    ifp = list(
-      name = unique(ifp$`question name`),
-      starts_at = unique(ifp$`question starts`),
-      ends_at = unique(ifp$`question ends at`),
-      options = data.frame(name = ifp$`answer name`)
-    )
-  )
-  out
-}
+source("utils.R")
 
 #
 #   #65: oil prices, continuous, daily
@@ -90,7 +64,7 @@ rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp
 
 
 #
-#   #5: count, daily, question is monthly
+#   #5: count, monthly
 #   ______________________________________
 
 acled <- read_rds("data/acled.rds")
@@ -148,7 +122,7 @@ rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp
 # data ends before question
 
 #
-#   #68: earthquakes, half-month question
+#   #68: earthquakes, 15 day question
 #   ____________
 
 df <- readRDS("data/earthquakes.rds") %>%
@@ -156,81 +130,58 @@ df <- readRDS("data/earthquakes.rds") %>%
   dplyr::mutate(date = as.Date(time)) %>%
   dplyr::group_by(date) %>% 
   summarize(value = n()) %>% 
-  arrange(date) 
+  full_join(., 
+            data.frame(date = seq(min(.$date), max(.$date), by = "day")),
+            by = "date") %>%
+  replace_na(list(value = 0)) %>%
+  mutate(norm_date = norm_fixed_period(date, 15, as.Date("2017-12-01"))) %>%
+  arrange(date) %>%
+  filter(date < as.Date("2017-12-15"))
 
 rr <- make_request(68)
 
 # data ends right before question
-rr$ts <- filter(df, date < "2017-12-01")  %>% as.matrix()
+dd <- as.Date("2017-11-30")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68a.json")
 
 # data ends before question
-rr$ts <- filter(df, date < "2017-11-16")  %>% as.matrix()
+dd <- as.Date("2017-11-16")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68b.json")
 
-# data ends before question, but partial month in
-rr$ts <- filter(df, date < "2017-11-21")  %>% as.matrix()
+# partial training data, but less than half
+dd <- as.Date("2017-11-20")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68c.json")
 
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-02")  %>% as.matrix()
+# partial training data, but more than half
+dd <- as.Date("2017-11-27")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68d.json")
 
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-03")  %>% as.matrix()
+# partial outcome info
+dd <- as.Date("2017-12-01")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68e.json")
 
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-04")  %>% as.matrix()
+# partial outcome info
+dd <- as.Date("2017-12-10")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68f.json")
 
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-05")  %>% as.matrix()
+# partial outcome info
+dd <- as.Date("2017-12-14")
+rr$payload$historical_data$ts <- filter(df, date <= dd) %>% group_by(norm_date) %>% summarize(value = sum(value)) %>% as.matrix()
+rr$payload$`last-event-date` <- dd
 rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68g.json")
 
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-06")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68h.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-07")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68i.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-08")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68j.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-09")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68k.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-10")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68l.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-11")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68m.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-12")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68n.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-13")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68o.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-14")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68p.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-15")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68q.json")
-
-# partial info for outcome in question period
-rr$ts <- filter(df, date < "2017-12-16")  %>% as.matrix()
-rr %>% toJSON(dataframe = "rows", pretty = TRUE) %>% writeLines("../requests/ifp68r.json")
 
 
 # End

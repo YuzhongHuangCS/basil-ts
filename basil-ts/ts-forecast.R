@@ -190,6 +190,31 @@ bb_equal_period <- function(pd1, pd2) {
   all(t1, t2)
 }
 
+#' Normalize dates to a arbitrary fixed time period
+#' 
+#' Given an arbitrary fixed time period in days and a reference date, normalize
+#' input dates. 
+#' 
+#' @details 
+#' The ref_date argument will be used as the first day of the fixed time periods.
+#' For example, to normalize dates to the corresponding Monday of a week, use
+#' ref_date = "2018-02-05" (a Monday) and days = 7. To do ISO style weeks, which 
+#' use Thursdays as the index date, take this output and afterwards shift to 
+#' Thursdays by adding 3. 
+#' 
+#' @examples
+#' feb2018 <- seq(from=as.Date("2018-02-01"), to=as.Date("2018-02-28"), by = "day")
+#' norm <- norm_fixed_period(feb2018, days = 7, ref_date = as.Date("2018-02-05"))
+#' data.frame(input = feb2018, output = norm, iso_style = norm + 3)
+norm_fixed_period <- function(x, days, ref_date) {
+  x_int <- as.integer(x)
+  x_ref <- as.integer(ref_date)
+  shift <- x_ref %% days
+  norm_int <- floor((x_int - shift)/days) * days + shift
+  norm <- as.Date(norm_int, origin = "1970-01-01")
+  norm
+}
+
 
 #' Parse parsed option cutpoints
 #' 
@@ -316,12 +341,14 @@ r_basil_ts <- function(fh = NULL) {
   args <- commandArgs(trailingOnly=TRUE)
   test <- FALSE
   if (length(args) > 0) {
+    # normal use via Rscript
     request_id <- args[1]
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && is.null(fh)) {
-    # Function is being sourced
+    # function is being sourced
     return(TRUE)
   } else {
+    # function is used from R
     request_id <- "test"
     test <- TRUE
   }
@@ -376,6 +403,7 @@ r_basil_ts <- function(fh = NULL) {
   
   # Check for partial outcome info
   partial_outcome <- FALSE
+  partial_train <- "no"
   if (series_type=="count" & data_period$period$period!="day") {
     
     gt_train_end      <- last_date >= max(target$date)
@@ -392,8 +420,10 @@ r_basil_ts <- function(fh = NULL) {
       
       # only use if > half of period days have data; because danger of extrapolating
       if (avail > pd_days/2) {
+        partial_train <- "used"
         target$value[nrow(target)] <- target$value[nrow(target)] * pd_days / avail
       } else {
+        partial_train <- "discarded"
         target <- target[-nrow(target), ]
       }
       
@@ -470,7 +500,9 @@ r_basil_ts <- function(fh = NULL) {
       question_period = question_period$period,
       question_date = question_period$date,
       series_type = series_type,
-      h = h,
+      partial_train = partial_train,
+      partial_outcome = partial_outcome,
+      h = as.integer(h),
       skew = skew,
       lambda = lambda,
       mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
@@ -479,10 +511,14 @@ r_basil_ts <- function(fh = NULL) {
       rmse_rwf  = rmse_rwf
     )
   )
+  rownames(result$ts) <- NULL
   
-  out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
-  toJSON(result, "columns", POSIXt = "ISO8601", pretty = TRUE) %>% writeLines(out_fh)
-  invisible(result)
+  if (!test) {
+    out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
+    toJSON(result, "columns", POSIXt = "ISO8601", pretty = TRUE) %>% writeLines(out_fh)
+  } else {
+    invisible(result)
+  }
 }
 
 r_basil_ts()
