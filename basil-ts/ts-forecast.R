@@ -462,8 +462,9 @@ r_basil_ts <- function(fh = NULL) {
   skew     <- NULL
   if (series_type %in% c("count")) {
     skew <- skewness(as.vector(target_ts))
-    if (skew > 2) lambda <- .5
-    #if (skew > 2) lambda <- BoxCox.lambda(target_ts)
+    any0 <- any(target_ts==0)
+    if (skew > 2 && !any0) lambda <- 0
+    if (skew > 2 && any0)  lambda <- .5
   }
   mdl      <- auto.arima(target_ts, lambda = lambda)
   fcast    <- forecast(mdl, h = h)

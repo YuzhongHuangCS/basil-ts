@@ -66,6 +66,7 @@ curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.jso
 ### API tests
 
 ```bash
+# from basil-ts dir
 python3 tests/test_api.py
 ```
 
