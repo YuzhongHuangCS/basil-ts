@@ -1,4 +1,9 @@
 
+# testthat will set wd to location of this file, but sourcing and loading the
+# sample requests depends on being in the top level basil-ts directory; this 
+# should get us there. 
+setwd("../../..")
+if (!file.exists("basil-ts/tests/testthat.R")) stop("Path is wrong, check test.R")
 
 test_that("Question dates and periods are correctly parsed", {
   x <- parse_question_period("in August 2017")
@@ -15,7 +20,7 @@ test_that("Question dates and periods are correctly parsed", {
   
   x <- parse_question_period("between 1 December 2017 and 1 January 2018")
   expect_equal(x$period$period, "fixed")
-  expect_equal(x$period$days, 31)
+  expect_equal(x$period$days, 32)
   expect_equal(x$date, as.Date(c("2017-12-01", "2018-01-01")))
   
   # a week
@@ -23,36 +28,45 @@ test_that("Question dates and periods are correctly parsed", {
   expect_equal(x$period$period, "fixed")
   expect_equal(x$period$days, 7)
   
+  # these below were halfmonth, but not anymore; keep if want to re-add
   x <- parse_question_period("between 1 December 2017 and 15 December 2017")
-  expect_equal(x$period, "halfmonth")
-  expect_equal(x$date, as.Date("2017-12-01"))
+  expect_equal(x$period$period, "fixed")
+  expect_equal(x$period$days, 15)
+  expect_equal(x$date, as.Date(c("2017-12-01", "2017-12-15")))
   
   x <- parse_question_period("between 1 December 2017 and 16 December 2017")
-  expect_equal(x$period, "custom")
+  expect_equal(x$period$period, "fixed")
+  expect_equal(x$period$days, 16)
   expect_equal(x$date, as.Date(c("2017-12-01", "2017-12-16")))
   
   x <- parse_question_period("between 15 December 2017 and 31 December 2017")
-  expect_equal(x$period, "halfmonth")
-  expect_equal(x$date, as.Date("2017-12-16"))
+  expect_equal(x$period$period, "fixed")
+  expect_equal(x$date, as.Date(c("2017-12-15", "2017-12-31")))
   
   x <- parse_question_period("between 16 December 2017 and 31 December 2017")
-  expect_equal(x$period, "halfmonth")
-  expect_equal(x$date, as.Date("2017-12-16"))
+  expect_equal(x$period$period, "fixed")
+  expect_equal(x$date, as.Date(c("2017-12-16", "2017-12-31")))
 })
 
 
-test_that("Sample requests do not throw error", {
-  expect_error(main("test/requests/example1.json"), NA)
-  
-  expect_error(main("test/requests/ifp5a.json"), NA)
-  expect_error(main("test/requests/ifp5b.json"), NA)
-  expect_error(main("test/requests/ifp5c.json"), NA)
-  expect_error(main("test/requests/ifp5d.json"), NA)
+test_that("Sample requests throw correct error", {
+  expect_error(r_basil_ts("tests/requests/example1.json"), NA)
+  expect_error(r_basil_ts("tests/requests/example2.json"), NA)
+  expect_error(r_basil_ts("tests/requests/example3.json"),
+               "character string is not in a standard unambiguous format")
+  expect_error(r_basil_ts("tests/requests/example4.json"), 
+               "exceed question end date")
+  expect_error(r_basil_ts("tests/requests/example5.json"), 
+               "Separations contain ambiguous decimal separator")
 })
 
 test_that("Series types are correctly ID's", {
   expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "will there be any"), "binary")
   expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "how many ACLED events will there"), "count")
+  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "what will the price be"), "binary")
   
-  
+  expect_equal(guess_series_type(rnorm(5, 10, 2), "what will the oil price be"), "continuous")
 })
+
+
+

@@ -1,10 +1,4 @@
 
-# TODO
-# - convert old sample requests to new API format
-# - automate the testing
-# - truncated normal for catfcast? this might already be covered by existing func
-# - better lambda picking?
-
 suppressPackageStartupMessages({
   library("methods")
   library("forecast")
@@ -353,12 +347,12 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/requests/ifp5a.json"
+  #fh = "tests/requests/example5.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
   if (!test) unlink(fh)
-  
+
   # Pull out needed info
   seps     <- request$payload$separations$values
   ifp_name <- request$ifp$name
@@ -370,6 +364,15 @@ r_basil_ts <- function(fh = NULL) {
                       max(target$date),
                       request$payload$`last-event-date`)
   last_date <- as.Date(last_date, origin = "1970-01-01")
+  
+  # check for mixed comma, periods in separations
+  comma <- any(str_detect(seps, "\\."))
+  period <- any(str_detect(seps, ","))
+  if (comma & period) {
+    msg <- sprintf("Separations contain ambiguous decimal separator, both commas and periods detected\n  Values: [%s]",
+                   paste(seps, collapse = "; "))
+    stop(msg)
+  }
   
   # Parse characteristics
   options         <- parse_separations(seps)

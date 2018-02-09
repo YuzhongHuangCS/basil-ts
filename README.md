@@ -63,11 +63,20 @@ curl -H "Content-Type: application/json" -X POST -d @tests/requests/example3.jso
 curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.json http://0.0.0.0:5000/forecast 
 ```
 
-### API tests
+### Running tests
+
+For API tests:
 
 ```bash
 # from basil-ts dir
 python3 tests/test_api.py
+```
+
+For unit tests (from R):
+
+```bash
+# from basil-ts dir
+Rscript 'basil-ts/tests/testthat.R'
 ```
 
 ## Response format
@@ -102,5 +111,10 @@ python3 tests/test_api.py
 } 
 ```
 
+## TODO
 
+- convert old sample requests to new API format
+- expand tests; CI?
+- truncated normal for catfcast? this might already be covered by existing func
+- adjust as stuff breaks...
 

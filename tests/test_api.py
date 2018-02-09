@@ -4,14 +4,6 @@ import sys
 sys.path.append('.')
 from app import app
 
-
-#foo = app.test_client()
-#response = foo.get('/')
-#response = foo.post('/forecast',
-#                    data = open('tests/requests/example1.json'),
-#                    content_type='application/json')
-#payload = json.loads(response.data)
-
 class TestSampleRequests(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
