@@ -31,9 +31,11 @@ Notes:
 		
 
 = Preamble =
+
 	We are going to call your forecasting tool(s) as an API. This has already been set up to a certain extent regarding the flask wrapper we set up last week. At this point we need to decide upon a data format that we can give you s.t. you can make the forecasts with complete knowledge of the IFP/dataset. Below is our preliminary version of this format for your feedback.
 
-= What we pass to you =
+= What we pass to you = 
+
 	We will send a JSON document matching the following format:
 
 	This is the high-level document
@@ -86,24 +88,6 @@ Notes:
 	DATA_SPEC
 		We envision two possible data types: EVENTS, and TIMESERIES. These are defined separately.
 
-	EVENTS
-		This will be a JSON document containing two fields.
-		{
-			"events": [ (It will be a list of events, where each event has)
-				{	
-					"date": "2017-12-21T00:40:36Z", (the ISO 8601 formatted data)
-					"type": "bombing", (this will be a 'controlled but expanding' set of possible event types)
-					"site": "ACLED",  (the site where the event was collected)
-					<Other fields TBD. Andy, we would love your input here: What are the minimum fields to define an event that will be available in all events?>
-				},
-				...
-			],
-			"metadata": {
-				"type": "attacks",  (the type of events in the data)
-				"attributes": {}  (TBD)
-			}
-		}
-
 	TIMESERIES
 		This will be a JSON document containing 3 fields
 		{
@@ -128,8 +112,22 @@ Notes:
 		}
 
 		This holds for the binary and *ordered* multinomial cases as there is ultimately 1 value being forecast. For multinomial questions, "ts" will become a dictionary with each key being an option.
+		
+= Things checked for in incoming requests =
 
-= What you will return=
+For making fake test requests...
+
+- separations['values'] 
+  - does not contain mixed commas and periods
+  - does not contain multiple "<X" or ">X" elements
+- historical_data['timeseries']
+  - has exactly two columns
+  - the first can be parsed as a date, e.g. something like 'YYYY-MM-DD' format
+- the time period in the question, parsed from ifp['name'], matches the aggregation period implied by the date column/vector
+- the input data do not exceed the time period in the question, unless called with "?backcast=True", in which case excess data are dropped and a forecast is returned (barring other issues)
+  
+= What you will return =
+
 	A JSON array formatted as follows:
 	{
 		"ts": [
