@@ -44,7 +44,7 @@ From another terminal:
 ```bash
 # hello world
 curl http://0.0.0.0:5000; echo
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/example1.json http://0.0.0.0:5000/forecast
+curl -H "Content-Type: application/json" -X POST -d @tests/io/example1.json http://0.0.0.0:5000/forecast
 ```
 
 ### More example requests

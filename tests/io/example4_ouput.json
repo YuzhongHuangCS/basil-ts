@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error",
+  "r_error_message": "Error in r_basil_ts() : \n  Payload data (to '2018-01-17') exceed question end date ('2017-12-27'), there is nothing to forecast.\nExecution halted\n"
+}

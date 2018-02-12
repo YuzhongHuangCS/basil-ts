@@ -251,15 +251,17 @@
         ["2017-03-01", "  24"],
         ["2017-04-01", " 121"],
         ["2017-05-01", " 343"],
-        ["2017-06-01", "  60"]
+        ["2017-06-01", "  60"],
+        ["2017-07-01", "  60"]
       ]
     },
-    "last-event-date": ["2017-06-30"]
+    "last-event-date": ["2017-07-31"]
   },
   "ifp": {
     "name": ["How many battle deaths will ACLED record in Sudan in August 2017?"],
     "starts_at": ["2017-08-09T16:30:15Z"],
     "ends_at": ["2017-09-01T03:59:15Z"],
+    "discover_answer_id": [13, 14, 15, 16, 17],
     "options": [
       {
         "name": "Less than 7"
@@ -276,6 +278,8 @@
       {
         "name": "More than 321"
       }
-    ]
+    ],
+    "discover_question_id": [5],
+    "binary?": [false]
   }
 }

@@ -68,5 +68,17 @@ test_that("Series types are correctly ID's", {
   expect_equal(guess_series_type(rnorm(5, 10, 2), "what will the oil price be"), "continuous")
 })
 
-
+test_that("Binary questions are ID'd and parsed", {
+  
+  q1 <- "Will there be any ACLED events in xxx?"
+  q2 <- "Will ACLED record more than 500 events in xxx?"
+  q3 <- "Will ACLED record less than 800 events in xxx?"
+  q4 <- "Will ACLED record more than 5 but less than 800 events in xxx?"
+  
+  expect_equal(binary_seps(q1), 1)
+  expect_equal(binary_seps(q2), 500)
+  expect_equal(binary_seps(q3), 800)
+  expect_error(binary_seps(q4))
+  
+})
 

@@ -27,7 +27,8 @@ make_request <- function(question, ifp_list = ifps) {
       ends_at = unique(ifp$`question ends at`),
       discover_answer_id = ifp$`discover answer id`,
       options = data.frame(name = ifp$`answer name`),
-      discover_question_id = unique(ifp$`discover question id`)
+      discover_question_id = unique(ifp$`discover question id`),
+      `binary?` = as.logical(length(ifp$`answer name`)==1)
     )
   )
   out

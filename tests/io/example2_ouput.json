@@ -1,0 +1,4 @@
+{
+  "error_message": "time series has more than one value column; support for multi-variate time-series is not implemented",
+  "message": "Request contains invalid time series"
+}

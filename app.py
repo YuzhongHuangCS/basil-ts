@@ -46,7 +46,10 @@ def get_forecast():
   
     # parse request arguments
     content = request.get_json(silent = True)
-
+    backcast = request.args.get('backcast')
+    if backcast is None:
+        backcast = False
+    
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
     
@@ -73,13 +76,13 @@ def get_forecast():
     with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
     try:
-        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id], shell = False,
+        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id, str(backcast)], shell = False,
                                 stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
 
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
-    with open(resp_fh, "rb") as resp:
+    with open(resp_fh, "r") as resp:
         fcasts = json.load(resp)
     os.remove(resp_fh)
     return(jsonify(fcasts))

@@ -1,0 +1,4 @@
+{
+  "error_message": "first column could not be parsed to datetime",
+  "message": "Request contains invalid time series"
+}

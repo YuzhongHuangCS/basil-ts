@@ -326,6 +326,42 @@ skewness <- function(x) {
   (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
 }
 
+#' Check for comma in seps
+validate_seps <- function(seps) {
+  # check for ambiguous decimal separators
+  comma <- any(str_detect(seps, "\\."))
+  period <- any(str_detect(seps, ","))
+  if (comma & period) {
+    msg <- sprintf("Separations contain ambiguous decimal separator, both commas and periods detected\n  Values: [%s]",
+                   paste(seps, collapse = "; "))
+    stop(msg)
+  } 
+  # check for mis-parsed seps
+  if (sum(str_detect(seps, "^[<>][0-9\\.]+$")) > 2) {
+    msg <- sprintf("Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [%s]",
+                   paste(seps, collapse = "; "))
+    stop(msg)
+  }
+  invisible(TRUE)
+}
+
+
+binary_seps <- function(x) {
+  # "Will there be any...?"
+  if (all(str_detect(x, c("^Will", "any")))) {
+    return(1)
+  }
+  # "Will there be more than...?"
+  c1 <- str_detect(x, c("^Will", "(more|less) than [0-9]+"))
+  c2 <- str_count(x, "(more|less)")  # to eliminate "more than...and less than..."
+  if (all(c1) && c2==1) {
+    y <- str_extract(x, "than [0-9,\\.]+")
+    y <- str_replace(y, "than ", "")
+    return(as.numeric(y))
+  }
+  stop("Unable to identify implied question separations for binary question")
+}
+
 
 # Main script -------------------------------------------------------------
 
@@ -337,6 +373,7 @@ r_basil_ts <- function(fh = NULL) {
   if (length(args) > 0) {
     # normal use via Rscript
     request_id <- args[1]
+    backcast <- ifelse(args[2]=="True", TRUE, FALSE)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && is.null(fh)) {
     # function is being sourced
@@ -347,15 +384,22 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/requests/example5.json"
+  #fh = "tests/io/example1.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
   if (!test) unlink(fh)
 
   # Pull out needed info
-  seps     <- request$payload$separations$values
-  ifp_name <- request$ifp$name
+  ifp_name   <- request$ifp$name
+  binary_ifp <- request$ifp$`binary?`
+  if (binary_ifp) {
+    seps <- list(values = binary_seps(ifp_name))
+  } else {
+    seps <- request$payload$separations
+  }
+  validate_seps(seps$values)
+  
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
@@ -365,20 +409,17 @@ r_basil_ts <- function(fh = NULL) {
                       request$payload$`last-event-date`)
   last_date <- as.Date(last_date, origin = "1970-01-01")
   
-  # check for mixed comma, periods in separations
-  comma <- any(str_detect(seps, "\\."))
-  period <- any(str_detect(seps, ","))
-  if (comma & period) {
-    msg <- sprintf("Separations contain ambiguous decimal separator, both commas and periods detected\n  Values: [%s]",
-                   paste(seps, collapse = "; "))
-    stop(msg)
-  }
-  
   # Parse characteristics
   options         <- parse_separations(seps)
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  
+  # Backcasting 
+  if (backcast) {
+    target <- target[target$date < question_period$dates[1], ]
+    last_date <- max(target$date)
+  }
   
   # Check data end does not exceed question end
   if (last_date >= question_period$dates[2]) {
@@ -475,7 +516,15 @@ r_basil_ts <- function(fh = NULL) {
   if (partial_outcome) {
     fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
   }
+  
+  # Translate raw to answer option forecast
   catfcast <- category_forecasts(fcast, options$cutpoints)
+  # for binary IFPs, category_forecast will return P for "no"/"yes" options
+  # if the question is "any" or "more", then we want the second option only??
+  if (binary_ifp) {
+    pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
+    catfcast <- catfcast[pos]
+  }
   
   # Fit statistics
   # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
@@ -512,7 +561,8 @@ r_basil_ts <- function(fh = NULL) {
       mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
       rmse = rmse,
       rmse_mean = rmse_mean,
-      rmse_rwf  = rmse_rwf
+      rmse_rwf  = rmse_rwf,
+      backcast = backcast
     )
   )
   rownames(result$ts) <- NULL

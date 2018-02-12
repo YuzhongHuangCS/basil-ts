@@ -426,6 +426,7 @@
     "name": ["How many earthquakes of magnitude 5 or stronger will occur worldwide between 1 December 2017 and 15 December 2017?"],
     "starts_at": ["2017-12-01T19:01:00Z"],
     "ends_at": ["2017-12-16T04:59:42Z"],
+    "discover_answer_id": [188, 189, 190, 191, 192],
     "options": [
       {
         "name": "Less than 57"
@@ -442,6 +443,8 @@
       {
         "name": "More than 78"
       }
-    ]
+    ],
+    "discover_question_id": [68],
+    "binary?": [false]
   }
 }
