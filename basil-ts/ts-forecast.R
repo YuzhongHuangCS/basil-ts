@@ -408,6 +408,11 @@ r_basil_ts <- function(fh = NULL) {
                       max(target$date),
                       request$payload$`last-event-date`)
   last_date <- as.Date(last_date, origin = "1970-01-01")
+  if (!is.null(request$payload$`aggregated-data`)) {
+    if (request$payload$`aggregated-data`=="month") {
+      last_date <- last_date %m+% months(1) - 1
+    }
+  }
   
   # Parse characteristics
   options         <- parse_separations(seps)
