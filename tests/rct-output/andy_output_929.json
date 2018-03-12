@@ -1,0 +1,108 @@
+{
+  "forecast_created_at": [
+    "2018-03-12T03:19:01"
+  ], 
+  "forecast_is_usable": [
+    0
+  ], 
+  "model_info": {
+    "backcast": [
+      false
+    ], 
+    "data_period": {
+      "days": [
+        null
+      ], 
+      "period": [
+        "month"
+      ]
+    }, 
+    "h": [
+      5
+    ], 
+    "lambda": [
+      0
+    ], 
+    "mdl_string": [
+      "Series: target_ts \nARIMA(0,1,0) \nBox Cox transformation: lambda= 0 \n\nsigma^2 estimated as 0.2966:  log likelihood=-83.57\nAIC=169.13   AICc=169.17   BIC=171.77"
+    ], 
+    "partial_outcome": [
+      false
+    ], 
+    "partial_train": [
+      "discarded"
+    ], 
+    "question_date": [
+      "2018-05-01", 
+      "2018-05-31"
+    ], 
+    "question_period": {
+      "days": [
+        null
+      ], 
+      "period": [
+        "month"
+      ]
+    }, 
+    "rmse": [
+      1959.8108
+    ], 
+    "rmse_mean": [
+      1536.2931
+    ], 
+    "rmse_rwf": [
+      1969.3012
+    ], 
+    "series_type": [
+      "count"
+    ], 
+    "skew": [
+      8.2511
+    ]
+  }, 
+  "option_probabilities": [
+    0.4207, 
+    0.0592, 
+    0.0505, 
+    0.0433, 
+    0.4263
+  ], 
+  "ts": [
+    [
+      "2018-01-01", 
+      "957", 
+      "329.08750", 
+      " 2782.995"
+    ], 
+    [
+      "2018-02-01", 
+      "957", 
+      "211.48606", 
+      " 4330.541"
+    ], 
+    [
+      "2018-03-01", 
+      "957", 
+      "150.63720", 
+      " 6079.833"
+    ], 
+    [
+      "2018-04-01", 
+      "957", 
+      "113.16466", 
+      " 8093.065"
+    ], 
+    [
+      "2018-05-01", 
+      "957", 
+      " 87.95683", 
+      "10412.483"
+    ]
+  ], 
+  "ts_colnames": [
+    "date", 
+    "actual_forecast", 
+    "lower_bound_95_percent", 
+    "upper_bound_95_percent"
+  ]
+}

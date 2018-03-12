@@ -1,0 +1,82 @@
+{
+  "forecast_created_at": [
+    "2018-03-12T03:10:48"
+  ], 
+  "forecast_is_usable": [
+    1
+  ], 
+  "model_info": {
+    "backcast": [
+      false
+    ], 
+    "data_period": {
+      "days": [
+        null
+      ], 
+      "period": [
+        "month"
+      ]
+    }, 
+    "h": [
+      1
+    ], 
+    "lambda": {}, 
+    "mdl_string": [
+      "Series: target_ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n          mean\n      101.7632\ns.e.    3.6867\n\nsigma^2 estimated as 530.5:  log likelihood=-172.61\nAIC=349.23   AICc=349.57   BIC=352.5"
+    ], 
+    "partial_outcome": [
+      true
+    ], 
+    "partial_train": [
+      "no"
+    ], 
+    "question_date": [
+      "2018-03-01", 
+      "2018-03-31"
+    ], 
+    "question_period": {
+      "days": [
+        null
+      ], 
+      "period": [
+        "month"
+      ]
+    }, 
+    "rmse": [
+      22.7266
+    ], 
+    "rmse_mean": [
+      22.7266
+    ], 
+    "rmse_rwf": [
+      35.6211
+    ], 
+    "series_type": [
+      "count"
+    ], 
+    "skew": [
+      1.0587
+    ]
+  }, 
+  "option_probabilities": [
+    0.0162, 
+    0.3216, 
+    0.5226, 
+    0.1371, 
+    0.0025
+  ], 
+  "ts": [
+    [
+      "2018-03-01", 
+      "149.4805", 
+      "105.0734", 
+      "193.8876"
+    ]
+  ], 
+  "ts_colnames": [
+    "date", 
+    "actual_forecast", 
+    "lower_bound_95_percent", 
+    "upper_bound_95_percent"
+  ]
+}

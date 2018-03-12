@@ -292,7 +292,7 @@ guess_series_type <- function(x, question) {
   distinctvals <- length(xvals)
   min0  <- min(xvals)==0
   max1  <- max(xvals)==1
-  q_count <- any(str_detect(tolower(question), c("how many", "ACLED", "atrocities")))
+  q_count <- any(str_detect(tolower(question), c("how many", "how much", "ACLED", "atrocities")))
   q_cont  <- all(str_detect(tolower(question), c("what", "price")))
   q_binary <- str_detect(tolower(question), "any")
   # default
