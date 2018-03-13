@@ -384,7 +384,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/example1.json"
+  #fh = "tests/io/andy_input_938.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
@@ -489,7 +489,7 @@ r_basil_ts <- function(fh = NULL) {
   # Determine periods per year for ts frequency
   x <- aggregate(target[, c("date")], by = list(year = lubridate::year(target$date)), FUN = length)$x
   x <- head(x, length(x)-1) %>% tail(length(.)-1)
-  fr <- mean(x)
+  fr <- ifelse(length(x)==0, 1, mean(x))
   
   # Cut down training data if needed to speed up model estimation
   if (nrow(target > 1500)) {
