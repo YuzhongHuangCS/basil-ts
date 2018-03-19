@@ -370,10 +370,11 @@ binary_seps <- function(x) {
 r_basil_ts <- function(fh = NULL) {
   args <- commandArgs(trailingOnly=TRUE)
   test <- FALSE
+  backcast <- FALSE
   if (length(args) > 0) {
     # normal use via Rscript
     request_id <- args[1]
-    backcast <- ifelse(args[2]=="True", TRUE, FALSE)
+    backcast <- ifelse(args[2]=="True", TRUE, backcast)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && is.null(fh)) {
     # function is being sourced

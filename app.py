@@ -9,6 +9,7 @@ import subprocess
 import pandas as pd
 import json
 import uuid
+import warnings
 
 app = Flask(__name__)
 
@@ -49,6 +50,8 @@ def get_forecast():
     backcast = request.args.get('backcast')
     if backcast is None:
         backcast = False
+    if backcast == 'True':
+        warnings.warn("?backcast=True, do not use this for live forecasts during the RCT")
     
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
