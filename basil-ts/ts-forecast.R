@@ -384,11 +384,14 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_938.json"
+  #fh = "tests/io/andy_input_1055.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
   if (!test) unlink(fh)
+  # also remove any other request files that may stick around if this function
+  # fails with error
+  on.exit(file.remove(dir("basil-ts", pattern = "request-", full.names = TRUE)))
 
   # Pull out needed info
   ifp_name   <- request$ifp$name
@@ -503,6 +506,12 @@ r_basil_ts <- function(fh = NULL) {
   
   # How many time periods do I need to forecast ahead?
   h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
+  # TODO move this part to the that checks if data are aggregated correctly
+  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
+                             as.character(question_period$dates[1]),
+                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
+                             paste0(as.character(tail(target$date)), collapse = ", ")
+                             ))
   # What will those dates be?
   fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
   
