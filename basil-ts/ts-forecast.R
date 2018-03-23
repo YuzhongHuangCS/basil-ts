@@ -361,6 +361,56 @@ binary_seps <- function(x) {
   }
   stop("Unable to identify implied question separations for binary question")
 }
+ 
+
+create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
+                            partial_outcome = FALSE, yobs = NULL, yn = NULL, 
+                            fcast_dates = NULL, data_period = NULL) {
+  
+  if (model=="ARIMA") {
+    mdl <- auto.arima(ts, lambda = lambda)
+  } else if (model=="ETS") {
+    mdl <- ets(ts, lambda = lambda)
+  }
+  
+  fcast    <- forecast(mdl, h = h)
+  fcast$se <- forecast_se(fcast)
+  if (partial_outcome) {
+    fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
+  }
+  
+  # Fit statistics
+  # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
+  resid <- mdl$x - mdl$fitted
+  rmse  <- sqrt(mean(resid^2))
+  rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
+  resid_rwf <- mdl$x - naive(mdl$x)$fitted
+  rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
+  # mase doesn't work when any baseline forecast is 0, bc /0
+  #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
+  usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
+  
+  result <- list(
+    model = model,
+    ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
+    ts = data.frame(
+      date = fcast_dates,
+      mean = fcast$mean %>% enforce_series_type(series_type),
+      l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
+      u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
+    ) %>% as.matrix(),
+    forecast_is_usable = usable, 
+    forecast_created_at = lubridate::now(),
+    internal = list(
+      mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
+      rmse = rmse
+    ),
+    est_model = mdl,
+    fcast = fcast
+  )
+  rownames(result$ts) <- NULL
+  result
+}
 
 
 # Main script -------------------------------------------------------------
@@ -385,7 +435,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_1055.json"
+  #fh = "tests/io/andy_input_866.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
@@ -525,68 +575,67 @@ r_basil_ts <- function(fh = NULL) {
     if (skew > 2 && !any0) lambda <- 0
     if (skew > 2 && any0)  lambda <- .5
   }
-  mdl      <- auto.arima(target_ts, lambda = lambda)
-  fcast    <- forecast(mdl, h = h)
-  fcast$se <- forecast_se(fcast)
-  if (partial_outcome) {
-    fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
-  }
   
-  # Translate raw to answer option forecast
-  catfcast <- category_forecasts(fcast, options$cutpoints)
+  # Create the actual forecast
+  forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
+                              partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
+                              fcast_dates = fcast_dates, data_period = data_period)
+  forecast2 <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
+                              partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
+                              fcast_dates = fcast_dates, data_period = data_period)
+  
+  # Get the answer option probabilities 
+  catfcast <- category_forecasts(forecast$fcast, options$cutpoints)
   # for binary IFPs, category_forecast will return P for "no"/"yes" options
   # if the question is "any" or "more", then we want the second option only??
   if (binary_ifp) {
     pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
     catfcast <- catfcast[pos]
   }
-  
+  forecast$option_probabilities <- catfcast
+
   # Fit statistics
   # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-  resid <- mdl$x - mdl$fitted
-  rmse  <- sqrt(mean(resid^2))
-  rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
-  resid_rwf <- mdl$x - naive(mdl$x)$fitted
+  rmse_mean <- sqrt(mean((forecast$est_model$x - mean(forecast$est_model$x))^2))
+  resid_rwf <- forecast$est_model$x - naive(forecast$est_model$x)$fitted
   rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
   # mase doesn't work when any baseline forecast is 0, bc /0
   #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
-  usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
   
-  result <- list(
-    ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
-    ts = data.frame(
-      date = fcast_dates,
-      mean = fcast$mean %>% enforce_series_type(series_type),
-      l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
-      u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
-    ) %>% as.matrix(),
-    option_probabilities = catfcast,
-    forecast_is_usable = usable, 
-    forecast_created_at = lubridate::now(),
-    model_info = list(
-      data_period = data_period$period,
-      question_period = question_period$period,
-      question_date = question_period$date,
-      series_type = series_type,
-      partial_train = partial_train,
-      partial_outcome = partial_outcome,
-      h = as.integer(h),
-      skew = skew,
-      lambda = lambda,
-      mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
-      rmse = rmse,
-      rmse_mean = rmse_mean,
-      rmse_rwf  = rmse_rwf,
-      backcast = backcast
-    )
+  # The estimated model and fcast object are helpers for stuff in this level,
+  # can take out now, don't need actually in response.
+  forecast$est_model <- NULL
+  forecast$fcast <- NULL
+  forecast2$est_model <- NULL
+  forecast2$fcast <- NULL
+  
+  internal_info <- list(
+    data_period = data_period$period,
+    question_period = question_period$period,
+    question_date = question_period$date,
+    series_type = series_type,
+    partial_train = partial_train,
+    partial_outcome = partial_outcome,
+    h = as.integer(h),
+    skew = skew,
+    lambda = lambda,
+    rmse_mean = rmse_mean,
+    rmse_rwf  = rmse_rwf,
+    backcast = backcast
   )
-  rownames(result$ts) <- NULL
+  
+  response <- forecast
+  response[["internal2"]] <- internal_info
+  response[["forecasts"]] <- list(forecast, forecast2)
+  
+  fcasts <- list(model1 = forecast, model2 = forecast2)
+  foo <- c(response, fcasts)
   
   if (!test) {
     out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
-    toJSON(result, "columns", POSIXt = "ISO8601", pretty = TRUE) %>% writeLines(out_fh)
+    toJSON(response, "columns", POSIXt = "ISO8601", pretty = TRUE) %>% writeLines(out_fh)
   } else {
-    invisible(result)
+    invisible(response)
   }
 }
 

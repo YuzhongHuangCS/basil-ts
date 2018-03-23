@@ -1,11 +1,97 @@
 {
   "forecast_created_at": [
-    "2018-02-12T16:26:48"
+    "2018-03-23T12:21:07"
   ],
   "forecast_is_usable": [
     1
   ],
-  "model_info": {
+  "forecasts": [
+    {
+      "forecast_created_at": [
+        "2018-03-23T12:21:07"
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(1,1,0) \n\nCoefficients:\n         ar1\n      0.0037\ns.e.  0.0259\n\nsigma^2 estimated as 86.75:  log likelihood=-5471.53\nAIC=10947.06   AICc=10947.07   BIC=10957.68"
+        ],
+        "rmse": [
+          9.3078
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_probabilities": [
+        2.9827e-06,
+        0.3495,
+        0.6497,
+        0.0007,
+        1.249e-13
+      ],
+      "ts": [
+        [
+          "2017-10-31",
+          "1272.02",
+          "1253.765",
+          "1290.275"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-03-23T12:21:07"
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9999 \n\n  Initial states:\n    l = 1349.3077 \n\n  sigma:  9.3078\n\n     AIC     AICc      BIC \n17668.39 17668.41 17684.33 "
+        ],
+        "rmse": [
+          9.3078
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "ts": [
+        [
+          "2017-10-31",
+          "1271.999",
+          "1253.756",
+          "1290.242"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(1,1,0) \n\nCoefficients:\n         ar1\n      0.0037\ns.e.  0.0259\n\nsigma^2 estimated as 86.75:  log likelihood=-5471.53\nAIC=10947.06   AICc=10947.07   BIC=10957.68"
+    ],
+    "rmse": [
+      9.3078
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
     "data_period": {
       "days": [
         null
@@ -18,9 +104,6 @@
       1
     ],
     "lambda": {},
-    "mdl_string": [
-      "Series: target_ts \nARIMA(1,1,0) \n\nCoefficients:\n         ar1\n      0.0037\ns.e.  0.0259\n\nsigma^2 estimated as 86.75:  log likelihood=-5471.53\nAIC=10947.06   AICc=10947.07   BIC=10957.68"
-    ],
     "partial_outcome": [
       false
     ],
@@ -39,9 +122,6 @@
         "day"
       ]
     },
-    "rmse": [
-      9.3078
-    ],
     "rmse_mean": [
       71.0839
     ],
@@ -53,6 +133,9 @@
     ],
     "skew": {}
   },
+  "model": [
+    "ARIMA"
+  ],
   "option_probabilities": [
     2.9827e-06,
     0.3495,
