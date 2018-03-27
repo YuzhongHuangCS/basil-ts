@@ -487,6 +487,26 @@ r_basil_ts <- function(fh = NULL) {
       last_date, question_period$date[2]))
   }
   
+  # Do aggregation if neccessary
+  was_data_aggregated <- FALSE
+  if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+    pd_days       <- question_period$period$days
+    go_back_steps <- ceiling(as.integer(today() - min(target$date)) / pd_days)
+    index_dates   <- question_period$dates[1] - go_back_steps:0 * pd_days
+    shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
+    target$index_date <- ((as.integer(target$date) %/% pd_days)*pd_days) - shift
+    target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
+    if (!all(target$index_date %in% index_date)) stop("Problem with index dates in data aggregation section")
+    
+    new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
+    colnames(new_target) <- c("date", "value")
+    
+    # update internal data
+    target      <- new_target
+    data_period <- parse_data_period(target$date)
+    was_data_aggregated <- TRUE
+  }
+  
   # Check that data are aggregated correctly
   if (!bb_equal_period(data_period$period, question_period$period)) {
     mssg <- paste(
@@ -611,6 +631,7 @@ r_basil_ts <- function(fh = NULL) {
   
   internal_info <- list(
     data_period = data_period$period,
+    was_data_aggregated = was_data_aggregated,
     question_period = question_period$period,
     question_date = question_period$date,
     series_type = series_type,
