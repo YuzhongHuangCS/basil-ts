@@ -371,6 +371,10 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     mdl <- auto.arima(ts, lambda = lambda)
   } else if (model=="ETS") {
     mdl <- ets(ts, lambda = lambda)
+  } else if (model=="RWF") {
+    mdl <- rwf(ts, lambda = lambda)
+  } else if (model=="geometric RWF") {
+    mdl <- rwf(ts, lambda = 0)
   }
   
   fcast    <- forecast(mdl, h = h)
@@ -600,19 +604,43 @@ r_basil_ts <- function(fh = NULL) {
   forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
                               partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                               fcast_dates = fcast_dates, data_period = data_period)
-  forecast2 <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
-                              partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                              fcast_dates = fcast_dates, data_period = data_period)
+  forecast_ets <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
+                                  partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
+                                  fcast_dates = fcast_dates, data_period = data_period)
+  forecast_rwf <- create_forecast(target_ts, "RWF", lambda = lambda, h = h, series_type = series_type,
+                                  partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
+                                  fcast_dates = fcast_dates, data_period = data_period)
   
   # Get the answer option probabilities 
-  catfcast <- category_forecasts(forecast$fcast, options$cutpoints)
+  catfcast         <- category_forecasts(forecast$fcast, options$cutpoints)
+  catfcast_ets     <- category_forecasts(forecast_ets$fcast, options$cutpoints)
+  catfcast_rwf     <- category_forecasts(forecast_rwf$fcast, options$cutpoints)
+  
   # for binary IFPs, category_forecast will return P for "no"/"yes" options
   # if the question is "any" or "more", then we want the second option only??
   if (binary_ifp) {
     pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
-    catfcast <- catfcast[pos]
+    catfcast         <- catfcast[pos]
+    catfcast_ets     <- catfcast_ets[pos]
+    catfcast_rwf     <- catfcast_rwf[pos]
   }
-  forecast$option_probabilities <- catfcast
+  forecast$option_probabilities         <- catfcast
+  forecast_ets$option_probabilities     <- catfcast_ets
+  forecast_rwf$option_probabilities     <- catfcast_rwf
+  
+  if (sum(target_ts<=0)==0) {
+    forecast_geo_rwf <- create_forecast(target_ts, "geometric RWF", lambda = lambda, h = h, series_type = series_type,
+                                        partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
+                                        fcast_dates = fcast_dates, data_period = data_period)
+    catfcast_geo_rwf <- category_forecasts(forecast_geo_rwf$fcast, options$cutpoints)
+    if (binary_ifp) {
+      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
+      catfcast_geo_rwf <- catfcast_geo_rwf[pos]
+    }
+    forecast_geo_rwf$option_probabilities <- catfcast_geo_rwf
+  } else {
+    forecast_geo_rwf <- list(model = "geometric RWF")
+  }
 
   # Fit statistics
   # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
@@ -626,8 +654,12 @@ r_basil_ts <- function(fh = NULL) {
   # can take out now, don't need actually in response.
   forecast$est_model <- NULL
   forecast$fcast <- NULL
-  forecast2$est_model <- NULL
-  forecast2$fcast <- NULL
+  forecast_ets$est_model <- NULL
+  forecast_ets$fcast <- NULL
+  forecast_rwf$est_model <- NULL
+  forecast_rwf$fcast <- NULL
+  forecast_geo_rwf$est_model <- NULL
+  forecast_geo_rwf$fcast <- NULL
   
   internal_info <- list(
     data_period = data_period$period,
@@ -647,10 +679,7 @@ r_basil_ts <- function(fh = NULL) {
   
   response <- forecast
   response[["internal2"]] <- internal_info
-  response[["forecasts"]] <- list(forecast, forecast2)
-  
-  fcasts <- list(model1 = forecast, model2 = forecast2)
-  foo <- c(response, fcasts)
+  response[["forecasts"]] <- list(forecast, forecast_ets, forecast_rwf, forecast_geo_rwf)
   
   if (!test) {
     out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
