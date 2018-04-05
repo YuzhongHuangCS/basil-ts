@@ -372,9 +372,9 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
   } else if (model=="ETS") {
     mdl <- ets(ts, lambda = lambda)
   } else if (model=="RWF") {
-    mdl <- rwf(ts, lambda = lambda)
+    mdl <- rwf(ts, lambda = lambda, h = h)
   } else if (model=="geometric RWF") {
-    mdl <- rwf(ts, lambda = 0)
+    mdl <- rwf(ts, lambda = 0, h = h)
   }
   
   fcast    <- forecast(mdl, h = h)
@@ -416,6 +416,35 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
   result
 }
 
+validate_data <- function(data, data_period, question_period) {
+  # Check that data are aggregated correctly
+  if (!bb_equal_period(data_period$period, question_period$period)) {
+    mssg <- paste(
+      sprintf("Request data appear to not be aggregated correctly"),
+      sprintf("  Data dates: ...%s", paste(tail(data$date), collapse = ", ")),
+      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                   paste0("fixed, %s days", question_period$period$days),
+                                                   question_period$period$period)),
+      sprintf("  Question title: %s", ifp_name),
+      sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                       paste0("fixed, %s days", question_period$period$days),
+                                                       question_period$period$period)),
+      sep = "\n"
+    )
+    stop(mssg)
+  }
+  
+  # Check if dates are aligned correctly; if h is not an interger -> problem
+  h <- bb_diff_period(max(data$date), question_period$dates[1], question_period$period)
+  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
+                             as.character(question_period$dates[1]),
+                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
+                             paste0(as.character(tail(data$date)), collapse = ", ")
+  ))
+  
+  invisible(TRUE)
+}
+
 
 # Main script -------------------------------------------------------------
 
@@ -439,7 +468,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_866.json"
+  #fh = "tests/io/andy_input_1028.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
@@ -511,22 +540,8 @@ r_basil_ts <- function(fh = NULL) {
     was_data_aggregated <- TRUE
   }
   
-  # Check that data are aggregated correctly
-  if (!bb_equal_period(data_period$period, question_period$period)) {
-    mssg <- paste(
-      sprintf("Request data appear to not be aggregated correctly"),
-      sprintf("  Data dates: ...%s", paste(tail(target$date), collapse = ", ")),
-      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
-                                                 paste0("fixed, %s days", question_period$period$days),
-                                                 question_period$period$period)),
-      sprintf("  Question title: %s", ifp_name),
-      sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
-                                                       paste0("fixed, %s days", question_period$period$days),
-                                                       question_period$period$period)),
-      sep = "\n"
-    )
-    stop(mssg)
-  }
+  # Check that data are aggregated correctly and dates are aligned
+  validate_data(target, data_period, question_period)
   
   # Check for partial outcome info
   partial_outcome <- FALSE
@@ -581,12 +596,6 @@ r_basil_ts <- function(fh = NULL) {
   
   # How many time periods do I need to forecast ahead?
   h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
-  # TODO move this part to the that checks if data are aggregated correctly
-  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
-                             as.character(question_period$dates[1]),
-                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
-                             paste0(as.character(tail(target$date)), collapse = ", ")
-                             ))
   # What will those dates be?
   fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
   

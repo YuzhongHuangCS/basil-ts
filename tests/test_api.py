@@ -53,5 +53,11 @@ class TestSampleRequests(unittest.TestCase):
         with open("tests/io/example4_ouput.json", 'w') as outfile:
             json.dump(payload, outfile, indent=2)
 
+class TestRctRequests(unittest.TestCase):
+    def setUp(self):
+        self.app = app.test_client()
+
+
+
 if __name__ == "__main__":
     unittest.main()
