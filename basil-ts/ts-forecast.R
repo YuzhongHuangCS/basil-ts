@@ -28,8 +28,12 @@ category_forecasts <- function(fc, cp) {
   
   se <- forecast_se(fc)
   
-  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
-  catp <- diff(cumprob)
+  # need to sort cutpoints otherwise this is screwed up; reorder at end
+  orig_order <- order(cp)
+  cp_sorted <- cp[orig_order]
+  
+  cumprob <- c(0, pnorm(cp_sorted, mean = mu, sd = se), 1)
+  catp    <- diff(cumprob)[orig_order]
   catp
 }
 
@@ -365,54 +369,76 @@ binary_seps <- function(x) {
 
 create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
                             partial_outcome = FALSE, yobs = NULL, yn = NULL, 
-                            fcast_dates = NULL, data_period = NULL) {
-  
-  if (model=="ARIMA") {
-    mdl <- auto.arima(ts, lambda = lambda)
-  } else if (model=="ETS") {
-    mdl <- ets(ts, lambda = lambda)
-  } else if (model=="RWF") {
-    mdl <- rwf(ts, lambda = lambda, h = h)
-  } else if (model=="geometric RWF") {
-    mdl <- rwf(ts, lambda = 0, h = h)
-  }
-  
-  fcast    <- forecast(mdl, h = h)
-  fcast$se <- forecast_se(fcast)
-  if (partial_outcome) {
-    fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
-  }
-  
-  # Fit statistics
-  # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-  resid <- mdl$x - mdl$fitted
-  rmse  <- sqrt(mean(resid^2))
-  rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
-  resid_rwf <- mdl$x - naive(mdl$x)$fitted
-  rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
-  # mase doesn't work when any baseline forecast is 0, bc /0
-  #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
-  usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
-  
-  result <- list(
-    model = model,
-    ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
-    ts = data.frame(
-      date = fcast_dates,
-      mean = fcast$mean %>% enforce_series_type(series_type),
-      l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
-      u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
-    ) %>% as.matrix(),
-    forecast_is_usable = usable, 
-    forecast_created_at = lubridate::now(),
-    internal = list(
-      mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
-      rmse = rmse
-    ),
-    est_model = mdl,
-    fcast = fcast
-  )
-  rownames(result$ts) <- NULL
+                            fcast_dates = NULL, data_period = NULL, 
+                            binary_ifp = NULL, options = NULL) {
+  result <- tryCatch({
+    if (model=="ARIMA") {
+      mdl <- auto.arima(ts, lambda = lambda)
+    } else if (model=="ETS") {
+      mdl <- ets(ts, lambda = lambda)
+    } else if (model=="RWF") {
+      mdl <- rwf(ts, lambda = lambda, h = h)
+    } else if (model=="geometric RWF") {
+      mdl <- rwf(ts, lambda = 0, h = h)
+    }
+    
+    fcast    <- forecast(mdl, h = h)
+    fcast$se <- forecast_se(fcast)
+    if (partial_outcome & series_type=="count") {
+      fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
+    } 
+    
+    # Fit statistics
+    # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
+    resid <- mdl$x - mdl$fitted
+    rmse  <- sqrt(mean(resid^2))
+    rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
+    resid_rwf <- mdl$x - naive(mdl$x)$fitted
+    rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
+    # mase doesn't work when any baseline forecast is 0, bc /0
+    #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
+    usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
+    
+    result <- list(
+      model = model,
+      ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
+      ts = data.frame(
+        date = fcast_dates,
+        mean = fcast$mean %>% enforce_series_type(series_type),
+        l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
+        u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
+      ) %>% as.matrix(),
+      forecast_is_usable = usable, 
+      forecast_created_at = lubridate::now(),
+      internal = list(
+        mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
+        rmse = rmse
+      ),
+      est_model = mdl,
+      fcast = fcast
+    )
+    rownames(result$ts) <- NULL
+    
+    # Get the answer option probabilities 
+    catfcast <- category_forecasts(result$fcast, options$cutpoints)
+    
+    # for binary IFPs, category_forecast will return P for "no"/"yes" options
+    # if the question is "any" or "more", then we want the second option only??
+    if (binary_ifp) {
+      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
+      catfcast         <- catfcast[pos]
+    }
+    result$option_probabilities <- catfcast
+    
+    result
+  }, error = function(e) {
+    result = list(
+      model = model,
+      estimated = FALSE,
+      r_error_message = e$message
+    )
+    result
+  })
   result
 }
 
@@ -468,7 +494,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_1028.json"
+  #fh = "tests/io/andy_input_1055.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
@@ -529,10 +555,18 @@ r_basil_ts <- function(fh = NULL) {
     shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
     target$index_date <- ((as.integer(target$date) %/% pd_days)*pd_days) - shift
     target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
-    if (!all(target$index_date %in% index_date)) stop("Problem with index dates in data aggregation section")
+    if (!all(target$index_date %in% index_dates)) stop("Problem with index dates in data aggregation section")
     
-    new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
-    colnames(new_target) <- c("date", "value")
+    # Aggregate data
+    if (series_type=="count") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
+      colnames(new_target) <- c("date", "value")
+    } else if (series_type=="continuous") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
+      colnames(new_target) <- c("date", "value")
+    } else {
+      stop("No method for aggregating data")
+    }
     
     # update internal data
     target      <- new_target
@@ -546,7 +580,7 @@ r_basil_ts <- function(fh = NULL) {
   # Check for partial outcome info
   partial_outcome <- FALSE
   partial_train <- "no"
-  if (series_type=="count" & data_period$period$period!="day") {
+  if (series_type %in% c("count", "continuous") & data_period$period$period!="day") {
     
     gt_train_end      <- last_date >= max(target$date)
     gt_question_start <- last_date >= question_period$dates[1]
@@ -612,41 +646,22 @@ r_basil_ts <- function(fh = NULL) {
   # Create the actual forecast
   forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
                               partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                              fcast_dates = fcast_dates, data_period = data_period)
+                              fcast_dates = fcast_dates, data_period = data_period,
+                              binary_ifp = binary_ifp, options = options)
   forecast_ets <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                  fcast_dates = fcast_dates, data_period = data_period)
+                                  fcast_dates = fcast_dates, data_period = data_period,
+                                  binary_ifp = binary_ifp, options = options)
   forecast_rwf <- create_forecast(target_ts, "RWF", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                  fcast_dates = fcast_dates, data_period = data_period)
-  
-  # Get the answer option probabilities 
-  catfcast         <- category_forecasts(forecast$fcast, options$cutpoints)
-  catfcast_ets     <- category_forecasts(forecast_ets$fcast, options$cutpoints)
-  catfcast_rwf     <- category_forecasts(forecast_rwf$fcast, options$cutpoints)
-  
-  # for binary IFPs, category_forecast will return P for "no"/"yes" options
-  # if the question is "any" or "more", then we want the second option only??
-  if (binary_ifp) {
-    pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
-    catfcast         <- catfcast[pos]
-    catfcast_ets     <- catfcast_ets[pos]
-    catfcast_rwf     <- catfcast_rwf[pos]
-  }
-  forecast$option_probabilities         <- catfcast
-  forecast_ets$option_probabilities     <- catfcast_ets
-  forecast_rwf$option_probabilities     <- catfcast_rwf
+                                  fcast_dates = fcast_dates, data_period = data_period,
+                                  binary_ifp = binary_ifp, options = options)
   
   if (sum(target_ts<=0)==0) {
     forecast_geo_rwf <- create_forecast(target_ts, "geometric RWF", lambda = lambda, h = h, series_type = series_type,
                                         partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                        fcast_dates = fcast_dates, data_period = data_period)
-    catfcast_geo_rwf <- category_forecasts(forecast_geo_rwf$fcast, options$cutpoints)
-    if (binary_ifp) {
-      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
-      catfcast_geo_rwf <- catfcast_geo_rwf[pos]
-    }
-    forecast_geo_rwf$option_probabilities <- catfcast_geo_rwf
+                                        fcast_dates = fcast_dates, data_period = data_period,
+                                        binary_ifp = binary_ifp, options = options)
   } else {
     forecast_geo_rwf <- list(model = "geometric RWF")
   }

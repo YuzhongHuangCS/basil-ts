@@ -56,7 +56,9 @@ class TestSampleRequests(unittest.TestCase):
 class TestRctRequests(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
-
+        
+    def run_all_rct_ifps(self):
+        
 
 
 if __name__ == "__main__":
