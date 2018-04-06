@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error", 
+  "r_error_message": "Error in parse_question_period(ifp_name) : Unrecognized question period\nCalls: r_basil_ts -> parse_question_period\nExecution halted\n"
+}

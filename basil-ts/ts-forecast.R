@@ -553,7 +553,7 @@ r_basil_ts <- function(fh = NULL) {
     go_back_steps <- ceiling(as.integer(today() - min(target$date)) / pd_days)
     index_dates   <- question_period$dates[1] - go_back_steps:0 * pd_days
     shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
-    target$index_date <- ((as.integer(target$date) %/% pd_days)*pd_days) - shift
+    target$index_date <- (as.integer(target$date) + shift) %/% pd_days *pd_days - shift
     target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
     if (!all(target$index_date %in% index_dates)) stop("Problem with index dates in data aggregation section")
     

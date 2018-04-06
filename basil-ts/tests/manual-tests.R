@@ -90,3 +90,28 @@ x %>% toJSON(., "columns", POSIXt = "ISO8601") %>% writeLines("test/responses/if
 x$options
 x$model_info
 
+
+
+# Aggregating dates to index date -----------------------------------------
+
+df <- data.frame(
+  input_dates = structure(
+    c(17569, 17570, 17571, 17572, 17573, 17574, 17575, 
+      17576, 17577, 17578, 17579, 17580, 17581, 17582, 17583, 17584, 
+      17585, 17586, 17587, 17588, 17589, 17590, 17591, 17592, 17593, 
+      17594, 17595, 17596, 17597, 17598, 17599, 17600, 17601, 17602, 
+      17603, 17604, 17605, 17606, 17607, 17608, 17609, 17610, 17611, 
+      17612, 17613, 17614, 17615, 17616, 17617, 17618), class = "Date")
+)
+
+index_dates <- structure(c(17506, 17527, 17548, 17569, 17590, 17611), class = "Date")
+pd_days <- 21
+
+df$int_d <- as.integer(df$input_dates)
+df$d1 <- as.integer(df$input_dates) %/% pd_days * pd_days
+df$d2 <- df$d1 - shift
+df$d3 <- (as.integer(df$input_dates) + shift) %/% pd_days * pd_days - shift
+
+shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
+df$index_date <- ((as.integer(target$date) %/% pd_days)*pd_days) - shift
+target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
