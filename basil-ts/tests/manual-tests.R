@@ -115,3 +115,15 @@ df$d3 <- (as.integer(df$input_dates) + shift) %/% pd_days * pd_days - shift
 shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
 df$index_date <- ((as.integer(target$date) %/% pd_days)*pd_days) - shift
 target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
+
+
+
+
+# Category forecasts ------------------------------------------------------
+
+# check that length is correct
+cp <- c(1221, 1303, 1374, 1456)
+fc <- readRDS("basil-ts/tests/fcast_1028.rds")
+
+length(category_forecasts(fc, cp))==(length(cp) + 1)
+

@@ -13,13 +13,43 @@ library("forecast")
 library("stringr")
 ```
 
+```{r}
+output_list <- dir("io", pattern = "_output_", full.names = TRUE)
+
+summary_table <- list()
+for (fh in output_list) {
+  input_fh <- str_replace(fh, "output", "input")
+  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+  request  <- jsonlite::fromJSON(input_fh)
+  request_no <- str_extract(fh, "[0-9]+")
+  
+  this_ifp <- list()
+  if (!is.null(response$message)) {
+    this_ifp <- data.frame(IFP = request_no, Model = "general", Estimated = 0, RMSE = NA)
+  } else {
+    for (model in response$forecasts) {
+      this_model <- data.frame(IFP = request_no, Model = model$model)
+      this_model$Estimated <- as.integer(is.null(model$message))
+      this_model$RMSE <- model$internal$rmse
+      this_ifp <- c(this_ifp, list(this_model))
+    }
+  }
+  this_ifp <- bind_rows(this_ifp)
+  
+  summary_table <- c(summary_table, list(this_ifp))
+}
+summary_table <- bind_rows(summary_table)
+summary_table %>% knitr::kable(digits = 2)
+```
+
+
 ```{r, warning = FALSE, fig.height=3}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 for (fh in output_list) {
   input_fh <- str_replace(fh, "output", "input")
   
-  response <- jsonlite::fromJSON(fh)
+  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
   request  <- jsonlite::fromJSON(input_fh)
   request_no <- str_extract(fh, "[0-9]+")
   
@@ -38,40 +68,44 @@ for (fh in output_list) {
       geom_text(x = target$date[1], y = y_pos, col = "gray50",
                 label = response$r_error_message %>% str_wrap(), hjust = 0)
   } else {
-    fcast <- data.frame(
-      date = as.Date(response$ts[, 1]),
-      mean = as.numeric(response$ts[, 2]),
-      lower = as.numeric(response$ts[, 3]),
-      upper = as.numeric(response$ts[, 4])
-    )
-    
-    h = nrow(fcast)
-    target <- target %>% 
-      tail(h*5 + 20) %>%
-      gather(var, value, value)
-    fcast <- fcast %>%
-      gather(var, value, -date)
-    df <- bind_rows(target, fcast) %>%
-      spread(var, value)
-    
-    
-    p <- ggplot(df, aes(x = date)) +
-      geom_line(aes(y = value)) + 
-      theme_minimal() +
-      ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
-      labs(x = "", y = "")
-    # forecast is for single date, this does not plot with geom_ribbon
-    if (nrow(fcast)==3) {
-      p <- p + 
-        geom_segment(aes(xend = date, y = lower, yend = upper), color = "lightblue") +
-        geom_point(aes(y = mean), color = "blue")
-    } else {
-      p <- p + 
-        geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
-        geom_line(aes(y = mean), color = "blue")
+    # loop over forecasts and again, show error message if appropriate, else plot
+    for (ff in response$forecasts) {
+      
+      fcast <- data.frame(
+        date = as.Date(response$ts[, 1]),
+        mean = as.numeric(response$ts[, 2]),
+        lower = as.numeric(response$ts[, 3]),
+        upper = as.numeric(response$ts[, 4])
+      )
+      
+      h = nrow(fcast)
+      target <- target %>% 
+        tail(h*5 + 20) %>%
+        gather(var, value, value)
+      fcast <- fcast %>%
+        gather(var, value, -date)
+      df <- bind_rows(target, fcast) %>%
+        spread(var, value)
+      
+      
+      p <- ggplot(df, aes(x = date)) +
+        geom_line(aes(y = value)) + 
+        theme_minimal() +
+        ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
+        labs(x = "", y = "")
+      # forecast is for single date, this does not plot with geom_ribbon
+      if (nrow(fcast)==3) {
+        p <- p + 
+          geom_segment(aes(xend = date, y = lower, yend = upper), color = "lightblue") +
+          geom_point(aes(y = mean), color = "blue")
+      } else {
+        p <- p + 
+          geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
+          geom_line(aes(y = mean), color = "blue")
+      }
     }
   }
-
+  
   print(p)
 }
 ```

@@ -53,12 +53,11 @@ class TestSampleRequests(unittest.TestCase):
         with open("tests/io/example4_ouput.json", 'w') as outfile:
             json.dump(payload, outfile, indent=2)
 
-class TestRctRequests(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()
-        
-    def run_all_rct_ifps(self):
-        
+# class TestRctRequests(unittest.TestCase):
+#     def setUp(self):
+#         self.app = app.test_client()
+#         
+#     def run_all_rct_ifps(self):
 
 
 if __name__ == "__main__":

@@ -29,11 +29,19 @@ category_forecasts <- function(fc, cp) {
   se <- forecast_se(fc)
   
   # need to sort cutpoints otherwise this is screwed up; reorder at end
-  orig_order <- order(cp)
-  cp_sorted <- cp[orig_order]
+  increasing <- all(cp==cummax(cp))
+  decreasing <- all(cp==cummin(cp))
+  if (!xor(increasing, decreasing)) {
+    stop("Cutpoints are not monotonic")
+  }
+  if (decreasing) {
+    cp <- rev(cp)
+  }
   
-  cumprob <- c(0, pnorm(cp_sorted, mean = mu, sd = se), 1)
-  catp    <- diff(cumprob)[orig_order]
+  
+  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
+  catp    <- diff(cumprob)
+  if (decreasing) catp <- rev(catp)
   catp
 }
 
@@ -226,6 +234,11 @@ parse_separations <- function(x) {
     as.numeric() %>%
     unique()
   if (length(cutpoints)==0) cutpoints <- 1
+  increasing <- all(cutpoints==cummax(cutpoints))
+  decreasing <- all(cutpoints==cummin(cutpoints))
+  if (!xor(increasing, decreasing)) {
+    stop("Cutpoints implied by separations don't seem to be monotonically increasing or decreasing")
+  }
   list(cutpoints = cutpoints, separations = x)
 }
 
@@ -494,7 +507,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_1055.json"
+  #fh = "tests/io/andy_input_1028.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask

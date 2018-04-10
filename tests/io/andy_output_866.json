@@ -1,82 +1,247 @@
 {
   "forecast_created_at": [
-    "2018-03-12T07:39:51"
-  ], 
+    "2018-04-08T09:48:49"
+  ],
   "forecast_is_usable": [
     1
-  ], 
-  "model_info": {
+  ],
+  "forecasts": [
+    {
+      "forecast_created_at": [
+        "2018-04-08T09:48:49"
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n          mean\n      101.7632\ns.e.    3.6867\n\nsigma^2 estimated as 530.5:  log likelihood=-172.61\nAIC=349.23   AICc=349.57   BIC=352.5"
+        ],
+        "rmse": [
+          22.7266
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_probabilities": [
+        0.0162,
+        0.3216,
+        0.5226,
+        0.1371
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "149.4805",
+          "105.0734",
+          "193.8876"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-04-08T09:48:49"
+      ],
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = 101.7649 \n\n  sigma:  22.7277\n\n     AIC     AICc      BIC \n381.6207 382.3266 386.5334 "
+        ],
+        "rmse": [
+          22.7277
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_probabilities": [
+        0.0151,
+        0.3207,
+        0.5278,
+        0.1342
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "149.4822",
+          "105.6611",
+          "193.3033"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-04-08T09:48:49"
+      ],
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nMar 4             98 52.34969 143.6503 28.18387 167.8161"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_probabilities": [
+        0.1003,
+        0.3335,
+        0.3554,
+        0.1832
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "145.8387",
+          "77.15788",
+          "214.5195"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-04-08T09:48:49"
+      ],
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nMar 4             98 63.54694 151.1324 50.52472 190.0852"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "geometric RWF"
+      ],
+      "option_probabilities": [
+        0.166,
+        0.2837,
+        0.2791,
+        0.1981
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "145.8387",
+          "55.25095",
+          "236.4265"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n          mean\n      101.7632\ns.e.    3.6867\n\nsigma^2 estimated as 530.5:  log likelihood=-172.61\nAIC=349.23   AICc=349.57   BIC=352.5"
+    ],
+    "rmse": [
+      22.7266
+    ]
+  },
+  "internal2": {
     "backcast": [
       false
-    ], 
+    ],
     "data_period": {
       "days": [
         null
-      ], 
+      ],
       "period": [
         "month"
       ]
-    }, 
+    },
     "h": [
       1
-    ], 
-    "lambda": {}, 
-    "mdl_string": [
-      "Series: target_ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n          mean\n      101.7632\ns.e.    3.6867\n\nsigma^2 estimated as 530.5:  log likelihood=-172.61\nAIC=349.23   AICc=349.57   BIC=352.5"
-    ], 
+    ],
+    "lambda": {},
     "partial_outcome": [
       true
-    ], 
+    ],
     "partial_train": [
       "no"
-    ], 
+    ],
     "question_date": [
-      "2018-03-01", 
+      "2018-03-01",
       "2018-03-31"
-    ], 
+    ],
     "question_period": {
       "days": [
         null
-      ], 
+      ],
       "period": [
         "month"
       ]
-    }, 
-    "rmse": [
-      22.7266
-    ], 
+    },
     "rmse_mean": [
       22.7266
-    ], 
+    ],
     "rmse_rwf": [
       35.6211
-    ], 
+    ],
     "series_type": [
       "count"
-    ], 
+    ],
     "skew": [
       1.0587
+    ],
+    "was_data_aggregated": [
+      false
     ]
-  }, 
+  },
+  "model": [
+    "ARIMA"
+  ],
   "option_probabilities": [
-    0.0162, 
-    0.3216, 
-    0.5226, 
-    0.1371, 
-    0.0025
-  ], 
+    0.0162,
+    0.3216,
+    0.5226,
+    0.1371
+  ],
   "ts": [
     [
-      "2018-03-01", 
-      "149.4805", 
-      "105.0734", 
+      "2018-03-01",
+      "149.4805",
+      "105.0734",
       "193.8876"
     ]
-  ], 
+  ],
   "ts_colnames": [
-    "date", 
-    "actual_forecast", 
-    "lower_bound_95_percent", 
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
     "upper_bound_95_percent"
   ]
 }

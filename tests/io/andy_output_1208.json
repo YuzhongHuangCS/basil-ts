@@ -1,245 +1,245 @@
 {
   "forecast_created_at": [
-    "2018-04-06T11:39:10"
-  ], 
+    "2018-04-08T09:49:00"
+  ],
   "forecast_is_usable": [
     1
-  ], 
+  ],
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-06T11:39:10"
-      ], 
+        "2018-04-08T09:49:00"
+      ],
       "forecast_is_usable": [
         1
-      ], 
+      ],
       "internal": {
         "mdl_string": [
           "Series: ts \nARIMA(2,0,1)(0,0,1)[17] with non-zero mean \n\nCoefficients:\n         ar1      ar2      ma1    sma1       mean\n      1.8460  -0.9703  -0.6412  0.1872  762719.98\ns.e.  0.0151   0.0147   0.0452  0.0723   19652.54\n\nsigma^2 estimated as 7.185e+09:  log likelihood=-2719.94\nAIC=5451.87   AICc=5452.28   BIC=5472.04"
-        ], 
+        ],
         "rmse": [
           83763.5355
         ]
-      }, 
+      },
       "model": [
         "ARIMA"
-      ], 
+      ],
       "option_probabilities": [
-        1, 
-        5.1619e-06, 
-        2.8168e-07, 
+        1,
+        5.1619e-06,
+        2.8168e-07,
         2.3137e-08
-      ], 
+      ],
       "ts": [
         [
-          "2018-03-21", 
-          "1457223", 
-          "1291088", 
+          "2018-03-21",
+          "1457223",
+          "1291088",
           "1623358"
         ]
-      ], 
+      ],
       "ts_colnames": [
-        "date", 
-        "actual_forecast", 
-        "lower_bound_95_percent", 
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
         "upper_bound_95_percent"
       ]
-    }, 
+    },
     {
       "forecast_created_at": [
-        "2018-04-06T11:39:11"
-      ], 
+        "2018-04-08T09:49:01"
+      ],
       "forecast_is_usable": [
         1
-      ], 
+      ],
       "internal": {
         "mdl_string": [
           "ETS(A,Ad,N) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9999 \n    beta  = 0.9999 \n    phi   = 0.8 \n\n  Initial states:\n    l = 1316750.4755 \n    b = -52724.4897 \n\n  sigma:  127565.8\n\n     AIC     AICc      BIC \n6162.176 6162.584 6182.344 "
-        ], 
+        ],
         "rmse": [
           127565.8032
         ]
-      }, 
+      },
       "model": [
         "ETS"
-      ], 
+      ],
       "option_probabilities": [
-        0.9986, 
-        0.001, 
-        0.0003, 
+        0.9986,
+        0.001,
+        0.0003,
         0.0001
-      ], 
+      ],
       "ts": [
         [
-          "2018-03-21", 
-          "1448966", 
-          "1198942", 
+          "2018-03-21",
+          "1448966",
+          "1198942",
           "1698990"
         ]
-      ], 
+      ],
       "ts_colnames": [
-        "date", 
-        "actual_forecast", 
-        "lower_bound_95_percent", 
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
         "upper_bound_95_percent"
       ]
-    }, 
+    },
     {
       "forecast_created_at": [
-        "2018-04-06T11:39:11"
-      ], 
+        "2018-04-08T09:49:01"
+      ],
       "forecast_is_usable": [
         "NA"
-      ], 
+      ],
       "internal": {
         "mdl_string": [
           "         Point Forecast   Lo 80   Hi 80   Lo 95   Hi 95\n13.22967        1555411 1288733 1822089 1147562 1963260"
-        ], 
+        ],
         "rmse": [
           "NA"
         ]
-      }, 
+      },
       "model": [
         "RWF"
-      ], 
+      ],
       "option_probabilities": [
-        0.9065, 
-        0.0341, 
-        0.0195, 
+        0.9065,
+        0.0341,
+        0.0195,
         0.0167
-      ], 
+      ],
       "ts": [
         [
-          "2018-03-21", 
-          "1555411", 
-          "1147562", 
+          "2018-03-21",
+          "1555411",
+          "1147562",
           "1963260"
         ]
-      ], 
+      ],
       "ts_colnames": [
-        "date", 
-        "actual_forecast", 
-        "lower_bound_95_percent", 
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
         "upper_bound_95_percent"
       ]
-    }, 
+    },
     {
       "forecast_created_at": [
-        "2018-04-06T11:39:11"
-      ], 
+        "2018-04-08T09:49:01"
+      ],
       "forecast_is_usable": [
         "NA"
-      ], 
+      ],
       "internal": {
         "mdl_string": [
           "         Point Forecast    Lo 80   Hi 80    Lo 95   Hi 95\n13.22967        1555411 668955.7 3616538 427968.2 5652998"
-        ], 
+        ],
         "rmse": [
           "NA"
         ]
-      }, 
+      },
       "model": [
         "geometric RWF"
-      ], 
+      ],
       "option_probabilities": [
-        0.5522, 
-        0.0094, 
-        0.0075, 
+        0.5522,
+        0.0094,
+        0.0075,
         0.0094
-      ], 
+      ],
       "ts": [
         [
-          "2018-03-21", 
-          "1555411", 
-          "427968.2", 
+          "2018-03-21",
+          "1555411",
+          "427968.2",
           "5652998"
         ]
-      ], 
+      ],
       "ts_colnames": [
-        "date", 
-        "actual_forecast", 
-        "lower_bound_95_percent", 
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
         "upper_bound_95_percent"
       ]
     }
-  ], 
+  ],
   "internal": {
     "mdl_string": [
       "Series: ts \nARIMA(2,0,1)(0,0,1)[17] with non-zero mean \n\nCoefficients:\n         ar1      ar2      ma1    sma1       mean\n      1.8460  -0.9703  -0.6412  0.1872  762719.98\ns.e.  0.0151   0.0147   0.0452  0.0723   19652.54\n\nsigma^2 estimated as 7.185e+09:  log likelihood=-2719.94\nAIC=5451.87   AICc=5452.28   BIC=5472.04"
-    ], 
+    ],
     "rmse": [
       83763.5355
     ]
-  }, 
+  },
   "internal2": {
     "backcast": [
       false
-    ], 
+    ],
     "data_period": {
       "days": [
         21
-      ], 
+      ],
       "period": [
         "fixed"
       ]
-    }, 
+    },
     "h": [
       1
-    ], 
-    "lambda": {}, 
+    ],
+    "lambda": {},
     "partial_outcome": [
       true
-    ], 
+    ],
     "partial_train": [
       "no"
-    ], 
+    ],
     "question_date": [
-      "2018-03-21", 
+      "2018-03-21",
       "2018-04-10"
-    ], 
+    ],
     "question_period": {
       "days": [
         21
-      ], 
+      ],
       "period": [
         "fixed"
       ]
-    }, 
+    },
     "rmse_mean": [
       553378.1988
-    ], 
+    ],
     "rmse_rwf": [
       208090.1462
-    ], 
+    ],
     "series_type": [
       "continuous"
-    ], 
-    "skew": {}, 
+    ],
+    "skew": {},
     "was_data_aggregated": [
       true
     ]
-  }, 
+  },
   "model": [
     "ARIMA"
-  ], 
+  ],
   "option_probabilities": [
-    1, 
-    5.1619e-06, 
-    2.8168e-07, 
+    1,
+    5.1619e-06,
+    2.8168e-07,
     2.3137e-08
-  ], 
+  ],
   "ts": [
     [
-      "2018-03-21", 
-      "1457223", 
-      "1291088", 
+      "2018-03-21",
+      "1457223",
+      "1291088",
       "1623358"
     ]
-  ], 
+  ],
   "ts_colnames": [
-    "date", 
-    "actual_forecast", 
-    "lower_bound_95_percent", 
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
     "upper_bound_95_percent"
   ]
 }
