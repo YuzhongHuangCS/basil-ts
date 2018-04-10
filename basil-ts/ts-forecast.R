@@ -38,7 +38,6 @@ category_forecasts <- function(fc, cp) {
     cp <- rev(cp)
   }
   
-  
   cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
   catp    <- diff(cumprob)
   if (decreasing) catp <- rev(catp)
@@ -64,7 +63,7 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
     lambda <- NULL
   }
   
-  new_pars <- update_agg_norm(x$mean, x$se, yobs, yn, N, lambda)
+  new_pars <- update_norm_sum(x$mean, x$se, yobs, yn, N, lambda)
   
   # CI calculation has to be done on transformed scale
   level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
@@ -93,12 +92,11 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
   x
 }
 
-#' Update normal forecast
+#' Update normal forecast with sum method
 #' 
 #' Update normal density with partial observed outcomes under assumption that it
-#' is a sum of smaller normal densities. 
-#' 
-update_agg_norm <- function(mean, se, yobs, yn, N, lambda = NULL) {
+#' is a sum of smaller normal densities for each day. 
+update_norm_sum <- function(mean, se, yobs, yn, N, lambda = NULL) {
   mean_t <- mean/N
   se_t   <- sqrt(se^2/N)
   n <- yn
@@ -110,6 +108,23 @@ update_agg_norm <- function(mean, se, yobs, yn, N, lambda = NULL) {
   se_star <- sqrt((N-n)*se_t^2)
   c(mean = mean_star, se = se_star)
 }
+
+#' Update normal forecast with mean method
+#' 
+#' Update normal density with partial observed outcomes under assumption that it
+#' is the average of smaller normal densities for each day.
+update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
+  mean_t <- mean
+  n <- yn
+  if (is.null(lambda)) {
+    mean_star <- weighted.mean(x = c(yobs, mean_t), w = c(n, N-n))
+  } else {
+    mean_star <- weighted.mean(x = BoxCox(c(yobs, mean_t), lambda), w = c(n, N-n))
+  }
+  se_star <- sqrt(1 - n/N) * se
+  c(mean = mean_star, se = se_star)
+}
+
 
 #' Calculate SE in forecast object
 #' 
@@ -216,7 +231,7 @@ norm_fixed_period <- function(x, days, ref_date) {
   x_int <- as.integer(x)
   x_ref <- as.integer(ref_date)
   shift <- x_ref %% days
-  norm_int <- floor((x_int - shift)/days) * days + shift
+  norm_int <- (x_int - shift) %/% days * days + shift
   norm <- as.Date(norm_int, origin = "1970-01-01")
   norm
 }
@@ -269,6 +284,9 @@ parse_data_period <- function(x) {
 #' Parse date period in question
 #' 
 parse_question_period <- function(x) {
+  # fix form 'in April (Month 04) 2018?'
+  x <- str_replace(x, "\\(Month [0-9]{1,2}\\) ", "")
+  
   dates <- str_extract_all(x, "([0-9 ]{0,3}[A-Za-z]+[ ]{1}[0-9]{4})")[[1]]
   if (length(dates)==1 & all(str_detect(dates, "[0-9]{1,2}[A-Za-z ]+[0-9]{4}"))) {
     # matches like 27 December 2017
@@ -362,7 +380,9 @@ validate_seps <- function(seps) {
   invisible(TRUE)
 }
 
-
+#' Determine separation for binary IFPs
+#' 
+#' Heuristic for determining separation value for binary IFPs
 binary_seps <- function(x) {
   # "Will there be any...?"
   if (all(str_detect(x, c("^Will", "any")))) {
@@ -484,6 +504,24 @@ validate_data <- function(data, data_period, question_period) {
   invisible(TRUE)
 }
 
+#' Calculate time periods per year
+determine_ts_frequency <- function(x) {
+  x <- aggregate(x[, c("date")], by = list(year = lubridate::year(x$date)), FUN = length)$x
+  x <- head(x, length(x)-1) %>% tail(length(.)-1)
+  fr <- ifelse(length(x)==0, 1, mean(x))
+  fr
+}
+
+lambda_heuristic <- function(ts, series_type) {
+  lambda <- NULL
+  if (series_type %in% c("count")) {
+    skew <- skewness(as.vector(ts))
+    any0 <- any(ts==0)
+    if (skew > 2 && !any0) lambda <- 0
+    if (skew > 2 && any0)  lambda <- .5
+  } 
+  lambda
+}
 
 # Main script -------------------------------------------------------------
 
@@ -507,7 +545,7 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_1028.json"
+  #fh = "tests/io/andy_input_1145.json"
   
   request <- jsonlite::fromJSON(fh)
   # missing file makes error more obvious in Flask
@@ -562,13 +600,10 @@ r_basil_ts <- function(fh = NULL) {
   # Do aggregation if neccessary
   was_data_aggregated <- FALSE
   if (data_period$period$period=="day" & question_period$period$period=="fixed") {
-    pd_days       <- question_period$period$days
-    go_back_steps <- ceiling(as.integer(today() - min(target$date)) / pd_days)
-    index_dates   <- question_period$dates[1] - go_back_steps:0 * pd_days
-    shift <- pd_days - (as.integer(index_dates[1]) %% pd_days)
-    target$index_date <- (as.integer(target$date) + shift) %/% pd_days *pd_days - shift
-    target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
-    if (!all(target$index_date %in% index_dates)) stop("Problem with index dates in data aggregation section")
+
+    target$index_date <- norm_fixed_period(target$date, 
+                                           question_period$period$days,
+                                           question_period$dates[1])
     
     # Aggregate data
     if (series_type=="count") {
@@ -627,9 +662,7 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   # Determine periods per year for ts frequency
-  x <- aggregate(target[, c("date")], by = list(year = lubridate::year(target$date)), FUN = length)$x
-  x <- head(x, length(x)-1) %>% tail(length(.)-1)
-  fr <- ifelse(length(x)==0, 1, mean(x))
+  fr <- determine_ts_frequency(target)
   
   # Cut down training data if needed to speed up model estimation
   if (nrow(target > 1500)) {
@@ -647,14 +680,7 @@ r_basil_ts <- function(fh = NULL) {
   fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
   
   # Estimate model and forecast
-  lambda   <- NULL
-  skew     <- NULL
-  if (series_type %in% c("count")) {
-    skew <- skewness(as.vector(target_ts))
-    any0 <- any(target_ts==0)
-    if (skew > 2 && !any0) lambda <- 0
-    if (skew > 2 && any0)  lambda <- .5
-  }
+  lambda <- lambda_heuristic(target_ts, series_type)
   
   # Create the actual forecast
   forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
@@ -707,7 +733,6 @@ r_basil_ts <- function(fh = NULL) {
     partial_train = partial_train,
     partial_outcome = partial_outcome,
     h = as.integer(h),
-    skew = skew,
     lambda = lambda,
     rmse_mean = rmse_mean,
     rmse_rwf  = rmse_rwf,
@@ -718,11 +743,12 @@ r_basil_ts <- function(fh = NULL) {
   response[["internal2"]] <- internal_info
   response[["forecasts"]] <- list(forecast, forecast_ets, forecast_rwf, forecast_geo_rwf)
   
-  if (!test) {
+  if (test) {
+    return(invisible(response))
+  } else {
     out_fh <- paste0("basil-ts/forecast-", request_id, ".json")
     toJSON(response, "columns", POSIXt = "ISO8601", pretty = TRUE) %>% writeLines(out_fh)
-  } else {
-    invisible(response)
+    return(invisible(NULL))
   }
 }
 

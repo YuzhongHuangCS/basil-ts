@@ -127,3 +127,11 @@ fc <- readRDS("basil-ts/tests/fcast_1028.rds")
 
 length(category_forecasts(fc, cp))==(length(cp) + 1)
 
+
+
+# Forecast updating -------------------------------------------------------
+
+# from 1208
+mu_f <- 1457223
+se_f <- 84764.33
+

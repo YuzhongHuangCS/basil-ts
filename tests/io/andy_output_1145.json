@@ -1,4 +1,238 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in parse_question_period(ifp_name) : Unrecognized question period\nCalls: r_basil_ts -> parse_question_period\nExecution halted\n"
+  "forecast_created_at": [
+    "2018-04-10T16:15:32"
+  ],
+  "forecast_is_usable": [
+    0
+  ],
+  "forecasts": [
+    {
+      "forecast_created_at": [
+        "2018-04-10T16:15:32"
+      ],
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,1,1)(0,1,0)[12] \n\nCoefficients:\n          ma1\n      -0.9115\ns.e.   0.0700\n\nsigma^2 estimated as 216:  log likelihood=-218.04\nAIC=440.07   AICc=440.31   BIC=444.01"
+        ],
+        "rmse": [
+          13.0461
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_probabilities": [
+        0.767,
+        0.0318,
+        0.049,
+        0.0454,
+        0.1067
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "-9.226739",
+          "-38.03401",
+          "19.58053"
+        ],
+        [
+          "2018-04-01",
+          "-9.955927",
+          "-38.87569",
+          "18.96383"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-04-10T16:15:32"
+      ],
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = -0.4555 \n\n  sigma:  12.4344\n\n     AIC     AICc      BIC \n615.2189 615.6060 621.7879 "
+        ],
+        "rmse": [
+          12.4344
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_probabilities": [
+        0.5402,
+        0.0506,
+        0.0846,
+        0.0864,
+        0.2382
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "-0.4553382",
+          "-24.82633",
+          "23.91565"
+        ],
+        [
+          "2018-04-01",
+          "-0.4553382",
+          "-24.82633",
+          "23.91565"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_created_at": [
+        "2018-04-10T16:15:32"
+      ],
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast     Lo 80     Hi 80      Lo 95     Hi 95\nJul 6      -61.85151 -82.70078 -41.00224  -93.73771 -29.96530\nAug 6      -61.85151 -91.33682 -32.36619 -106.94541 -16.75761"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_probabilities": [
+        0.9968,
+        0.0006,
+        0.0008,
+        0.0007,
+        0.0011
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "-61.85151",
+          " -93.73771",
+          "-29.96530"
+        ],
+        [
+          "2018-04-01",
+          "-61.85151",
+          "-106.94541",
+          "-16.75761"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "model": [
+        "geometric RWF"
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,1,1)(0,1,0)[12] \n\nCoefficients:\n          ma1\n      -0.9115\ns.e.   0.0700\n\nsigma^2 estimated as 216:  log likelihood=-218.04\nAIC=440.07   AICc=440.31   BIC=444.01"
+    ],
+    "rmse": [
+      13.0461
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "h": [
+      2
+    ],
+    "lambda": {},
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "used"
+    ],
+    "question_date": [
+      "2018-04-01",
+      "2018-04-30"
+    ],
+    "question_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "rmse_mean": [
+      12.4338
+    ],
+    "rmse_rwf": [
+      16.2688
+    ],
+    "series_type": [
+      "continuous"
+    ],
+    "was_data_aggregated": [
+      false
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_probabilities": [
+    0.767,
+    0.0318,
+    0.049,
+    0.0454,
+    0.1067
+  ],
+  "ts": [
+    [
+      "2018-03-01",
+      "-9.226739",
+      "-38.03401",
+      "19.58053"
+    ],
+    [
+      "2018-04-01",
+      "-9.955927",
+      "-38.87569",
+      "18.96383"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
 }

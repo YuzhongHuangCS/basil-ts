@@ -1,1 +1,222 @@
-{"ifp": {"clarifications": [], "image": {"url": "forecast/questions/default-question-image.jpg"}, "site_id": 6, "updated_at": "2018-03-28T16:31:23.159Z", "discover_question_id": 239, "published_at": "2018-03-28T16:31:22.905Z", "id": 1271, "active?": true, "featured": false, "type": "Forecast::Question", "metadata": {}, "prediction_sets_count": 0, "description": "This question will be resolved based on the final edit to Wikipedia <a href = \"https://en.wikipedia.org/wiki/List_of_vetoed_United_Nations_Security_Council_resolutions\"target=\"_blank\">https://en.wikipedia.org/wiki/List_of_vetoed_United_Nations_Security_Council_resolutions</a> made one week after the period of interest. \u00a0", "brier_score": "0.0", "binary?": false, "voided_at": null, "ends_at": "2018-08-22T18:01:59.000Z", "resolved_at": null, "ifp": {"parsed_answers": {"values": ["0", "1 - 2", ">2"], "unit": "number"}, "answers": [{"ended?": false, "probability": 0.3333, "positions_count": null, "updated_at": "2018-03-28T16:31:22.550Z", "sort_order": 0, "probability_formatted": "33%", "display_probability": "33%", "correctness_known_at": null, "active?": true, "id": 4000, "normalized_probability": 0.3333333333333333, "type": "Forecast::Answer", "status": null, "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "None", "created_at": "2018-03-28T16:31:22.550Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 699, "question_id": 1271}, {"ended?": false, "probability": 0.3333, "positions_count": null, "updated_at": "2018-03-28T16:31:22.490Z", "sort_order": 1, "probability_formatted": "33%", "display_probability": "33%", "correctness_known_at": null, "active?": true, "id": 3999, "normalized_probability": 0.3333333333333333, "type": "Forecast::Answer", "status": null, "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "1 or 2", "created_at": "2018-03-28T16:31:22.490Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 700, "question_id": 1271}, {"ended?": false, "probability": 0.3333, "positions_count": null, "updated_at": "2018-03-28T16:31:22.441Z", "sort_order": 2, "probability_formatted": "33%", "display_probability": "33%", "correctness_known_at": null, "active?": true, "id": 3998, "normalized_probability": 0.3333333333333333, "type": "Forecast::Answer", "status": null, "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 2", "created_at": "2018-03-28T16:31:22.441Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 701, "question_id": 1271}]}, "name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?", "created_at": "2018-03-28T16:31:22.432Z", "membership_id": 471, "resolved?": false, "comments_count": 0, "starts_at": "2018-03-28T16:30:59.000Z", "use_ordinal_scoring": true, "answers_count": 3}, "payload": {"historical_data": {"dimensions": ["DATE", {"type": "int", "semantic_type": "count"}], "ts": [["2011-07-27T00:00:00.000Z", 2], ["2011-11-27T00:00:00.000Z", 2], ["2012-03-29T00:00:00.000Z", 2], ["2012-07-30T00:00:00.000Z", 0], ["2012-11-30T00:00:00.000Z", 0], ["2013-04-02T00:00:00.000Z", 0], ["2013-08-03T00:00:00.000Z", 0], ["2013-12-04T00:00:00.000Z", 0], ["2014-04-06T00:00:00.000Z", 2], ["2014-08-07T00:00:00.000Z", 0], ["2014-12-08T00:00:00.000Z", 0], ["2015-04-10T00:00:00.000Z", 0], ["2015-08-11T00:00:00.000Z", 0], ["2015-12-12T00:00:00.000Z", 0], ["2016-04-13T00:00:00.000Z", 0], ["2016-08-14T00:00:00.000Z", 4], ["2016-12-15T00:00:00.000Z", 2]]}, "last-event-date": "2017-04-12T00:00:00.000Z", "separations": {"values": ["0", "1 - 2", ">2"], "unit": "number"}, "question_type": "Ordered Multinomial"}}
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-03-28T16:31:23.159Z",
+        "discover_question_id": 239,
+        "published_at": "2018-03-28T16:31:22.905Z",
+        "id": 1271,
+        "active?": true,
+        "featured": false,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved based on the final edit to Wikipedia <a href = \"https://en.wikipedia.org/wiki/List_of_vetoed_United_Nations_Security_Council_resolutions\"target=\"_blank\">https://en.wikipedia.org/wiki/List_of_vetoed_United_Nations_Security_Council_resolutions</a> made one week after the period of interest. \u00a0",
+        "brier_score": "0.0",
+        "binary?": false,
+        "voided_at": null,
+        "ends_at": "2018-08-22T18:01:59.000Z",
+        "resolved_at": null,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "0",
+                    "1 - 2",
+                    ">2"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.3333,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:31:22.550Z",
+                    "sort_order": 0,
+                    "probability_formatted": "33%",
+                    "display_probability": "33%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4000,
+                    "normalized_probability": 0.3333333333333333,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "None",
+                    "created_at": "2018-03-28T16:31:22.550Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 699,
+                    "question_id": 1271
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.3333,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:31:22.490Z",
+                    "sort_order": 1,
+                    "probability_formatted": "33%",
+                    "display_probability": "33%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3999,
+                    "normalized_probability": 0.3333333333333333,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "1 or 2",
+                    "created_at": "2018-03-28T16:31:22.490Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 700,
+                    "question_id": 1271
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.3333,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:31:22.441Z",
+                    "sort_order": 2,
+                    "probability_formatted": "33%",
+                    "display_probability": "33%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3998,
+                    "normalized_probability": 0.3333333333333333,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 2",
+                    "created_at": "2018-03-28T16:31:22.441Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 701,
+                    "question_id": 1271
+                }
+            ]
+        },
+        "name": "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?",
+        "created_at": "2018-03-28T16:31:22.432Z",
+        "membership_id": 471,
+        "resolved?": false,
+        "comments_count": 0,
+        "starts_at": "2018-03-28T16:30:59.000Z",
+        "use_ordinal_scoring": true,
+        "answers_count": 3
+    },
+    "payload": {
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "int",
+                    "semantic_type": "count"
+                }
+            ],
+            "ts": [
+                [
+                    "2011-07-27T00:00:00.000Z",
+                    2
+                ],
+                [
+                    "2011-11-27T00:00:00.000Z",
+                    2
+                ],
+                [
+                    "2012-03-29T00:00:00.000Z",
+                    2
+                ],
+                [
+                    "2012-07-30T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2012-11-30T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2013-04-02T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2013-08-03T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2013-12-04T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2014-04-06T00:00:00.000Z",
+                    2
+                ],
+                [
+                    "2014-08-07T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2014-12-08T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2015-04-10T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2015-08-11T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2015-12-12T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2016-04-13T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2016-08-14T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2016-12-15T00:00:00.000Z",
+                    2
+                ]
+            ]
+        },
+        "last-event-date": "2017-04-12T00:00:00.000Z",
+        "separations": {
+            "values": [
+                "0",
+                "1 - 2",
+                ">2"
+            ],
+            "unit": "number"
+        },
+        "question_type": "Ordered Multinomial"
+    }
+}
