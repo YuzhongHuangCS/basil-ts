@@ -7,42 +7,7 @@ suppressPackageStartupMessages({
   library("stringr")
 })
 
-#' Segmentize forecast density
-#' 
-#' Given answer categories and forecast::forecast object, determine forecast
-#' probabilities for each category.
-#' 
-#' @param fc forecast object
-#' @param cp cutpoints
-category_forecasts <- function(fc, cp) {
-  # for forecasts with h > 1, assume last is the one we want
-  # determine forecast density SE
-  mu <- tail(as.numeric(fc$mean), 1)
-  
-  # BoxCox is lambda was given
-  if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
-    lambda <- fc$model$lambda
-    cp <- BoxCox(cp, lambda)
-    mu <- BoxCox(mu, lambda)
-  }
-  
-  se <- forecast_se(fc)
-  
-  # need to sort cutpoints otherwise this is screwed up; reorder at end
-  increasing <- all(cp==cummax(cp))
-  decreasing <- all(cp==cummin(cp))
-  if (!xor(increasing, decreasing)) {
-    stop("Cutpoints are not monotonic")
-  }
-  if (decreasing) {
-    cp <- rev(cp)
-  }
-  
-  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
-  catp    <- diff(cumprob)
-  if (decreasing) catp <- rev(catp)
-  catp
-}
+# Update forecasts with partial outcomes ----------------------------------
 
 #' Update forecast 
 #' 
@@ -125,7 +90,6 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
   c(mean = mean_star, se = se_star)
 }
 
-
 #' Calculate SE in forecast object
 #' 
 #' Calculate implicity SE used for normal density prediction intervals.
@@ -147,6 +111,9 @@ forecast_se <- function(x) {
   se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
   se
 }
+
+
+# Parsing requests --------------------------------------------------------
 
 #' Create period object
 #' 
@@ -338,29 +305,6 @@ guess_series_type <- function(x, question) {
   out
 }
 
-#' Enforce value constraints
-#' 
-#' Enforce value constraints for different types of series, e.g. count
-#' 
-enforce_series_type <- function(x, type) {
-  if (type=="continuous") {
-    x <- x
-  } else if (type=="count") {
-    x[x < 0] <- 0
-  } else if (type=="binary") {
-    x[x < 0] <- 0
-    x[x > 1] <- 1
-  }
-  x
-}
-
-#' Calculate skewness
-#' 
-skewness <- function(x) {
-  n <- length(x)
-  (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
-}
-
 #' Check for comma in seps
 validate_seps <- function(seps) {
   # check for ambiguous decimal separators
@@ -398,7 +342,48 @@ binary_seps <- function(x) {
   }
   stop("Unable to identify implied question separations for binary question")
 }
- 
+
+
+# Data helpers ------------------------------------------------------------
+
+validate_data <- function(data, data_period, question_period) {
+  # Check that data are aggregated correctly
+  if (!bb_equal_period(data_period$period, question_period$period)) {
+    mssg <- paste(
+      sprintf("Request data appear to not be aggregated correctly"),
+      sprintf("  Data dates: ...%s", paste(tail(data$date), collapse = ", ")),
+      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                   paste0("fixed, %s days", question_period$period$days),
+                                                   question_period$period$period)),
+      sprintf("  Question title: %s", ifp_name),
+      sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
+                                                       paste0("fixed, %s days", question_period$period$days),
+                                                       question_period$period$period)),
+      sep = "\n"
+    )
+    stop(mssg)
+  }
+  
+  # Check if dates are aligned correctly; if h is not an interger -> problem
+  h <- bb_diff_period(max(data$date), question_period$dates[1], question_period$period)
+  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
+                             as.character(question_period$dates[1]),
+                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
+                             paste0(as.character(tail(data$date)), collapse = ", ")
+  ))
+  
+  invisible(TRUE)
+}
+
+#' Calculate time periods per year
+determine_ts_frequency <- function(x) {
+  x <- aggregate(x[, c("date")], by = list(year = lubridate::year(x$date)), FUN = length)$x
+  x <- head(x, length(x)-1) %>% tail(length(.)-1)
+  fr <- ifelse(length(x)==0, 1, mean(x))
+  fr
+}
+
+# Forecast helpers --------------------------------------------------------
 
 create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
                             partial_outcome = FALSE, yobs = NULL, yn = NULL, 
@@ -475,43 +460,6 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
   result
 }
 
-validate_data <- function(data, data_period, question_period) {
-  # Check that data are aggregated correctly
-  if (!bb_equal_period(data_period$period, question_period$period)) {
-    mssg <- paste(
-      sprintf("Request data appear to not be aggregated correctly"),
-      sprintf("  Data dates: ...%s", paste(tail(data$date), collapse = ", ")),
-      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
-                                                   paste0("fixed, %s days", question_period$period$days),
-                                                   question_period$period$period)),
-      sprintf("  Question title: %s", ifp_name),
-      sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
-                                                       paste0("fixed, %s days", question_period$period$days),
-                                                       question_period$period$period)),
-      sep = "\n"
-    )
-    stop(mssg)
-  }
-  
-  # Check if dates are aligned correctly; if h is not an interger -> problem
-  h <- bb_diff_period(max(data$date), question_period$dates[1], question_period$period)
-  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
-                             as.character(question_period$dates[1]),
-                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
-                             paste0(as.character(tail(data$date)), collapse = ", ")
-  ))
-  
-  invisible(TRUE)
-}
-
-#' Calculate time periods per year
-determine_ts_frequency <- function(x) {
-  x <- aggregate(x[, c("date")], by = list(year = lubridate::year(x$date)), FUN = length)$x
-  x <- head(x, length(x)-1) %>% tail(length(.)-1)
-  fr <- ifelse(length(x)==0, 1, mean(x))
-  fr
-}
-
 lambda_heuristic <- function(ts, series_type) {
   lambda <- NULL
   if (series_type %in% c("count")) {
@@ -522,6 +470,67 @@ lambda_heuristic <- function(ts, series_type) {
   } 
   lambda
 }
+
+#' Calculate skewness
+#' 
+skewness <- function(x) {
+  n <- length(x)
+  (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
+}
+
+#' Enforce value constraints
+#' 
+#' Enforce value constraints for different types of series, e.g. count
+#' 
+enforce_series_type <- function(x, type) {
+  if (type=="continuous") {
+    x <- x
+  } else if (type=="count") {
+    x[x < 0] <- 0
+  } else if (type=="binary") {
+    x[x < 0] <- 0
+    x[x > 1] <- 1
+  }
+  x
+}
+
+#' Segmentize forecast density
+#' 
+#' Given answer categories and forecast::forecast object, determine forecast
+#' probabilities for each category.
+#' 
+#' @param fc forecast object
+#' @param cp cutpoints
+category_forecasts <- function(fc, cp) {
+  # for forecasts with h > 1, assume last is the one we want
+  # determine forecast density SE
+  mu <- tail(as.numeric(fc$mean), 1)
+  
+  # BoxCox is lambda was given
+  if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
+    lambda <- fc$model$lambda
+    cp <- BoxCox(cp, lambda)
+    mu <- BoxCox(mu, lambda)
+  }
+  
+  se <- forecast_se(fc)
+  
+  # need to sort cutpoints otherwise this is screwed up; reorder at end
+  increasing <- all(cp==cummax(cp))
+  decreasing <- all(cp==cummin(cp))
+  if (!xor(increasing, decreasing)) {
+    stop("Cutpoints are not monotonic")
+  }
+  if (decreasing) {
+    cp <- rev(cp)
+  }
+  
+  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
+  catp    <- diff(cumprob)
+  if (decreasing) catp <- rev(catp)
+  catp
+}
+
 
 # Main script -------------------------------------------------------------
 
