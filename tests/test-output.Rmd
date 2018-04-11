@@ -13,7 +13,9 @@ library("forecast")
 library("stringr")
 ```
 
-```{r}
+# Summary for all IFPs and models
+
+```{r, warning=FALSE}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 summary_table <- list()
@@ -25,7 +27,7 @@ for (fh in output_list) {
   
   this_ifp <- list()
   if (!is.null(response$message)) {
-    this_ifp <- data.frame(IFP = request_no, Model = "general", Estimated = 0, RMSE = NA)
+    this_ifp <- data.frame(IFP = request_no, Model = "All models", Estimated = 0, RMSE = NA)
   } else {
     for (model in response$forecasts) {
       this_model <- data.frame(IFP = request_no, Model = model$model)
@@ -42,9 +44,24 @@ summary_table <- bind_rows(summary_table)
 summary_table %>% knitr::kable(digits = 2)
 ```
 
+\clearpage
 
-```{r, warning = FALSE, fig.height=3}
+# Plot all forecasts
+
+```{r, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
+
+error_plot <- function(fcast, target, request_no, request) {
+  y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
+  p <- ggplot(target, aes(x = date, y = value)) +
+    geom_line() +
+    theme_minimal() +
+    ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
+    labs(x = "", y = "") +
+    geom_text(x = target$date[1], y = y_pos, col = "gray50",
+              label = fcast$r_error_message %>% str_wrap(), hjust = 0)
+  p
+}
 
 for (fh in output_list) {
   input_fh <- str_replace(fh, "output", "input")
@@ -53,60 +70,66 @@ for (fh in output_list) {
   request  <- jsonlite::fromJSON(input_fh)
   request_no <- str_extract(fh, "[0-9]+")
   
+  cat(sprintf("\n\n## Request %s\n\n", request_no))
+  cat(sprintf("\n\n %s \n\n", request$ifp$name))
+  
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
   
   if (!is.null(response$message)) {
-    y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
-    p <- ggplot(target, aes(x = date, y = value)) +
-      geom_line() +
-      theme_minimal() +
-      ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
-      labs(x = "", y = "") +
-      geom_text(x = target$date[1], y = y_pos, col = "gray50",
-                label = response$r_error_message %>% str_wrap(), hjust = 0)
+    p <- error_plot(response, target, request_no, request)
+    print(p)
   } else {
     # loop over forecasts and again, show error message if appropriate, else plot
     for (ff in response$forecasts) {
       
-      fcast <- data.frame(
-        date = as.Date(response$ts[, 1]),
-        mean = as.numeric(response$ts[, 2]),
-        lower = as.numeric(response$ts[, 3]),
-        upper = as.numeric(response$ts[, 4])
-      )
-      
-      h = nrow(fcast)
-      target <- target %>% 
-        tail(h*5 + 20) %>%
-        gather(var, value, value)
-      fcast <- fcast %>%
-        gather(var, value, -date)
-      df <- bind_rows(target, fcast) %>%
-        spread(var, value)
-      
-      
-      p <- ggplot(df, aes(x = date)) +
-        geom_line(aes(y = value)) + 
-        theme_minimal() +
-        ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
-        labs(x = "", y = "")
-      # forecast is for single date, this does not plot with geom_ribbon
-      if (nrow(fcast)==3) {
-        p <- p + 
-          geom_segment(aes(xend = date, y = lower, yend = upper), color = "lightblue") +
-          geom_point(aes(y = mean), color = "blue")
+      if (!is.null(ff$message)) {
+        p <- error_plot(ff, target, request_no, request)
+        print(p)
       } else {
-        p <- p + 
-          geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
-          geom_line(aes(y = mean), color = "blue")
+        
+        fcast <- data.frame(
+          date = as.Date(ff$ts[, 1]),
+          mean = as.numeric(ff$ts[, 2]),
+          lower = as.numeric(ff$ts[, 3]),
+          upper = as.numeric(ff$ts[, 4])
+        )
+        
+        h = nrow(fcast)
+        target_i <- target %>% 
+          tail(h*5 + 20) %>%
+          gather(var, value, value)
+        fcast_i <- fcast %>%
+          gather(var, value, -date)
+        df <- bind_rows(target_i, fcast_i) %>%
+          spread(var, value)
+        
+        p <- ggplot(df, aes(x = date)) +
+          geom_line(aes(y = value)) + 
+          theme_minimal() +
+          ggtitle(sprintf("Request %s, %s", request_no, ff$model)) +
+          labs(x = "", y = "")
+        # forecast is for single date, this does not plot with geom_ribbon
+        if (nrow(fcast_i)==3) {
+          p <- p + 
+            geom_segment(aes(xend = date, y = lower, yend = upper), color = "lightblue") +
+            geom_point(aes(y = mean), color = "blue")
+        } else {
+          p <- p + 
+            geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
+            geom_line(aes(y = mean), color = "blue")
+        }
+        
+        print(p)
       }
     }
   }
   
-  print(p)
+  cat("\n\n \\clearpage \n\n")
 }
 ```
+
+
 

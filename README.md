@@ -79,6 +79,12 @@ For unit tests (from R):
 Rscript 'basil-ts/tests/testthat.R'
 ```
 
+Run all RCT-A requests
+
+```bash
+python3 tests/run_all.py
+```
+
 ## Response format
 
 ```

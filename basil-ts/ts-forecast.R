@@ -711,7 +711,8 @@ r_basil_ts <- function(fh = NULL) {
                                         fcast_dates = fcast_dates, data_period = data_period,
                                         binary_ifp = binary_ifp, options = options)
   } else {
-    forecast_geo_rwf <- list(model = "geometric RWF")
+    forecast_geo_rwf <- list(model = "geometric RWF", message = "Not estimated",
+                             r_error_message = "Series contains values <= 0, model not estimated.")
   }
 
   # Fit statistics

@@ -8,7 +8,6 @@ if (!require("testthat")) {
 }
 
 library("testthat")
-
 source("basil-ts/ts-forecast.R")
 
 test_dir("basil-ts/tests/testthat")
