@@ -217,7 +217,7 @@ parse_separations <- function(x) {
     unique()
   if (length(cutpoints)==0) cutpoints <- 1
   increasing <- all(cutpoints==cummax(cutpoints))
-  decreasing <- all(cutpoints==cummin(cutpoints))
+  decreasing <- all(cutpoints==cummin(cutpoints)) & length(cutpoints) > 1
   if (!xor(increasing, decreasing)) {
     stop("Cutpoints implied by separations don't seem to be monotonically increasing or decreasing")
   }
@@ -414,7 +414,8 @@ determine_ts_frequency <- function(x) {
 create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
                             partial_outcome = FALSE, yobs = NULL, yn = NULL, 
                             fcast_dates = NULL, data_period = NULL, 
-                            binary_ifp = NULL, options = NULL) {
+                            binary_ifp = NULL, options = NULL,
+                            ifp_name = NULL) {
   result <- tryCatch({
     if (model=="ARIMA") {
       mdl <- auto.arima(ts, lambda = lambda)
@@ -543,7 +544,7 @@ category_forecasts <- function(fc, cp) {
   
   # need to sort cutpoints otherwise this is screwed up; reorder at end
   increasing <- all(cp==cummax(cp))
-  decreasing <- all(cp==cummin(cp))
+  decreasing <- all(cp==cummin(cp)) & length(cp) > 1
   if (!xor(increasing, decreasing)) {
     stop("Cutpoints are not monotonic")
   }
@@ -566,12 +567,13 @@ r_basil_ts <- function(fh = NULL) {
   args <- commandArgs(trailingOnly=TRUE)
   test <- FALSE
   backcast <- FALSE
+  
   if (length(args) > 0) {
     # normal use via Rscript
     request_id <- args[1]
     backcast <- ifelse(args[2]=="True", TRUE, backcast)
     fh <- paste0("basil-ts/request-", request_id, ".json")
-  } else if (length(args)==0 && is.null(fh)) {
+  } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced
     return(TRUE)
   } else {
@@ -723,21 +725,25 @@ r_basil_ts <- function(fh = NULL) {
   forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
                               partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                               fcast_dates = fcast_dates, data_period = data_period,
-                              binary_ifp = binary_ifp, options = options)
+                              binary_ifp = binary_ifp, options = options,
+                              ifp_name = ifp_name)
   forecast_ets <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                   fcast_dates = fcast_dates, data_period = data_period,
-                                  binary_ifp = binary_ifp, options = options)
+                                  binary_ifp = binary_ifp, options = options,
+                                  ifp_name = ifp_name)
   forecast_rwf <- create_forecast(target_ts, "RWF", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                   fcast_dates = fcast_dates, data_period = data_period,
-                                  binary_ifp = binary_ifp, options = options)
+                                  binary_ifp = binary_ifp, options = options,
+                                  ifp_name = ifp_name)
   
   if (sum(target_ts<=0)==0) {
     forecast_geo_rwf <- create_forecast(target_ts, "geometric RWF", lambda = lambda, h = h, series_type = series_type,
                                         partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                         fcast_dates = fcast_dates, data_period = data_period,
-                                        binary_ifp = binary_ifp, options = options)
+                                        binary_ifp = binary_ifp, options = options,
+                                        ifp_name = ifp_name)
   } else {
     forecast_geo_rwf <- list(model = "geometric RWF", message = "Not estimated",
                              r_error_message = "Series contains values <= 0, model not estimated.")
