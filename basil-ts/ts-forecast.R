@@ -346,6 +346,32 @@ binary_seps <- function(x) {
 
 # Data helpers ------------------------------------------------------------
 
+#' Aggregate daily data
+#' 
+#' To fixed format required for question period.
+aggregate_data <- function(df, question_period) {
+  NULL
+}
+
+#' Shift index dates to match question period
+#' 
+#' This is a fallback in case data cannot be aggregated within the app, but
+#' pre-aggregated data index dates are incompatible with question
+shift_index_dates <- function(df, question_period) {
+  NULL
+}
+
+index_dates_are_misaligned <- function(data, question_period) {
+  # Check if dates are aligned correctly; if h is not an interger -> problem
+  h1 <- bb_diff_period(max(data$date), question_period$dates[1], question_period$period)
+  h2 <- bb_diff_period(min(data$date), question_period$dates[1], question_period$period)
+  if ((h1 %% 1)!=0 | (h2 %% 1)!=0) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
 validate_data <- function(data, data_period, question_period) {
   # Check that data are aggregated correctly
   if (!bb_equal_period(data_period$period, question_period$period)) {
@@ -364,13 +390,13 @@ validate_data <- function(data, data_period, question_period) {
     stop(mssg)
   }
   
-  # Check if dates are aligned correctly; if h is not an interger -> problem
-  h <- bb_diff_period(max(data$date), question_period$dates[1], question_period$period)
-  if (!h%%1==0) stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
-                             as.character(question_period$dates[1]),
-                             paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
-                             paste0(as.character(tail(data$date)), collapse = ", ")
-  ))
+  if (index_dates_are_misaligned(data, question_period)) {
+    stop(sprintf("Historical data in request appear to not be indexed with correct dates. The question period starts %s and dates like [..., %s] are expected in the historical data, but instead they have [..., %s].", 
+                 as.character(question_period$dates[1]),
+                 paste0(as.character(question_period$dates[1] - 5:0*question_period$period$days), collapse = ", "),
+                 paste0(as.character(tail(data$date)), collapse = ", ")
+    ))
+  }
   
   invisible(TRUE)
 }
@@ -608,6 +634,8 @@ r_basil_ts <- function(fh = NULL) {
   
   # Do aggregation if neccessary
   was_data_aggregated <- FALSE
+  were_dates_shifted  <- FALSE
+  
   if (data_period$period$period=="day" & question_period$period$period=="fixed") {
 
     target$index_date <- norm_fixed_period(target$date, 
