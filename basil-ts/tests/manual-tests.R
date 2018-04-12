@@ -3,17 +3,6 @@ source("basil-ts/ts-forecast.R")
 
 library("testthat")
 
-parse_question_period("August 2017")
-parse_question_period("between 15 October 2017 and 31 October 2017")
-parse_question_period("between 1 October 2017 and 15 October 2017")
-parse_question_period("between 1 October 2017 and 31 October 2017")
-parse_question_period("On 27 December 2017")
-
-bb_seq_period("2017-08-01", length.out = 5, bb_period("month"))
-bb_seq_period("2017-08-01", length.out = 5, bb_period("day"))
-bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 7))
-bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 14))
-
 
 bb_diff_period("2017-08-01", "2018-05-01", pd = bb_period("month"))
 
@@ -33,11 +22,6 @@ guessed_type <- lapply(samples, function(x) {
 })
 guessed_type
 
-# Enforce value constraints
-x <- c(-1, 0, 1, 2)
-expect_equal(enforce_series_type(x, "continuous"), x)
-expect_equal(enforce_series_type(x, "count"), c(0, 0, 1, 2))
-expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
 
 
 
@@ -118,14 +102,6 @@ target$index_date <- as.Date(target$index_date, origin = "1970-01-01")
 
 
 
-
-# Category forecasts ------------------------------------------------------
-
-# check that length is correct
-cp <- c(1221, 1303, 1374, 1456)
-fc <- readRDS("basil-ts/tests/fcast_1028.rds")
-
-length(category_forecasts(fc, cp))==(length(cp) + 1)
 
 
 

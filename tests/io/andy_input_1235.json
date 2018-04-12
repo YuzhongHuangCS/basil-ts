@@ -1,0 +1,480 @@
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-03-28T16:30:42.882Z",
+        "discover_question_id": 235,
+        "published_at": "2018-03-28T16:30:42.774Z",
+        "id": 1235,
+        "active?": true,
+        "featured": false,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using data from the International Monetary Fund (<a href = \"http://data.imf.org/regular.aspx?key=61015893\"target=\"_blank\">http://data.imf.org/regular.aspx?key=61015893</a>), and can be found after ensuring the country of interest is selected from the Country drop down menu, and 'Consumer Price Index, All Items' is selected from the Indicator drop down menu. The relevant row is 'Benin, Consumer Price Index, All Items,' and the relevant column is '2018M04.' Question will be resolved based on initially reported values.",
+        "brier_score": "0.0",
+        "binary?": false,
+        "voided_at": null,
+        "ends_at": "2018-04-30T18:01:36.000Z",
+        "resolved_at": null,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<-0.9",
+                    "-0.9 - -0.2",
+                    "-0.2 - 0.4",
+                    "0.4 - 1.1",
+                    ">1.1"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:30:42.672Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3830,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than -0.9",
+                    "created_at": "2018-03-28T16:30:42.672Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 677,
+                    "question_id": 1235
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:30:42.642Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3829,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between -0.9 and -0.2, inclusive",
+                    "created_at": "2018-03-28T16:30:42.642Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 678,
+                    "question_id": 1235
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:30:42.610Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3828,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than -0.2 but less than 0.4",
+                    "created_at": "2018-03-28T16:30:42.610Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 679,
+                    "question_id": 1235
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:30:42.573Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3827,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 0.4 and 1.1, inclusive",
+                    "created_at": "2018-03-28T16:30:42.573Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 680,
+                    "question_id": 1235
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-03-28T16:30:42.537Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 3826,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 1.1",
+                    "created_at": "2018-03-28T16:30:42.537Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 681,
+                    "question_id": 1235
+                }
+            ]
+        },
+        "name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?",
+        "created_at": "2018-03-28T16:30:42.527Z",
+        "membership_id": 471,
+        "resolved?": false,
+        "comments_count": 0,
+        "starts_at": "2018-03-28T16:30:36.000Z",
+        "use_ordinal_scoring": true,
+        "answers_count": 5
+    },
+    "payload": {
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "float",
+                    "semantic_type": "value"
+                }
+            ],
+            "ts": [
+                [
+                    "2012-09-01T00:00:00.000Z",
+                    1.1617515638963334
+                ],
+                [
+                    "2012-10-01T00:00:00.000Z",
+                    0.08833922261483597
+                ],
+                [
+                    "2012-11-01T00:00:00.000Z",
+                    1.0591350397175665
+                ],
+                [
+                    "2012-12-01T00:00:00.000Z",
+                    -0.34934497816594384
+                ],
+                [
+                    "2013-01-01T00:00:00.000Z",
+                    -0.08764241893075751
+                ],
+                [
+                    "2013-02-01T00:00:00.000Z",
+                    0.08771929824560905
+                ],
+                [
+                    "2013-03-01T00:00:00.000Z",
+                    -0.17528483786151502
+                ],
+                [
+                    "2013-04-01T00:00:00.000Z",
+                    0.877963125548727
+                ],
+                [
+                    "2013-05-01T00:00:00.000Z",
+                    0.174064403829407
+                ],
+                [
+                    "2013-06-01T00:00:00.000Z",
+                    -1.1294526498696762
+                ],
+                [
+                    "2013-07-01T00:00:00.000Z",
+                    0.9666080843585313
+                ],
+                [
+                    "2013-08-01T00:00:00.000Z",
+                    -1.0443864229765039
+                ],
+                [
+                    "2013-09-01T00:00:00.000Z",
+                    -0.2638522427440608
+                ],
+                [
+                    "2013-10-01T00:00:00.000Z",
+                    -1.234567901234573
+                ],
+                [
+                    "2013-11-01T00:00:00.000Z",
+                    -0.6250000000000026
+                ],
+                [
+                    "2013-12-01T00:00:00.000Z",
+                    0.6289308176100654
+                ],
+                [
+                    "2014-01-01T00:00:00.000Z",
+                    1.250000000000005
+                ],
+                [
+                    "2014-02-01T00:00:00.000Z",
+                    -0.8818342151675485
+                ],
+                [
+                    "2014-03-01T00:00:00.000Z",
+                    0.2669039145907448
+                ],
+                [
+                    "2014-04-01T00:00:00.000Z",
+                    0.2661934338952947
+                ],
+                [
+                    "2014-05-01T00:00:00.000Z",
+                    1.5929203539822985
+                ],
+                [
+                    "2014-06-01T00:00:00.000Z",
+                    -1.1324041811846666
+                ],
+                [
+                    "2014-07-01T00:00:00.000Z",
+                    -0.7929515418502253
+                ],
+                [
+                    "2014-08-01T00:00:00.000Z",
+                    -1.0657193605683737
+                ],
+                [
+                    "2014-09-01T00:00:00.000Z",
+                    -0.3590664272890536
+                ],
+                [
+                    "2014-10-01T00:00:00.000Z",
+                    0.3603603603603655
+                ],
+                [
+                    "2014-11-01T00:00:00.000Z",
+                    -0.4488330341113106
+                ],
+                [
+                    "2014-12-01T00:00:00.000Z",
+                    0.2705139765554528
+                ],
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    0.98920863309352
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    -0.9795191451469228
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    0.8992805755395683
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    -1.2477718360071353
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    3.971119133574012
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    -1.4756944444444469
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    -0.08810572687224169
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    -1.6754850088183468
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    -0.6278026905829622
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    1.6245487364620912
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    0.710479573712266
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    0.26455026455026204
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    -1.3192612137203166
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    -1.0695187165775426
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    1.2612612612612664
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    2.4911032028469724
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    -0.08680555555556295
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    -0.9556907037358768
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    -1.4035087719298196
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    -1.9572953736654828
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    -1.5426497277676976
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    0.276497695852532
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    1.3786764705882353
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    0.2719854941069784
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    0.5424954792043477
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    -1.1690647482014362
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    -0.09099181073704142
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    1.00182149362478
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    1.0820559062218111
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    0.9812667261373851
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    -0.6183745583038894
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    0.9777777777777727
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    -2.5528169014084434
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    -0.18066847335140276
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    2.533936651583708
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    0.5295675198587895
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    -1.4925373134328381
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    -0.5347593582887776
+                ]
+            ]
+        },
+        "last-event-date": "2018-02-28T00:00:00.000Z",
+        "separations": {
+            "values": [
+                "<-0.9",
+                "-0.9 - -0.2",
+                "-0.2 - 0.4",
+                "0.4 - 1.1",
+                ">1.1"
+            ],
+            "unit": "number"
+        },
+        "question_type": "Ordered Multinomial"
+    }
+}

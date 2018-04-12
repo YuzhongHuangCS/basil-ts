@@ -5,6 +5,38 @@
 setwd("../../..")
 if (!file.exists("basil-ts/tests/testthat.R")) stop("Path is wrong, check test.R")
 
+
+# Date and misc helpers ---------------------------------------------------
+
+context("Date and misc helpers")
+
+test_that("Correct date sequences are generated", {
+  expect_equal(
+    bb_seq_period("2017-08-01", length.out = 5, bb_period("month")),
+    structure(c(17379, 17410, 17440, 17471, 17501), class = "Date")
+    )
+  
+  expect_equal(
+    bb_seq_period("2017-08-01", length.out = 5, bb_period("day")),
+    structure(c(17379, 17380, 17381, 17382, 17383), class = "Date")
+  )
+  
+  expect_equal(  
+    bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 7)),
+    structure(c(17379, 17386, 17393, 17400, 17407), class = "Date")
+  )
+  
+  expect_equal(  
+    bb_seq_period("2017-08-01", length.out = 5, bb_period("fixed", 14)),
+    structure(c(17379, 17393, 17407, 17421, 17435), class = "Date")
+  )
+})
+
+
+# Question parsing --------------------------------------------------------
+
+context("Question parsing")
+
 test_that("Question dates and periods are correctly parsed", {
   x <- parse_question_period("in August 2017")
   expect_equal(x$period$period, "month")
@@ -46,26 +78,11 @@ test_that("Question dates and periods are correctly parsed", {
   x <- parse_question_period("between 16 December 2017 and 31 December 2017")
   expect_equal(x$period$period, "fixed")
   expect_equal(x$date, as.Date(c("2017-12-16", "2017-12-31")))
-})
-
-
-test_that("Sample requests throw correct error", {
-  expect_error(r_basil_ts("tests/requests/example1.json"), NA)
-  expect_error(r_basil_ts("tests/requests/example2.json"), NA)
-  expect_error(r_basil_ts("tests/requests/example3.json"),
-               "character string is not in a standard unambiguous format")
-  expect_error(r_basil_ts("tests/requests/example4.json"), 
-               "exceed question end date")
-  expect_error(r_basil_ts("tests/requests/example5.json"), 
-               "Separations contain ambiguous decimal separator")
-})
-
-test_that("Series types are correctly ID's", {
-  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "will there be any"), "binary")
-  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "how many ACLED events will there"), "count")
-  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "what will the price be"), "binary")
   
-  expect_equal(guess_series_type(rnorm(5, 10, 2), "what will the oil price be"), "continuous")
+  # exception for (Month XX) type
+  x <- parse_question_period("in April (Month 04) 2018")
+  expect_equal(x$period$period, "month")
+  expect_equal(x$date, structure(c(17622, 17651), class = "Date"))
 })
 
 test_that("Binary questions are ID'd and parsed", {
@@ -81,4 +98,72 @@ test_that("Binary questions are ID'd and parsed", {
   expect_error(binary_seps(q4))
   
 })
+
+test_that("Separations are correctly parsed", {
+  seps   <- list(values = c(1))
+  output <- list(cutpoints = 1, separations = seps)
+  expect_equal(parse_separations(seps), output)
+  
+  # negative values
+  seps   <- list(values = c("<-1", 0, 1, ">2"))
+  output <- list(cutpoints = c(-1, 0, 1, 2), separations = seps)
+  expect_equal(parse_separations(seps), output)
+  
+  # non-monotonic
+  seps   <- list(values = c("<-1", 0, 1, 3, ">2"))
+  expect_error(parse_separations(seps), "monotonically")
+})
+
+
+# Data and forecast handling ----------------------------------------------
+
+context("Data and forecast handling")
+
+test_that("Series types are correctly ID's", {
+  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "will there be any"), "binary")
+  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "how many ACLED events will there"), "count")
+  expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "what will the price be"), "binary")
+  
+  expect_equal(guess_series_type(rnorm(5, 10, 2), "what will the oil price be"), "continuous")
+})
+
+test_that("ACLED is recognized as count", {
+  expect_equal(guess_series_type(c(1:5), "ACLED"), "count")
+})
+
+test_that("Value constraints are enforced", {
+  x <- c(-1, 0, 1, 2)
+  expect_equal(enforce_series_type(x, "continuous"), x)
+  expect_equal(enforce_series_type(x, "count"), c(0, 0, 1, 2))
+  expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
+})
+
+test_that("Category forecasts return correct length and order", {
+  # check that length is correct
+  cp <- c(1221, 1303, 1374, 1456)
+  fc <- readRDS("basil-ts/tests/fcast_1028.rds")
+  expect_equal(length(category_forecasts(fc, cp)), (length(cp) + 1))
+  
+  expect_equal(category_forecasts(fc, cp), rev(category_forecasts(fc, rev(cp))))
+}) 
+
+
+
+# Sample requests ---------------------------------------------------------
+
+context("Sample requests")
+
+test_that("Sample requests throw correct error", {
+  expect_error(r_basil_ts("tests/io/example1.json"), NA)
+  expect_error(r_basil_ts("tests/io/example2.json"), NA)
+  expect_error(r_basil_ts("tests/io/example3.json"),
+               "character string is not in a standard unambiguous format")
+  expect_error(r_basil_ts("tests/io/example4.json"), 
+               "exceed question end date")
+  expect_error(r_basil_ts("tests/io/example5.json"), 
+               "Separations contain ambiguous decimal separator")
+})
+
+
+
 
