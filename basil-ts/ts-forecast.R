@@ -211,7 +211,7 @@ norm_fixed_period <- function(x, days, ref_date) {
 #' parse_separations(seps)
 parse_separations <- function(x) {
   cutpoints <- x %>%
-    str_extract_all("[0-9\\.]+") %>%
+    str_extract_all("[-]?[0-9\\.]+") %>%
     unlist() %>%
     as.numeric() %>%
     unique()
@@ -294,7 +294,7 @@ guess_series_type <- function(x, question) {
   distinctvals <- length(xvals)
   min0  <- min(xvals)==0
   max1  <- max(xvals)==1
-  q_count <- any(str_detect(tolower(question), c("how many", "how much", "ACLED", "atrocities")))
+  q_count <- any(str_detect(tolower(question), c("how many", "how much", "acled", "atrocities")))
   q_cont  <- all(str_detect(tolower(question), c("what", "price")))
   q_binary <- str_detect(tolower(question), "any")
   # default
@@ -320,6 +320,11 @@ validate_seps <- function(seps) {
     msg <- sprintf("Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [%s]",
                    paste(seps, collapse = "; "))
     stop(msg)
+  }
+  
+  # check for '-' without whitespace
+  if (any(str_detect(seps, "[0-9]+-[0-9]+"))) {
+    stop("Detected separation values with '-' surrounded by numbers, e.g. '1-2', make sure there is white space around it, like '1 - 2'")
   }
   invisible(TRUE)
 }

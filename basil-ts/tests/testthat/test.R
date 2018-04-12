@@ -99,6 +99,21 @@ test_that("Binary questions are ID'd and parsed", {
   
 })
 
+test_that("Separations are correctly parsed", {
+  seps   <- list(values = c(1))
+  output <- list(cutpoints = 1, separations = seps)
+  expect_equal(parse_separations(seps), output)
+  
+  # negative values
+  seps   <- list(values = c("<-1", 0, 1, ">2"))
+  output <- list(cutpoints = c(-1, 0, 1, 2), separations = seps)
+  expect_equal(parse_separations(seps), output)
+  
+  # non-monotonic
+  seps   <- list(values = c("<-1", 0, 1, 3, ">2"))
+  expect_error(parse_separations(seps), "monotonically")
+})
+
 
 # Data and forecast handling ----------------------------------------------
 
@@ -110,6 +125,10 @@ test_that("Series types are correctly ID's", {
   expect_equal(guess_series_type(c(0, 1, 0, 1, 0, 1), "what will the price be"), "binary")
   
   expect_equal(guess_series_type(rnorm(5, 10, 2), "what will the oil price be"), "continuous")
+})
+
+test_that("ACLED is recognized as count", {
+  expect_equal(guess_series_type(c(1:5), "ACLED"), "count")
 })
 
 test_that("Value constraints are enforced", {

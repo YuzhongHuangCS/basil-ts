@@ -65,25 +65,22 @@ curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.jso
 
 ### Running tests
 
-For API tests:
+Right now the tests are spread over several files/commands. Anyways.
 
 ```bash
 # from basil-ts dir
+
+# API tests
 python3 tests/test_api.py
-```
 
-For unit tests (from R):
-
-```bash
-# from basil-ts dir
+# Unit tests (R)
 Rscript 'basil-ts/tests/testthat.R'
-```
 
-Run all RCT-A requests
-
-```bash
+# Run all RCT-A requests
 python3 tests/run_all.py
+Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "pdf_document")'
 ```
+
 
 ## Response format
 
