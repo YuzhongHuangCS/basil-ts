@@ -1,10 +1,11 @@
 ---
 title: "RCT test output"
 author: "Andreas Beger, Predictive Heuristics"
-date: "4/2/2018"
+date: "`r Sys.Date()`"
 output: 
-  pdf_document:
+  html_document:
     toc: yes
+    toc_depth: 1
 ---
 
 ```{r setup, include=FALSE}
@@ -13,6 +14,8 @@ knitr::opts_chunk$set(echo = FALSE)
 library("tidyverse")
 library("forecast")
 library("stringr")
+
+source("../basil-ts/ts-forecast.R")
 ```
 
 # Are the base models estimating and without obvious mistakes?
@@ -29,19 +32,23 @@ for (fh in output_list) {
   
   this_ifp <- list()
   if (!is.null(response$message)) {
-    err <- response$r_error_message %>% 
-      str_replace_all(., "\\n", "") %>%
-      str_replace_all(., "[ ]{2,}", " ") %>%
-      str_replace_all(., " :", ":") %>%
-      substr(., 10, 70)
-    this_ifp <- data.frame(IFP = request_no, Model = "ARIMA", 
-                           RMSE = NA, Estimated = 0, 
-                           Error = err,
+    this_ifp <- data.frame(IFP = request_no, 
+                           Model = "ARIMA", 
+                           Estimated = FALSE, 
+                           h = NA,
+                           lambda = NA,
+                           time_period = NA,
                            stringsAsFactors = FALSE)
   } else {
-    this_ifp <- data.frame(IFP = request_no, Model = "ARIMA",  
-                           RMSE = response$internal$rmse, Estimated = 1, 
-                           Error = NA,
+    this_ifp <- data.frame(IFP = request_no, 
+                           Model = "ARIMA",  
+                           Estimated = TRUE, 
+                           h = response$internal2$h,
+                           lambda = ifelse(length(response$internal2$lambda)==0, NA_integer_, response$internal2$lambda),
+                           time_period = response$internal2$question_period$period,
+                           data_aggregated = response$internal2$was_data_aggregated,
+                           partial_train = response$internal2$partial_train,
+                           partial_outcome = response$internal2$partial_outcome,
                            stringsAsFactors = FALSE)
   }
   this_ifp <- bind_rows(this_ifp)
@@ -52,9 +59,31 @@ summary_table <- bind_rows(summary_table)
 summary_table %>% 
   arrange(IFP) %>%
   knitr::kable(digits = 2)
+
+error_ifps <- summary_table$IFP[summary_table$Estimated==FALSE]
+erorr_requests <- sapply(error_ifps, function(x) output_list[str_detect(output_list, x)])
+error_table <- list()
+for (fh in erorr_requests) {
+  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+  err <- response$r_error_message %>% 
+      str_replace_all(., "\\n", "") %>%
+      str_replace_all(., "[ ]{2,}", " ") %>%
+      str_replace_all(., " :", ":") %>%
+      substr(., 10, 100)
+  this_ifp <- data.frame(
+    IFP = str_extract(fh, "[0-9]+"),
+    Error = err
+  )
+  error_table <- c(error_table, list(this_ifp))
+}
+error_table <- bind_rows(error_table)
+error_table %>% 
+  arrange(IFP) %>%
+  knitr::kable(digits = 2)
+
 ```
 
-```{r, warning = FALSE, fig.height=3, results = 'asis'}
+```{r arima-plots, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 error_plot <- function(fcast, target, request_no, request) {
@@ -84,6 +113,34 @@ for (fh in output_list) {
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
   
+  ifp_name        <- request$ifp$name
+  question_period <- parse_question_period(ifp_name)
+  data_period     <- parse_data_period(target$date)
+  series_type     <- guess_series_type(target$value, ifp_name)
+  
+  if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+
+    target$index_date <- norm_fixed_period(target$date, 
+                                           question_period$period$days,
+                                           question_period$dates[1])
+    
+    # Aggregate data
+    if (series_type=="count") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
+      colnames(new_target) <- c("date", "value")
+    } else if (series_type=="continuous") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
+      colnames(new_target) <- c("date", "value")
+    } else {
+      stop("No method for aggregating data")
+    }
+    
+    # update internal data
+    target      <- new_target
+    data_period <- parse_data_period(target$date)
+    was_data_aggregated <- TRUE
+  }
+  
   if (!is.null(response$message)) {
     p <- error_plot(response, target, request_no, request)
     print(p)
@@ -108,7 +165,7 @@ for (fh in output_list) {
     p <- ggplot(df, aes(x = date)) +
       geom_line(aes(y = value)) + 
       theme_minimal() +
-      ggtitle(sprintf("Request %s, %s", request_no, ff$model)) +
+      ggtitle(sprintf("%s", ff$model)) +
       labs(x = "", y = "")
     # forecast is for single date, this does not plot with geom_ribbon
     if (nrow(fcast_i)==3) {
@@ -131,7 +188,7 @@ for (fh in output_list) {
 
 # Summary for all IFPs and models
 
-```{r, warning=FALSE}
+```{r summary-all-models, warning=FALSE}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 summary_table <- list()
@@ -164,7 +221,7 @@ summary_table %>% knitr::kable(digits = 2)
 
 # Plot all forecasts
 
-```{r, warning = FALSE, fig.height=3, results = 'asis'}
+```{r plots-all-models, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 error_plot <- function(fcast, target, request_no, request) {
@@ -193,6 +250,35 @@ for (fh in output_list) {
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
+  
+  ifp_name        <- request$ifp$name
+  question_period <- parse_question_period(ifp_name)
+  data_period     <- parse_data_period(target$date)
+  series_type     <- guess_series_type(target$value, ifp_name)
+  
+  if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+
+    target$index_date <- norm_fixed_period(target$date, 
+                                           question_period$period$days,
+                                           question_period$dates[1])
+    
+    # Aggregate data
+    if (series_type=="count") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
+      colnames(new_target) <- c("date", "value")
+    } else if (series_type=="continuous") {
+      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
+      colnames(new_target) <- c("date", "value")
+    } else {
+      stop("No method for aggregating data")
+    }
+    
+    # update internal data
+    target      <- new_target
+    data_period <- parse_data_period(target$date)
+    was_data_aggregated <- TRUE
+  }
+  
   
   if (!is.null(response$message)) {
     p <- error_plot(response, target, request_no, request)
@@ -225,7 +311,7 @@ for (fh in output_list) {
         p <- ggplot(df, aes(x = date)) +
           geom_line(aes(y = value)) + 
           theme_minimal() +
-          ggtitle(sprintf("Request %s, %s", request_no, ff$model)) +
+          ggtitle(sprintf("%s", ff$model)) +
           labs(x = "", y = "")
         # forecast is for single date, this does not plot with geom_ribbon
         if (nrow(fcast_i)==3) {
