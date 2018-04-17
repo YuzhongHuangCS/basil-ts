@@ -131,7 +131,12 @@ Rscript 'basil-ts/tests/testthat.R'
 # needs app running in another terminal
 python3 tests/run_all.py
 Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "html_document")'
+
+# To run a specific IFP
+bash tests/test.sh 1055
 ```
+
+
 
 ## TODO
 

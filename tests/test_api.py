@@ -6,6 +6,7 @@ from app import app
 
 class TestSampleRequests(unittest.TestCase):
     def setUp(self):
+        app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
         self.app = app.test_client()
 
     def test_hello_world(self):

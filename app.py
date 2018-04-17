@@ -14,7 +14,9 @@ import warnings
 app = Flask(__name__)
 # 2018-04-17: right now there is an error related to this config setting that
 # shows up during the test runs, see https://github.com/pallets/flask/issues/2549
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+# turning it off here messes up all RCT outputs, so just set the config in the
+# test_api.py file instead.
+#app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 @app.route("/")
 @app.route('/index')

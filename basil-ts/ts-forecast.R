@@ -13,7 +13,7 @@ suppressPackageStartupMessages({
 #' Update forecast 
 #' 
 #' Update forecast with partial outcome information
-update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
+update_forecast <- function(x, yobs, yn, fcast_date, data_period, fun) {
   if (length(x$mean) > 1) {
     stop("Can only update 1 forecast")
   }
@@ -29,7 +29,12 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
     lambda <- NULL
   }
   
-  new_pars <- update_norm_sum(x$mean, x$se, yobs, yn, N, lambda)
+  if (fun=="sum") {
+    new_pars <- update_norm_sum(x$mean, x$se, yobs, yn, N, lambda)
+  } else {
+    new_pars <- update_norm_avg(x$mean, x$se, yobs, yn, N, lambda)
+  }
+  
   
   # CI calculation has to be done on transformed scale
   level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
@@ -54,7 +59,11 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period) {
   x$upper[, ] <- upper
   
   # Enforce minimum already observed count
-  x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
+  if (fun %in% c("count", "max")) {
+    x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
+    x$upper[, ] <- apply(x$upper, 2, pmax, yobs)
+    x$mean <- max(x$mean, yobs)
+  }
   x
 }
 
@@ -352,11 +361,36 @@ binary_seps <- function(x) {
 
 # Data helpers ------------------------------------------------------------
 
+#' Heuristic for determining how data should be aggregated over time
+#' 
+#' 
+determine_aggregation_method <- function(series_type, ifp_name) {
+  qmax <- str_detect(ifp_name, "maximum")
+  qmin <- str_detect(ifp_name, "minimum")
+  agg <- "mean"
+  if (series_type=="count") {
+    agg <- "sum"
+  }
+  if (series_type=="continuous" & qmax) {
+    agg <- "max"
+  } else if (series_type=="continuous" & qmin) {
+    agg <- "min"
+  }
+  agg
+}
+
 #' Aggregate daily data
 #' 
 #' To fixed format required for question period.
-aggregate_data <- function(df, question_period) {
-  NULL
+aggregate_data <- function(df, question_period, fun) {
+  df$index_date <- norm_fixed_period(df$date, 
+                                     question_period$period$days,
+                                     question_period$dates[1])
+  
+  new_df <- aggregate(df[, c("value")], by = list(df$index_date), FUN = get(fun))
+  colnames(new_df) <- c("date", "value")
+  
+  new_df
 }
 
 #' Shift index dates to match question period
@@ -421,7 +455,7 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
                             partial_outcome = FALSE, yobs = NULL, yn = NULL, 
                             fcast_dates = NULL, data_period = NULL, 
                             binary_ifp = NULL, options = NULL,
-                            ifp_name = NULL) {
+                            ifp_name = NULL, fun = NULL) {
   result <- tryCatch({
     if (model=="ARIMA") {
       mdl <- auto.arima(ts, lambda = lambda)
@@ -440,8 +474,8 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     
     fcast    <- forecast(mdl, h = h)
     fcast$se <- forecast_se(fcast)
-    if (partial_outcome & series_type=="count") {
-      fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period)
+    if (partial_outcome) {
+      fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period, fun)
     } 
     
     # Fit statistics
@@ -633,6 +667,7 @@ r_basil_ts <- function(fh = NULL) {
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  agg_method      <- determine_aggregation_method(series_type, ifp_name)
   
   # Backcasting 
   if (backcast) {
@@ -655,26 +690,9 @@ r_basil_ts <- function(fh = NULL) {
   # Do aggregation if neccessary
   was_data_aggregated <- FALSE
   were_dates_shifted  <- FALSE
-  
   if (data_period$period$period=="day" & question_period$period$period=="fixed") {
-
-    target$index_date <- norm_fixed_period(target$date, 
-                                           question_period$period$days,
-                                           question_period$dates[1])
-    
-    # Aggregate data
-    if (series_type=="count") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
-      colnames(new_target) <- c("date", "value")
-    } else if (series_type=="continuous") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
-      colnames(new_target) <- c("date", "value")
-    } else {
-      stop("No method for aggregating data")
-    }
-    
     # update internal data
-    target      <- new_target
+    target      <- aggregate_data(target, question_period, agg_method)
     data_period <- parse_data_period(target$date)
     was_data_aggregated <- TRUE
   }
@@ -684,25 +702,28 @@ r_basil_ts <- function(fh = NULL) {
   
   # Check for partial outcome info
   partial_outcome <- FALSE
-  partial_train <- "no"
-  if (series_type %in% c("count", "continuous") & data_period$period$period!="day") {
+  partial_train   <- "no"
+  if (data_period$period$period!="day") {
     
     gt_train_end      <- last_date >= max(target$date)
     gt_question_start <- last_date >= question_period$dates[1]
     
+    days_in_period <- ifelse(data_period$period$period=="month", 
+                             target$date %>% max() %>% lubridate::days_in_month(),
+                             data_period$period$days)
+    days_avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
+    
     if (gt_train_end & !gt_question_start) {
       # partial info in last training data period
       # if more than half of period, extrapolate, else discard that period
-      
-      pd_days <- ifelse(data_period$period$period=="month", 
-                        target$date %>% max() %>% lubridate::days_in_month(),
-                        data_period$period$days)
-      avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
-      
       # only use if > half of period days have data; because danger of extrapolating
-      if (avail > pd_days/2) {
+      if (days_avail > (days_in_period/2)) {
         partial_train <- "used"
-        target$value[nrow(target)] <- target$value[nrow(target)] * pd_days / avail
+        if (agg_method=="sum") {
+          target$value[nrow(target)] <- target$value[nrow(target)] * days_in_period / days_avail
+        } else {
+          target$value[nrow(target)] <- target$value[nrow(target)]
+        }
       } else {
         partial_train <- "discarded"
         target <- target[-nrow(target), ]
@@ -713,7 +734,7 @@ r_basil_ts <- function(fh = NULL) {
       
       partial_outcome <- TRUE
       yobs <- target$value[nrow(target)]
-      yn   <- as.integer(last_date - max(target$date) + 1)
+      yn   <- days_avail
       target <- target[-nrow(target), ]
     } 
   }
@@ -744,24 +765,24 @@ r_basil_ts <- function(fh = NULL) {
                               partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                               fcast_dates = fcast_dates, data_period = data_period,
                               binary_ifp = binary_ifp, options = options,
-                              ifp_name = ifp_name)
+                              ifp_name = ifp_name, fun = agg_method)
   forecast_ets <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                   fcast_dates = fcast_dates, data_period = data_period,
                                   binary_ifp = binary_ifp, options = options,
-                                  ifp_name = ifp_name)
+                                  ifp_name = ifp_name, fun = agg_method)
   forecast_rwf <- create_forecast(target_ts, "RWF", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                   fcast_dates = fcast_dates, data_period = data_period,
                                   binary_ifp = binary_ifp, options = options,
-                                  ifp_name = ifp_name)
+                                  ifp_name = ifp_name, fun = agg_method)
   
   if (sum(target_ts<=0)==0) {
     forecast_geo_rwf <- create_forecast(target_ts, "geometric RWF", lambda = lambda, h = h, series_type = series_type,
                                         partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                         fcast_dates = fcast_dates, data_period = data_period,
                                         binary_ifp = binary_ifp, options = options,
-                                        ifp_name = ifp_name)
+                                        ifp_name = ifp_name, fun = agg_method)
   } else {
     forecast_geo_rwf <- list(model = "geometric RWF", message = "Not estimated",
                              r_error_message = "Series contains values <= 0, model not estimated.")
