@@ -1,6 +1,6 @@
 {
   "forecast_created_at": [
-    "2018-04-12T10:51:33"
+    "2018-04-17T12:46:01"
   ],
   "forecast_is_usable": [
     1
@@ -8,7 +8,7 @@
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:33"
+        "2018-04-17T12:46:01"
       ],
       "forecast_is_usable": [
         1
@@ -48,14 +48,14 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:34"
+        "2018-04-17T12:46:01"
       ],
       "forecast_is_usable": [
         1
       ],
       "internal": {
         "mdl_string": [
-          "ETS(M,N,M) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.1508 \n    gamma = 1e-04 \n\n  Initial states:\n    l = 245648.114 \n    s=0.2667 0.0297 0.0038 0.0042 0.0054 0.0671\n           0.5184 1.5219 2.338 2.8715 2.4156 2.0473 0.9936\n\n  sigma:  0.6922\n\n     AIC     AICc      BIC \n4183.008 4186.812 4232.211 "
+          "ETS(M,N,M) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.1508 \n    gamma = 1e-04 \n\n  Initial states:\n    l = 245648.114 \n    s=0.2667 0.0297 0.0038 0.0042 0.0054 0.0671\n           0.5184 1.5219 2.338 2.8715 2.4156 2.0473 0.9936\n\n  sigma:  0.6922\n\n     AIC     AICc      BIC \n4183.008 4186.812 4232.211 "
         ],
         "rmse": [
           140713.9423
@@ -88,7 +88,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:34"
+        "2018-04-17T12:46:01"
       ],
       "forecast_is_usable": [
         "NA"
@@ -128,7 +128,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:34"
+        "2018-04-17T12:46:01"
       ],
       "forecast_is_usable": [
         "NA"

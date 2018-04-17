@@ -20,7 +20,7 @@ class TestSampleRequests(unittest.TestCase):
                                      content_type = 'application/json')
         assert response.status_code == 200
         payload = json.loads(response.data)
-        with open("tests/io/example1_ouput.json", 'w') as outfile:
+        with open("tests/io/example1_output.json", 'w') as outfile:
             json.dump(payload, outfile, indent=2)
     
     def test_ts_too_many_columns(self):
@@ -52,6 +52,37 @@ class TestSampleRequests(unittest.TestCase):
         payload = json.loads(response.data)
         with open("tests/io/example4_ouput.json", 'w') as outfile:
             json.dump(payload, outfile, indent=2)
+            
+    # Check that option drop-after is correctly parsed
+    def test_option_drop_after(self):
+        # basic backcast call
+        with open("tests/io/example1.json", "rb") as req:
+            response = self.app.post('/forecast?backcast=True',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 200
+        payload = json.loads(response.data)
+        assert payload['internal2']['backcast'][0] == True
+        assert payload['internal2']['h'][0] == 1
+        
+        # call with option-after, forecast horizon should change
+        with open("tests/io/example1.json", "rb") as req:
+            response = self.app.post('/forecast?backcast=True&drop-after=2017-10-29',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 200
+        payload = json.loads(response.data)
+        assert payload['internal2']['h'][0] == 2
+        
+        # call with wrong option-after format
+        with open("tests/io/example1.json", "rb") as req:
+            response = self.app.post('/forecast?backcast=True&drop-after=2017-10-99',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 400
+        payload = json.loads(response.data)
+        assert payload['message'] == "Invalid 'drop_after' argument"
+        
 
 # class TestRctRequests(unittest.TestCase):
 #     def setUp(self):

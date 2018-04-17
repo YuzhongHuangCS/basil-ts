@@ -426,7 +426,12 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     if (model=="ARIMA") {
       mdl <- auto.arima(ts, lambda = lambda)
     } else if (model=="ETS") {
-      mdl <- ets(ts, lambda = lambda)
+      if (frequency(ts) > 24) {
+        spec = "ZZN"
+      } else {
+        spec = "ZZZ"
+      }
+      mdl <- ets(ts, model = spec, lambda = lambda)
     } else if (model=="RWF") {
       mdl <- rwf(ts, lambda = lambda, h = h)
     } else if (model=="geometric RWF") {
@@ -573,11 +578,13 @@ r_basil_ts <- function(fh = NULL) {
   args <- commandArgs(trailingOnly=TRUE)
   test <- FALSE
   backcast <- FALSE
+  drop_after <- as.Date("9999-12-31")
   
   if (length(args) > 0) {
     # normal use via Rscript
-    request_id <- args[1]
-    backcast <- ifelse(args[2]=="True", TRUE, backcast)
+    request_id   <- args[1]
+    backcast     <- ifelse(args[2]=="True", TRUE, backcast)
+    drop_after   <- as.Date(args[3])
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced
@@ -629,8 +636,13 @@ r_basil_ts <- function(fh = NULL) {
   
   # Backcasting 
   if (backcast) {
-    target <- target[target$date < question_period$dates[1], ]
-    last_date <- max(target$date)
+    # drop-after defaults to 9999-12-31, change the default to day before 
+    # question period starts
+    if (drop_after==as.Date("9999-12-31")) drop_after <- question_period$dates[1] + 1
+    # if drop after was user supplied, make sure it does not exceed question end date
+    drop_after <- min(c(drop_after, question_period$dates[2] - 1))
+    target     <- target[target$date < (drop_after + 1), ]
+    last_date  <- max(target$date)
   }
   
   # Check data end does not exceed question end

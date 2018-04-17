@@ -81,27 +81,6 @@ error_table <- bind_rows(error_table)
 error_table %>% 
   arrange(IFP) %>%
   knitr::kable(digits = 2)
-
-error_ifps <- summary_table$IFP[summary_table$Estimated==FALSE]
-erorr_requests <- sapply(error_ifps, function(x) output_list[str_detect(output_list, x)])
-error_table <- list()
-for (fh in erorr_requests) {
-  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
-  err <- response$r_error_message %>% 
-      str_replace_all(., "\\n", "") %>%
-      str_replace_all(., "[ ]{2,}", " ") %>%
-      str_replace_all(., " :", ":") %>%
-      substr(., 10, 100)
-  this_ifp <- data.frame(
-    IFP = str_extract(fh, "[0-9]+"),
-    Error = err
-  )
-  error_table <- c(error_table, list(this_ifp))
-}
-error_table <- bind_rows(error_table)
-error_table %>% 
-  arrange(IFP) %>%
-  knitr::kable(digits = 2)
 ```
 
 ```{r arima-plots, warning = FALSE, fig.height=3, results = 'asis'}

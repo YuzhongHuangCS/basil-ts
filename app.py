@@ -12,6 +12,9 @@ import uuid
 import warnings
 
 app = Flask(__name__)
+# 2018-04-17: right now there is an error related to this config setting that
+# shows up during the test runs, see https://github.com/pallets/flask/issues/2549
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 @app.route("/")
 @app.route('/index')
@@ -48,11 +51,21 @@ def get_forecast():
     # parse request arguments
     content = request.get_json(silent = True)
     backcast = request.args.get('backcast')
+    drop_after = request.args.get('drop-after')
     if backcast is None:
         backcast = False
     if backcast == 'True':
         warnings.warn("?backcast=True, do not use this for live forecasts during the RCT")
     
+    if drop_after is None:
+        drop_after = '9999-12-31'
+    else:
+        try:
+            pd.to_datetime(drop_after)
+        except ValueError:
+            raise InvalidUsage("Invalid 'drop_after' argument", status_code=400,
+                               payload = {'error_message': "option 'drop_after' should be blank or 'YYYY-mm-dd'"})
+  
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
     
@@ -79,8 +92,9 @@ def get_forecast():
     with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
     try:
-        subprocess.check_output(["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id, str(backcast)], shell = False,
-                                stderr=subprocess.STDOUT)
+        subprocess.check_output(
+          ["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id, str(backcast), str(drop_after)], 
+          shell = False, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
 

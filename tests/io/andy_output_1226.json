@@ -1,6 +1,6 @@
 {
   "forecast_created_at": [
-    "2018-04-12T10:51:41"
+    "2018-04-17T12:46:08"
   ],
   "forecast_is_usable": [
     0
@@ -8,7 +8,7 @@
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:41"
+        "2018-04-17T12:46:08"
       ],
       "forecast_is_usable": [
         0
@@ -68,14 +68,14 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:41"
+        "2018-04-17T12:46:09"
       ],
       "forecast_is_usable": [
         0
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, lambda = lambda) \n\n  Box-Cox transformation: lambda= 0 \n\n  Smoothing parameters:\n    alpha = 0.7935 \n\n  Initial states:\n    l = 0.6946 \n\n  sigma:  0.7062\n\n     AIC     AICc      BIC \n1218.297 1218.395 1228.874 "
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Box-Cox transformation: lambda= 0 \n\n  Smoothing parameters:\n    alpha = 0.7935 \n\n  Initial states:\n    l = 0.6946 \n\n  sigma:  0.7062\n\n     AIC     AICc      BIC \n1218.297 1218.395 1228.874 "
         ],
         "rmse": [
           11.2913
@@ -128,7 +128,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:41"
+        "2018-04-17T12:46:09"
       ],
       "forecast_is_usable": [
         "NA"
@@ -188,7 +188,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-12T10:51:41"
+        "2018-04-17T12:46:09"
       ],
       "forecast_is_usable": [
         "NA"

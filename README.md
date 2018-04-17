@@ -47,42 +47,40 @@ curl http://0.0.0.0:5000; echo
 curl -H "Content-Type: application/json" -X POST -d @tests/io/example1.json http://0.0.0.0:5000/forecast
 ```
 
-### More example requests
+## API
 
-Some more example request, including ones that fail with known causes:
+For normal use, use 
 
-```bash
-# assumes wd is basil-ts already
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/example1.json http://0.0.0.0:5000/forecast
-
-# this should return error (ifp12.json does not exist)
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/ifp12.json http://0.0.0.0:5000/forecast 
-# more intentional errors
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/example2.json http://0.0.0.0:5000/forecast 
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/example3.json http://0.0.0.0:5000/forecast 
-curl -H "Content-Type: application/json" -X POST -d @tests/requests/example4.json http://0.0.0.0:5000/forecast 
+```
+http://0.0.0.0:5000/forecast
 ```
 
-### Running tests
+For backcasting, add a `backcast=True` option:
 
-Right now the tests are spread over several files/commands. Anyways.
-
-```bash
-# from basil-ts dir
-
-# API tests
-python3 tests/test_api.py
-
-# Unit tests (R)
-Rscript 'basil-ts/tests/testthat.R'
-
-# Run all RCT-A requests
-python3 tests/run_all.py
-Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "pdf_document")'
+```
+http://0.0.0.0:5000/forecast?backast=True
 ```
 
+This will by default drop all data from the beginning of the question period on. Another argument controls how much data is dropped, `drop-after=YYYY-mm-dd`: 
 
-## Response format
+```
+http://0.0.0.0:5000/forecast?backast=True&drop-after=2017-10-29
+```
+
+This should be a date in ISO format, i.e. 'YYYY-mm-dd'. If it exceeds the question period end date it will be reset to the question period end date - 1. 
+
+### Request conventions
+
+Data aggregation
+
+- For questions with weird fixed time periods like a 40-day period, the data in the request will be daily and aggregation will take place in basil-ts. 
+- For questions with regular time periods (day, week, month), data in the request will already be aggregated and the request should include additional information: 
+    - a `aggregated-data` field identifying the level of aggregation, e.g. "month".
+    - a `last-event-date` field listing the date through which the source data reach, or the last observed date in the source data before aggregation. This is used to handle partial data for a time period. 
+
+
+
+### Response format
 
 ```
 {
@@ -112,6 +110,27 @@ Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "pdf_
     "rmse_rwf": [11.0494]
   }
 } 
+```
+
+
+
+## Running tests
+
+Right now the tests are spread over several files/commands. Anyways.
+
+```bash
+# from basil-ts dir
+
+# API tests
+python3 tests/test_api.py
+
+# Unit tests (R)
+Rscript 'basil-ts/tests/testthat.R'
+
+# Run all RCT-A requests
+# needs app running in another terminal
+python3 tests/run_all.py
+Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "html_document")'
 ```
 
 ## TODO
