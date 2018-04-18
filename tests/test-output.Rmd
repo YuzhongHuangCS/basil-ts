@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library("tidyverse")
 library("forecast")
 library("stringr")
+library("cowplot")
 
 source("../basil-ts/ts-forecast.R")
 ```
@@ -83,15 +84,19 @@ error_table %>%
   knitr::kable(digits = 2)
 ```
 
+# Plot ARIMA forecasts
+
 ```{r arima-plots, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
+req_no <- sapply(output_list, str_extract, "[0-9]+")
+output_list <- output_list[order(as.integer(req_no), decreasing = TRUE)]
 
 error_plot <- function(fcast, target, request_no, request) {
   y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
   p <- ggplot(target, aes(x = date, y = value)) +
     geom_line() +
     theme_minimal() +
-    ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
+    #ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
     labs(x = "", y = "") +
     geom_text(x = target$date[1], y = y_pos, col = "gray50",
               label = fcast$r_error_message %>% str_wrap(), hjust = 0)
@@ -114,29 +119,25 @@ for (fh in output_list) {
   )
   
   ifp_name        <- request$ifp$name
+  binary_ifp <- request$ifp$`binary?`
+  if (binary_ifp) {
+    seps <- list(values = binary_seps(ifp_name))
+  } else {
+    seps <- request$payload$separations
+  }
+  validate_seps(seps$values)
+  options         <- parse_separations(seps)
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  agg_method      <- determine_aggregation_method(series_type, ifp_name)
   
+  # Do aggregation if neccessary
+  was_data_aggregated <- FALSE
+  were_dates_shifted  <- FALSE
   if (data_period$period$period=="day" & question_period$period$period=="fixed") {
-
-    target$index_date <- norm_fixed_period(target$date, 
-                                           question_period$period$days,
-                                           question_period$dates[1])
-    
-    # Aggregate data
-    if (series_type=="count") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
-      colnames(new_target) <- c("date", "value")
-    } else if (series_type=="continuous") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
-      colnames(new_target) <- c("date", "value")
-    } else {
-      stop("No method for aggregating data")
-    }
-    
     # update internal data
-    target      <- new_target
+    target      <- aggregate_data(target, question_period, agg_method)
     data_period <- parse_data_period(target$date)
     was_data_aggregated <- TRUE
   }
@@ -166,7 +167,8 @@ for (fh in output_list) {
       geom_line(aes(y = value)) + 
       theme_minimal() +
       ggtitle(sprintf("%s", ff$model)) +
-      labs(x = "", y = "")
+      labs(x = "", y = "") +
+      geom_hline(yintercept = options$cutpoints, linetype = 3)
     # forecast is for single date, this does not plot with geom_ribbon
     if (nrow(fcast_i)==3) {
       p <- p + 
@@ -178,7 +180,32 @@ for (fh in output_list) {
         geom_line(aes(y = mean), color = "blue")
     }
     
-    print(p)
+    # Plot the options
+    op <- ff$option_probabilities
+    cutpoints <- options$cutpoints
+    extend <- if (length(cutpoints) > 1) mean(diff(cutpoints)) else 1
+    op_labels <- options$separations$values
+    if (str_detect(op_labels[1], ">")) {
+      op <- rev(op)
+      op_labels <- rev(op_labels)
+    }
+    if (binary_ifp) {
+      op <- rev(c(op, 1 - op))
+      op_labels <- rev(c("yes", "no"))
+    }
+    
+    cut_df <- data.frame(
+      option = factor(op_labels, levels = op_labels),
+      p = op
+    )
+    p2 <- ggplot(cut_df, aes(x = option, y = p)) +
+      geom_bar(stat = "identity") +
+      coord_flip() +
+      theme_minimal() +
+      labs(x = "", y = "") +
+      scale_y_continuous(breaks = c(0, round(max(op), 2)))
+    
+    print(plot_grid(p, p2, rel_widths = c(3, 1)))
   }
   
   cat("\n\n \\bigskip \n\n")
@@ -255,6 +282,7 @@ for (fh in output_list) {
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  agg_method      <- determine_aggregation_method(series_type, ifp_name)
   
   if (data_period$period$period=="day" & question_period$period$period=="fixed") {
 
@@ -262,21 +290,15 @@ for (fh in output_list) {
                                            question_period$period$days,
                                            question_period$dates[1])
     
-    # Aggregate data
-    if (series_type=="count") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = sum)
-      colnames(new_target) <- c("date", "value")
-    } else if (series_type=="continuous") {
-      new_target <- aggregate(target[, c("value")], by = list(target$index_date), FUN = mean)
-      colnames(new_target) <- c("date", "value")
-    } else {
-      stop("No method for aggregating data")
+    # Do aggregation if neccessary
+    was_data_aggregated <- FALSE
+    were_dates_shifted  <- FALSE
+    if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+      # update internal data
+      target      <- aggregate_data(target, question_period, agg_method)
+      data_period <- parse_data_period(target$date)
+      was_data_aggregated <- TRUE
     }
-    
-    # update internal data
-    target      <- new_target
-    data_period <- parse_data_period(target$date)
-    was_data_aggregated <- TRUE
   }
   
   
