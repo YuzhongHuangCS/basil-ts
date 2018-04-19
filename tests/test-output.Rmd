@@ -59,7 +59,7 @@ for (fh in output_list) {
 summary_table <- bind_rows(summary_table)
 summary_table %>% 
   mutate(IFP = as.integer(IFP)) %>%
-  arrange(IFP) %>%
+  arrange(desc(IFP)) %>%
   knitr::kable(digits = 2)
 
 error_ifps <- summary_table$IFP[summary_table$Estimated==FALSE]
@@ -248,7 +248,7 @@ summary_table %>% knitr::kable(digits = 2)
 
 # Plot forecasts for all models and all IFPs
 
-```{r plots-all-models, warning = FALSE, fig.height=3, results = 'asis'}
+```{r plots-all-models, eval = FALSE, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 error_plot <- function(fcast, target, request_no, request) {

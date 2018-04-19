@@ -743,7 +743,14 @@ r_basil_ts <- function(fh = NULL) {
   fr <- determine_ts_frequency(target)
   
   # Cut down training data if needed to speed up model estimation
-  upperN <- max(200, fr * 3)
+  upperN <- 200
+  if (data_period$period$period=="day") {
+    upperN <- 120
+  } else if (data_period$period$period=="month") {
+    upperN <- 12*5
+  } else if (data_period$period$period=="fixed") {
+    upperN <- 120
+  }
   if (nrow(target > upperN)) {
     target <- tail(target, upperN)
   }

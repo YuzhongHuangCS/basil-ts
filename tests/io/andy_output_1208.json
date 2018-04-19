@@ -1,6 +1,6 @@
 {
   "forecast_created_at": [
-    "2018-04-19T09:25:41"
+    "2018-04-19T12:34:30"
   ],
   "forecast_is_usable": [
     1
@@ -8,35 +8,35 @@
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-19T09:25:41"
+        "2018-04-19T12:34:30"
       ],
       "forecast_is_usable": [
         1
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(2,0,2)(0,0,1)[17] with non-zero mean \n\nCoefficients:\n         ar1      ar2      ma1     ma2    sma1       mean\n      1.8503  -0.9761  -0.8011  0.1465  0.1510  873846.50\ns.e.  0.0146   0.0142   0.0905  0.0818  0.0718   22029.21\n\nsigma^2 estimated as 1.001e+10:  log likelihood=-2586.56\nAIC=5187.12   AICc=5187.71   BIC=5210.21"
+          "Series: ts \nARIMA(1,0,3)(0,0,2)[17] with non-zero mean \n\nCoefficients:\n         ar1     ma1     ma2     ma3    sma1    sma2      mean\n      0.7610  0.6341  0.5250  0.3129  0.4918  0.1470  932537.1\ns.e.  0.0737  0.1275  0.1132  0.1221  0.1240  0.0973  173685.6\n\nsigma^2 estimated as 1.607e+10:  log likelihood=-1580.24\nAIC=3176.48   AICc=3177.78   BIC=3198.78"
         ],
         "rmse": [
-          98555.8591
+          123009.6306
         ]
       },
       "model": [
         "ARIMA"
       ],
       "option_probabilities": [
-        0.9973,
-        0.0024,
+        0.9928,
+        0.0056,
+        0.0012,
         0.0003,
-        0,
-        2.5817e-06
+        0.0001
       ],
       "ts": [
         [
           "2018-03-21",
-          "1611131",
-          "1456816",
-          "1765445"
+          "1586009",
+          "1390529",
+          "1781488"
         ]
       ],
       "ts_colnames": [
@@ -48,35 +48,35 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T09:25:41"
+        "2018-04-19T12:34:30"
       ],
       "forecast_is_usable": [
         1
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,Ad,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9474 \n    beta  = 0.9474 \n    phi   = 0.8 \n\n  Initial states:\n    l = -51875.9323 \n    b = 174359.3753 \n\n  sigma:  141832.3\n\n     AIC     AICc      BIC \n5816.624 5817.059 5836.414 "
+          "ETS(A,Ad,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9413 \n    beta  = 0.9413 \n    phi   = 0.8033 \n\n  Initial states:\n    l = 1060643.4768 \n    b = -53500.5093 \n\n  sigma:  145671.6\n\n     AIC     AICc      BIC \n3439.885 3440.629 3456.610 "
         ],
         "rmse": [
-          141832.2629
+          145671.6332
         ]
       },
       "model": [
         "ETS"
       ],
       "option_probabilities": [
-        0.9595,
-        0.0264,
-        0.0088,
-        0.004,
-        0.0014
+        0.9534,
+        0.0294,
+        0.0103,
+        0.005,
+        0.0019
       ],
       "ts": [
         [
           "2018-03-21",
-          "1635291",
-          "1416573",
-          "1854010"
+          "1637598",
+          "1412959",
+          "1862237"
         ]
       ],
       "ts_colnames": [
@@ -88,14 +88,14 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T09:25:41"
+        "2018-04-19T12:34:30"
       ],
       "forecast_is_usable": [
         "NA"
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast   Lo 80   Hi 80   Lo 95   Hi 95\n12.48325        1786606 1501069 2072142 1349915 2223296"
+          "         Point Forecast   Lo 80   Hi 80   Lo 95   Hi 95\n7.889952        1786606 1491027 2082184 1334558 2238654"
         ],
         "rmse": [
           "NA"
@@ -105,18 +105,18 @@
         "RWF"
       ],
       "option_probabilities": [
-        0.8683,
-        0.0515,
-        0.0289,
-        0.0237,
-        0.0276
+        0.86,
+        0.0524,
+        0.0301,
+        0.0255,
+        0.032
       ],
       "ts": [
         [
           "2018-03-21",
           "1633946",
           "1385875",
-          "1977533"
+          "1989616"
         ]
       ],
       "ts_colnames": [
@@ -128,14 +128,14 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T09:25:41"
+        "2018-04-19T12:34:30"
       ],
       "forecast_is_usable": [
         "NA"
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast    Lo 80   Hi 80    Lo 95   Hi 95\n12.48325        1786606 774283.5 4122469 497360.5 6417800"
+          "         Point Forecast    Lo 80   Hi 80    Lo 95   Hi 95\n7.889952        1786606 750776.7 4251544 474454.1 6727647"
         ],
         "rmse": [
           "NA"
@@ -145,18 +145,18 @@
         "geometric RWF"
       ],
       "option_probabilities": [
-        0.542,
-        0.0107,
-        0.0085,
-        0.0106,
-        0.4283
+        0.5394,
+        0.01,
+        0.008,
+        0.0099,
+        0.4327
       ],
       "ts": [
         [
           "2018-03-21",
           "1633946",
           "1385875",
-          "5277750"
+          "5521537"
         ]
       ],
       "ts_colnames": [
@@ -169,10 +169,10 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(2,0,2)(0,0,1)[17] with non-zero mean \n\nCoefficients:\n         ar1      ar2      ma1     ma2    sma1       mean\n      1.8503  -0.9761  -0.8011  0.1465  0.1510  873846.50\ns.e.  0.0146   0.0142   0.0905  0.0818  0.0718   22029.21\n\nsigma^2 estimated as 1.001e+10:  log likelihood=-2586.56\nAIC=5187.12   AICc=5187.71   BIC=5210.21"
+      "Series: ts \nARIMA(1,0,3)(0,0,2)[17] with non-zero mean \n\nCoefficients:\n         ar1     ma1     ma2     ma3    sma1    sma2      mean\n      0.7610  0.6341  0.5250  0.3129  0.4918  0.1470  932537.1\ns.e.  0.0737  0.1275  0.1132  0.1221  0.1240  0.0973  173685.6\n\nsigma^2 estimated as 1.607e+10:  log likelihood=-1580.24\nAIC=3176.48   AICc=3177.78   BIC=3198.78"
     ],
     "rmse": [
-      98555.8591
+      123009.6306
     ]
   },
   "internal2": {
@@ -210,10 +210,10 @@
       ]
     },
     "rmse_mean": [
-      582269.7364
+      601804.2336
     ],
     "rmse_rwf": [
-      222805.3699
+      230640.9778
     ],
     "series_type": [
       "continuous"
@@ -226,18 +226,18 @@
     "ARIMA"
   ],
   "option_probabilities": [
-    0.9973,
-    0.0024,
+    0.9928,
+    0.0056,
+    0.0012,
     0.0003,
-    0,
-    2.5817e-06
+    0.0001
   ],
   "ts": [
     [
       "2018-03-21",
-      "1611131",
-      "1456816",
-      "1765445"
+      "1586009",
+      "1390529",
+      "1781488"
     ]
   ],
   "ts_colnames": [
