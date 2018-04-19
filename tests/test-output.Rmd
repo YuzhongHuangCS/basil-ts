@@ -3,6 +3,9 @@ title: "RCT test output"
 author: "Andreas Beger, Predictive Heuristics"
 date: "`r Sys.Date()`"
 output: 
+  github_document:
+    toc: yes
+    toc_depth: 1
   html_document:
     toc: yes
     toc_depth: 1
