@@ -1,6 +1,6 @@
 {
   "forecast_created_at": [
-    "2018-04-19T12:34:26"
+    "2018-04-19T16:31:55"
   ],
   "forecast_is_usable": [
     1
@@ -8,7 +8,7 @@
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-19T12:34:26"
+        "2018-04-19T16:31:55"
       ],
       "forecast_is_usable": [
         1
@@ -23,6 +23,13 @@
       },
       "model": [
         "ARIMA"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 180",
+        "180 - 260",
+        ">260"
       ],
       "option_probabilities": [
         0.3807,
@@ -72,7 +79,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T12:34:26"
+        "2018-04-19T16:31:55"
       ],
       "forecast_is_usable": [
         1
@@ -87,6 +94,13 @@
       },
       "model": [
         "ETS"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 180",
+        "180 - 260",
+        ">260"
       ],
       "option_probabilities": [
         0.3761,
@@ -136,7 +150,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T12:34:26"
+        "2018-04-19T16:31:55"
       ],
       "forecast_is_usable": [
         "NA"
@@ -151,6 +165,13 @@
       },
       "model": [
         "RWF"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 180",
+        "180 - 260",
+        ">260"
       ],
       "option_probabilities": [
         0.5,
@@ -200,7 +221,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-19T12:34:26"
+        "2018-04-19T16:31:55"
       ],
       "forecast_is_usable": [
         "NA"
@@ -215,6 +236,13 @@
       },
       "model": [
         "geometric RWF"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 180",
+        "180 - 260",
+        ">260"
       ],
       "option_probabilities": [
         0.5,
@@ -322,6 +350,13 @@
   },
   "model": [
     "ARIMA"
+  ],
+  "option_labels": [
+    "<100",
+    "100 - 140",
+    "140 - 180",
+    "180 - 260",
+    ">260"
   ],
   "option_probabilities": [
     0.3807,

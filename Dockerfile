@@ -11,7 +11,7 @@ RUN apt-get update \
   && pip3 install -r requirements.txt 
   
 # install R stuff in separate layer because it takes forever to install
-RUN install2.r forecast lubridate jsonlite stringr
+RUN install2.r forecast lubridate jsonlite stringr truncnorm
 
 COPY ./ /basil-ts
 

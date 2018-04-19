@@ -5,123 +5,8 @@ suppressPackageStartupMessages({
   library("lubridate")
   library("jsonlite")
   library("stringr")
+  library("truncnorm")
 })
-
-
-# Update forecasts with partial outcomes ----------------------------------
-
-#' Update forecast 
-#' 
-#' Update forecast with partial outcome information
-update_forecast <- function(x, yobs, yn, fcast_date, data_period, fun) {
-  if (length(x$mean) > 1) {
-    stop("Can only update 1 forecast")
-  }
-  
-  N <- ifelse(data_period$period$period=="month", 
-              fcast_date %>% lubridate::days_in_month(),
-              data_period$period$days)
-  
-  bc_transform <- !is.null(x$model$lambda) & is.null(x$model$constant)
-  if (bc_transform) {
-    lambda <- x$model$lambda
-  } else {
-    lambda <- NULL
-  }
-  
-  if (fun=="sum") {
-    new_pars <- update_norm_sum(x$mean, x$se, yobs, yn, N, lambda)
-  } else {
-    new_pars <- update_norm_avg(x$mean, x$se, yobs, yn, N, lambda)
-  }
-  
-  
-  # CI calculation has to be done on transformed scale
-  level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
-  nint <- length(level)
-  lower <- x$lower
-  upper <- x$upper
-  for (i in 1:nint) {
-    qq <- qnorm(0.5 * (1 + level[i] / 100))
-    lower[, i] <- new_pars["mean"] - qq * new_pars["se"]
-    upper[, i] <- new_pars["mean"] + qq * new_pars["se"]
-  }
-  
-  if (bc_transform) {
-    new_pars["mean"] <- InvBoxCox(new_pars["mean"], lambda)
-    upper[, ] <- apply(upper, 2, InvBoxCox, lambda)
-    lower[, ] <- apply(lower, 2, InvBoxCox, lambda)
-  } 
-  
-  x$mean[]   <- new_pars[1]
-  x$se     <- new_pars[2]
-  x$lower[, ] <- lower
-  x$upper[, ] <- upper
-  
-  # Enforce minimum already observed count
-  if (fun %in% c("count", "max")) {
-    x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
-    x$upper[, ] <- apply(x$upper, 2, pmax, yobs)
-    x$mean <- max(x$mean, yobs)
-  }
-  x
-}
-
-#' Update normal forecast with sum method
-#' 
-#' Update normal density with partial observed outcomes under assumption that it
-#' is a sum of smaller normal densities for each day. 
-update_norm_sum <- function(mean, se, yobs, yn, N, lambda = NULL) {
-  mean_t <- mean/N
-  se_t   <- sqrt(se^2/N)
-  n <- yn
-  if (is.null(lambda)) {
-    mean_star <- as.numeric(yobs + (N-n)*mean_t)
-  } else {
-    mean_star <- as.numeric(BoxCox(yobs + (N-n)*mean_t, lambda))
-  }
-  se_star <- sqrt((N-n)*se_t^2)
-  c(mean = mean_star, se = se_star)
-}
-
-#' Update normal forecast with mean method
-#' 
-#' Update normal density with partial observed outcomes under assumption that it
-#' is the average of smaller normal densities for each day.
-update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
-  mean_t <- mean
-  n <- yn
-  if (is.null(lambda)) {
-    mean_star <- weighted.mean(x = c(yobs, mean_t), w = c(n, N-n))
-  } else {
-    mean_star <- weighted.mean(x = BoxCox(c(yobs, mean_t), lambda), w = c(n, N-n))
-  }
-  se_star <- sqrt(1 - n/N) * se
-  c(mean = mean_star, se = se_star)
-}
-
-#' Calculate SE in forecast object
-#' 
-#' Calculate implicity SE used for normal density prediction intervals.
-forecast_se <- function(x) {
-  mu <- tail(as.numeric(x$mean), 1)
-  ul <- tail(x$upper[, "95%"], 1)
-  
-  # BoxCox is lambda was given
-  if (!is.null(x$model$lambda) & is.null(x$model$constant)) {
-    lambda <- x$model$lambda
-    mu <- BoxCox(mu, lambda)
-    ul <- BoxCox(ul, lambda)
-  } else if (!is.null(x$model$lambda) & !is.null(x$model$constant)) {
-    stop("Don't know how to handle BoxCox with constant")
-  }
-  
-  # re-calculate forecast density SE
-  level <- 95
-  se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
-  se
-}
-
 
 # Parsing requests --------------------------------------------------------
 
@@ -449,6 +334,131 @@ determine_ts_frequency <- function(x) {
   fr
 }
 
+# Update forecasts with partial outcomes ----------------------------------
+
+#' Update forecast 
+#' 
+#' Update forecast with partial outcome information
+update_forecast <- function(x, yobs, yn, fcast_date, data_period, fun) {
+  if (length(x$mean) > 1) {
+    stop("Can only update 1 forecast")
+  }
+  
+  N <- ifelse(data_period$period$period=="month", 
+              fcast_date %>% lubridate::days_in_month(),
+              data_period$period$days)
+  
+  bc_transform <- !is.null(x$model$lambda) & is.null(x$model$constant)
+  if (bc_transform) {
+    lambda <- x$model$lambda
+  } else {
+    lambda <- NULL
+  }
+  
+  if (fun=="sum") {
+    new_pars <- update_norm_sum(x$mean, x$se, yobs, yn, N, lambda)
+  } else {
+    new_pars <- update_norm_avg(x$mean, x$se, yobs, yn, N, lambda)
+  }
+  
+  # CI re-calculation has to be done on transformed scale
+  level <- colnames(x$upper) %>% gsub("%", "", .) %>% as.numeric()
+  nint <- length(level)
+  lower <- x$lower
+  upper <- x$upper
+  for (i in 1:nint) {
+    qq <- qnorm(0.5 * (1 + level[i] / 100))
+    lower[, i] <- new_pars["mean"] - qq * new_pars["se"]
+    upper[, i] <- new_pars["mean"] + qq * new_pars["se"]
+  }
+  
+  if (bc_transform) {
+    new_pars["mean"] <- InvBoxCox(new_pars["mean"], lambda)
+    upper[, ] <- apply(upper, 2, InvBoxCox, lambda)
+    lower[, ] <- apply(lower, 2, InvBoxCox, lambda)
+  } 
+  
+  x$mean[]   <- new_pars[1]
+  x$se     <- new_pars[2]
+  x$lower[, ] <- lower
+  x$upper[, ] <- upper
+  
+  # Enforce minimum already observed count
+  if (fun %in% c("count", "max")) {
+    if (yobs > x$lower[, 2]) {
+      x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
+      x$trunc_lower <- yobs
+    }
+    # theoretically but hopefully not practically, the observed outcome can 
+    # push us above the forecast mean or even the forecast upper, in that 
+    # case nudge these a bit so the density does not collapse to a point
+    nudge = .00001
+    if (yobs > x$mean) {
+      x$mean <- max(x$mean, yobs * (1 + nudge))
+    }
+    if (yobs > x$upper[, 2]) {
+      x$upper[, ] <- apply(x$upper, 2, pmax, yobs * (1 + 2*nudge))
+    }
+  }
+  x
+}
+
+#' Update normal forecast with sum method
+#' 
+#' Update normal density with partial observed outcomes under assumption that it
+#' is a sum of smaller normal densities for each day. 
+update_norm_sum <- function(mean, se, yobs, yn, N, lambda = NULL) {
+  mean_t <- mean/N
+  se_t   <- sqrt(se^2/N)
+  n <- yn
+  if (is.null(lambda)) {
+    mean_star <- as.numeric(yobs + (N-n)*mean_t)
+  } else {
+    mean_star <- as.numeric(BoxCox(yobs + (N-n)*mean_t, lambda))
+  }
+  se_star <- sqrt((N-n)*se_t^2)
+  c(mean = mean_star, se = se_star)
+}
+
+#' Update normal forecast with mean method
+#' 
+#' Update normal density with partial observed outcomes under assumption that it
+#' is the average of smaller normal densities for each day.
+update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
+  mean_t <- mean
+  n <- yn
+  if (is.null(lambda)) {
+    mean_star <- weighted.mean(x = c(yobs, mean_t), w = c(n, N-n))
+  } else {
+    mean_star <- weighted.mean(x = BoxCox(c(yobs, mean_t), lambda), w = c(n, N-n))
+  }
+  se_star <- sqrt(1 - n/N) * se
+  c(mean = mean_star, se = se_star)
+}
+
+#' Calculate SE in forecast object
+#' 
+#' Calculate implicity SE used for normal density prediction intervals.
+forecast_se <- function(x) {
+  mu <- tail(as.numeric(x$mean), 1)
+  ul <- tail(x$upper[, "95%"], 1)
+  
+  # BoxCox is lambda was given
+  if (!is.null(x$model$lambda) & is.null(x$model$constant)) {
+    lambda <- x$model$lambda
+    mu <- BoxCox(mu, lambda)
+    ul <- BoxCox(ul, lambda)
+  } else if (!is.null(x$model$lambda) & !is.null(x$model$constant)) {
+    stop("Don't know how to handle BoxCox with constant")
+  }
+  
+  # re-calculate forecast density SE
+  level <- 95
+  se <- as.numeric((ul - mu) / qnorm(.5 * (1 + level/100)))
+  se
+}
+
+
 # Forecast helpers --------------------------------------------------------
 
 create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
@@ -474,9 +484,13 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     
     fcast    <- forecast(mdl, h = h)
     fcast$se <- forecast_se(fcast)
+    fcast$trunc_lower <- -Inf
+    fcast$trunc_upper <- +Inf
     if (partial_outcome) {
       fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period, fun)
     } 
+    
+    fcast <- enforce_series_type(fcast, series_type)
     
     # Fit statistics
     # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
@@ -494,9 +508,9 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
       ts = data.frame(
         date = fcast_dates,
-        mean = fcast$mean %>% enforce_series_type(series_type),
-        l95  = fcast$lower[, "95%"] %>% enforce_series_type(series_type),
-        u95  = fcast$upper[, "95%"] %>% enforce_series_type(series_type)
+        mean = fcast$mean,
+        l95  = fcast$lower[, "95%"],
+        u95  = fcast$upper[, "95%"]
       ) %>% as.matrix(),
       forecast_is_usable = usable, 
       forecast_created_at = lubridate::now(),
@@ -519,6 +533,7 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       catfcast         <- catfcast[pos]
     }
     result$option_probabilities <- catfcast
+    result$option_labels <- options$separations$values
     
     result
   }, error = function(e) {
@@ -554,15 +569,22 @@ skewness <- function(x) {
 #' 
 #' Enforce value constraints for different types of series, e.g. count
 #' 
+#' @param x modified forecast object with se, trunc_lower, trunc_upper
 enforce_series_type <- function(x, type) {
   if (type=="continuous") {
     x <- x
   } else if (type=="count") {
-    x[x < 0] <- 0
-  } else if (type=="binary") {
-    x[x < 0] <- 0
-    x[x > 1] <- 1
-  }
+    nudge <- 0.00001
+    if (any(x$lower[, 2] < 0)) {
+      
+      x$trunc_lower  <- 0
+    }
+    x$lower[x$lower[, 2] < 0, 2] <- 0
+    x$lower[x$lower[, 1] < 0, 1] <- 0 + nudge
+    x$mean[x$mean < 0]           <- 0 + 2*nudge
+    x$upper[x$upper[, 1] < 0, 1] <- 0 + 3*nudge
+    x$upper[x$upper[, 2] < 0, 2] <- 0 + 4*nudge
+  } 
   x
 }
 
@@ -577,15 +599,19 @@ category_forecasts <- function(fc, cp) {
   # for forecasts with h > 1, assume last is the one we want
   # determine forecast density SE
   mu <- tail(as.numeric(fc$mean), 1)
+  trunc_lower <- fc$trunc_lower
+  trunc_upper <- fc$trunc_upper
+  se <- fc$se
   
   # BoxCox is lambda was given
+  # se is already on transformed scale
   if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
     lambda <- fc$model$lambda
     cp <- BoxCox(cp, lambda)
     mu <- BoxCox(mu, lambda)
+    trunc_lower <- ifelse(trunc_lower==-Inf, -Inf, BoxCox(trunc_lower, lambda))
+    trunc_upper <- ifelse(trunc_lower==Inf, Inf, BoxCox(trunc_upper, lambda))
   }
-  
-  se <- forecast_se(fc)
   
   # need to sort cutpoints otherwise this is screwed up; reorder at end
   increasing <- all(cp==cummax(cp))
@@ -597,7 +623,10 @@ category_forecasts <- function(fc, cp) {
     cp <- rev(cp)
   }
   
-  cumprob <- c(0, pnorm(cp, mean = mu, sd = se), 1)
+  cumprob <- c(
+    0, 
+    truncnorm::ptruncnorm(cp, mean = mu, sd = se, a = trunc_lower, b = trunc_upper), 
+    1)
   catp    <- diff(cumprob)
   if (decreasing) catp <- rev(catp)
   catp
