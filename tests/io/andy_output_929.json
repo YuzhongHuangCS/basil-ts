@@ -1,6 +1,6 @@
 {
   "forecast_created_at": [
-    "2018-04-17T16:43:08"
+    "2018-04-19T09:26:04"
   ],
   "forecast_is_usable": [
     0
@@ -8,7 +8,7 @@
   "forecasts": [
     {
       "forecast_created_at": [
-        "2018-04-17T16:43:08"
+        "2018-04-19T09:26:04"
       ],
       "forecast_is_usable": [
         0
@@ -66,7 +66,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-17T16:43:08"
+        "2018-04-19T09:26:04"
       ],
       "forecast_is_usable": [
         0
@@ -124,7 +124,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-17T16:43:08"
+        "2018-04-19T09:26:04"
       ],
       "forecast_is_usable": [
         "NA"
@@ -182,7 +182,7 @@
     },
     {
       "forecast_created_at": [
-        "2018-04-17T16:43:08"
+        "2018-04-19T09:26:04"
       ],
       "forecast_is_usable": [
         "NA"

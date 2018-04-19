@@ -80,7 +80,7 @@ for (fh in erorr_requests) {
 }
 error_table <- bind_rows(error_table)
 error_table %>% 
-  arrange(IFP) %>%
+  arrange(desc(IFP)) %>%
   knitr::kable(digits = 2)
 ```
 
@@ -156,7 +156,7 @@ for (fh in output_list) {
     
     h = nrow(fcast)
     target_i <- target %>% 
-      tail(h*5 + 20) %>%
+      tail(h*8 + 30) %>%
       gather(var, value, value)
     fcast_i <- fcast %>%
       gather(var, value, -date)

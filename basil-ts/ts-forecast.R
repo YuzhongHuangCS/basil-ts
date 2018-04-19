@@ -743,8 +743,9 @@ r_basil_ts <- function(fh = NULL) {
   fr <- determine_ts_frequency(target)
   
   # Cut down training data if needed to speed up model estimation
-  if (nrow(target > 1500)) {
-    target <- tail(target, 1500)
+  upperN <- max(200, fr * 3)
+  if (nrow(target > upperN)) {
+    target <- tail(target, upperN)
   }
   
   target_ts <- ts(
