@@ -124,7 +124,7 @@ $(document).ready(function () {
 <div id="basil-ts-time-series-forecaster-for-sage" class="section level1">
 <h1>basil-ts: time-series forecaster for SAGE</h1>
 <p>A collection of R scripts (<code>basil-ts/basil-ts</code>) in a Python Flask microservice (<code>basil-ts</code>).</p>
-<p><a href="tests">Gallery of forecast charts</a></p>
+<p><a href="tests/README.md#plot-arima-forecasts">Gallery of forecast charts</a></p>
 <div id="setuprunning" class="section level2">
 <h2>Setup/running</h2>
 <div id="docker" class="section level3">
@@ -230,7 +230,7 @@ Rscript 'basil-ts/tests/testthat.R'
 # Run all RCT-A requests
 # needs app running in another terminal
 python3 tests/run_all.py
-Rscript -e 'library(rmarkdown); rmarkdown::render(&quot;tests/README.Rmd&quot;)'
+Rscript -e 'library(rmarkdown); rmarkdown::render(&quot;tests/README.Rmd&quot;); file.remove(tests/README.html)'
 
 # To run a specific IFP
 bash tests/test.sh 1055</code></pre>
