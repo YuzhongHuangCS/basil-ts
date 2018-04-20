@@ -2,7 +2,7 @@
 
 A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (`basil-ts`). 
 
-[Gallery of forecast charts](tests/test-output.md)
+[Gallery of forecast charts](tests)
 
 ## Setup/running
 
@@ -134,18 +134,9 @@ Rscript 'basil-ts/tests/testthat.R'
 # Run all RCT-A requests
 # needs app running in another terminal
 python3 tests/run_all.py
-Rscript -e 'library(rmarkdown); rmarkdown::render("tests/test-output.Rmd", "html_document")'
+Rscript -e 'library(rmarkdown); rmarkdown::render("tests/README.Rmd"); file.remove(tests/README.html)'
 
 # To run a specific IFP
 bash tests/test.sh 1055
 ```
-
-
-
-## TODO
-
-- convert old sample requests to new API format
-- expand tests; CI?
-- truncated normal for catfcast? this might already be covered by existing func
-- adjust as stuff breaks...
 
