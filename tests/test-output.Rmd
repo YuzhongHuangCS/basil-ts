@@ -160,7 +160,7 @@ for (fh in output_list) {
     
     h = nrow(fcast)
     target_i <- target %>% 
-      tail(h*8 + 30) %>%
+      tail(ff$trainN) %>%
       gather(var, value, value)
     fcast_i <- fcast %>%
       gather(var, value, -date)
@@ -173,7 +173,7 @@ for (fh in output_list) {
     p <- ggplot(df, aes(x = date)) +
       geom_line(aes(y = value)) + 
       theme_minimal() +
-      ggtitle(sprintf("%s", ff$model)) +
+      ggtitle(sprintf("%s", request_no)) +
       labs(x = "", y = "") +
       geom_hline(yintercept = options$cutpoints, linetype = 3)
     p <- p + 
@@ -208,14 +208,13 @@ for (fh in output_list) {
     print(plot_grid(p, p2, rel_widths = c(3, 1)))
   }
   
-  cat("\n\n \\bigskip \n\n")
+  cat("\n\n")
 }
 ```
 
 
-# Summary table for all models and all IFPs
 
-```{r summary-all-models, warning=FALSE}
+```{r summary-all-models, eval = FALSE, warning=FALSE}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 
 summary_table <- list()
@@ -244,9 +243,7 @@ summary_table <- bind_rows(summary_table)
 summary_table %>% knitr::kable(digits = 2)
 ```
 
-\clearpage
 
-# Plot forecasts for all models and all IFPs
 
 ```{r plots-all-models, eval = FALSE, warning = FALSE, fig.height=3, results = 'asis'}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)

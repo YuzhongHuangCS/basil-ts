@@ -521,11 +521,11 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       ) %>% as.matrix(),
       to_date = tail(fcast_dates, 1) + find_days_in_period(max(fcast_dates), data_period$period) - 1,
       forecast_is_usable = usable, 
-      forecast_created_at = lubridate::now(),
       internal = list(
         mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
         rmse = rmse
       ),
+      trainN = length(ts),
       est_model = mdl,
       fcast = fcast
     )
@@ -851,6 +851,7 @@ r_basil_ts <- function(fh = NULL) {
   forecast_geo_rwf$fcast <- NULL
   
   internal_info <- list(
+    forecast_created_at = lubridate::now(), 
     data_period = data_period$period,
     was_data_aggregated = was_data_aggregated,
     question_period = question_period$period,
