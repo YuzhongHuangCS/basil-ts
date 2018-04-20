@@ -84,6 +84,8 @@ Data aggregation
 
 ### Response format
 
+- "to_date": the date through which the forecast goes; this should be the end date of the question time period, aka the resolution date in the charts
+
 ```
 {
   "ts_colnames": ["date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"],

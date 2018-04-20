@@ -63,6 +63,7 @@ summary_table <- bind_rows(summary_table)
 summary_table %>% 
   mutate(IFP = as.integer(IFP)) %>%
   arrange(desc(IFP)) %>%
+  select(-Model) %>%
   knitr::kable(digits = 2)
 
 error_ifps <- summary_table$IFP[summary_table$Estimated==FALSE]
@@ -163,7 +164,10 @@ for (fh in output_list) {
       gather(var, value, value)
     fcast_i <- fcast %>%
       gather(var, value, -date)
-    df <- bind_rows(target_i, fcast_i) %>%
+    fcast_end <- fcast_i %>%
+      filter(date==max(date)) %>%
+      mutate(date = as.Date(ff$to_date))
+    df <- bind_rows(target_i, fcast_i, fcast_end) %>%
       spread(var, value)
     
     p <- ggplot(df, aes(x = date)) +
@@ -172,17 +176,10 @@ for (fh in output_list) {
       ggtitle(sprintf("%s", ff$model)) +
       labs(x = "", y = "") +
       geom_hline(yintercept = options$cutpoints, linetype = 3)
-    # forecast is for single date, this does not plot with geom_ribbon
-    if (nrow(fcast_i)==3) {
-      p <- p + 
-        geom_segment(aes(xend = date, y = lower, yend = upper), color = "lightblue") +
-        geom_point(aes(y = mean), color = "blue")
-    } else {
-      p <- p + 
+    p <- p + 
         geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
         geom_line(aes(y = mean), color = "blue")
-    }
-    
+
     # Plot the options
     op <- ff$option_probabilities
     cutpoints <- options$cutpoints

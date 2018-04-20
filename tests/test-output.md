@@ -1,7 +1,7 @@
 RCT test output
 ================
 Andreas Beger, Predictive Heuristics
-2018-04-19
+2018-04-20
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts](#plot-arima-forecasts)
@@ -11,24 +11,24 @@ Andreas Beger, Predictive Heuristics
 Are the base models estimating and without obvious mistakes?
 ============================================================
 
-|   IFP| Model | Estimated |    h|  lambda| time\_period | data\_aggregated | partial\_train | partial\_outcome |
-|-----:|:------|:----------|----:|-------:|:-------------|:-----------------|:---------------|:-----------------|
-|  1433| ARIMA | TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1406| ARIMA | TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|  1271| ARIMA | FALSE     |   NA|      NA| NA           | NA               | NA             | NA               |
-|  1235| ARIMA | TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
-|  1226| ARIMA | TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1208| ARIMA | TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
-|  1190| ARIMA | TRUE      |    5|       0| month        | FALSE            | discarded      | FALSE            |
-|  1145| ARIMA | TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
-|  1055| ARIMA | TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
-|  1037| ARIMA | TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|  1028| ARIMA | TRUE      |   21|      NA| day          | FALSE            | no             | FALSE            |
-|   938| ARIMA | FALSE     |   NA|      NA| NA           | NA               | NA             | NA               |
-|   929| ARIMA | TRUE      |    4|      NA| month        | FALSE            | used           | FALSE            |
-|   866| ARIMA | TRUE      |    1|      NA| month        | FALSE            | no             | TRUE             |
-|   839| ARIMA | TRUE      |    3|       0| month        | FALSE            | discarded      | FALSE            |
-|   821| ARIMA | TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
+|   IFP| Estimated |    h|  lambda| time\_period | data\_aggregated | partial\_train | partial\_outcome |
+|-----:|:----------|----:|-------:|:-------------|:-----------------|:---------------|:-----------------|
+|  1433| TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
+|  1406| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
+|  1271| FALSE     |   NA|      NA| NA           | NA               | NA             | NA               |
+|  1235| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
+|  1226| TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
+|  1208| TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
+|  1190| TRUE      |    5|       0| month        | FALSE            | discarded      | FALSE            |
+|  1145| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
+|  1055| TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
+|  1037| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
+|  1028| TRUE      |   21|      NA| day          | FALSE            | no             | FALSE            |
+|   938| FALSE     |   NA|      NA| NA           | NA               | NA             | NA               |
+|   929| TRUE      |    4|      NA| month        | FALSE            | used           | FALSE            |
+|   866| TRUE      |    1|      NA| month        | FALSE            | no             | TRUE             |
+|   839| TRUE      |    3|       0| month        | FALSE            | discarded      | FALSE            |
+|   821| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
 
 | IFP  | Error                                                                                          |
 |:-----|:-----------------------------------------------------------------------------------------------|

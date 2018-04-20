@@ -334,6 +334,13 @@ determine_ts_frequency <- function(x) {
   fr
 }
 
+find_days_in_period <- function(x, period) {
+  y <- ifelse(period$period=="month", 
+              x %>% lubridate::days_in_month(),
+              period$days)
+  y
+}
+
 # Update forecasts with partial outcomes ----------------------------------
 
 #' Update forecast 
@@ -512,6 +519,7 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
         l95  = fcast$lower[, "95%"],
         u95  = fcast$upper[, "95%"]
       ) %>% as.matrix(),
+      to_date = tail(fcast_dates, 1) + find_days_in_period(max(fcast_dates), data_period$period) - 1,
       forecast_is_usable = usable, 
       forecast_created_at = lubridate::now(),
       internal = list(
@@ -737,9 +745,7 @@ r_basil_ts <- function(fh = NULL) {
     gt_train_end      <- last_date >= max(target$date)
     gt_question_start <- last_date >= question_period$dates[1]
     
-    days_in_period <- ifelse(data_period$period$period=="month", 
-                             target$date %>% max() %>% lubridate::days_in_month(),
-                             data_period$period$days)
+    days_in_period <- find_days_in_period(max(target$date), data_period$period)
     days_avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
     
     if (gt_train_end & !gt_question_start) {
@@ -852,6 +858,7 @@ r_basil_ts <- function(fh = NULL) {
     series_type = series_type,
     partial_train = partial_train,
     partial_outcome = partial_outcome,
+    last_event_date = last_date,
     h = as.integer(h),
     lambda = lambda,
     rmse_mean = rmse_mean,
