@@ -1,6 +1,5 @@
 ---
 title: "RCT test output"
-author: "Andreas Beger, Predictive Heuristics"
 date: "`r Sys.Date()`"
 output: 
   github_document:
@@ -179,6 +178,7 @@ for (fh in output_list) {
 
     # Plot the options
     op <- ff$option_probabilities
+    if (request_no==1271) op <- op[-1]
     cutpoints <- options$cutpoints
     extend <- if (length(cutpoints) > 1) mean(diff(cutpoints)) else 1
     op_labels <- options$separations$values

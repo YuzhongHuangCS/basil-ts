@@ -1,0 +1,338 @@
+{
+  "forecast_is_usable": [
+    1
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n        mean\n      2.1000\ns.e.  0.2756\n\nsigma^2 estimated as 4.634:  log likelihood=-130.63\nAIC=265.27   AICc=265.48   BIC=269.46"
+        ],
+        "rmse": [
+          2.1346
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "<92",
+        "92 - 117",
+        "117 - 144",
+        "144 - 177",
+        ">177"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-02-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-03-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-04-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = 2.1004 \n\n  sigma:  2.1347\n\n     AIC     AICc      BIC \n342.6622 343.0907 348.9452 "
+        ],
+        "rmse": [
+          2.1347
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "<92",
+        "92 - 117",
+        "117 - 144",
+        "144 - 177",
+        ">177"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "2.100377",
+          "0",
+          "6.284394"
+        ],
+        [
+          "2018-02-01",
+          "2.100377",
+          "0",
+          "6.284394"
+        ],
+        [
+          "2018-03-01",
+          "2.100377",
+          "0",
+          "6.284394"
+        ],
+        [
+          "2018-04-01",
+          "2.100377",
+          "0",
+          "6.284394"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast      Lo 80     Hi 80      Lo 95    Hi 95\nJan 6              6  2.4685823  9.531418  0.5991627 11.40084\nFeb 6              6  1.0058212 10.994179 -1.6379373 13.63794\nMar 6              6 -0.1165948 12.116595 -3.3545246 15.35452\nApr 6              6 -1.0628354 13.062835 -4.8016745 16.80167"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "<92",
+        "92 - 117",
+        "117 - 144",
+        "144 - 177",
+        ">177"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "6",
+          "0.5991627",
+          "11.40084"
+        ],
+        [
+          "2018-02-01",
+          "6",
+          "0.0000000",
+          "13.63794"
+        ],
+        [
+          "2018-03-01",
+          "6",
+          "0.0000000",
+          "15.35452"
+        ],
+        [
+          "2018-04-01",
+          "6",
+          "0.0000000",
+          "16.80167"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "message": [
+        "Not estimated"
+      ],
+      "model": [
+        "geometric RWF"
+      ],
+      "r_error_message": [
+        "Series contains values <= 0, model not estimated."
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n        mean\n      2.1000\ns.e.  0.2756\n\nsigma^2 estimated as 4.634:  log likelihood=-130.63\nAIC=265.27   AICc=265.48   BIC=269.46"
+    ],
+    "rmse": [
+      2.1346
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-21T07:27:47"
+    ],
+    "h": [
+      4
+    ],
+    "lambda": {},
+    "last_event_date": [
+      "2018-01-01"
+    ],
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "discarded"
+    ],
+    "question_date": [
+      "2018-04-01",
+      "2018-04-30"
+    ],
+    "question_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "rmse_mean": [
+      2.1346
+    ],
+    "rmse_rwf": [
+      2.7556
+    ],
+    "series_type": [
+      "count"
+    ],
+    "was_data_aggregated": [
+      false
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<92",
+    "92 - 117",
+    "117 - 144",
+    "144 - 177",
+    ">177"
+  ],
+  "option_probabilities": [
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "to_date": [
+    "2018-04-30"
+  ],
+  "trainN": [
+    60
+  ],
+  "ts": [
+    [
+      "2018-01-01",
+      "2.1",
+      "0",
+      "6.319115"
+    ],
+    [
+      "2018-02-01",
+      "2.1",
+      "0",
+      "6.319115"
+    ],
+    [
+      "2018-03-01",
+      "2.1",
+      "0",
+      "6.319115"
+    ],
+    [
+      "2018-04-01",
+      "2.1",
+      "0",
+      "6.319115"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
+}

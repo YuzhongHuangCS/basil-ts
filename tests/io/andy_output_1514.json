@@ -1,0 +1,305 @@
+{
+  "forecast_is_usable": [
+    1
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,0,0)(1,1,0)[12] \n\nCoefficients:\n         sar1\n      -0.6108\ns.e.   0.1696\n\nsigma^2 estimated as 800.3:  log likelihood=-135.61\nAIC=275.22   AICc=275.7   BIC=277.89"
+        ],
+        "rmse": [
+          23.2416
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 170",
+        "170 - 210",
+        ">210"
+      ],
+      "option_probabilities": [
+        0.649,
+        0.3148,
+        0.0341,
+        0.0021,
+        9.7277e-06
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        40
+      ],
+      "ts": [
+        [
+          "2018-05-01",
+          "89.17715",
+          "33.73215",
+          "144.6221"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(M,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = 101.3889 \n\n  sigma:  0.2759\n\n     AIC     AICc      BIC \n420.0623 420.7289 425.1289 "
+        ],
+        "rmse": [
+          27.9761
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 170",
+        "170 - 210",
+        ">210"
+      ],
+      "option_probabilities": [
+        0.4802,
+        0.436,
+        0.0767,
+        0.007,
+        0.0001
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        40
+      ],
+      "ts": [
+        [
+          "2018-05-01",
+          "101.3889",
+          "46.55827",
+          "156.2195"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nMay 4       124.7368 72.67724 176.7964 45.11855 204.3551"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 170",
+        "170 - 210",
+        ">210"
+      ],
+      "option_probabilities": [
+        0.2713,
+        0.3752,
+        0.221,
+        0.1147,
+        0.0179
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        40
+      ],
+      "ts": [
+        [
+          "2018-05-01",
+          "124.7368",
+          "45.11855",
+          "204.3551"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nMay 4       124.7368 65.58463 237.2397 46.66663 333.4134"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "geometric RWF"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 170",
+        "170 - 210",
+        ">210"
+      ],
+      "option_probabilities": [
+        0.4081,
+        0.1489,
+        0.1076,
+        0.1238,
+        0.2116
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        40
+      ],
+      "ts": [
+        [
+          "2018-05-01",
+          "124.7368",
+          "46.66663",
+          "333.4134"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,0,0)(1,1,0)[12] \n\nCoefficients:\n         sar1\n      -0.6108\ns.e.   0.1696\n\nsigma^2 estimated as 800.3:  log likelihood=-135.61\nAIC=275.22   AICc=275.7   BIC=277.89"
+    ],
+    "rmse": [
+      23.2416
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-21T07:27:30"
+    ],
+    "h": [
+      1
+    ],
+    "lambda": {},
+    "last_event_date": [
+      "2018-04-19"
+    ],
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "used"
+    ],
+    "question_date": [
+      "2018-05-01",
+      "2018-05-31"
+    ],
+    "question_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "rmse_mean": [
+      27.9747
+    ],
+    "rmse_rwf": [
+      40.6223
+    ],
+    "series_type": [
+      "count"
+    ],
+    "was_data_aggregated": [
+      false
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<100",
+    "100 - 140",
+    "140 - 170",
+    "170 - 210",
+    ">210"
+  ],
+  "option_probabilities": [
+    0.649,
+    0.3148,
+    0.0341,
+    0.0021,
+    9.7277e-06
+  ],
+  "to_date": [
+    "2018-05-31"
+  ],
+  "trainN": [
+    40
+  ],
+  "ts": [
+    [
+      "2018-05-01",
+      "89.17715",
+      "33.73215",
+      "144.6221"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
+}

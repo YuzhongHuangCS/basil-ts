@@ -1,0 +1,316 @@
+{
+  "forecast_is_usable": [
+    0
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,0,0) with non-zero mean \nBox Cox transformation: lambda= 0.5 \n\nCoefficients:\n         mean\n      -1.4147\ns.e.   0.1285\n\nsigma^2 estimated as 1.007:  log likelihood=-84.86\nAIC=173.71   AICc=173.92   BIC=177.9"
+        ],
+        "rmse": [
+          0.671
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "<28",
+        "28 - 52",
+        "52 - 78",
+        "78 - 126",
+        ">126"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-03-31"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "0.08565844",
+          "0",
+          "1.628994"
+        ],
+        [
+          "2018-02-01",
+          "0.08565844",
+          "0",
+          "1.628994"
+        ],
+        [
+          "2018-03-01",
+          "0.08565844",
+          "0",
+          "1.628994"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Box-Cox transformation: lambda= 0.5 \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = -1.4148 \n\n  sigma:  0.9954\n\n     AIC     AICc      BIC \n251.1060 251.5346 257.3891 "
+        ],
+        "rmse": [
+          0.671
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "<28",
+        "28 - 52",
+        "52 - 78",
+        "78 - 126",
+        ">126"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-03-31"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "0.08562615",
+          "0",
+          "1.608033"
+        ],
+        [
+          "2018-02-01",
+          "0.08562615",
+          "0",
+          "1.608033"
+        ],
+        [
+          "2018-03-01",
+          "0.08562615",
+          "0",
+          "1.608033"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "      Point Forecast      Lo 80     Hi 80     Lo 95    Hi 95\nJan 6              0 -0.9335339 0.9335339 -2.183505 2.183505\nFeb 6              0 -1.8670678 1.8670678 -4.367009 4.367009\nMar 6              0 -2.8006018 2.8006018 -6.550514 6.550514"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "<28",
+        "28 - 52",
+        "52 - 78",
+        "78 - 126",
+        ">126"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-03-31"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "0",
+          "0",
+          "2.183505"
+        ],
+        [
+          "2018-02-01",
+          "0",
+          "0",
+          "4.367009"
+        ],
+        [
+          "2018-03-01",
+          "0",
+          "0",
+          "6.550514"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "message": [
+        "Not estimated"
+      ],
+      "model": [
+        "geometric RWF"
+      ],
+      "r_error_message": [
+        "Series contains values <= 0, model not estimated."
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,0,0) with non-zero mean \nBox Cox transformation: lambda= 0.5 \n\nCoefficients:\n         mean\n      -1.4147\ns.e.   0.1285\n\nsigma^2 estimated as 1.007:  log likelihood=-84.86\nAIC=173.71   AICc=173.92   BIC=177.9"
+    ],
+    "rmse": [
+      0.671
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-21T07:27:49"
+    ],
+    "h": [
+      3
+    ],
+    "lambda": [
+      0.5
+    ],
+    "last_event_date": [
+      "2018-01-01"
+    ],
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "discarded"
+    ],
+    "question_date": [
+      "2018-03-01",
+      "2018-03-31"
+    ],
+    "question_period": {
+      "days": [
+        null
+      ],
+      "period": [
+        "month"
+      ]
+    },
+    "rmse_mean": [
+      0.6236
+    ],
+    "rmse_rwf": [
+      0.9297
+    ],
+    "series_type": [
+      "count"
+    ],
+    "was_data_aggregated": [
+      false
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<28",
+    "28 - 52",
+    "52 - 78",
+    "78 - 126",
+    ">126"
+  ],
+  "option_probabilities": [
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "to_date": [
+    "2018-03-31"
+  ],
+  "trainN": [
+    60
+  ],
+  "ts": [
+    [
+      "2018-01-01",
+      "0.08565844",
+      "0",
+      "1.628994"
+    ],
+    [
+      "2018-02-01",
+      "0.08565844",
+      "0",
+      "1.628994"
+    ],
+    [
+      "2018-03-01",
+      "0.08565844",
+      "0",
+      "1.628994"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
+}

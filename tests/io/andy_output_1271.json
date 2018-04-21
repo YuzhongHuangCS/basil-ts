@@ -1,4 +1,278 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in validate_data(target, data_period, question_period) : \n  Historical data in request appear to not be indexed with correct dates. The question period starts 2018-04-22 and dates like [..., 2016-08-15, 2016-12-16, 2017-04-18, 2017-08-19, 2017-12-20, 2018-04-22] are expected in the historical data, but instead they have [..., 2015-12-12, 2016-04-13, 2016-08-14, 2016-12-15, 2017-04-17, 2017-08-18].\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
+  "forecast_is_usable": [
+    1
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "Series: ts \nARIMA(0,1,1)(0,1,0)[3] \n\nCoefficients:\n          ma1\n      -0.5111\ns.e.   0.2433\n\nsigma^2 estimated as 0.9735:  log likelihood=-20.72\nAIC=45.43   AICc=46.43   BIC=46.85"
+        ],
+        "rmse": [
+          0.8469
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0,
+        0.2889,
+        0.3896,
+        0.3215
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "3.386622",
+          "1.452799",
+          "5.320446"
+        ],
+        [
+          "2018-04-22",
+          "1.386622",
+          "0.000000",
+          "3.539194"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.3798 \n\n  Initial states:\n    l = 0.7707 \n\n  sigma:  1.0361\n\n     AIC     AICc      BIC \n63.29168 64.89168 66.12500 "
+        ],
+        "rmse": [
+          1.0361
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0,
+        0.1502,
+        0.3257,
+        0.5242
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "2.01711",
+          "0",
+          "4.047814"
+        ],
+        [
+          "2018-04-22",
+          "2.01711",
+          "0",
+          "4.189345"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "         Point Forecast    Lo 80    Hi 80     Lo 95    Hi 95\n7.333333       4.054945 2.472560 5.637331 1.6348953 6.474995\n7.666667       4.054945 1.817114 6.292776 0.6324778 7.477412"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0.0101,
+        0.03,
+        0.0795,
+        0.8804
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "4.054945",
+          "1.6348953",
+          "6.474995"
+        ],
+        [
+          "2018-04-22",
+          "4.054945",
+          "0.6324778",
+          "7.477412"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "message": [
+        "Not estimated"
+      ],
+      "model": [
+        "geometric RWF"
+      ],
+      "r_error_message": [
+        "Series contains values <= 0, model not estimated."
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "Series: ts \nARIMA(0,1,1)(0,1,0)[3] \n\nCoefficients:\n          ma1\n      -0.5111\ns.e.   0.2433\n\nsigma^2 estimated as 0.9735:  log likelihood=-20.72\nAIC=45.43   AICc=46.43   BIC=46.85"
+    ],
+    "rmse": [
+      0.8469
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        123
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-21T07:27:21"
+    ],
+    "h": [
+      2
+    ],
+    "lambda": {},
+    "last_event_date": [
+      "2017-11-17"
+    ],
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "used"
+    ],
+    "question_date": [
+      "2018-04-22",
+      "2018-08-22"
+    ],
+    "question_period": {
+      "days": [
+        123
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "rmse_mean": [
+      1.0461
+    ],
+    "rmse_rwf": [
+      1.2347
+    ],
+    "series_type": [
+      "count"
+    ],
+    "was_data_aggregated": [
+      true
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "0",
+    "1 - 2",
+    ">2"
+  ],
+  "option_probabilities": [
+    0,
+    0.2889,
+    0.3896,
+    0.3215
+  ],
+  "to_date": [
+    "2018-08-22"
+  ],
+  "trainN": [
+    19
+  ],
+  "ts": [
+    [
+      "2017-12-20",
+      "3.386622",
+      "1.452799",
+      "5.320446"
+    ],
+    [
+      "2018-04-22",
+      "1.386622",
+      "0.000000",
+      "3.539194"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
 }

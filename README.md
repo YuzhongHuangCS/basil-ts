@@ -134,7 +134,7 @@ Rscript 'basil-ts/tests/testthat.R'
 # Run all RCT-A requests
 # needs app running in another terminal
 python3 tests/run_all.py
-Rscript -e 'library(rmarkdown); rmarkdown::render("tests/README.Rmd"); file.remove(tests/README.html)'
+Rscript -e 'library(rmarkdown); rmarkdown::render("tests/README.Rmd")'
 
 # To run a specific IFP
 bash tests/test.sh 1055
