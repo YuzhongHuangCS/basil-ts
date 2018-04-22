@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-04-21
+2018-04-22
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts](#plot-arima-forecasts)
@@ -8,40 +8,36 @@ RCT test output
 Are the base models estimating and without obvious mistakes?
 ============================================================
 
-|   IFP| Estimated |    h|  lambda| time\_period | data\_aggregated | partial\_train | partial\_outcome |
-|-----:|:----------|----:|-------:|:-------------|:-----------------|:---------------|:-----------------|
-|  1514| TRUE      |    1|      NA| month        | FALSE            | used           | FALSE            |
-|  1451| TRUE      |    5|      NA| month        | FALSE            | used           | FALSE            |
-|  1433| TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1406| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|  1271| TRUE      |    2|      NA| fixed        | TRUE             | used           | FALSE            |
-|  1235| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
-|  1226| TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1217| TRUE      |    4|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1208| TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
-|  1190| TRUE      |    5|     0.0| month        | FALSE            | discarded      | FALSE            |
-|  1172| TRUE      |    2|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1145| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
-|  1136| TRUE      |    7|      NA| month        | FALSE            | discarded      | FALSE            |
-|  1055| TRUE      |    1|      NA| fixed        | TRUE             | no             | TRUE             |
-|  1037| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|  1028| TRUE      |   14|      NA| day          | FALSE            | no             | FALSE            |
-|  1019| TRUE      |    4|      NA| month        | FALSE            | discarded      | FALSE            |
-|   938| FALSE     |   NA|      NA| NA           | NA               | NA             | NA               |
-|   929| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|   911| TRUE      |    3|     0.5| month        | FALSE            | discarded      | FALSE            |
-|   902| TRUE      |    4|      NA| month        | FALSE            | discarded      | FALSE            |
-|   893| TRUE      |   91|      NA| day          | FALSE            | no             | FALSE            |
-|   884| TRUE      |   11|      NA| fixed        | FALSE            | discarded      | FALSE            |
-|   875| TRUE      |    5|      NA| month        | FALSE            | discarded      | FALSE            |
-|   866| TRUE      |    1|      NA| month        | FALSE            | no             | TRUE             |
-|   839| TRUE      |    3|     0.0| month        | FALSE            | discarded      | FALSE            |
-|   830| TRUE      |    3|      NA| month        | FALSE            | used           | FALSE            |
-|   821| TRUE      |    2|      NA| month        | FALSE            | used           | FALSE            |
-
-| IFP | Error                                                                                          |
-|:----|:-----------------------------------------------------------------------------------------------|
-| 938 | validate\_data(target, data\_period, question\_period): Historical data in request appear to n |
+|   IFP| time  | data\_type |    N|    h|  lambda| data\_agg | partial\_train | partial\_y |
+|-----:|:------|:-----------|----:|----:|-------:|:----------|:---------------|:-----------|
+|  1514| month | count      |   40|    1|      NA| no        | used           | no         |
+|  1451| month | count      |   60|    5|      NA| no        | used           | no         |
+|  1433| month | continuous |   60|    5|      NA| no        | discarded      | no         |
+|  1406| month | continuous |   60|    3|      NA| no        | used           | no         |
+|  1271| fixed | count      |   19|    2|      NA| yes       | used           | no         |
+|  1235| month | continuous |   60|    2|      NA| no        | used           | no         |
+|  1226| month | count      |   60|    5|      NA| no        | discarded      | no         |
+|  1217| month | continuous |   60|    4|      NA| no        | discarded      | no         |
+|  1208| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
+|  1190| month | count      |   60|    5|     0.0| no        | discarded      | no         |
+|  1172| month | count      |   60|    2|      NA| no        | discarded      | no         |
+|  1145| month | continuous |   60|    2|      NA| no        | used           | no         |
+|  1136| month | count      |   60|    7|      NA| no        | discarded      | no         |
+|  1055| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
+|  1037| month | continuous |   60|    3|      NA| no        | used           | no         |
+|  1028| day   | continuous |  120|   14|      NA| no        | no             | no         |
+|  1019| month | continuous |   60|    4|      NA| no        | discarded      | no         |
+|   938| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|   929| month | count      |   60|    3|      NA| no        | used           | no         |
+|   911| month | count      |   60|    3|     0.5| no        | discarded      | no         |
+|   902| month | count      |   60|    4|      NA| no        | discarded      | no         |
+|   893| day   | continuous |  120|   91|      NA| no        | no             | no         |
+|   884| fixed | count      |  120|   11|      NA| no        | discarded      | no         |
+|   875| month | continuous |   60|    5|      NA| no        | discarded      | no         |
+|   866| month | count      |   38|    1|      NA| no        | no             | yes        |
+|   839| month | count      |   60|    3|     0.0| no        | discarded      | no         |
+|   830| month | count      |   14|    3|      NA| no        | used           | no         |
+|   821| month | count      |   14|    2|      NA| no        | used           | no         |
 
 Plot ARIMA forecasts
 ====================

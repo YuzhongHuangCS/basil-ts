@@ -32,24 +32,35 @@ for (fh in output_list) {
   
   this_ifp <- list()
   if (!is.null(response$message)) {
-    this_ifp <- data.frame(IFP = request_no, 
-                           Model = "ARIMA", 
-                           Estimated = FALSE, 
-                           h = NA,
-                           lambda = NA,
-                           time_period = NA,
-                           stringsAsFactors = FALSE)
+    this_ifp <- data.frame(
+      IFP = request_no, 
+      Model = "ARIMA", 
+      N = NA,
+      h = NA,
+      lambda = NA,
+      stringsAsFactors = FALSE)
   } else {
-    this_ifp <- data.frame(IFP = request_no, 
-                           Model = "ARIMA",  
-                           Estimated = TRUE, 
-                           h = response$internal2$h,
-                           lambda = ifelse(length(response$internal2$lambda)==0, NA_integer_, response$internal2$lambda),
-                           time_period = response$internal2$question_period$period,
-                           data_aggregated = response$internal2$was_data_aggregated,
-                           partial_train = response$internal2$partial_train,
-                           partial_outcome = response$internal2$partial_outcome,
-                           stringsAsFactors = FALSE)
+    this_ifp <- data.frame(
+      IFP = request_no, 
+      Model = "ARIMA",  
+      time = response$internal2$question_period$period,
+      data_type = response$internal2$series_type,
+      N = response$trainN,
+      h = response$internal2$h,
+      lambda = ifelse(
+        length(response$internal2$lambda)==0, 
+        NA_integer_, 
+        response$internal2$lambda),
+      data_agg = ifelse(
+        response$internal2$was_data_aggregated,
+        "yes",
+        "no"),
+      partial_train = response$internal2$partial_train,
+      partial_y = ifelse(
+        response$internal2$partial_outcome,
+        "yes",
+        "no"),
+      stringsAsFactors = FALSE)
   }
   this_ifp <- bind_rows(this_ifp)
   
@@ -166,10 +177,24 @@ for (fh in output_list) {
     df <- bind_rows(target_i, fcast_i, fcast_end) %>%
       spread(var, value)
     
+    subt <- sprintf("N = %s, h = %s", response$trainN, response$internal2$h)
+    if (response$internal2$partial_train %in% c("used", "discarded")) {
+      subt <- paste0(
+        subt, 
+        sprintf(", partial train to %s (%s)", 
+                as.character( response$internal2$last_event_date),
+                response$internal2$partial_train))
+    } else if (response$internal2$partial_outcome) {
+      subt <- paste0(
+        subt,
+        sprintf(", partial outcomne to %s",
+                as.character( response$internal2$last_event_date)))
+    }
     p <- ggplot(df, aes(x = date)) +
       geom_line(aes(y = value)) + 
       theme_minimal() +
-      ggtitle(sprintf("%s", request_no)) +
+      ggtitle(sprintf("%s", request_no),
+              subtitle = subt) +
       labs(x = "", y = "") +
       geom_hline(yintercept = options$cutpoints, linetype = 3)
     p <- p + 
