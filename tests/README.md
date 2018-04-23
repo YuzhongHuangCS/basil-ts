@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-04-22
+2018-04-23
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts](#plot-arima-forecasts)
@@ -38,6 +38,10 @@ Are the base models estimating and without obvious mistakes?
 |   839| month | count      |   60|    3|     0.0| no        | discarded      | no         |
 |   830| month | count      |   14|    3|      NA| no        | used           | no         |
 |   821| month | count      |   14|    2|      NA| no        | used           | no         |
+
+| IFP | Error                                                                                          |
+|:----|:-----------------------------------------------------------------------------------------------|
+| 938 | validate\_data(target, data\_period, question\_period): Historical data in request appear to n |
 
 Plot ARIMA forecasts
 ====================

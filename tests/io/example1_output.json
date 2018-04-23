@@ -1,24 +1,18 @@
 {
-  "forecast_created_at": [
-    "2018-04-19T16:03:30"
-  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": [
     {
-      "forecast_created_at": [
-        "2018-04-19T16:03:30"
-      ],
       "forecast_is_usable": [
         1
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 83.19:  log likelihood=-3974.3\nAIC=7950.61   AICc=7950.61   BIC=7955.61"
+          "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 48.03:  log likelihood=-399.21\nAIC=800.42   AICc=800.46   BIC=803.2"
         ],
         "rmse": [
-          9.1168
+          6.9015
         ]
       },
       "model": [
@@ -32,18 +26,24 @@
         ">1340.19"
       ],
       "option_probabilities": [
-        1.9072e-06,
-        0.3473,
-        0.6521,
-        0.0006,
-        3.8192e-14
+        5.9389e-10,
+        0.3027,
+        0.6973,
+        9.5416e-06,
+        0
+      ],
+      "to_date": [
+        null
+      ],
+      "trainN": [
+        120
       ],
       "ts": [
         [
           "2017-10-31",
           "1272",
-          "1254.123",
-          "1289.877"
+          "1258.417",
+          "1285.583"
         ]
       ],
       "ts_colnames": [
@@ -54,18 +54,15 @@
       ]
     },
     {
-      "forecast_created_at": [
-        "2018-04-19T16:03:30"
-      ],
       "forecast_is_usable": [
         1
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9962 \n\n  Initial states:\n    l = 1164.199 \n\n  sigma:  9.1166\n\n     AIC     AICc      BIC \n12521.90 12521.93 12536.90 "
+          "ETS(M,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9999 \n\n  Initial states:\n    l = 1229.2253 \n\n  sigma:  0.0054\n\n     AIC     AICc      BIC \n1043.222 1043.428 1051.584 "
         ],
         "rmse": [
-          9.1166
+          6.9006
         ]
       },
       "model": [
@@ -79,18 +76,24 @@
         ">1340.19"
       ],
       "option_probabilities": [
-        1.9086e-06,
-        0.3481,
-        0.6513,
-        0.0006,
-        3.6526e-14
+        3.6416e-10,
+        0.3004,
+        0.6995,
+        7.4462e-06,
+        0
+      ],
+      "to_date": [
+        null
+      ],
+      "trainN": [
+        120
       ],
       "ts": [
         [
           "2017-10-31",
-          "1271.979",
-          "1254.11",
-          "1289.847"
+          "1271.999",
+          "1258.588",
+          "1285.411"
         ]
       ],
       "ts_colnames": [
@@ -101,15 +104,12 @@
       ]
     },
     {
-      "forecast_created_at": [
-        "2018-04-19T16:03:30"
-      ],
       "forecast_is_usable": [
         "NA"
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\n4.000684           1272 1260.311 1283.689 1254.123 1289.877"
+          "         Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\n1.328542           1272 1263.119 1280.881 1258.418 1285.582"
         ],
         "rmse": [
           "NA"
@@ -126,18 +126,24 @@
         ">1340.19"
       ],
       "option_probabilities": [
-        1.9069e-06,
-        0.3473,
-        0.6521,
-        0.0006,
-        3.8192e-14
+        5.9092e-10,
+        0.3027,
+        0.6973,
+        9.5175e-06,
+        0
+      ],
+      "to_date": [
+        null
+      ],
+      "trainN": [
+        120
       ],
       "ts": [
         [
           "2017-10-31",
           "1272",
-          "1254.123",
-          "1289.877"
+          "1258.418",
+          "1285.582"
         ]
       ],
       "ts_colnames": [
@@ -148,15 +154,12 @@
       ]
     },
     {
-      "forecast_created_at": [
-        "2018-04-19T16:03:30"
-      ],
       "forecast_is_usable": [
         "NA"
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast    Lo 80    Hi 80   Lo 95    Hi 95\n4.000684           1272 1259.787 1284.331 1253.37 1290.907"
+          "         Point Forecast    Lo 80    Hi 80   Lo 95    Hi 95\n1.328542           1272 1263.242 1280.819 1258.63 1285.512"
         ],
         "rmse": [
           "NA"
@@ -173,18 +176,24 @@
         ">1340.19"
       ],
       "option_probabilities": [
-        6.2291e-06,
-        0.3553,
-        0.6437,
-        0.0011,
-        7.8137e-13
+        4.8566e-10,
+        0.3018,
+        0.6982,
+        8.6185e-06,
+        0
+      ],
+      "to_date": [
+        null
+      ],
+      "trainN": [
+        120
       ],
       "ts": [
         [
           "2017-10-31",
           "1272",
-          "1253.37",
-          "1290.907"
+          "1258.63",
+          "1285.512"
         ]
       ],
       "ts_colnames": [
@@ -197,10 +206,10 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 83.19:  log likelihood=-3974.3\nAIC=7950.61   AICc=7950.61   BIC=7955.61"
+      "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 48.03:  log likelihood=-399.21\nAIC=800.42   AICc=800.46   BIC=803.2"
     ],
     "rmse": [
-      9.1168
+      6.9015
     ]
   },
   "internal2": {
@@ -215,10 +224,16 @@
         "day"
       ]
     },
+    "forecast_created_at": [
+      "2018-04-23T14:39:23"
+    ],
     "h": [
       1
     ],
     "lambda": {},
+    "last_event_date": [
+      "2017-10-30"
+    ],
     "partial_outcome": [
       false
     ],
@@ -238,11 +253,38 @@
       ]
     },
     "rmse_mean": [
-      72.1613
+      32.1628
     ],
     "rmse_rwf": [
-      9.1208
+      6.9295
     ],
+    "separations": {
+      "cutpoints": [
+        "-Inf",
+        1229.85,
+        1268.42,
+        1301.63,
+        1340.19,
+        "Inf"
+      ],
+      "numeric_values": [
+        "<1229.85",
+        "1229.85 - 1268.42",
+        "1268.42 - 1301.63",
+        "1301.63 - 1340.19",
+        ">1340.19"
+      ],
+      "unit": [
+        "number"
+      ],
+      "values": [
+        "<1229.85",
+        "1229.85 - 1268.42",
+        "1268.42 - 1301.63",
+        "1301.63 - 1340.19",
+        ">1340.19"
+      ]
+    },
     "series_type": [
       "continuous"
     ],
@@ -261,18 +303,24 @@
     ">1340.19"
   ],
   "option_probabilities": [
-    1.9072e-06,
-    0.3473,
-    0.6521,
-    0.0006,
-    3.8192e-14
+    5.9389e-10,
+    0.3027,
+    0.6973,
+    9.5416e-06,
+    0
+  ],
+  "to_date": [
+    null
+  ],
+  "trainN": [
+    120
   ],
   "ts": [
     [
       "2017-10-31",
       "1272",
-      "1254.123",
-      "1289.877"
+      "1258.417",
+      "1285.583"
     ]
   ],
   "ts_colnames": [

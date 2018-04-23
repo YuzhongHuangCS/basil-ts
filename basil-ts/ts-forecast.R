@@ -99,25 +99,101 @@ norm_fixed_period <- function(x, days, ref_date) {
 }
 
 
-#' Parse parsed option cutpoints
+#' Parse separations for implied cutpoints
 #' 
 #' @example 
 #' seps <- c("<1229.85", "1229.85-1268.42", "1268.42-1301.63", "1301.63-1340.19", ">1340.19")
 #' parse_separations(seps)
-parse_separations <- function(x) {
-  cutpoints <- x %>%
-    str_extract_all("[-]?[0-9\\.]+") %>%
-    unlist() %>%
-    as.numeric() %>%
-    unique()
-  if (length(cutpoints)==0) cutpoints <- 1
+parse_separations <- function(separations, data_type, ifp_name) {
+  # Binary IFPs in request only have "Yes"/"No" as values, need numeric
+  # Change the original values to "labels"
+  if (all(separations$values %in% c("Yes", "No"))) {
+    seps <- c(separations,
+              numeric_values = list(binary_seps(ifp_name)))
+    binary <- TRUE
+  } else {
+    seps <- c(separations,
+              numeric_values = list(separations$values))
+    binary <- FALSE
+  }
+  
+  # some count questions have integer-style separations, e.g. 1271:
+  # has [0, 1 - 2, >2]
+  # others with higher counts have continuous styles questions, e.g.1514
+  # has [<100, 100 - 140, 140 - 170, 170 - 210, >210]
+  # for high counts with continuous we want to skip the next section, 
+  # but or integer-style low counts we need to adjust the cutpoints to fall
+  # between the counts. 'data_type' is not a good way to distinguish these
+  # so make own here
+  # use the fact that in integer-style questions unique corresponds to length
+  # of parsed numbers
+  cp_nums <- seps$numeric_values %>%
+    str_extract_all("[0-9\\.]+") %>%
+    unlist() %>% 
+    as.numeric()
+  uniN <- length(unique(cp_nums))
+  # account for +1 because it could be like [0, 1 - 2, >2]
+  integer_style <- ( length(cp_nums) %in% c(uniN, uniN + 1) ) | binary
+  
+  # shift cutpoints for count questions to simulate discretizing continuous
+  # predictions to integer values
+  if (data_type=="count" & integer_style) {
+    cp_list <- seps$numeric_values %>%
+      str_extract_all("[<>]?[0-9\\.]+") %>%
+      # if two values, shift outwards, [1, 2] -> [.5, 2.5]
+      lapply(., function(x) {
+        if (length(x)==2) {
+          x <- as.numeric(x) + c(-.5, .5)
+        }
+        x
+      }) %>%
+      # [0] -> [-Inf, .5]
+      lapply(., function(x) { if (length(x)==1 && x==0) c(-Inf, .5) else x }) %>%
+      # [>2] -> [2.5, Inf]
+      lapply(., function(x) {
+        y <- x
+        if (any(str_detect(x, ">"))) {
+          n <- as.numeric(str_extract(x, "[-]?[0-9\\.]+"))
+          y <- c(Inf, n + .5)
+        }
+        y
+      }) %>%
+      # [<2] -> [-Inf, 1.5]
+      lapply(., function(x) {
+        y <- x
+        if (any(str_detect(x, "<"))) {
+          n <- as.numeric(str_extract(x, "[-]?[0-9\\.]+"))
+          y <- c(-Inf, n - .5)
+        }
+        y
+      }) 
+    cutpoints <- cp_list %>% 
+      unlist() %>% 
+      as.numeric() %>%
+      unique()
+    
+  } else {
+    # non-count cutpoints
+    cutpoints <- seps$numeric_values %>%
+      str_extract_all("[-]?[0-9\\.]+") %>%
+      unlist() %>%
+      as.numeric() %>%
+      unique()
+    # Process "<" and ">"
+    if (str_detect(seps$numeric_values[1], ">")) cutpoints <- c(Inf, cutpoints)
+    if (str_detect(seps$numeric_values[1], "<")) cutpoints <- c(-Inf, cutpoints)
+    if (str_detect(tail(seps$numeric_values, 1), ">")) cutpoints <- c(cutpoints, Inf)
+    if (str_detect(tail(seps$numeric_values, 1), "<")) cutpoints <- c(cutpoints, -Inf)
+  }
+  
   increasing <- all(cutpoints==cummax(cutpoints))
   decreasing <- all(cutpoints==cummin(cutpoints)) & length(cutpoints) > 1
   if (!xor(increasing, decreasing)) {
     stop("Cutpoints implied by separations don't seem to be monotonically increasing or decreasing")
   }
-  list(cutpoints = cutpoints, separations = x)
+  c(cutpoints = list(cutpoints), seps)
 }
+
 
 
 parse_data_period <- function(x) {
@@ -203,23 +279,33 @@ guess_series_type <- function(x, question) {
 #' Check for comma in seps
 validate_seps <- function(seps) {
   # check for ambiguous decimal separators
-  comma <- any(str_detect(seps, "\\."))
-  period <- any(str_detect(seps, ","))
-  if (comma & period) {
-    msg <- sprintf("Separations contain ambiguous decimal separator, both commas and periods detected\n  Values: [%s]",
-                   paste(seps, collapse = "; "))
-    stop(msg)
-  } 
-  # check for mis-parsed seps
-  if (sum(str_detect(seps, "^[<>][0-9\\.]+$")) > 2) {
-    msg <- sprintf("Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [%s]",
-                   paste(seps, collapse = "; "))
-    stop(msg)
-  }
-  
-  # check for '-' without whitespace
-  if (any(str_detect(seps, "[0-9]+-[0-9]+"))) {
-    stop("Detected separation values with '-' surrounded by numbers, e.g. '1-2', make sure there is white space around it, like '1 - 2'")
+  if (all(seps %in% c("Yes", "No"))) {
+    return(invisible(TRUE))
+  } else {
+    comma <- any(str_detect(seps, "\\."))
+    period <- any(str_detect(seps, ","))
+    if (comma & period) {
+      msg <- sprintf("Separations contain ambiguous decimal separator, both commas and periods detected\n  Values: [%s]",
+                     paste(seps, collapse = "; "))
+      stop(msg)
+    } 
+    # check for mis-parsed seps
+    if (sum(str_detect(seps, "^[<>][0-9\\.]+$")) > 2) {
+      msg <- sprintf("Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [%s]",
+                     paste(seps, collapse = "; "))
+      stop(msg)
+    }
+    # make sure no < or > sign in middle
+    if (length(seps) > 2) {
+      if (any(str_detect(seps[2:(length(seps)-1)], "[<>]"))) {
+        stop(sprintf("Looks like there is '<' or '>' in an element other than the first or last in the separations, this is not going to work. ['%s']", paste0(seps, collapse = "', '")))
+      }
+    }
+    
+    # check for '-' without whitespace
+    if (any(str_detect(seps, "[0-9]+-[0-9]+"))) {
+      stop("Detected separation values with '-' surrounded by numbers, e.g. '1-2', make sure there is white space around it, like '1 - 2'")
+    }
   }
   invisible(TRUE)
 }
@@ -230,7 +316,7 @@ validate_seps <- function(seps) {
 binary_seps <- function(x) {
   # "Will there be any...?"
   if (all(str_detect(x, c("^Will", "any")))) {
-    return(1)
+    return(c(">0", "0"))
   }
   # "Will there be more than...?"
   c1 <- str_detect(x, c("^Will", "(more|less) than [0-9]+"))
@@ -238,7 +324,7 @@ binary_seps <- function(x) {
   if (all(c1) && c2==1) {
     y <- str_extract(x, "than [0-9,\\.]+")
     y <- str_replace(y, "than ", "")
-    return(as.numeric(y))
+    return(paste0(c(">", "<"), y))
   }
   stop("Unable to identify implied question separations for binary question")
 }
@@ -537,11 +623,11 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     # for binary IFPs, category_forecast will return P for "no"/"yes" options
     # if the question is "any" or "more", then we want the second option only??
     if (binary_ifp) {
-      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 2L, 1L)
+      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 1L, 2L)
       catfcast         <- catfcast[pos]
     }
     result$option_probabilities <- catfcast
-    result$option_labels <- options$separations$values
+    result$option_labels <- options$values
     
     result
   }, error = function(e) {
@@ -615,6 +701,7 @@ category_forecasts <- function(fc, cp) {
   # se is already on transformed scale
   if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
     lambda <- fc$model$lambda
+    if (lambda==0) cp[cp==-Inf] <- 0
     cp <- BoxCox(cp, lambda)
     mu <- BoxCox(mu, lambda)
     trunc_lower <- ifelse(trunc_lower==-Inf, -Inf, BoxCox(trunc_lower, lambda))
@@ -631,10 +718,11 @@ category_forecasts <- function(fc, cp) {
     cp <- rev(cp)
   }
   
-  cumprob <- c(
-    0, 
-    truncnorm::ptruncnorm(cp, mean = mu, sd = se, a = trunc_lower, b = trunc_upper), 
-    1)
+  cumprob <- truncnorm::ptruncnorm(cp, mean = mu, sd = se, a = trunc_lower, 
+                                   b = trunc_upper)
+  if (!all(range(cumprob)==c(0, 1))) {
+    stop(sprintf("Problem with cumulative probabilities, range 0 to 1. [%s]", paste0(cumprob, collapse = ", ")))
+  }
   catp    <- diff(cumprob)
   if (decreasing) catp <- rev(catp)
   catp
@@ -678,12 +766,7 @@ r_basil_ts <- function(fh = NULL) {
   # Pull out needed info
   ifp_name   <- request$ifp$name
   binary_ifp <- request$ifp$`binary?`
-  if (binary_ifp) {
-    seps <- list(values = binary_seps(ifp_name))
-  } else {
-    seps <- request$payload$separations
-  }
-  validate_seps(seps$values)
+  validate_seps(request$payload$separations$values)
   
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
@@ -700,10 +783,11 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   # Parse characteristics
-  options         <- parse_separations(seps)
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  options         <- parse_separations(request$payload$separations, 
+                                       series_type, ifp_name)
   agg_method      <- determine_aggregation_method(series_type, ifp_name)
   
   # Backcasting 
@@ -854,6 +938,7 @@ r_basil_ts <- function(fh = NULL) {
     forecast_created_at = lubridate::now(), 
     data_period = data_period$period,
     was_data_aggregated = was_data_aggregated,
+    separations = options, 
     question_period = question_period$period,
     question_date = question_period$date,
     series_type = series_type,

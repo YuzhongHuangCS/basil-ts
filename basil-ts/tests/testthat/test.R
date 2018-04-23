@@ -92,26 +92,49 @@ test_that("Binary questions are ID'd and parsed", {
   q3 <- "Will ACLED record less than 800 events in xxx?"
   q4 <- "Will ACLED record more than 5 but less than 800 events in xxx?"
   
-  expect_equal(binary_seps(q1), 1)
-  expect_equal(binary_seps(q2), 500)
-  expect_equal(binary_seps(q3), 800)
+  expect_equal(binary_seps(q1), c(">0", "0"))
+  expect_equal(binary_seps(q2), c(">500", "<500"))
+  expect_equal(binary_seps(q3), c(">800", "<800"))
   expect_error(binary_seps(q4))
   
 })
 
 test_that("Separations are correctly parsed", {
-  seps   <- list(values = c(1))
-  output <- list(cutpoints = 1, separations = seps)
-  expect_equal(parse_separations(seps), output)
+  seps   <- list(values = c("Yes", "No"), units = "boolean")
+  expect_equal(
+    parse_separations(seps, "count", "Will there be any")$cutpoints,
+    c(Inf, 0.5, -Inf)
+  )
+
   
   # negative values
-  seps   <- list(values = c("<-1", 0, 1, ">2"))
-  output <- list(cutpoints = c(-1, 0, 1, 2), separations = seps)
-  expect_equal(parse_separations(seps), output)
+  seps   <- list(values = c("<-1", "-1 - 0", "0 - 2", ">2"), units = "USD")
+  expect_equal(
+    parse_separations(seps, "continuous", "What will be")$cutpoints,
+    c(-Inf, -1, 0, 2, Inf))
   
   # non-monotonic
-  seps   <- list(values = c("<-1", 0, 1, 3, ">2"))
-  expect_error(parse_separations(seps), "monotonically")
+  seps   <- list(values = c("<-1", "-1 - 1", ">2", "1 - 2"))
+  expect_error(validate_seps(seps$values), "Looks like")
+  
+  # from 1514
+  seps <- structure(list(values = c("<100", "100 - 140", "140 - 170", "170 - 210", 
+                                    ">210"), unit = "number"), .Names = c("values", "unit"))
+  qq <- "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?"
+  parse_separations(seps, "count", qq)
+  expect_equal(
+    parse_separations(seps, "count", qq)$cutpoints,
+    c(-Inf, 100, 140, 170, 210, Inf)
+  )
+  
+  # from 1271
+  seps <- list(values = c("0", "1 - 2", ">2"), unit = "number")
+  qq <- "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?"
+  expect_equal(
+    parse_separations(seps, "count", qq)$cutpoints,
+    c(-Inf, 0.5, 2.5, Inf)
+  )
+
 })
 
 
@@ -141,9 +164,9 @@ test_that("ACLED is recognized as count", {
 
 test_that("Category forecasts return correct length and order", {
   # check that length is correct
-  cp <- c(1221, 1303, 1374, 1456)
+  cp <- c(-Inf, 1221, 1303, 1374, 1456, Inf)
   fc <- readRDS("basil-ts/tests/fcast_1028.rds")
-  expect_equal(length(category_forecasts(fc, cp)), (length(cp) + 1))
+  expect_equal(length(category_forecasts(fc, cp)), (length(cp) - 1))
   
   expect_equal(category_forecasts(fc, cp), rev(category_forecasts(fc, rev(cp))))
 }) 

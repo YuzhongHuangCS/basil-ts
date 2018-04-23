@@ -73,7 +73,7 @@ summary_table %>%
   select(-Model) %>%
   knitr::kable(digits = 2)
 
-error_ifps <- summary_table$IFP[summary_table$Estimated==FALSE]
+error_ifps <- summary_table$IFP[is.na(summary_table$time)]
 erorr_requests <- sapply(error_ifps, function(x) output_list[str_detect(output_list, x)])
 error_table <- list()
 for (fh in erorr_requests) {
@@ -131,16 +131,14 @@ for (fh in output_list) {
   
   ifp_name        <- request$ifp$name
   binary_ifp <- request$ifp$`binary?`
-  if (binary_ifp) {
-    seps <- list(values = binary_seps(ifp_name))
-  } else {
-    seps <- request$payload$separations
-  }
-  validate_seps(seps$values)
-  options         <- parse_separations(seps)
+  validate_seps(request$payload$separations$values)
+  
+  # Parse characteristics
   question_period <- parse_question_period(ifp_name)
   data_period     <- parse_data_period(target$date)
   series_type     <- guess_series_type(target$value, ifp_name)
+  options         <- parse_separations(request$payload$separations, 
+                                       series_type, ifp_name)
   agg_method      <- determine_aggregation_method(series_type, ifp_name)
   
   # Do aggregation if neccessary
@@ -190,23 +188,22 @@ for (fh in output_list) {
         sprintf(", partial outcomne to %s",
                 as.character( response$internal2$last_event_date)))
     }
+    cutpoints <- options$cutpoints %>% head(-1) %>% tail(-1)
     p <- ggplot(df, aes(x = date)) +
       geom_line(aes(y = value)) + 
       theme_minimal() +
       ggtitle(sprintf("%s", request_no),
               subtitle = subt) +
       labs(x = "", y = "") +
-      geom_hline(yintercept = options$cutpoints, linetype = 3)
+      geom_hline(yintercept = cutpoints, linetype = 3)
     p <- p + 
         geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
         geom_line(aes(y = mean), color = "blue")
 
     # Plot the options
     op <- ff$option_probabilities
-    if (request_no==1271) op <- op[-1]
-    cutpoints <- options$cutpoints
     extend <- if (length(cutpoints) > 1) mean(diff(cutpoints)) else 1
-    op_labels <- options$separations$values
+    op_labels <- options$values
     if (str_detect(op_labels[1], ">")) {
       op <- rev(op)
       op_labels <- rev(op_labels)
