@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,1,1) \n\nCoefficients:\n         ma1\n      0.5426\ns.e.  0.0966\n\nsigma^2 estimated as 75.17:  log likelihood=-210.82\nAIC=425.64   AICc=425.86   BIC=429.8"
+          "ARIMA(0,1,1)"
         ],
         "rmse": [
           8.5246
@@ -77,7 +77,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(M,Ad,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9999 \n    beta  = 0.622 \n    phi   = 0.8913 \n\n  Initial states:\n    l = 197.3343 \n    b = 26.3248 \n\n  sigma:  0.0475\n\n     AIC     AICc      BIC \n522.9573 524.5422 535.5234 "
+          "ETS(M,Ad,N)"
         ],
         "rmse": [
           9.0296
@@ -145,7 +145,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nJan 6       179.9285 166.9182 192.9388 160.0310 199.8260\nFeb 6       179.9285 161.5292 198.3278 151.7892 208.0678\nMar 6       179.9285 157.3940 202.4630 145.4650 214.3920\nApr 6       179.9285 153.9079 205.9490 140.1335 219.7235"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -212,9 +212,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nJan 6       179.9285 168.1512 192.5306 162.2321 199.5553\nFeb 6       179.9285 163.5017 198.0057 155.4219 208.2992\nMar 6       179.9285 160.0213 202.3122 150.3908 215.2676\nApr 6       179.9285 157.1448 206.0154 146.2761 221.3230"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -278,7 +276,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,1,1) \n\nCoefficients:\n         ma1\n      0.5426\ns.e.  0.0966\n\nsigma^2 estimated as 75.17:  log likelihood=-210.82\nAIC=425.64   AICc=425.86   BIC=429.8"
+      "ARIMA(0,1,1)"
     ],
     "rmse": [
       8.5246
@@ -297,7 +295,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:24"
+      "2018-04-25T21:22:02"
     ],
     "h": [
       4

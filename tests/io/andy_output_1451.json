@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 12584:  log likelihood=-362.2\nAIC=726.4   AICc=726.47   BIC=728.48"
+          "ARIMA(0,1,0)"
         ],
         "rmse": [
           111.2384
@@ -83,7 +83,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.7583 \n\n  Initial states:\n    l = 1728.1158 \n\n  sigma:  109.1897\n\n     AIC     AICc      BIC \n814.8311 815.2597 821.1141 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           109.1897
@@ -157,7 +157,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nJan 6           1732 1588.240 1875.760 1512.137 1951.863\nFeb 6           1732 1528.692 1935.308 1421.067 2042.933\nMar 6           1732 1483.000 1981.000 1351.187 2112.813\nApr 6           1732 1444.479 2019.521 1292.275 2171.725\nMay 6           1732 1410.542 2053.458 1240.372 2223.628"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -230,9 +230,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nJan 6           1732 1576.606 1902.710 1500.072 1999.787\nFeb 6           1732 1516.398 1978.257 1413.351 2122.490\nMar 6           1732 1471.762 2038.254 1350.224 2221.724\nApr 6           1732 1435.154 2090.245 1299.200 2308.978\nMay 6           1732 1403.658 2137.148 1255.848 2388.685"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -302,7 +300,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,1,0) \n\nsigma^2 estimated as 12584:  log likelihood=-362.2\nAIC=726.4   AICc=726.47   BIC=728.48"
+      "ARIMA(0,1,0)"
     ],
     "rmse": [
       111.2384
@@ -321,7 +319,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:43:02"
+      "2018-04-25T21:21:23"
     ],
     "h": [
       5

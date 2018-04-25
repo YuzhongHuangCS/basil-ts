@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n           mean\n      2597.0357\ns.e.   243.0282\n\nsigma^2 estimated as 890477:  log likelihood=-115.24\nAIC=234.49   AICc=235.58   BIC=235.76"
+          "ARIMA(0,0,0) with non-zero mean"
         ],
         "rmse": [
           909.3248
@@ -65,7 +65,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = 2596.92 \n\n  sigma:  909.3703\n\n     AIC     AICc      BIC \n233.7039 236.1039 235.6210 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           909.3703
@@ -121,7 +121,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "   Point Forecast      Lo 80    Hi 80    Lo 95   Hi 95\n15         1466.5  -311.2998 3244.300 -1252.41 4185.41\n16         1466.5 -1047.6886 3980.689 -2378.62 5311.62"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -176,9 +176,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "   Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\n15         1466.5 748.1717 2874.504 523.9347 4104.753\n16         1466.5 566.1540 3798.652 342.0752 6286.986"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -230,7 +228,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,0,0) with non-zero mean \n\nCoefficients:\n           mean\n      2597.0357\ns.e.   243.0282\n\nsigma^2 estimated as 890477:  log likelihood=-115.24\nAIC=234.49   AICc=235.58   BIC=235.76"
+      "ARIMA(0,0,0) with non-zero mean"
     ],
     "rmse": [
       909.3248
@@ -249,7 +247,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:43:06"
+      "2018-04-25T21:22:26"
     ],
     "h": [
       2

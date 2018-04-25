@@ -9,7 +9,11 @@ basilts = 'app.py' in os.listdir()
 
 inputs = os.listdir('tests/io')
 inputs = [x for x in inputs if 'input' in x]
-inputs.sort()
+request_no = []
+for fh in inputs:
+    x = int("".join(filter(str.isdigit, fh)))
+    request_no.append(x)
+inputs = [x for _,x in sorted(zip(request_no, inputs), reverse = True)]
 for req in inputs:
     print(req)
     outfile = 'tests/io/' + req.replace('input', 'output')

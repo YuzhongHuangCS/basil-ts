@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,1,0) with drift \n\nCoefficients:\n        drift\n      -0.0771\ns.e.   0.0439\n\nsigma^2 estimated as 0.1155:  log likelihood=-19.53\nAIC=43.07   AICc=43.28   BIC=47.22"
+          "ARIMA(0,1,0) with drift"
         ],
         "rmse": [
           0.3341
@@ -67,7 +67,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(M,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9999 \n\n  Initial states:\n    l = 6.3374 \n\n  sigma:  0.097\n\n     AIC     AICc      BIC \n121.7650 122.1935 128.0480 "
+          "ETS(M,N,N)"
         ],
         "rmse": [
           0.3428
@@ -125,7 +125,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80     Lo 95    Hi 95\nJan 6           1.85 1.407053 2.292947 1.1725709 2.527429\nFeb 6           1.85 1.223578 2.476422 0.8919705 2.808029\nMar 6           1.85 1.082793 2.617207 0.6766583 3.023342"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -182,9 +182,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95\nJan 6           1.85 1.631006 2.098398 1.525776 2.243122\nFeb 6           1.85 1.548073 2.210813 1.408733 2.429487\nMar 6           1.85 1.487307 2.301139 1.325049 2.582924"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -238,7 +236,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,1,0) with drift \n\nCoefficients:\n        drift\n      -0.0771\ns.e.   0.0439\n\nsigma^2 estimated as 0.1155:  log likelihood=-19.53\nAIC=43.07   AICc=43.28   BIC=47.22"
+      "ARIMA(0,1,0) with drift"
     ],
     "rmse": [
       0.3341
@@ -257,7 +255,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:29"
+      "2018-04-25T21:21:57"
     ],
     "h": [
       3

@@ -102,6 +102,9 @@ output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 req_no <- sapply(output_list, str_extract, "[0-9]+")
 output_list <- output_list[order(as.integer(req_no), decreasing = TRUE)]
 
+#### TAKE ME OUT ######
+#output_list <- output_list[!str_detect(output_list, "1541")]
+
 error_plot <- function(fcast, target, request_no, request) {
   y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
   p <- ggplot(target, aes(x = date, y = value)) +
@@ -129,7 +132,11 @@ for (fh in output_list) {
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
   
-  ifp_name        <- request$ifp$name
+  if (!is.null(response$message)) {
+    p <- error_plot(response, target, request_no, request)
+    print(p)
+  } else {
+    ifp_name        <- request$ifp$name
   binary_ifp <- request$ifp$`binary?`
   validate_seps(request$payload$separations$values)
   
@@ -151,10 +158,6 @@ for (fh in output_list) {
     was_data_aggregated <- TRUE
   }
   
-  if (!is.null(response$message)) {
-    p <- error_plot(response, target, request_no, request)
-    print(p)
-  } else {
     ff <- response
     fcast <- data.frame(
       date = as.Date(ff$ts[, 1]),
@@ -185,7 +188,7 @@ for (fh in output_list) {
     } else if (response$internal2$partial_outcome) {
       subt <- paste0(
         subt,
-        sprintf(", partial outcomne to %s",
+        sprintf(", partial outcome to %s",
                 as.character( response$internal2$last_event_date)))
     }
     cutpoints <- options$cutpoints %>% head(-1) %>% tail(-1)

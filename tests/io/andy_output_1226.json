@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,0,0)(1,1,0)[12] with drift \n\nCoefficients:\n         sar1   drift\n      -0.4720  0.0750\ns.e.   0.1327  0.0404\n\nsigma^2 estimated as 21.4:  log likelihood=-142.12\nAIC=290.24   AICc=290.79   BIC=295.86"
+          "ARIMA(0,0,0)(1,1,0)[12] with drift"
         ],
         "rmse": [
           4.0506
@@ -76,7 +76,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.0971 \n\n  Initial states:\n    l = 2.1333 \n\n  sigma:  3.5814\n\n     AIC     AICc      BIC \n404.7527 405.1813 411.0358 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           3.5814
@@ -143,7 +143,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast      Lo 80    Hi 80      Lo 95    Hi 95\nJan 6              5 -0.8442981 10.84430  -3.938083 13.93808\nFeb 6              5 -3.2650857 13.26509  -7.640358 17.64036\nMar 6              5 -5.1226213 15.12262 -10.481213 20.48121\nApr 6              5 -6.6885962 16.68860 -12.876165 22.87617\nMay 6              5 -8.0682479 18.06825 -14.986160 24.98616"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -218,7 +218,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,0,0)(1,1,0)[12] with drift \n\nCoefficients:\n         sar1   drift\n      -0.4720  0.0750\ns.e.   0.1327  0.0404\n\nsigma^2 estimated as 21.4:  log likelihood=-142.12\nAIC=290.24   AICc=290.79   BIC=295.86"
+      "ARIMA(0,0,0)(1,1,0)[12] with drift"
     ],
     "rmse": [
       4.0506
@@ -237,7 +237,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:51"
+      "2018-04-25T21:21:35"
     ],
     "h": [
       5

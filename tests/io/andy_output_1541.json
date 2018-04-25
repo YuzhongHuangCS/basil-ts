@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error",
+  "r_error_message": "Error in parse_data_period(target$date) : Unrecognized period\nCalls: r_basil_ts -> parse_data_period\nExecution halted\n"
+}

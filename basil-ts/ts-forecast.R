@@ -531,10 +531,26 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
 
 #' Calculate SE in forecast object
 #' 
-#' Calculate implicity SE used for normal density prediction intervals.
-forecast_se <- function(x) {
-  mu <- tail(as.numeric(x$mean), 1)
-  ul <- tail(x$upper[, "95%"], 1)
+#' Calculate implicit SE used for normal density prediction intervals.
+#' 
+#' @param x A forecast object
+#' @param tail For multi-period forecasts, calculate the SE at the head or tail
+#'   end of the forecast? 
+#'   
+#' @details The standard error of the forecast density for multi-period forecasts
+#'   expands over time. The tail option will calculate the standard error of the
+#'   last forecast, use this for converting to categorical probabilities since the
+#'   last forecast is the relevant one for the IFP. Using the head or left-edge 
+#'   correspond to the square root of "sigma2" in the object returned by 
+#'   Arima() or auto.arima(). 
+forecast_se <- function(x, tail = TRUE) {
+  if (tail) {
+    mu <- tail(as.numeric(x$mean), 1)
+    ul <- tail(x$upper[, "95%"], 1)
+  } else {
+    mu <- head(as.numeric(x$mean), 1)
+    ul <- head(x$upper[, "95%"], 1)
+  }
   
   # BoxCox is lambda was given
   if (!is.null(x$model$lambda) & is.null(x$model$constant)) {
@@ -562,6 +578,7 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
   result <- tryCatch({
     if (model=="ARIMA") {
       mdl <- auto.arima(ts, lambda = lambda)
+      mdl$model_string <- forecast:::arima.string(mdl)
     } else if (model=="ETS") {
       if (frequency(ts) > 24) {
         spec = "ZZN"
@@ -569,14 +586,19 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
         spec = "ZZZ"
       }
       mdl <- ets(ts, model = spec, lambda = lambda)
+      mdl$model_string <- mdl$method
     } else if (model=="RWF") {
-      mdl <- rwf(ts, lambda = lambda, h = h)
+      mdl        <- rwf(ts, lambda = lambda, h = h)
+      mdl$sigma2 <- forecast_se(mdl, tail = FALSE)^2
+      mdl$model_string <- "RWF"
     } else if (model=="geometric RWF") {
-      mdl <- rwf(ts, lambda = 0, h = h)
+      mdl        <- rwf(ts, lambda = 0, h = h)
+      mdl$sigma2 <- forecast_se(mdl, tail = FALSE)^2
+      mdl$model_sring <- "geometric RWF"
     }
     
     fcast    <- forecast(mdl, h = h)
-    fcast$se <- forecast_se(fcast)
+    fcast$se <- forecast_se(fcast, tail = TRUE) 
     fcast$trunc_lower <- -Inf
     fcast$trunc_upper <- +Inf
     if (partial_outcome) {
@@ -589,8 +611,10 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
     resid <- mdl$x - mdl$fitted
     rmse  <- sqrt(mean(resid^2))
+    #rmse  <- sqrt(mean(residuals(mdl)^2))
     rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
     resid_rwf <- mdl$x - naive(mdl$x)$fitted
+    #resid_rwf <- residuals(naive(mdl$x))
     rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
     # mase doesn't work when any baseline forecast is 0, bc /0
     #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
@@ -608,7 +632,7 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       to_date = tail(fcast_dates, 1) + find_days_in_period(max(fcast_dates), data_period$period) - 1,
       forecast_is_usable = usable, 
       internal = list(
-        mdl_string = capture.output(print(mdl)) %>% paste0(collapse="\n"),
+        mdl_string = mdl$model_string,
         rmse = rmse
       ),
       trainN = length(ts),

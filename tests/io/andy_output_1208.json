@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(1,0,3)(0,0,2)[17] with non-zero mean \n\nCoefficients:\n         ar1     ma1     ma2     ma3    sma1    sma2      mean\n      0.7610  0.6341  0.5250  0.3129  0.4918  0.1470  932537.1\ns.e.  0.0737  0.1275  0.1132  0.1221  0.1240  0.0973  173685.6\n\nsigma^2 estimated as 1.607e+10:  log likelihood=-1580.24\nAIC=3176.48   AICc=3177.78   BIC=3198.78"
+          "ARIMA(1,0,3)(0,0,2)[17] with non-zero mean"
         ],
         "rmse": [
           123009.6306
@@ -59,7 +59,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,Ad,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 0.9413 \n    beta  = 0.9413 \n    phi   = 0.8033 \n\n  Initial states:\n    l = 1060643.4768 \n    b = -53500.5093 \n\n  sigma:  145671.6\n\n     AIC     AICc      BIC \n3439.885 3440.629 3456.610 "
+          "ETS(A,Ad,N)"
         ],
         "rmse": [
           145671.6332
@@ -109,7 +109,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast   Lo 80   Hi 80   Lo 95   Hi 95\n7.889952        1786606 1491027 2082184 1334558 2238654"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -158,9 +158,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "         Point Forecast    Lo 80   Hi 80    Lo 95   Hi 95\n7.889952        1786606 750776.7 4251544 474454.1 6727647"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -206,7 +204,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(1,0,3)(0,0,2)[17] with non-zero mean \n\nCoefficients:\n         ar1     ma1     ma2     ma3    sma1    sma2      mean\n      0.7610  0.6341  0.5250  0.3129  0.4918  0.1470  932537.1\ns.e.  0.0737  0.1275  0.1132  0.1221  0.1240  0.0973  173685.6\n\nsigma^2 estimated as 1.607e+10:  log likelihood=-1580.24\nAIC=3176.48   AICc=3177.78   BIC=3198.78"
+      "ARIMA(1,0,3)(0,0,2)[17] with non-zero mean"
     ],
     "rmse": [
       123009.6306
@@ -225,7 +223,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:46"
+      "2018-04-25T21:21:41"
     ],
     "h": [
       1

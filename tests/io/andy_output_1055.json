@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(1,0,0)(1,0,0)[13] with zero mean \n\nCoefficients:\n         ar1    sar1\n      0.8071  0.8642\ns.e.  0.0554  0.0394\n\nsigma^2 estimated as 1.05e+10:  log likelihood=-1563.25\nAIC=3132.51   AICc=3132.72   BIC=3140.87"
+          "ARIMA(1,0,0)(1,0,0)[13] with zero mean"
         ],
         "rmse": [
           101611.0467
@@ -70,7 +70,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "         Point Forecast  Lo 80    Hi 80    Lo 95    Hi 95\n10.17197       408190.2 154874 661506.3 20776.54 795603.8"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -119,9 +119,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "         Point Forecast   Lo 80   Hi 80    Lo 95    Hi 95\n10.17197       408190.2 24292.5 6858873 5454.939 30544654"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -167,7 +165,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(1,0,0)(1,0,0)[13] with zero mean \n\nCoefficients:\n         ar1    sar1\n      0.8071  0.8642\ns.e.  0.0554  0.0394\n\nsigma^2 estimated as 1.05e+10:  log likelihood=-1563.25\nAIC=3132.51   AICc=3132.72   BIC=3140.87"
+      "ARIMA(1,0,0)(1,0,0)[13] with zero mean"
     ],
     "rmse": [
       101611.0467
@@ -186,7 +184,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:32"
+      "2018-04-25T21:21:55"
     ],
     "h": [
       1

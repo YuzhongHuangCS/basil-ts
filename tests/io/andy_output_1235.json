@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,0,0)(1,0,0)[12] with zero mean \n\nCoefficients:\n        sar1\n      0.3630\ns.e.  0.1252\n\nsigma^2 estimated as 1.276:  log likelihood=-92.78\nAIC=189.57   AICc=189.78   BIC=193.76"
+          "ARIMA(0,0,0)(1,0,0)[12] with zero mean"
         ],
         "rmse": [
           1.12
@@ -65,7 +65,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Smoothing parameters:\n    alpha = 1e-04 \n\n  Initial states:\n    l = -0.0298 \n\n  sigma:  1.2075\n\n     AIC     AICc      BIC \n274.2884 274.7169 280.5714 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           1.2075
@@ -121,7 +121,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95\nJan 6     -0.5347594 -2.788400 1.718881 -3.981405 2.911886\nFeb 6     -0.5347594 -3.721888 2.652369 -5.409052 4.339533"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -185,7 +185,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,0,0)(1,0,0)[12] with zero mean \n\nCoefficients:\n        sar1\n      0.3630\ns.e.  0.1252\n\nsigma^2 estimated as 1.276:  log likelihood=-92.78\nAIC=189.57   AICc=189.78   BIC=193.76"
+      "ARIMA(0,0,0)(1,0,0)[12] with zero mean"
     ],
     "rmse": [
       1.12
@@ -204,7 +204,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:53"
+      "2018-04-25T21:21:32"
     ],
     "h": [
       2

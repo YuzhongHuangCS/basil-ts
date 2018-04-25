@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(0,1,1) \nBox Cox transformation: lambda= 0 \n\nCoefficients:\n          ma1\n      -0.5880\ns.e.   0.1001\n\nsigma^2 estimated as 0.4894:  log likelihood=-62.34\nAIC=128.69   AICc=128.9   BIC=132.84"
+          "ARIMA(0,1,1)"
         ],
         "rmse": [
           499.0197
@@ -83,7 +83,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Box-Cox transformation: lambda= 0 \n\n  Smoothing parameters:\n    alpha = 0.4029 \n\n  Initial states:\n    l = 5.2611 \n\n  sigma:  0.6878\n\n     AIC     AICc      BIC \n206.7427 207.1712 213.0257 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           499.6487
@@ -157,7 +157,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast     Lo 80     Hi 80     Lo 95     Hi 95\nJan 6            100 35.634514  280.6268 20.636953  484.5676\nFeb 6            100 23.240724  430.2792 10.734022  931.6172\nMar 6            100 16.742392  597.2862  6.500269 1538.3979\nApr 6            100 12.698186  787.5141  4.258838 2348.0581\nMay 6            100  9.952971 1004.7252  2.934276 3407.9959"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -230,9 +230,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "      Point Forecast     Lo 80     Hi 80     Lo 95     Hi 95\nJan 6            100 35.634514  280.6268 20.636953  484.5676\nFeb 6            100 23.240724  430.2792 10.734022  931.6172\nMar 6            100 16.742392  597.2862  6.500269 1538.3979\nApr 6            100 12.698186  787.5141  4.258838 2348.0581\nMay 6            100  9.952971 1004.7252  2.934276 3407.9959"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -302,7 +300,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(0,1,1) \nBox Cox transformation: lambda= 0 \n\nCoefficients:\n          ma1\n      -0.5880\ns.e.   0.1001\n\nsigma^2 estimated as 0.4894:  log likelihood=-62.34\nAIC=128.69   AICc=128.9   BIC=132.84"
+      "ARIMA(0,1,1)"
     ],
     "rmse": [
       499.0197
@@ -321,7 +319,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:42:42"
+      "2018-04-25T21:21:44"
     ],
     "h": [
       5

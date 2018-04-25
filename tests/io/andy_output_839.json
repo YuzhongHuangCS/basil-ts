@@ -9,7 +9,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "Series: ts \nARIMA(1,0,0) with non-zero mean \nBox Cox transformation: lambda= 0 \n\nCoefficients:\n         ar1    mean\n      0.5977  0.5917\ns.e.  0.1028  0.1801\n\nsigma^2 estimated as 0.3405:  log likelihood=-52.02\nAIC=110.04   AICc=110.47   BIC=116.33"
+          "ARIMA(1,0,0) with non-zero mean"
         ],
         "rmse": [
           2.2131
@@ -64,7 +64,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "ETS(A,N,N) \n\nCall:\n ets(y = ts, model = spec, lambda = lambda) \n\n  Box-Cox transformation: lambda= 0 \n\n  Smoothing parameters:\n    alpha = 0.7187 \n\n  Initial states:\n    l = 0.0912 \n\n  sigma:  0.616\n\n     AIC     AICc      BIC \n193.5199 193.9485 199.8030 "
+          "ETS(A,N,N)"
         ],
         "rmse": [
           2.2171
@@ -119,7 +119,7 @@
       ],
       "internal": {
         "mdl_string": [
-          "      Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95\nJan 6              1 0.4386630 2.279654 0.2835872 3.526252\nFeb 6              1 0.3118149 3.207031 0.1682604 5.943168\nMar 6              1 0.2399677 4.167228 0.1127263 8.871041"
+          "RWF"
         ],
         "rmse": [
           "NA"
@@ -173,9 +173,7 @@
         "NA"
       ],
       "internal": {
-        "mdl_string": [
-          "      Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95\nJan 6              1 0.4386630 2.279654 0.2835872 3.526252\nFeb 6              1 0.3118149 3.207031 0.1682604 5.943168\nMar 6              1 0.2399677 4.167228 0.1127263 8.871041"
-        ],
+        "mdl_string": {},
         "rmse": [
           "NA"
         ]
@@ -226,7 +224,7 @@
   ],
   "internal": {
     "mdl_string": [
-      "Series: ts \nARIMA(1,0,0) with non-zero mean \nBox Cox transformation: lambda= 0 \n\nCoefficients:\n         ar1    mean\n      0.5977  0.5917\ns.e.  0.1028  0.1801\n\nsigma^2 estimated as 0.3405:  log likelihood=-52.02\nAIC=110.04   AICc=110.47   BIC=116.33"
+      "ARIMA(1,0,0) with non-zero mean"
     ],
     "rmse": [
       2.2131
@@ -245,7 +243,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-23T14:43:10"
+      "2018-04-25T21:22:22"
     ],
     "h": [
       3
