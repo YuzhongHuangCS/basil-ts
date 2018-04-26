@@ -1,4 +1,330 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in validate_data(target, data_period, question_period, ifp_name) : \n  Send daily data in the request, not aggregated data. Question is over 21 day periods.\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
+  "forecast_is_usable": [
+    1
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ARIMA(1,0,3)(0,0,2)[17] with non-zero mean"
+        ],
+        "rmse": [
+          123009.6306
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "option_probabilities": [
+        0.9928,
+        0.0056,
+        0.0012,
+        0.0003,
+        0.0001
+      ],
+      "to_date": [
+        "2018-04-10"
+      ],
+      "trainN": [
+        120
+      ],
+      "ts": [
+        [
+          "2018-03-21",
+          "1586009",
+          "1390529",
+          "1781488"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,Ad,N)"
+        ],
+        "rmse": [
+          145671.6332
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "option_probabilities": [
+        0.9534,
+        0.0294,
+        0.0103,
+        0.005,
+        0.0019
+      ],
+      "to_date": [
+        "2018-04-10"
+      ],
+      "trainN": [
+        120
+      ],
+      "ts": [
+        [
+          "2018-03-21",
+          "1637598",
+          "1412959",
+          "1862237"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "RWF"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "option_probabilities": [
+        0.8469,
+        0.0573,
+        0.0329,
+        0.0278,
+        0.035
+      ],
+      "to_date": [
+        "2018-04-10"
+      ],
+      "trainN": [
+        120
+      ],
+      "ts": [
+        [
+          "2018-03-21",
+          "1633946",
+          "1385875",
+          "1989616"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": {},
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "geometric RWF"
+      ],
+      "option_labels": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "option_probabilities": [
+        0.1621,
+        0.0182,
+        0.0145,
+        0.0181,
+        0.7871
+      ],
+      "to_date": [
+        "2018-04-10"
+      ],
+      "trainN": [
+        120
+      ],
+      "ts": [
+        [
+          "2018-03-21",
+          "1633946",
+          "1385875",
+          "5521537"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "ARIMA(1,0,3)(0,0,2)[17] with non-zero mean"
+    ],
+    "rmse": [
+      123009.6306
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        21
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-26T10:46:20"
+    ],
+    "h": [
+      1
+    ],
+    "lambda": {},
+    "last_event_date": [
+      "2018-03-28"
+    ],
+    "partial_outcome": [
+      true
+    ],
+    "partial_train": [
+      "no"
+    ],
+    "question_date": [
+      "2018-03-21",
+      "2018-04-10"
+    ],
+    "question_period": {
+      "days": [
+        21
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "rmse_mean": [
+      601804.2336
+    ],
+    "rmse_rwf": [
+      230640.9778
+    ],
+    "separations": {
+      "cutpoints": [
+        "-Inf",
+        1830000,
+        1880000,
+        1920000,
+        1970000,
+        "Inf"
+      ],
+      "numeric_values": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "unit": [
+        "number"
+      ],
+      "values": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ]
+    },
+    "series_type": [
+      "continuous"
+    ],
+    "was_data_aggregated": [
+      true
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<1830000",
+    "1830000 - 1880000",
+    "1880000 - 1920000",
+    "1920000 - 1970000",
+    ">1970000"
+  ],
+  "option_probabilities": [
+    0.9928,
+    0.0056,
+    0.0012,
+    0.0003,
+    0.0001
+  ],
+  "to_date": [
+    "2018-04-10"
+  ],
+  "trainN": [
+    120
+  ],
+  "ts": [
+    [
+      "2018-03-21",
+      "1586009",
+      "1390529",
+      "1781488"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
 }

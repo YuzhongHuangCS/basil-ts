@@ -1,4 +1,295 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in validate_data(target, data_period, question_period, ifp_name) : \n  Send daily data in the request, not aggregated data. Question is over 123 day periods.\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
+  "forecast_is_usable": [
+    1
+  ],
+  "forecasts": [
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ARIMA(0,1,1)(0,1,0)[3]"
+        ],
+        "rmse": [
+          0.8469
+        ]
+      },
+      "model": [
+        "ARIMA"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0.1186,
+        0.7081,
+        0.1733
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "3.386622",
+          "1.452799",
+          "5.320446"
+        ],
+        [
+          "2018-04-22",
+          "1.386622",
+          "0.000000",
+          "3.539194"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "mdl_string": [
+          "ETS(A,N,N)"
+        ],
+        "rmse": [
+          1.0361
+        ]
+      },
+      "model": [
+        "ETS"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0.053,
+        0.6037,
+        0.3433
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "2.01711",
+          "0",
+          "4.047814"
+        ],
+        [
+          "2018-04-22",
+          "2.01711",
+          "0",
+          "4.189345"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "forecast_is_usable": [
+        "NA"
+      ],
+      "internal": {
+        "mdl_string": [
+          "RWF"
+        ],
+        "rmse": [
+          "NA"
+        ]
+      },
+      "model": [
+        "RWF"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0.0209,
+        0.1657,
+        0.8134
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "4.054945",
+          "1.6348953",
+          "6.474995"
+        ],
+        [
+          "2018-04-22",
+          "4.054945",
+          "0.6324778",
+          "7.477412"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "actual_forecast",
+        "lower_bound_95_percent",
+        "upper_bound_95_percent"
+      ]
+    },
+    {
+      "message": [
+        "Not estimated"
+      ],
+      "model": [
+        "geometric RWF"
+      ],
+      "r_error_message": [
+        "Series contains values <= 0, model not estimated."
+      ]
+    }
+  ],
+  "internal": {
+    "mdl_string": [
+      "ARIMA(0,1,1)(0,1,0)[3]"
+    ],
+    "rmse": [
+      0.8469
+    ]
+  },
+  "internal2": {
+    "backcast": [
+      false
+    ],
+    "data_period": {
+      "days": [
+        123
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "forecast_created_at": [
+      "2018-04-26T10:46:09"
+    ],
+    "h": [
+      2
+    ],
+    "lambda": {},
+    "last_event_date": [
+      "2017-11-17"
+    ],
+    "partial_outcome": [
+      false
+    ],
+    "partial_train": [
+      "used"
+    ],
+    "question_date": [
+      "2018-04-22",
+      "2018-08-22"
+    ],
+    "question_period": {
+      "days": [
+        123
+      ],
+      "period": [
+        "fixed"
+      ]
+    },
+    "rmse_mean": [
+      1.0461
+    ],
+    "rmse_rwf": [
+      1.2347
+    ],
+    "separations": {
+      "cutpoints": [
+        "-Inf",
+        0.5,
+        2.5,
+        "Inf"
+      ],
+      "numeric_values": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "unit": [
+        "number"
+      ],
+      "values": [
+        "0",
+        "1 - 2",
+        ">2"
+      ]
+    },
+    "series_type": [
+      "count"
+    ],
+    "was_data_aggregated": [
+      true
+    ]
+  },
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "0",
+    "1 - 2",
+    ">2"
+  ],
+  "option_probabilities": [
+    0.1186,
+    0.7081,
+    0.1733
+  ],
+  "to_date": [
+    "2018-08-22"
+  ],
+  "trainN": [
+    19
+  ],
+  "ts": [
+    [
+      "2017-12-20",
+      "3.386622",
+      "1.452799",
+      "5.320446"
+    ],
+    [
+      "2018-04-22",
+      "1.386622",
+      "0.000000",
+      "3.539194"
+    ]
+  ],
+  "ts_colnames": [
+    "date",
+    "actual_forecast",
+    "lower_bound_95_percent",
+    "upper_bound_95_percent"
+  ]
 }

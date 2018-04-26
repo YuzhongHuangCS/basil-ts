@@ -385,11 +385,6 @@ index_dates_are_misaligned <- function(data, question_period) {
 
 validate_data <- function(data, data_period, question_period, ifp_name) {
   # Check that data are aggregated correctly
-  if (question_period$period$period=="fixed" & data_period$period$period!="day") {
-    stop(sprintf(
-      "Send daily data in the request, not aggregated data. Question is over %s day periods.",
-      question_period$period$days))
-  }
   if (!bb_equal_period(data_period$period, question_period$period)) {
     mssg <- paste(
       sprintf("Request data appear to not be aggregated correctly"),
@@ -818,6 +813,16 @@ r_basil_ts <- function(fh = NULL) {
   options         <- parse_separations(request$payload$separations, 
                                        series_type, ifp_name)
   agg_method      <- determine_aggregation_method(series_type, ifp_name)
+  
+  # Check aggregation was not done for fixed period questions
+  if (question_period$period$period=="fixed" & 
+      # weeks are ok, only need to catch like 100 day fixed periods
+      question_period$period$days!="7" & 
+      data_period$period$period!="day") {
+    stop(sprintf(
+      "Send daily data in the request, not aggregated data. Question is over %s day periods.",
+      question_period$period$days))
+  }
   
   # Backcasting 
   if (backcast) {

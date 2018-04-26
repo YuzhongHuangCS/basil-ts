@@ -1,4 +1,4 @@
 {
   "message": "Internal R error",
-  "r_error_message": "Error in validate_data(target, data_period, question_period, ifp_name) : \n  Send daily data in the request, not aggregated data. Question is over 100 day periods.\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
+  "r_error_message": "Error in r_basil_ts() : \n  Send daily data in the request, not aggregated data. Question is over 100 day periods.\nExecution halted\n"
 }
