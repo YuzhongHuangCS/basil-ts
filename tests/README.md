@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-04-25
+2018-04-26
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts](#plot-arima-forecasts)
@@ -13,37 +13,42 @@ Are the base models estimating and without obvious mistakes?
 |  1541| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
 |  1514| month | count      |   40|    1|      NA| no        | used           | no         |
 |  1451| month | count      |   60|    5|      NA| no        | used           | no         |
-|  1433| month | continuous |   60|    5|      NA| no        | discarded      | no         |
+|  1433| month | continuous |   60|    4|      NA| no        | used           | no         |
 |  1406| month | continuous |   60|    3|      NA| no        | used           | no         |
-|  1271| fixed | count      |   19|    2|      NA| yes       | used           | no         |
+|  1271| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
 |  1235| month | continuous |   60|    2|      NA| no        | used           | no         |
 |  1226| month | count      |   60|    5|      NA| no        | discarded      | no         |
 |  1217| month | continuous |   60|    4|      NA| no        | discarded      | no         |
-|  1208| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
-|  1190| month | count      |   60|    5|     0.0| no        | discarded      | no         |
+|  1208| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|  1190| month | count      |   60|    4|     0.0| no        | discarded      | no         |
 |  1172| month | count      |   60|    2|      NA| no        | discarded      | no         |
 |  1145| month | continuous |   60|    2|      NA| no        | used           | no         |
 |  1136| month | count      |   60|    7|     0.5| no        | discarded      | no         |
-|  1055| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
-|  1037| month | continuous |   60|    3|      NA| no        | used           | no         |
+|  1055| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|  1037| month | continuous |   60|    1|      NA| no        | used           | no         |
 |  1028| day   | continuous |  120|   14|      NA| no        | no             | no         |
-|  1019| month | continuous |   60|    4|      NA| no        | discarded      | no         |
+|  1019| month | continuous |   60|    3|      NA| no        | discarded      | no         |
 |   938| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
 |   929| month | count      |   60|    3|      NA| no        | used           | no         |
 |   911| month | count      |   60|    3|     0.5| no        | discarded      | no         |
 |   902| month | count      |   60|    4|      NA| no        | discarded      | no         |
-|   893| day   | continuous |  120|   91|      NA| no        | no             | no         |
-|   884| fixed | count      |  120|   11|      NA| no        | discarded      | no         |
-|   875| month | continuous |   60|    5|      NA| no        | discarded      | no         |
+|   893| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|   884| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|   875| month | continuous |   60|    4|      NA| no        | discarded      | no         |
 |   866| month | count      |   38|    1|      NA| no        | no             | yes        |
 |   839| month | count      |   60|    3|     0.0| no        | discarded      | no         |
 |   830| month | count      |   14|    3|      NA| no        | used           | no         |
 |   821| month | count      |   14|    2|      NA| no        | used           | no         |
 
-| IFP  | Error                                                                                                |
-|:-----|:-----------------------------------------------------------------------------------------------------|
-| 938  | validate\_data(target, data\_period, question\_period): Historical data in request appear to n       |
-| 1541 | parse\_data\_period(target$date): Unrecognized periodCalls: r\_basil\_ts -&gt; parse\_data\_periodEx |
+| IFP  | Error                                                                                           |
+|:-----|:------------------------------------------------------------------------------------------------|
+| 938  | validate\_data(target, data\_period, question\_period, ifp\_name): Send daily data in the reque |
+| 893  | validate\_data(target, data\_period, question\_period, ifp\_name): Request data appear to not b |
+| 884  | validate\_data(target, data\_period, question\_period, ifp\_name): Send daily data in the reque |
+| 1541 | validate\_data(target, data\_period, question\_period, ifp\_name): Request data appear to not b |
+| 1271 | validate\_data(target, data\_period, question\_period, ifp\_name): Send daily data in the reque |
+| 1208 | validate\_data(target, data\_period, question\_period, ifp\_name): Send daily data in the reque |
+| 1055 | validate\_data(target, data\_period, question\_period, ifp\_name): Send daily data in the reque |
 
 Plot ARIMA forecasts
 ====================

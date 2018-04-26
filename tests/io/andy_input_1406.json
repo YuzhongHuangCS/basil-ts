@@ -1,1 +1,480 @@
-{"ifp": {"clarifications": [], "image": {"url": "forecast/questions/default-question-image.jpg"}, "site_id": 6, "updated_at": "2018-04-11T16:30:36.068Z", "discover_question_id": 243, "published_at": "2018-04-11T16:30:35.977Z", "id": 1406, "active?": true, "featured": false, "type": "Forecast::Question", "metadata": {}, "prediction_sets_count": 0, "description": "This question will be resolved using data from the International Monetary Fund (<a href = \"http://data.imf.org/regular.aspx?key=61015893\"target=\"_blank\">http://data.imf.org/regular.aspx?key=61015893</a>). To access the relevant data:\r\n- Select the country of interest from the Country drop down menu; \r\n- Select 'Consumer Price Index, All Items' from the Indicator drop down menu. \r\nThe relevant row is 'Egypt, Consumer Price Index, All Items,' and the relevant column is '2018M05.' Question will be resolved based on initially reported values.", "brier_score": "0.0", "binary?": false, "voided_at": null, "ends_at": "2018-05-31T18:01:18.000Z", "resolved_at": null, "ifp": {"parsed_answers": {"values": ["<-1.0", "-1.0 - 0", "0 - 0.9", "0.9 - 1.9", ">1.9"], "unit": "number"}, "answers": [{"ended?": false, "probability": 0.2, "positions_count": null, "updated_at": "2018-04-11T16:30:35.897Z", "sort_order": 0, "probability_formatted": "20%", "display_probability": "20%", "correctness_known_at": null, "active?": true, "id": 4289, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Less than -1.0", "created_at": "2018-04-11T16:30:35.897Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 717, "question_id": 1406}, {"ended?": false, "probability": 0.2, "positions_count": null, "updated_at": "2018-04-11T16:30:35.843Z", "sort_order": 1, "probability_formatted": "20%", "display_probability": "20%", "correctness_known_at": null, "active?": true, "id": 4288, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between -1.0 and 0, inclusive", "created_at": "2018-04-11T16:30:35.843Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 718, "question_id": 1406}, {"ended?": false, "probability": 0.2, "positions_count": null, "updated_at": "2018-04-11T16:30:35.809Z", "sort_order": 2, "probability_formatted": "20%", "display_probability": "20%", "correctness_known_at": null, "active?": true, "id": 4287, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 0 but less than 0.9", "created_at": "2018-04-11T16:30:35.809Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 719, "question_id": 1406}, {"ended?": false, "probability": 0.2, "positions_count": null, "updated_at": "2018-04-11T16:30:35.767Z", "sort_order": 3, "probability_formatted": "20%", "display_probability": "20%", "correctness_known_at": null, "active?": true, "id": 4286, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between 0.9 and 1.9, inclusive", "created_at": "2018-04-11T16:30:35.767Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 720, "question_id": 1406}, {"ended?": false, "probability": 0.2, "positions_count": null, "updated_at": "2018-04-11T16:30:35.735Z", "sort_order": 4, "probability_formatted": "20%", "display_probability": "20%", "correctness_known_at": null, "active?": true, "id": 4285, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 1.9", "created_at": "2018-04-11T16:30:35.735Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 721, "question_id": 1406}]}, "name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?", "created_at": "2018-04-11T16:30:35.726Z", "membership_id": 76, "resolved?": false, "comments_count": 0, "starts_at": "2018-04-11T16:30:18.000Z", "use_ordinal_scoring": true, "answers_count": 5}, "payload": {"historical_data": {"dimensions": ["DATE", {"type": "float", "semantic_type": "value"}], "ts": [["2012-09-01T00:00:00.000Z", 1.202886928628709], ["2012-10-01T00:00:00.000Z", 0.7923930269413629], ["2012-11-01T00:00:00.000Z", -1.2578616352201324], ["2012-12-01T00:00:00.000Z", 0.15923566878981119], ["2013-01-01T00:00:00.000Z", 1.6693163751987348], ["2013-02-01T00:00:00.000Z", 2.5019546520719222], ["2013-03-01T00:00:00.000Z", 0.6102212051868889], ["2013-04-01T00:00:00.000Z", 1.4404852160727866], ["2013-05-01T00:00:00.000Z", -0.1494768310911936], ["2013-06-01T00:00:00.000Z", 0.8982035928143841], ["2013-07-01T00:00:00.000Z", 0.8902077151335227], ["2013-08-01T00:00:00.000Z", 0.6617647058823571], ["2013-09-01T00:00:00.000Z", 1.5339663988312595], ["2013-10-01T00:00:00.000Z", 1.079136690647482], ["2013-11-01T00:00:00.000Z", 0.996441281138794], ["2013-12-01T00:00:00.000Z", -1.0570824524312896], ["2014-01-01T00:00:00.000Z", 1.4245014245014245], ["2014-02-01T00:00:00.000Z", 1.053370786516854], ["2014-03-01T00:00:00.000Z", 0.6949270326615705], ["2014-04-01T00:00:00.000Z", 0.5521048999309751], ["2014-05-01T00:00:00.000Z", -0.7549759780370586], ["2014-06-01T00:00:00.000Z", 0.8990318118948903], ["2014-07-01T00:00:00.000Z", 3.4955448937628475], ["2014-08-01T00:00:00.000Z", 1.0596026490066186], ["2014-09-01T00:00:00.000Z", 1.2450851900393223], ["2014-10-01T00:00:00.000Z", 1.7475728155339734], ["2014-11-01T00:00:00.000Z", -1.5903307888040712], ["2014-12-01T00:00:00.000Z", -0.06464124111182568], ["2015-01-01T00:00:00.000Z", 1.0349288486416524], ["2015-02-01T00:00:00.000Z", 1.8565941101152406], ["2015-03-01T00:00:00.000Z", 1.5084852294154656], ["2015-04-01T00:00:00.000Z", 0.12383900928791866], ["2015-05-01T00:00:00.000Z", 1.17501546072975], ["2015-06-01T00:00:00.000Z", -0.6723716381418058], ["2015-07-01T00:00:00.000Z", 0.6769230769230734], ["2015-08-01T00:00:00.000Z", 0.6723716381418058], ["2015-09-01T00:00:00.000Z", 2.4286581663630846], ["2015-10-01T00:00:00.000Z", 2.1932424422051082], ["2015-11-01T00:00:00.000Z", -0.2900232018561485], ["2015-12-01T00:00:00.000Z", -0.11634671320536187], ["2016-01-01T00:00:00.000Z", 0.11648223645894995], ["2016-02-01T00:00:00.000Z", 0.9889470622454849], ["2016-03-01T00:00:00.000Z", 1.4400921658986174], ["2016-04-01T00:00:00.000Z", 1.2492901760363526], ["2016-05-01T00:00:00.000Z", 3.028603477285461], ["2016-06-01T00:00:00.000Z", 0.8165487207403375], ["2016-07-01T00:00:00.000Z", 0.7019438444924468], ["2016-08-01T00:00:00.000Z", 1.930294906166217], ["2016-09-01T00:00:00.000Z", 1.2624934245134172], ["2016-10-01T00:00:00.000Z", 1.7142857142857202], ["2016-11-01T00:00:00.000Z", 4.851889683350357], ["2016-12-01T00:00:00.000Z", 3.117389186556248], ["2017-01-01T00:00:00.000Z", 4.062352385451121], ["2017-02-01T00:00:00.000Z", 2.6327734906944995], ["2017-03-01T00:00:00.000Z", 1.9460415745245492], ["2017-04-01T00:00:00.000Z", 1.691973969631239], ["2017-05-01T00:00:00.000Z", 1.663822525597272], ["2017-06-01T00:00:00.000Z", 0.8392782207301721], ["2017-07-01T00:00:00.000Z", 3.2043279234290423], ["2017-08-01T00:00:00.000Z", 1.1290322580645207], ["2017-09-01T00:00:00.000Z", 0.996810207336523], ["2017-10-01T00:00:00.000Z", -0.5921831819976312], ["2017-11-01T00:00:00.000Z", -2.025416997617165], ["2017-12-01T00:00:00.000Z", 4.620997162545616], ["2018-01-01T00:00:00.000Z", -0.038744672607525274], ["2018-02-01T00:00:00.000Z", 0.27131782945735994]]}, "last-event-date": "2018-02-28T00:00:00.000Z", "separations": {"values": ["<-1.0", "-1.0 - 0", "0 - 0.9", "0.9 - 1.9", ">1.9"], "unit": "number"}, "question_type": "Ordered Multinomial"}}
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-04-11T16:30:36.068Z",
+        "discover_question_id": 243,
+        "published_at": "2018-04-11T16:30:35.977Z",
+        "id": 1406,
+        "active?": true,
+        "featured": false,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using data from the International Monetary Fund (<a href = \"http://data.imf.org/regular.aspx?key=61015893\"target=\"_blank\">http://data.imf.org/regular.aspx?key=61015893</a>). To access the relevant data:\r\n- Select the country of interest from the Country drop down menu; \r\n- Select 'Consumer Price Index, All Items' from the Indicator drop down menu. \r\nThe relevant row is 'Egypt, Consumer Price Index, All Items,' and the relevant column is '2018M05.' Question will be resolved based on initially reported values.",
+        "brier_score": "0.0",
+        "binary?": false,
+        "voided_at": null,
+        "ends_at": "2018-05-31T18:01:18.000Z",
+        "resolved_at": null,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<-1.0",
+                    "-1.0 - 0",
+                    "0 - 0.9",
+                    "0.9 - 1.9",
+                    ">1.9"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-04-11T16:30:35.897Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4289,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than -1.0",
+                    "created_at": "2018-04-11T16:30:35.897Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 717,
+                    "question_id": 1406
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-04-11T16:30:35.843Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4288,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between -1.0 and 0, inclusive",
+                    "created_at": "2018-04-11T16:30:35.843Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 718,
+                    "question_id": 1406
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-04-11T16:30:35.809Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4287,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 0 but less than 0.9",
+                    "created_at": "2018-04-11T16:30:35.809Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 719,
+                    "question_id": 1406
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-04-11T16:30:35.767Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4286,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 0.9 and 1.9, inclusive",
+                    "created_at": "2018-04-11T16:30:35.767Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 720,
+                    "question_id": 1406
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "positions_count": null,
+                    "updated_at": "2018-04-11T16:30:35.735Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "correctness_known_at": null,
+                    "active?": true,
+                    "id": 4285,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "question_name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 1.9",
+                    "created_at": "2018-04-11T16:30:35.735Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 721,
+                    "question_id": 1406
+                }
+            ]
+        },
+        "name": "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?",
+        "created_at": "2018-04-11T16:30:35.726Z",
+        "membership_id": 76,
+        "resolved?": false,
+        "comments_count": 0,
+        "starts_at": "2018-04-11T16:30:18.000Z",
+        "use_ordinal_scoring": true,
+        "answers_count": 5
+    },
+    "payload": {
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "float",
+                    "semantic_type": "value"
+                }
+            ],
+            "ts": [
+                [
+                    "2012-09-01T00:00:00.000Z",
+                    1.202886928628709
+                ],
+                [
+                    "2012-10-01T00:00:00.000Z",
+                    0.7923930269413629
+                ],
+                [
+                    "2012-11-01T00:00:00.000Z",
+                    -1.2578616352201324
+                ],
+                [
+                    "2012-12-01T00:00:00.000Z",
+                    0.15923566878981119
+                ],
+                [
+                    "2013-01-01T00:00:00.000Z",
+                    1.6693163751987348
+                ],
+                [
+                    "2013-02-01T00:00:00.000Z",
+                    2.5019546520719222
+                ],
+                [
+                    "2013-03-01T00:00:00.000Z",
+                    0.6102212051868889
+                ],
+                [
+                    "2013-04-01T00:00:00.000Z",
+                    1.4404852160727866
+                ],
+                [
+                    "2013-05-01T00:00:00.000Z",
+                    -0.1494768310911936
+                ],
+                [
+                    "2013-06-01T00:00:00.000Z",
+                    0.8982035928143841
+                ],
+                [
+                    "2013-07-01T00:00:00.000Z",
+                    0.8902077151335227
+                ],
+                [
+                    "2013-08-01T00:00:00.000Z",
+                    0.6617647058823571
+                ],
+                [
+                    "2013-09-01T00:00:00.000Z",
+                    1.5339663988312595
+                ],
+                [
+                    "2013-10-01T00:00:00.000Z",
+                    1.079136690647482
+                ],
+                [
+                    "2013-11-01T00:00:00.000Z",
+                    0.996441281138794
+                ],
+                [
+                    "2013-12-01T00:00:00.000Z",
+                    -1.0570824524312896
+                ],
+                [
+                    "2014-01-01T00:00:00.000Z",
+                    1.4245014245014245
+                ],
+                [
+                    "2014-02-01T00:00:00.000Z",
+                    1.053370786516854
+                ],
+                [
+                    "2014-03-01T00:00:00.000Z",
+                    0.6949270326615705
+                ],
+                [
+                    "2014-04-01T00:00:00.000Z",
+                    0.5521048999309751
+                ],
+                [
+                    "2014-05-01T00:00:00.000Z",
+                    -0.7549759780370586
+                ],
+                [
+                    "2014-06-01T00:00:00.000Z",
+                    0.8990318118948903
+                ],
+                [
+                    "2014-07-01T00:00:00.000Z",
+                    3.4955448937628475
+                ],
+                [
+                    "2014-08-01T00:00:00.000Z",
+                    1.0596026490066186
+                ],
+                [
+                    "2014-09-01T00:00:00.000Z",
+                    1.2450851900393223
+                ],
+                [
+                    "2014-10-01T00:00:00.000Z",
+                    1.7475728155339734
+                ],
+                [
+                    "2014-11-01T00:00:00.000Z",
+                    -1.5903307888040712
+                ],
+                [
+                    "2014-12-01T00:00:00.000Z",
+                    -0.06464124111182568
+                ],
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    1.0349288486416524
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    1.8565941101152406
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    1.5084852294154656
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    0.12383900928791866
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    1.17501546072975
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    -0.6723716381418058
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    0.6769230769230734
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    0.6723716381418058
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    2.4286581663630846
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    2.1932424422051082
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    -0.2900232018561485
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    -0.11634671320536187
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    0.11648223645894995
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    0.9889470622454849
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    1.4400921658986174
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    1.2492901760363526
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    3.028603477285461
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    0.8165487207403375
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    0.7019438444924468
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    1.930294906166217
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    1.2624934245134172
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    1.7142857142857202
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    4.851889683350357
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    3.117389186556248
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    4.062352385451121
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    2.6327734906944995
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    1.9460415745245492
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    1.691973969631239
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    1.663822525597272
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    0.8392782207301721
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    3.2043279234290423
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    1.1290322580645207
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    0.996810207336523
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    -0.5921831819976312
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    -2.025416997617165
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    4.620997162545616
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    -0.038744672607525274
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    0.27131782945735994
+                ]
+            ]
+        },
+        "last-event-date": "2018-02-28T00:00:00.000Z",
+        "separations": {
+            "values": [
+                "<-1.0",
+                "-1.0 - 0",
+                "0 - 0.9",
+                "0.9 - 1.9",
+                ">1.9"
+            ],
+            "unit": "number"
+        },
+        "question_type": "Ordered Multinomial"
+    }
+}

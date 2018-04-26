@@ -79,7 +79,7 @@ Data aggregation
 - For questions with regular time periods (day, week, month), data in the request will already be aggregated and the request should include additional information: 
     - a `aggregated-data` field identifying the level of aggregation, e.g. "month".
     - a `last-event-date` field listing the date through which the source data reach, or the last observed date in the source data before aggregation. This is used to handle partial data for a time period. 
-
+- For monthly data dates should be for the 1st of the month. 
 
 
 ### Response format

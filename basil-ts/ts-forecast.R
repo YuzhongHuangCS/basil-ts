@@ -383,15 +383,20 @@ index_dates_are_misaligned <- function(data, question_period) {
   }
 }
 
-validate_data <- function(data, data_period, question_period) {
+validate_data <- function(data, data_period, question_period, ifp_name) {
   # Check that data are aggregated correctly
+  if (question_period$period$period=="fixed" & data_period$period$period!="day") {
+    stop(sprintf(
+      "Send daily data in the request, not aggregated data. Question is over %s day periods.",
+      question_period$period$days))
+  }
   if (!bb_equal_period(data_period$period, question_period$period)) {
     mssg <- paste(
       sprintf("Request data appear to not be aggregated correctly"),
       sprintf("  Data dates: ...%s", paste(tail(data$date), collapse = ", ")),
-      sprintf("  Parsed data period: '%s'", ifelse(question_period$period$period=="fixed", 
-                                                   paste0("fixed, %s days", question_period$period$days),
-                                                   question_period$period$period)),
+      sprintf("  Parsed data period: '%s'", ifelse(data_period$period$period=="fixed", 
+                                                   paste0("fixed, %s days", data_period$period$days),
+                                                   data_period$period$period)),
       sprintf("  Question title: %s", ifp_name),
       sprintf("  Parsed question period: '%s'", ifelse(question_period$period$period=="fixed", 
                                                        paste0("fixed, %s days", question_period$period$days),
@@ -843,7 +848,7 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   # Check that data are aggregated correctly and dates are aligned
-  validate_data(target, data_period, question_period)
+  validate_data(target, data_period, question_period, ifp_name)
   
   # Check for partial outcome info
   partial_outcome <- FALSE
