@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-04-26
+2018-04-30
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts](#plot-arima-forecasts)
@@ -10,7 +10,8 @@ Are the base models estimating and without obvious mistakes?
 
 |   IFP| time  | data\_type |    N|    h|  lambda| data\_agg | partial\_train | partial\_y |
 |-----:|:------|:-----------|----:|----:|-------:|:----------|:---------------|:-----------|
-|  1541| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|  1622| month | count      |   38|    5|      NA| no        | used           | no         |
+|  1541| day   | continuous |  120|   45|      NA| no        | no             | no         |
 |  1514| month | count      |   40|    1|      NA| no        | used           | no         |
 |  1451| month | count      |   60|    5|      NA| no        | used           | no         |
 |  1433| month | continuous |   60|    4|      NA| no        | used           | no         |
@@ -32,7 +33,7 @@ Are the base models estimating and without obvious mistakes?
 |   929| month | count      |   60|    3|      NA| no        | used           | no         |
 |   911| month | count      |   60|    3|     0.5| no        | discarded      | no         |
 |   902| month | count      |   60|    4|      NA| no        | discarded      | no         |
-|   893| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
+|   893| day   | continuous |  120|   85|      NA| no        | no             | no         |
 |   884| fixed | count      |  120|   11|      NA| no        | discarded      | no         |
 |   875| month | continuous |   60|    4|      NA| no        | discarded      | no         |
 |   866| month | count      |   38|    1|      NA| no        | no             | yes        |
@@ -40,214 +41,219 @@ Are the base models estimating and without obvious mistakes?
 |   830| month | count      |   14|    3|      NA| no        | used           | no         |
 |   821| month | count      |   14|    2|      NA| no        | used           | no         |
 
-| IFP  | Error                                                                                           |
-|:-----|:------------------------------------------------------------------------------------------------|
-| 938  | r\_basil\_ts(): Send daily data in the request, not aggregated data. Question is over 100 day   |
-| 893  | validate\_data(target, data\_period, question\_period, ifp\_name): Request data appear to not b |
-| 1541 | validate\_data(target, data\_period, question\_period, ifp\_name): Request data appear to not b |
+| IFP | Error                                                                                         |
+|:----|:----------------------------------------------------------------------------------------------|
+| 938 | r\_basil\_ts(): Send daily data in the request, not aggregated data. Question is over 100 day |
 
 Plot ARIMA forecasts
 ====================
+
+Request 1622
+------------
+
+Will ACLED record any civilian fatalities in Sri Lanka in July 2018?
+
+![](README_files/figure-markdown_github/arima-plots-1.png)
 
 Request 1541
 ------------
 
 What will be the daily closing spot price of Brent crude oil (USD per barrel) on 31 May 2018, according to the U.S. EIA?
 
-![](README_files/figure-markdown_github/arima-plots-1.png)
+![](README_files/figure-markdown_github/arima-plots-2.png)
 
 Request 1514
 ------------
 
 How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?
 
-![](README_files/figure-markdown_github/arima-plots-2.png)
+![](README_files/figure-markdown_github/arima-plots-3.png)
 
 Request 1451
 ------------
 
 How much crude oil will Nigeria produce in July 2018?
 
-![](README_files/figure-markdown_github/arima-plots-3.png)
+![](README_files/figure-markdown_github/arima-plots-4.png)
 
 Request 1433
 ------------
 
 What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?
 
-![](README_files/figure-markdown_github/arima-plots-4.png)
+![](README_files/figure-markdown_github/arima-plots-5.png)
 
 Request 1406
 ------------
 
 What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?
 
-![](README_files/figure-markdown_github/arima-plots-5.png)
+![](README_files/figure-markdown_github/arima-plots-6.png)
 
 Request 1271
 ------------
 
 How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?
 
-![](README_files/figure-markdown_github/arima-plots-6.png)
+![](README_files/figure-markdown_github/arima-plots-7.png)
 
 Request 1235
 ------------
 
 What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-7.png)
+![](README_files/figure-markdown_github/arima-plots-8.png)
 
 Request 1226
 ------------
 
 Will ACLED record any civilian fatalities in Ghana in June 2018?
 
-![](README_files/figure-markdown_github/arima-plots-8.png)
+![](README_files/figure-markdown_github/arima-plots-9.png)
 
 Request 1217
 ------------
 
 What will be the approval rate for Japan's cabinet in NHK's monthly survey in June 2018?
 
-![](README_files/figure-markdown_github/arima-plots-9.png)
+![](README_files/figure-markdown_github/arima-plots-10.png)
 
 Request 1208
 ------------
 
 What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-10.png)
+![](README_files/figure-markdown_github/arima-plots-11.png)
 
 Request 1190
 ------------
 
 How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for July 2018?
 
-![](README_files/figure-markdown_github/arima-plots-11.png)
+![](README_files/figure-markdown_github/arima-plots-12.png)
 
 Request 1172
 ------------
 
 How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-12.png)
+![](README_files/figure-markdown_github/arima-plots-13.png)
 
 Request 1145
 ------------
 
 What will be the monthly Period-over-Period change in the consumer price index (CPI) for Malawi in April (Month 04) 2018?
 
-![](README_files/figure-markdown_github/arima-plots-13.png)
+![](README_files/figure-markdown_github/arima-plots-14.png)
 
 Request 1136
 ------------
 
 Will ACLED record any riot/protest events in Gambia in July 2018?
 
-![](README_files/figure-markdown_github/arima-plots-14.png)
+![](README_files/figure-markdown_github/arima-plots-15.png)
 
 Request 1055
 ------------
 
 What will be the maximum sea ice extent on the Bering Sea between 14 March 2018 and 10 April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-15.png)
+![](README_files/figure-markdown_github/arima-plots-16.png)
 
 Request 1037
 ------------
 
 What will be the long-term interest rate for Portugal (PRT) in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-16.png)
+![](README_files/figure-markdown_github/arima-plots-17.png)
 
 Request 1028
 ------------
 
 What will be the daily closing price of gold on 26 April 2018 in USD?
 
-![](README_files/figure-markdown_github/arima-plots-17.png)
+![](README_files/figure-markdown_github/arima-plots-18.png)
 
 Request 1019
 ------------
 
 What will be the FAO Dairy Price Index in May 2018?
 
-![](README_files/figure-markdown_github/arima-plots-18.png)
+![](README_files/figure-markdown_github/arima-plots-19.png)
 
 Request 938
 -----------
 
 What will be the maximum sea ice extent on the Barents Sea between 1 January 2018 and 10 April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-19.png)
+![](README_files/figure-markdown_github/arima-plots-20.png)
 
 Request 929
 -----------
 
 How much crude oil will Libya produce in May 2018?
 
-![](README_files/figure-markdown_github/arima-plots-20.png)
+![](README_files/figure-markdown_github/arima-plots-21.png)
 
 Request 911
 -----------
 
 How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?
 
-![](README_files/figure-markdown_github/arima-plots-21.png)
+![](README_files/figure-markdown_github/arima-plots-22.png)
 
 Request 902
 -----------
 
 How many material conflict events involving India will ICEWS record in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-22.png)
+![](README_files/figure-markdown_github/arima-plots-23.png)
 
 Request 893
 -----------
 
 What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?
 
-![](README_files/figure-markdown_github/arima-plots-23.png)
+![](README_files/figure-markdown_github/arima-plots-24.png)
 
 Request 884
 -----------
 
 How many positive influenza virus detections will FluNet record for China between 12 March 2018 and 18 March 2018 (epidemiological week 11)?
 
-![](README_files/figure-markdown_github/arima-plots-24.png)
+![](README_files/figure-markdown_github/arima-plots-25.png)
 
 Request 875
 -----------
 
 What will be the FAO Sugar Price Index in June 2018?
 
-![](README_files/figure-markdown_github/arima-plots-25.png)
+![](README_files/figure-markdown_github/arima-plots-26.png)
 
 Request 866
 -----------
 
 How many earthquakes of magnitude 5 or stronger will occur worldwide in March 2018?
 
-![](README_files/figure-markdown_github/arima-plots-26.png)
+![](README_files/figure-markdown_github/arima-plots-27.png)
 
 Request 839
 -----------
 
 Will ACLED record any riot/protest events in Gabon in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-27.png)
+![](README_files/figure-markdown_github/arima-plots-28.png)
 
 Request 830
 -----------
 
 How many battle deaths will ACLED record in Yemen in May 2018?
 
-![](README_files/figure-markdown_github/arima-plots-28.png)
+![](README_files/figure-markdown_github/arima-plots-29.png)
 
 Request 821
 -----------
 
 How many battle deaths will ACLED record in Afghanistan in April 2018?
 
-![](README_files/figure-markdown_github/arima-plots-29.png)
+![](README_files/figure-markdown_github/arima-plots-30.png)

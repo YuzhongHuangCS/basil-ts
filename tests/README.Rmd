@@ -191,6 +191,9 @@ for (fh in output_list) {
         sprintf(", partial outcome to %s",
                 as.character( response$internal2$last_event_date)))
     }
+    if (response$forecast_is_usable==0) {
+      subt <- paste0(subt, ", flagged not usable")
+    }
     cutpoints <- options$cutpoints %>% head(-1) %>% tail(-1)
     p <- ggplot(df, aes(x = date)) +
       geom_line(aes(y = value)) + 
