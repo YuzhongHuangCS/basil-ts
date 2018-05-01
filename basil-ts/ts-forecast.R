@@ -692,16 +692,23 @@ enforce_series_type <- function(x, type) {
   if (type=="continuous") {
     x <- x
   } else if (type=="count") {
-    nudge <- 0.00001
-    if (any(x$lower[, 2] < 0)) {
-      
+    nudge <- 1e-5
+    tspx <- tsp(x$lower)
+    if (any(x$lower < 0)) {
       x$trunc_lower  <- 0
     }
-    x$lower[x$lower[, 2] < 0, 2] <- 0
-    x$lower[x$lower[, 1] < 0, 1] <- 0 + nudge
-    x$mean[x$mean < 0]           <- 0 + 2*nudge
-    x$upper[x$upper[, 1] < 0, 1] <- 0 + 3*nudge
-    x$upper[x$upper[, 2] < 0, 2] <- 0 + 4*nudge
+    # Single level forecasts will have lower/upper as 'ts', others will have
+    # matrix-like 'mts'; apply will return matrix for mts, but vector for ts;
+    # the conversion back to ts does not work correctly for vector unless
+    # we coerce all the apply output to be matrix with correct dimensions
+    nseries <- ncol(x$lower)
+    x$lower <- apply(x$lower, 1, pmax, rev(seq(0, (nseries-1))) * nudge)
+    x$lower <- matrix(x$lower, nrow = nseries)
+    x$lower <- ts(t(x$lower), frequency = tspx[3], start = tspx[1] )
+    x$mean[x$mean < 0]           <- 0 + ncol(x$lower)*nudge
+    x$upper <- apply(x$upper, 1, pmax, seq(nseries + 1, length.out = nseries) * nudge)
+    x$upper <- matrix(x$upper, nrow = nseries)
+    x$upper <- ts(t(x$upper), frequency = tspx[3], start = tspx[1] )
   } 
   x
 }
