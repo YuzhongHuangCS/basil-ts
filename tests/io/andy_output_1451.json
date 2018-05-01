@@ -8,6 +8,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          726.4038
+        ],
+        "BIC": [
+          728.4814
+        ],
         "mdl_string": [
           "ARIMA(0,1,0)"
         ],
@@ -72,9 +78,9 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
@@ -82,6 +88,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          814.8311
+        ],
+        "BIC": [
+          821.1141
+        ],
         "mdl_string": [
           "ETS(A,N,N)"
         ],
@@ -146,25 +158,31 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
       "forecast_is_usable": [
-        "NA"
+        1
       ],
       "internal": {
+        "AIC": [
+          726.4038
+        ],
+        "BIC": [
+          728.4814
+        ],
         "mdl_string": [
-          "RWF"
+          "RW"
         ],
         "rmse": [
-          "NA"
+          111.2384
         ]
       },
       "model": [
-        "RWF"
+        "RW"
       ],
       "option_labels": [
         "<1630",
@@ -202,41 +220,47 @@
         [
           "2018-05-01",
           "1732",
-          "1351.187",
-          "2112.813"
+          "1351.186",
+          "2112.814"
         ],
         [
           "2018-06-01",
           "1732",
-          "1292.275",
-          "2171.725"
+          "1292.274",
+          "2171.726"
         ],
         [
           "2018-07-01",
           "1732",
-          "1240.372",
-          "2223.628"
+          "1240.371",
+          "2223.629"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
       "forecast_is_usable": [
-        "NA"
+        1
       ],
       "internal": {
+        "AIC": [
+          -138.8412
+        ],
+        "BIC": [
+          -136.7637
+        ],
         "mdl_string": {},
         "rmse": [
-          "NA"
+          0.0727
         ]
       },
       "model": [
-        "geometric RWF"
+        "geometric RW"
       ],
       "option_labels": [
         "<1630",
@@ -246,11 +270,11 @@
         ">1980"
       ],
       "option_probabilities": [
-        0.3804,
-        0.141,
-        0.1274,
-        0.1216,
-        0.2296
+        0.3557,
+        0.1695,
+        0.143,
+        0.1246,
+        0.2073
       ],
       "to_date": [
         "2018-07-31"
@@ -262,43 +286,49 @@
         [
           "2018-03-01",
           "1732",
-          "1500.072",
-          "1999.787"
+          "1500.053",
+          "1999.813"
         ],
         [
           "2018-04-01",
           "1732",
-          "1413.351",
-          "2122.490"
+          "1413.326",
+          "2122.528"
         ],
         [
           "2018-05-01",
           "1732",
-          "1350.224",
-          "2221.724"
+          "1350.194",
+          "2221.772"
         ],
         [
           "2018-06-01",
           "1732",
-          "1299.200",
-          "2308.978"
+          "1299.167",
+          "2309.036"
         ],
         [
           "2018-07-01",
           "1732",
-          "1255.848",
-          "2388.685"
+          "1255.812",
+          "2388.752"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     }
   ],
   "internal": {
+    "AIC": [
+      726.4038
+    ],
+    "BIC": [
+      728.4814
+    ],
     "mdl_string": [
       "ARIMA(0,1,0)"
     ],
@@ -319,7 +349,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-30T10:35:51"
+      "2018-05-01T21:23:46"
     ],
     "h": [
       5
@@ -350,7 +380,7 @@
       178.7915
     ],
     "rmse_rwf": [
-      112.1769
+      111.2384
     ],
     "separations": {
       "cutpoints": [
@@ -443,8 +473,8 @@
   ],
   "ts_colnames": [
     "date",
-    "actual_forecast",
-    "lower_bound_95_percent",
-    "upper_bound_95_percent"
+    "Point Forecast",
+    "Lo 95",
+    "Hi 95"
   ]
 }

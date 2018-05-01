@@ -8,6 +8,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          800.4249
+        ],
+        "BIC": [
+          803.204
+        ],
         "mdl_string": [
           "ARIMA(0,1,0)"
         ],
@@ -42,15 +48,19 @@
         [
           "2017-10-31",
           "1272",
+          "1263.118",
+          "1280.882",
           "1258.417",
           "1285.583"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 80",
+        "Hi 80",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
@@ -58,11 +68,17 @@
         1
       ],
       "internal": {
+        "AIC": [
+          1043.2216
+        ],
+        "BIC": [
+          1051.584
+        ],
         "mdl_string": [
           "ETS(M,N,N)"
         ],
         "rmse": [
-          6.9006
+          0.0054
         ]
       },
       "model": [
@@ -92,117 +108,51 @@
         [
           "2017-10-31",
           "1271.999",
+          "1263.23",
+          "1280.769",
           "1258.588",
           "1285.411"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 80",
+        "Hi 80",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
-      "forecast_is_usable": [
-        "NA"
+      "estimated": [
+        false
       ],
-      "internal": {
-        "mdl_string": [
-          "RWF"
-        ],
-        "rmse": [
-          "NA"
-        ]
-      },
       "model": [
         "RWF"
       ],
-      "option_labels": [
-        "<1229.85",
-        "1229.85 - 1268.42",
-        "1268.42 - 1301.63",
-        "1301.63 - 1340.19",
-        ">1340.19"
-      ],
-      "option_probabilities": [
-        5.9092e-10,
-        0.3027,
-        0.6973,
-        9.5175e-06,
-        0
-      ],
-      "to_date": [
-        null
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2017-10-31",
-          "1272",
-          "1258.418",
-          "1285.582"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+      "r_error_message": [
+        "object 'mdl' not found"
       ]
     },
     {
-      "forecast_is_usable": [
-        "NA"
+      "estimated": [
+        false
       ],
-      "internal": {
-        "mdl_string": {},
-        "rmse": [
-          "NA"
-        ]
-      },
       "model": [
         "geometric RWF"
       ],
-      "option_labels": [
-        "<1229.85",
-        "1229.85 - 1268.42",
-        "1268.42 - 1301.63",
-        "1301.63 - 1340.19",
-        ">1340.19"
-      ],
-      "option_probabilities": [
-        4.8566e-10,
-        0.3018,
-        0.6982,
-        8.6185e-06,
-        0
-      ],
-      "to_date": [
-        null
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2017-10-31",
-          "1272",
-          "1258.63",
-          "1285.512"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+      "r_error_message": [
+        "object 'mdl' not found"
       ]
     }
   ],
   "internal": {
+    "AIC": [
+      800.4249
+    ],
+    "BIC": [
+      803.204
+    ],
     "mdl_string": [
       "ARIMA(0,1,0)"
     ],
@@ -223,7 +173,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-25T21:20:59"
+      "2018-05-01T20:45:48"
     ],
     "h": [
       1
@@ -317,14 +267,18 @@
     [
       "2017-10-31",
       "1272",
+      "1263.118",
+      "1280.882",
       "1258.417",
       "1285.583"
     ]
   ],
   "ts_colnames": [
     "date",
-    "actual_forecast",
-    "lower_bound_95_percent",
-    "upper_bound_95_percent"
+    "Point Forecast",
+    "Lo 80",
+    "Hi 80",
+    "Lo 95",
+    "Hi 95"
   ]
 }

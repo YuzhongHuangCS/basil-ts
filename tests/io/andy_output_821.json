@@ -8,6 +8,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          234.4859
+        ],
+        "BIC": [
+          235.7641
+        ],
         "mdl_string": [
           "ARIMA(0,0,0) with non-zero mean"
         ],
@@ -54,9 +60,9 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
@@ -64,6 +70,12 @@
         0
       ],
       "internal": {
+        "AIC": [
+          233.7039
+        ],
+        "BIC": [
+          235.621
+        ],
         "mdl_string": [
           "ETS(A,N,N)"
         ],
@@ -110,25 +122,31 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
       "forecast_is_usable": [
-        "NA"
+        0
       ],
       "internal": {
+        "AIC": [
+          227.004
+        ],
+        "BIC": [
+          227.5689
+        ],
         "mdl_string": [
-          "RWF"
+          "RW"
         ],
         "rmse": [
-          "NA"
+          1336.7632
         ]
       },
       "model": [
-        "RWF"
+        "RW"
       ],
       "option_labels": [
         "<2000",
@@ -166,23 +184,29 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
       "forecast_is_usable": [
-        "NA"
+        1
       ],
       "internal": {
+        "AIC": [
+          22.1463
+        ],
+        "BIC": [
+          22.7113
+        ],
         "mdl_string": {},
         "rmse": [
-          "NA"
+          0.506
         ]
       },
       "model": [
-        "geometric RWF"
+        "geometric RW"
       ],
       "option_labels": [
         "<2000",
@@ -192,11 +216,11 @@
         ">3400"
       ],
       "option_probabilities": [
-        0.5859,
-        0.077,
-        0.0572,
-        0.0641,
-        0.2159
+        0.6619,
+        0.1017,
+        0.057,
+        0.0505,
+        0.1288
       ],
       "to_date": [
         "2018-04-30"
@@ -208,25 +232,31 @@
         [
           "2018-03-01",
           "1466.5",
-          "523.9347",
-          "4104.753"
+          "523.9301",
+          "4104.788"
         ],
         [
           "2018-04-01",
           "1466.5",
-          "342.0752",
-          "6286.986"
+          "342.0710",
+          "6287.063"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     }
   ],
   "internal": {
+    "AIC": [
+      234.4859
+    ],
+    "BIC": [
+      235.7641
+    ],
     "mdl_string": [
       "ARIMA(0,0,0) with non-zero mean"
     ],
@@ -247,7 +277,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-30T10:36:56"
+      "2018-05-01T21:24:48"
     ],
     "h": [
       2
@@ -278,7 +308,7 @@
       909.3248
     ],
     "rmse_rwf": [
-      1387.2245
+      1336.7632
     ],
     "separations": {
       "cutpoints": [
@@ -353,8 +383,8 @@
   ],
   "ts_colnames": [
     "date",
-    "actual_forecast",
-    "lower_bound_95_percent",
-    "upper_bound_95_percent"
+    "Point Forecast",
+    "Lo 95",
+    "Hi 95"
   ]
 }

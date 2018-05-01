@@ -8,6 +8,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          45.4332
+        ],
+        "BIC": [
+          46.8493
+        ],
         "mdl_string": [
           "ARIMA(0,1,1)(0,1,0)[3]"
         ],
@@ -50,9 +56,9 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
@@ -60,6 +66,12 @@
         1
       ],
       "internal": {
+        "AIC": [
+          63.2917
+        ],
+        "BIC": [
+          66.125
+        ],
         "mdl_string": [
           "ETS(A,N,N)"
         ],
@@ -102,25 +114,31 @@
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
       "forecast_is_usable": [
-        "NA"
+        0
       ],
       "internal": {
+        "AIC": [
+          60.6728
+        ],
+        "BIC": [
+          61.5632
+        ],
         "mdl_string": [
-          "RWF"
+          "RW"
         ],
         "rmse": [
-          "NA"
+          1.2018
         ]
       },
       "model": [
-        "RWF"
+        "RW"
       ],
       "option_labels": [
         "0",
@@ -142,21 +160,21 @@
         [
           "2017-12-20",
           "4.054945",
-          "1.6348953",
+          "1.6348952",
           "6.474995"
         ],
         [
           "2018-04-22",
           "4.054945",
-          "0.6324778",
+          "0.6324777",
           "7.477412"
         ]
       ],
       "ts_colnames": [
         "date",
-        "actual_forecast",
-        "lower_bound_95_percent",
-        "upper_bound_95_percent"
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
       ]
     },
     {
@@ -172,6 +190,12 @@
     }
   ],
   "internal": {
+    "AIC": [
+      45.4332
+    ],
+    "BIC": [
+      46.8493
+    ],
     "mdl_string": [
       "ARIMA(0,1,1)(0,1,0)[3]"
     ],
@@ -192,7 +216,7 @@
       ]
     },
     "forecast_created_at": [
-      "2018-04-30T10:35:59"
+      "2018-05-01T21:23:54"
     ],
     "h": [
       2
@@ -223,7 +247,7 @@
       1.0461
     ],
     "rmse_rwf": [
-      1.2347
+      1.2018
     ],
     "separations": {
       "cutpoints": [
@@ -288,8 +312,8 @@
   ],
   "ts_colnames": [
     "date",
-    "actual_forecast",
-    "lower_bound_95_percent",
-    "upper_bound_95_percent"
+    "Point Forecast",
+    "Lo 95",
+    "Hi 95"
   ]
 }

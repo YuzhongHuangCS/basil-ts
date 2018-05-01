@@ -478,7 +478,7 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period, fun) {
   
   # Enforce minimum already observed count
   if (fun %in% c("count", "max")) {
-    if (yobs > x$lower[, 2]) {
+    if (yobs > x$lower[, "95%"]) {
       x$lower[, ] <- apply(x$lower, 2, pmax, yobs)
       x$trunc_lower <- yobs
     }
@@ -489,7 +489,7 @@ update_forecast <- function(x, yobs, yn, fcast_date, data_period, fun) {
     if (yobs > x$mean) {
       x$mean <- max(x$mean, yobs * (1 + nudge))
     }
-    if (yobs > x$upper[, 2]) {
+    if (yobs > x$upper[, 1]) {
       x$upper[, ] <- apply(x$upper, 2, pmax, yobs * (1 + 2*nudge))
     }
   }
@@ -587,17 +587,18 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       }
       mdl <- ets(ts, model = spec, lambda = lambda)
       mdl$model_string <- mdl$method
-    } else if (model=="RWF") {
-      mdl        <- rwf(ts, lambda = lambda, h = h)
-      mdl$sigma2 <- forecast_se(mdl, tail = FALSE)^2
-      mdl$model_string <- "RWF"
-    } else if (model=="geometric RWF") {
-      mdl        <- rwf(ts, lambda = 0, h = h)
-      mdl$sigma2 <- forecast_se(mdl, tail = FALSE)^2
-      mdl$model_sring <- "geometric RWF"
+    } else if (model=="RW") {
+      mdl        <- Arima(ts, c(0, 1, 0), lambda = NULL)
+      mdl$model_string <- "RW"
+    } else if (model=="geometric RW") {
+      mdl        <- Arima(ts, c(0, 1, 0), lambda = 0)
+      mdl$model_sring <- "geometric RW"
+    } else if (model=="mean") {
+      mdl <- Arima(ts, c(0, 0, 0), lambda = lambda)
+      mdl$model_string <- "mean"
     }
     
-    fcast    <- forecast(mdl, h = h)
+    fcast    <- forecast(mdl, h = h, level = c(95))
     fcast$se <- forecast_se(fcast, tail = TRUE) 
     fcast$trunc_lower <- -Inf
     fcast$trunc_upper <- +Inf
@@ -608,32 +609,28 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     fcast <- enforce_series_type(fcast, series_type)
     
     # Fit statistics
+    rmse      <- sqrt(mean(residuals(mdl)^2))
+    rmse_mean <- sqrt(mean(residuals(Arima(ts, c(0, 0, 0)))^2))
+    rmse_rwf  <- sqrt(mean(residuals(Arima(ts, c(0, 1, 0), lambda = NULL))^2))
     # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-    resid <- mdl$x - mdl$fitted
-    rmse  <- sqrt(mean(resid^2))
-    #rmse  <- sqrt(mean(residuals(mdl)^2))
-    rmse_mean <- sqrt(mean((mdl$x - mean(mdl$x))^2))
-    resid_rwf <- mdl$x - naive(mdl$x)$fitted
-    #resid_rwf <- residuals(naive(mdl$x))
-    rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
     # mase doesn't work when any baseline forecast is 0, bc /0
     #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
     usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
     
     result <- list(
       model = model,
-      ts_colnames = c("date", "actual_forecast", "lower_bound_95_percent", "upper_bound_95_percent"),
+      ts_colnames = c("date", names(as.data.frame(fcast))),
       ts = data.frame(
         date = fcast_dates,
-        mean = fcast$mean,
-        l95  = fcast$lower[, "95%"],
-        u95  = fcast$upper[, "95%"]
+        as.data.frame(fcast)
       ) %>% as.matrix(),
       to_date = tail(fcast_dates, 1) + find_days_in_period(max(fcast_dates), data_period$period) - 1,
       forecast_is_usable = usable, 
       internal = list(
         mdl_string = mdl$model_string,
-        rmse = rmse
+        rmse = rmse,
+        AIC = AIC(mdl),
+        BIC = BIC(mdl)
       ),
       trainN = length(ts),
       est_model = mdl,
@@ -939,14 +936,14 @@ r_basil_ts <- function(fh = NULL) {
                                   fcast_dates = fcast_dates, data_period = data_period,
                                   binary_ifp = binary_ifp, options = options,
                                   ifp_name = ifp_name, fun = agg_method)
-  forecast_rwf <- create_forecast(target_ts, "RWF", lambda = lambda, h = h, series_type = series_type,
+  forecast_rwf <- create_forecast(target_ts, "RW", lambda = lambda, h = h, series_type = series_type,
                                   partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                   fcast_dates = fcast_dates, data_period = data_period,
                                   binary_ifp = binary_ifp, options = options,
                                   ifp_name = ifp_name, fun = agg_method)
   
   if (sum(target_ts<=0)==0) {
-    forecast_geo_rwf <- create_forecast(target_ts, "geometric RWF", lambda = lambda, h = h, series_type = series_type,
+    forecast_geo_rwf <- create_forecast(target_ts, "geometric RW", lambda = lambda, h = h, series_type = series_type,
                                         partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
                                         fcast_dates = fcast_dates, data_period = data_period,
                                         binary_ifp = binary_ifp, options = options,
@@ -957,12 +954,8 @@ r_basil_ts <- function(fh = NULL) {
   }
 
   # Fit statistics
-  # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-  rmse_mean <- sqrt(mean((forecast$est_model$x - mean(forecast$est_model$x))^2))
-  resid_rwf <- forecast$est_model$x - naive(forecast$est_model$x)$fitted
-  rmse_rwf  <- sqrt(mean(resid_rwf^2, na.rm = TRUE))
-  # mase doesn't work when any baseline forecast is 0, bc /0
-  #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
+  rmse_mean <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 0, 0), lambda = lambda))^2))
+  rmse_rwf  <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 1, 0), lambda = lambda))^2, na.rm = TRUE))
   
   # The estimated model and fcast object are helpers for stuff in this level,
   # can take out now, don't need actually in response.
