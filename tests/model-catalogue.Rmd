@@ -1,0 +1,218 @@
+---
+title: "Model catalogue"
+output: github_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library("tidyverse")
+library("forecast")
+library("stringr")
+library("cowplot")
+
+source("../basil-ts/ts-forecast.R")
+```
+
+
+# List of available models
+
+- Auto ARIMA; automatic model select of up to a seasonal ARIMA model using AICc (small-sample size corrected AIC). 
+- Exponential smoothing state space model (ETS)
+- Arithmetic random walk (RW); implemented as ARIMA(0, 1, 0) with no BoxCox transform
+- Geometric random walk (geometric RW); implemented as ARIMA(0, 1, 0) on log scale
+- Contant mean (Mean); equivalent to ARIMA(0, 0, 0)
+
+# Plots for open IFPs
+
+```{r sort-closed-ifps}
+output_list <- dir("io", pattern = "_output_", full.names = TRUE)
+req_no <- sapply(output_list, str_extract, "[0-9]+")
+output_list <- output_list[order(as.integer(req_no), decreasing = TRUE)]
+
+close_date <- sapply(output_list, function(fh) {
+  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+  response$to_date
+})
+close_date["io/andy_output_938.json"] <- "2018-04-10"
+close_date <- unlist(close_date) %>% as.Date()
+
+open_ifps   <- output_list[close_date > today()]
+closed_ifps <- output_list[!close_date > today()]
+```
+
+```{r arima-plots-open-ifps, warning = FALSE, fig.height=3, results = 'asis'}
+error_plot <- function(fcast, target, request_no, request) {
+  y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
+  p <- ggplot(target, aes(x = date, y = value)) +
+    geom_line() +
+    theme_minimal() +
+    #ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
+    labs(x = "", y = "") +
+    geom_text(x = target$date[1], y = y_pos, col = "gray50",
+              label = fcast$r_error_message %>% str_wrap(), hjust = 0)
+  p
+}
+
+all_model_plotter <- function(file_list) {
+  
+  #fh = open_ifps[2]
+  
+  for (fh in file_list) {
+    
+    input_fh <- str_replace(fh, "output", "input")
+    
+    response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+    request  <- jsonlite::fromJSON(input_fh)
+    request_no <- str_extract(fh, "[0-9]+")
+    
+    cat(sprintf("\n\n## Request %s\n\n", request_no))
+    cat(sprintf("\n\n %s \n\n", request$ifp$name))
+    
+    target <- data.frame(
+      date  = as.Date(request$payload$historical_data$ts[, 1]),
+      value = as.numeric(request$payload$historical_data$ts[, 2])
+    )
+    
+    if (!is.null(response$message)) {
+      p <- error_plot(response, target, request_no, request)
+      print(p)
+    } else {
+      ifp_name        <- request$ifp$name
+      binary_ifp <- request$ifp$`binary?`
+      validate_seps(request$payload$separations$values)
+      
+      # Parse characteristics
+      question_period <- parse_question_period(ifp_name)
+      data_period     <- parse_data_period(target$date)
+      series_type     <- guess_series_type(target$value, ifp_name)
+      options         <- parse_separations(request$payload$separations, 
+                                           series_type, ifp_name)
+      agg_method      <- determine_aggregation_method(series_type, ifp_name)
+      
+      # Do aggregation if neccessary
+      was_data_aggregated <- FALSE
+      were_dates_shifted  <- FALSE
+      if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+        # update internal data
+        target      <- aggregate_data(target, question_period, agg_method)
+        data_period <- parse_data_period(target$date)
+        was_data_aggregated <- TRUE
+      }
+      
+      for (ff in response$forecasts) {
+        
+        if (!is.null(ff$estimated) | !is.null(ff$message)) {
+          p <- error_plot(ff, target, request_no, request)
+          if (str_detect(ff$r_error_message, "Series contains values <=")) {
+            p <- p + ggtitle(sprintf("%s, geometric RW", request_no))
+          }
+          print(p)
+        } else {
+          
+          fcast <- data.frame(
+            date = as.Date(ff$ts[, 1]),
+            mean = as.numeric(ff$ts[, 2]),
+            lower = as.numeric(ff$ts[, 3]),
+            upper = as.numeric(ff$ts[, 4])
+          )
+          
+          h = nrow(fcast)
+          target_i <- target %>% 
+            tail(ff$trainN) %>%
+            gather(var, value, value)
+          fcast_i <- fcast %>%
+            gather(var, value, -date)
+          fcast_end <- fcast_i %>%
+            filter(date==max(date)) %>%
+            mutate(date = as.Date(ff$to_date))
+          # don't need to extend for daily data
+          if (all(fcast_end$date==max(fcast_i$date))) fcast_end <- NULL
+          df <- bind_rows(target_i, fcast_i, fcast_end) %>%
+            spread(var, value)
+          
+          main_title <- sprintf("%s, %s", request_no, ff$model)
+          
+          subt <- sprintf("N = %s, h = %s", response$trainN, response$internal2$h)
+          if (response$internal2$partial_train %in% c("used", "discarded")) {
+            subt <- paste0(
+              subt, 
+              sprintf(", partial train to %s (%s)", 
+                      as.character( response$internal2$last_event_date),
+                      response$internal2$partial_train))
+          } else if (response$internal2$partial_outcome) {
+            subt <- paste0(
+              subt,
+              sprintf(", partial outcome to %s",
+                      as.character( response$internal2$last_event_date)))
+          }
+          if (response$forecast_is_usable==0) {
+            subt <- paste0(subt, ", flagged not usable")
+          }
+          subt <- paste0(subt, "\n", ff$internal$mdl_string)
+          
+          cutpoints <- options$cutpoints %>% head(-1) %>% tail(-1)
+          p <- ggplot(df, aes(x = date)) +
+            geom_line(aes(y = value)) + 
+            theme_minimal() +
+            ggtitle(main_title,
+                    subtitle = subt) +
+            labs(x = "", y = "") +
+            geom_hline(yintercept = cutpoints, linetype = 3)
+          p <- p + 
+            geom_ribbon(aes(ymin = lower, ymax = upper), fill = "lightblue") +
+            geom_line(aes(y = mean), color = "blue")
+          
+          # Plot the options
+          op <- ff$option_probabilities
+          extend <- if (length(cutpoints) > 1) mean(diff(cutpoints)) else 1
+          op_labels <- options$values
+          if (str_detect(op_labels[1], ">")) {
+            op <- rev(op)
+            op_labels <- rev(op_labels)
+          }
+          if (binary_ifp) {
+            op <- rev(c(op, 1 - op))
+            op_labels <- rev(c("yes", "no"))
+          }
+          
+          cut_df <- data.frame(
+            option = factor(op_labels, levels = op_labels),
+            p = op
+          )
+          p2 <- ggplot(cut_df, aes(x = option, y = p)) +
+            geom_bar(stat = "identity") +
+            coord_flip() +
+            theme_minimal() +
+            labs(x = "", y = "") +
+            scale_y_continuous(breaks = c(0, round(max(op), 2)))
+          
+          print(plot_grid(p, p2, rel_widths = c(3, 1)))
+          
+          # end exception handling for errors for a forecast model of IPFx
+        }
+        
+        # end loop over forecast modles for an IFP
+      }
+      
+      # end processing single IFP
+    }
+    cat("\n\n")
+    
+    # end loop over file list  
+  }
+}
+
+
+all_model_plotter(open_ifps)
+
+```
+
+# Plots for closed IFPs
+
+```{r arima-plots-closed-ifps, warning = FALSE, fig.height=3, results = 'asis'}
+all_model_plotter(closed_ifps)
+```
+
+
