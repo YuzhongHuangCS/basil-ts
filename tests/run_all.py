@@ -13,7 +13,9 @@ request_no = []
 for fh in inputs:
     x = int("".join(filter(str.isdigit, fh)))
     request_no.append(x)
+
 inputs = [x for _,x in sorted(zip(request_no, inputs), reverse = True)]
+
 for req in inputs:
     print(req)
     outfile = 'tests/io/' + req.replace('input', 'output')
