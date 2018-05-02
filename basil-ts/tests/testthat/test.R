@@ -162,6 +162,16 @@ test_that("ACLED is recognized as count", {
 #   expect_equal(enforce_series_type(x, "binary"), c(0, 0, 1, 1))
 # })
 
+
+test_that("Days in period are correctly identified", {
+  daily <- list(period = "day", days = NA)
+  expect_equal(find_days_in_period(as.Date("2018-05-01"), daily), 1)
+  
+  monthly <- list(period = "month", days = NA)
+  expect_equal(find_days_in_period(as.Date("2018-05-01"), monthly), 31)
+  expect_equal(find_days_in_period(as.Date("2018-02-01"), monthly), 28)
+})
+
 test_that("Category forecasts return correct length and order", {
   # check that length is correct
   cp <- c(-Inf, 1221, 1303, 1374, 1456, Inf)

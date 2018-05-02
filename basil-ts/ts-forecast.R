@@ -421,10 +421,15 @@ determine_ts_frequency <- function(x) {
 }
 
 find_days_in_period <- function(x, period) {
-  y <- ifelse(period$period=="month", 
-              x %>% lubridate::days_in_month(),
-              period$days)
-  y
+  if (period$period=="fixed") {
+    return(period$days)
+  } else if (period$period=="month") {
+    return(x %>% lubridate::days_in_month())
+  } else if (period$period=="day") {
+    return(1L)
+  } else {
+    stop("Could not determine days in period, unknown period?")
+  }
 }
 
 # Update forecasts with partial outcomes ----------------------------------
