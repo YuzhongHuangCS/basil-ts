@@ -134,18 +134,18 @@ all_model_plotter <- function(file_list) {
           
           main_title <- sprintf("%s, %s", request_no, ff$model)
           
-          subt <- sprintf("N = %s, h = %s", response$trainN, response$internal2$h)
-          if (response$internal2$partial_train %in% c("used", "discarded")) {
+          subt <- sprintf("N = %s, h = %s", response$trainN, response$parsed_request$h)
+          if (response$parsed_request$partial_train %in% c("used", "discarded")) {
             subt <- paste0(
               subt, 
               sprintf(", partial train to %s (%s)", 
-                      as.character( response$internal2$last_event_date),
-                      response$internal2$partial_train))
-          } else if (response$internal2$partial_outcome) {
+                      as.character( response$parsed_request$last_event_date),
+                      response$parsed_request$partial_train))
+          } else if (response$parsed_request$partial_outcome) {
             subt <- paste0(
               subt,
               sprintf(", partial outcome to %s",
-                      as.character( response$internal2$last_event_date)))
+                      as.character( response$parsed_request$last_event_date)))
           }
           if (response$forecast_is_usable==0) {
             subt <- paste0(subt, ", flagged not usable")

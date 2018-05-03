@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -77,7 +77,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -151,7 +151,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -225,7 +225,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -296,8 +296,82 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          178.8302
+        ],
+        "BIC": [
+          183.0189
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          1.0387
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 180",
+        "180 - 260",
+        ">260"
+      ],
+      "option_probabilities": [
+        0.1402,
+        0.084,
+        0.078,
+        0.1315,
+        0.5665
+      ],
+      "to_date": [
+        "2018-07-31"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-04-01",
+          "309.8142",
+          "39.76384",
+          "2413.873"
+        ],
+        [
+          "2018-05-01",
+          "309.8142",
+          "39.76384",
+          "2413.873"
+        ],
+        [
+          "2018-06-01",
+          "309.8142",
+          "39.76384",
+          "2413.873"
+        ],
+        [
+          "2018-07-01",
+          "309.8142",
+          "39.76384",
+          "2413.873"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       123.359
@@ -312,28 +386,59 @@
       0.6978
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<100",
+    "100 - 140",
+    "140 - 180",
+    "180 - 260",
+    ">260"
+  ],
+  "option_probabilities": [
+    0.73,
+    0.0819,
+    0.0499,
+    0.0553,
+    0.0829
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-04-01",
+      "2018-05-01",
+      "2018-06-01",
+      "2018-07-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:40"
+      "2018-05-03T15:24:48"
     ],
     "h": [
       4
     ],
+    "ifp_name": [
+      "How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for July 2018?"
+    ],
     "lambda": [
       0
     ],
-    "last_event_date": [
+    "last_date": [
       "2018-04-07"
     ],
     "partial_outcome": [
@@ -342,17 +447,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-07-01",
-      "2018-07-31"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-07-01",
+        "2018-07-31"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       1.0387
@@ -392,25 +499,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<100",
-    "100 - 140",
-    "140 - 180",
-    "180 - 260",
-    ">260"
-  ],
-  "option_probabilities": [
-    0.73,
-    0.0819,
-    0.0499,
-    0.0553,
-    0.0829
-  ],
   "to_date": [
     "2018-07-31"
   ],

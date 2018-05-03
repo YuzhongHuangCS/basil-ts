@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -59,7 +59,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -115,7 +115,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         0
       ],
@@ -171,7 +171,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -224,8 +224,64 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          383.3554
+        ],
+        "BIC": [
+          386.7331
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          27.7436
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<100",
+        "100 - 140",
+        "140 - 170",
+        "170 - 210",
+        ">210"
+      ],
+      "option_probabilities": [
+        0.4863,
+        0.4313,
+        0.0754,
+        0.007,
+        0.0001
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        40
+      ],
+      "ts": [
+        [
+          "2018-05-01",
+          "100.9625",
+          "45.89341",
+          "156.0316"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       275.3082
@@ -240,26 +296,53 @@
       23.4724
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<100",
+    "100 - 140",
+    "140 - 170",
+    "170 - 210",
+    ">210"
+  ],
+  "option_probabilities": [
+    0.637,
+    0.323,
+    0.0375,
+    0.0025,
+    0
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-05-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:14"
+      "2018-05-03T15:24:24"
     ],
     "h": [
       1
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?"
+    ],
+    "last_date": [
       "2018-04-24"
     ],
     "partial_outcome": [
@@ -268,17 +351,19 @@
     "partial_train": [
       "used"
     ],
-    "question_date": [
-      "2018-05-01",
-      "2018-05-31"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-05-01",
+        "2018-05-31"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       27.7436
@@ -318,25 +403,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<100",
-    "100 - 140",
-    "140 - 170",
-    "170 - 210",
-    ">210"
-  ],
-  "option_probabilities": [
-    0.637,
-    0.323,
-    0.0375,
-    0.0025,
-    0
-  ],
   "to_date": [
     "2018-05-31"
   ],

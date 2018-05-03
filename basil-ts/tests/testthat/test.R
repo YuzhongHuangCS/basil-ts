@@ -182,6 +182,47 @@ test_that("Category forecasts return correct length and order", {
 }) 
 
 
+test_that("Forecast generator runs", {
+  pr <- structure(list(ifp_name = "What will be the FAO Dairy Price Index in May 2018?", 
+                       binary_ifp = FALSE, data_period = structure(list(period = structure(list(
+                         period = "month", days = NA), .Names = c("period", "days"
+                         ))), .Names = "period"), was_data_aggregated = FALSE, separations = structure(list(
+                           cutpoints = c(-Inf, 130, 150, 170, 190, Inf), values = c("<130", 
+                                                                                    "130 - 150", "150 - 170", "170 - 190", ">190"), unit = "number", 
+                           numeric_values = c("<130", "130 - 150", "150 - 170", 
+                                              "170 - 190", ">190")), .Names = c("cutpoints", "values", 
+                                                                                "unit", "numeric_values")), question_period = structure(list(
+                                                                                  period = "month", days = NA), .Names = c("period", "days"
+                                                                                  )), question_date = structure(c(17652, 17682), class = "Date"), 
+                       series_type = "continuous", partial_train = "discarded", 
+                       partial_outcome = FALSE, last_event_date = structure(17591, class = "Date"), 
+                       h = 3L, lambda = NULL, fcast_dates = structure(c(17591, 17622, 
+                                                                        17652), class = "Date"), backcast = FALSE, agg_method = "mean"), .Names = c("ifp_name", 
+                                                                                                                                                    "binary_ifp", "data_period", "was_data_aggregated", "separations", 
+                                                                                                                                                    "question_period", "question_date", "series_type", "partial_train", 
+                                                                                                                                                    "partial_outcome", "last_event_date", "h", "lambda", "fcast_dates", 
+                                                                                                                                                    "backcast", "agg_method"))
+  target <- structure(c(228.781223321491, 258.845200617942, 253.476162103, 
+                    246.185592129569, 243.64839304623, 247.636223376, 250.203514336736, 
+                    251.053984996, 250.802768103388, 264.110173878422, 267.655955958, 
+                    275.379487640126, 268.482312306, 251.4985238244, 238.918872115775, 
+                    236.454222031913, 226.110797117, 200.815467689814, 187.790184181212, 
+                    184.278143557363, 178.066762992358, 173.991435850538, 173.793078297, 
+                    181.823956808, 184.871672847048, 172.414225617212, 167.451619876624, 
+                    160.542260830909, 149.061056232, 135.501144205822, 142.250382321967, 
+                    155.647988794557, 151.079134906987, 149.500747896137, 145.09225663056, 
+                    142.002354343, 130.294972875805, 127.430500493, 127.985684328176, 
+                    137.928902503703, 142.275705125463, 154.561132657, 175.960088246, 
+                    182.800977665175, 186.362359493449, 192.596390146546, 192.977112443729, 
+                    194.218777040535, 189.801180413434, 183.570696165926, 193.023877137, 
+                    208.965396010707, 216.560823968, 219.651298940275, 224.165476189761, 
+                    214.783717057641, 204.210702628176, 184.399570862264, 179.928492898455, 
+                    191.141189148282), .Tsp = c(1, 5.91666666666667, 12), class = "ts")
+  ff <- create_forecast(target, "RW", pr)
+  expect_equal(ff$model, "RW")
+  
+})
+
 
 # Sample requests ---------------------------------------------------------
 

@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -77,7 +77,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -151,7 +151,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -225,7 +225,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -296,8 +296,82 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "AIC": [
+          403.3716
+        ],
+        "BIC": [
+          407.5603
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          6.7474
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<35",
+        "35 - 43",
+        "43 - 49",
+        "49 - 57",
+        ">57"
+      ],
+      "option_probabilities": [
+        0.012,
+        0.128,
+        0.2813,
+        0.4144,
+        0.1642
+      ],
+      "to_date": [
+        "2018-06-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "50.35",
+          "37.01372",
+          "63.68628"
+        ],
+        [
+          "2018-04-01",
+          "50.35",
+          "37.01372",
+          "63.68628"
+        ],
+        [
+          "2018-05-01",
+          "50.35",
+          "37.01372",
+          "63.68628"
+        ],
+        [
+          "2018-06-01",
+          "50.35",
+          "37.01372",
+          "63.68628"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       348.6862
@@ -312,26 +386,56 @@
       4.3702
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<35",
+    "35 - 43",
+    "43 - 49",
+    "49 - 57",
+    ">57"
+  ],
+  "option_probabilities": [
+    0.0466,
+    0.2876,
+    0.3607,
+    0.266,
+    0.0392
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "mean"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-03-01",
+      "2018-04-01",
+      "2018-05-01",
+      "2018-06-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:33"
+      "2018-05-03T15:24:42"
     ],
     "h": [
       4
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "What will be the approval rate for Japan's cabinet in NHK's monthly survey in June 2018?"
+    ],
+    "last_date": [
       "2018-03-01"
     ],
     "partial_outcome": [
@@ -340,17 +444,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-06-01",
-      "2018-06-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-06-01",
+        "2018-06-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       6.7474
@@ -390,25 +496,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<35",
-    "35 - 43",
-    "43 - 49",
-    "49 - 57",
-    ">57"
-  ],
-  "option_probabilities": [
-    0.0466,
-    0.2876,
-    0.3607,
-    0.266,
-    0.0392
-  ],
   "to_date": [
     "2018-06-30"
   ],

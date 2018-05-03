@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -55,7 +55,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -107,7 +107,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -159,7 +159,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -208,8 +208,60 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "AIC": [
+          212.7094
+        ],
+        "BIC": [
+          216.898
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          1.3775
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<1.7",
+        "1.7 - 2.1",
+        ">2.1"
+      ],
+      "option_probabilities": [
+        0.0949,
+        0.0582,
+        0.8468
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-04-01",
+          "3.521128",
+          "0.7983964",
+          "6.24386"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       40.4504
@@ -224,26 +276,49 @@
       0.3143
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<1.7",
+    "1.7 - 2.1",
+    ">2.1"
+  ],
+  "option_probabilities": [
+    0.5793,
+    0.3443,
+    0.0764
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "mean"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-04-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:55"
+      "2018-05-03T15:25:02"
     ],
     "h": [
       1
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "What will be the long-term interest rate for Portugal (PRT) in April 2018?"
+    ],
+    "last_date": [
       "2018-03-16"
     ],
     "partial_outcome": [
@@ -252,17 +327,19 @@
     "partial_train": [
       "used"
     ],
-    "question_date": [
-      "2018-04-01",
-      "2018-04-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-04-01",
+        "2018-04-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       1.3775
@@ -296,21 +373,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<1.7",
-    "1.7 - 2.1",
-    ">2.1"
-  ],
-  "option_probabilities": [
-    0.5793,
-    0.3443,
-    0.0764
-  ],
   "to_date": [
     "2018-04-30"
   ],

@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -65,7 +65,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         0
       ],
@@ -127,7 +127,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         0
       ],
@@ -189,7 +189,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -248,8 +248,70 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          234.4859
+        ],
+        "BIC": [
+          235.7641
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          909.3248
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<2000",
+        "2000 - 2500",
+        "2500 - 2900",
+        "2900 - 3400",
+        ">3400"
+      ],
+      "option_probabilities": [
+        0.2635,
+        0.1956,
+        0.1669,
+        0.1767,
+        0.1974
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        14
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "2597.036",
+          "747.5138",
+          "4446.558"
+        ],
+        [
+          "2018-04-01",
+          "2597.036",
+          "747.5138",
+          "4446.558"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       234.4859
@@ -264,26 +326,54 @@
       909.3248
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<2000",
+    "2000 - 2500",
+    "2500 - 2900",
+    "2900 - 3400",
+    ">3400"
+  ],
+  "option_probabilities": [
+    0.2635,
+    0.1956,
+    0.1669,
+    0.1767,
+    0.1974
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-03-01",
+      "2018-04-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:21:26"
+      "2018-05-03T15:25:31"
     ],
     "h": [
       2
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "How many battle deaths will ACLED record in Afghanistan in April 2018?"
+    ],
+    "last_date": [
       "2018-02-16"
     ],
     "partial_outcome": [
@@ -292,17 +382,19 @@
     "partial_train": [
       "used"
     ],
-    "question_date": [
-      "2018-04-01",
-      "2018-04-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-04-01",
+        "2018-04-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       909.3248
@@ -342,25 +434,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<2000",
-    "2000 - 2500",
-    "2500 - 2900",
-    "2900 - 3400",
-    ">3400"
-  ],
-  "option_probabilities": [
-    0.2635,
-    0.1956,
-    0.1669,
-    0.1767,
-    0.1974
-  ],
   "to_date": [
     "2018-04-30"
   ],

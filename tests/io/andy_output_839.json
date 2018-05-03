@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -64,7 +64,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -125,7 +125,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -186,7 +186,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -244,8 +244,69 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          134.3704
+        ],
+        "BIC": [
+          138.5591
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          0.7171
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "Yes",
+        "No"
+      ],
+      "option_probabilities": [
+        0.9654
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-02-01",
+          "1.860824",
+          "0.4509667",
+          "7.678323"
+        ],
+        [
+          "2018-03-01",
+          "1.860824",
+          "0.4509667",
+          "7.678323"
+        ],
+        [
+          "2018-04-01",
+          "1.860824",
+          "0.4509667",
+          "7.678323"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       110.0431
@@ -260,28 +321,51 @@
       0.5737
     ]
   },
-  "internal2": {
-    "backcast": [
-      false
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "Yes",
+    "No"
+  ],
+  "option_probabilities": [
+    0.9484
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
+      true
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-02-01",
+      "2018-03-01",
+      "2018-04-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:21:22"
+      "2018-05-03T15:25:28"
     ],
     "h": [
       3
     ],
+    "ifp_name": [
+      "Will ACLED record any riot/protest events in Gabon in April 2018? "
+    ],
     "lambda": [
       0
     ],
-    "last_event_date": [
+    "last_date": [
       "2018-02-05"
     ],
     "partial_outcome": [
@@ -290,17 +374,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-04-01",
-      "2018-04-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-04-01",
+        "2018-04-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       0.7171
@@ -331,18 +417,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "Yes",
-    "No"
-  ],
-  "option_probabilities": [
-    0.9484
-  ],
   "to_date": [
     "2018-04-30"
   ],

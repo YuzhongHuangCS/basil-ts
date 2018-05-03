@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -71,7 +71,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         0
       ],
@@ -139,7 +139,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -207,7 +207,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -272,8 +272,76 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "AIC": [
+          621.3885
+        ],
+        "BIC": [
+          625.5772
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          41.5113
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<130",
+        "130 - 150",
+        "150 - 170",
+        "170 - 190",
+        ">190"
+      ],
+      "option_probabilities": [
+        0.0579,
+        0.0789,
+        0.1318,
+        0.176,
+        0.5555
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "195.8469",
+          "113.7996",
+          "277.8941"
+        ],
+        [
+          "2018-04-01",
+          "195.8469",
+          "113.7996",
+          "277.8941"
+        ],
+        [
+          "2018-05-01",
+          "195.8469",
+          "113.7996",
+          "277.8941"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       426.5602
@@ -288,26 +356,55 @@
       8.59
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<130",
+    "130 - 150",
+    "150 - 170",
+    "170 - 190",
+    ">190"
+  ],
+  "option_probabilities": [
+    0.0009,
+    0.014,
+    0.0958,
+    0.2815,
+    0.6078
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "mean"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-03-01",
+      "2018-04-01",
+      "2018-05-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:21:00"
+      "2018-05-03T15:25:06"
     ],
     "h": [
       3
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "What will be the FAO Dairy Price Index in May 2018?"
+    ],
+    "last_date": [
       "2018-03-01"
     ],
     "partial_outcome": [
@@ -316,17 +413,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-05-01",
-      "2018-05-31"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-05-01",
+        "2018-05-31"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       41.5113
@@ -366,25 +465,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<130",
-    "130 - 150",
-    "150 - 170",
-    "170 - 190",
-    ">190"
-  ],
-  "option_probabilities": [
-    0.0009,
-    0.014,
-    0.0958,
-    0.2815,
-    0.6078
-  ],
   "to_date": [
     "2018-05-31"
   ],

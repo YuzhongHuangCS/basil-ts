@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -61,7 +61,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -119,7 +119,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         0
       ],
@@ -177,18 +177,76 @@
         "Hi 95"
       ]
     },
-    {
-      "message": [
-        "Not estimated"
+    "geometric RW": {
+      "estimated": [
+        false
       ],
       "model": [
-        "geometric RWF"
+        "geometric RW"
       ],
       "r_error_message": [
         "Series contains values <= 0, model not estimated."
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          59.634
+        ],
+        "BIC": [
+          61.5229
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          1.0461
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "0",
+        "1 - 2",
+        ">2"
+      ],
+      "option_probabilities": [
+        0.2391,
+        0.7038,
+        0.0572
+      ],
+      "to_date": [
+        "2018-08-22"
+      ],
+      "trainN": [
+        19
+      ],
+      "ts": [
+        [
+          "2017-12-20",
+          "0.6344708",
+          "0",
+          "2.741068"
+        ],
+        [
+          "2018-04-22",
+          "0.6344708",
+          "0",
+          "2.741068"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       45.4332
@@ -203,26 +261,50 @@
       0.8469
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "0",
+    "1 - 2",
+    ">2"
+  ],
+  "option_probabilities": [
+    0.1186,
+    0.7081,
+    0.1733
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        123
-      ],
-      "period": [
-        "fixed"
-      ]
+      "period": {
+        "days": [
+          123
+        ],
+        "period": [
+          "fixed"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2017-12-20",
+      "2018-04-22"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:25"
+      "2018-05-03T15:24:34"
     ],
     "h": [
       2
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?"
+    ],
+    "last_date": [
       "2017-11-17"
     ],
     "partial_outcome": [
@@ -231,17 +313,19 @@
     "partial_train": [
       "used"
     ],
-    "question_date": [
-      "2018-04-22",
-      "2018-08-22"
-    ],
     "question_period": {
-      "days": [
-        123
+      "dates": [
+        "2018-04-22",
+        "2018-08-22"
       ],
-      "period": [
-        "fixed"
-      ]
+      "period": {
+        "days": [
+          123
+        ],
+        "period": [
+          "fixed"
+        ]
+      }
     },
     "rmse_mean": [
       1.0461
@@ -275,21 +359,14 @@
     ],
     "was_data_aggregated": [
       true
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "0",
-    "1 - 2",
-    ">2"
-  ],
-  "option_probabilities": [
-    0.1186,
-    0.7081,
-    0.1733
-  ],
   "to_date": [
     "2018-08-22"
   ],

@@ -99,6 +99,22 @@ norm_fixed_period <- function(x, days, ref_date) {
 }
 
 
+#' Parse last date in input data
+#' 
+parse_last_date <- function(request, target) {
+  last_date <- ifelse(is.null(request$payload$`last-event-date`),
+                      max(target$date),
+                      request$payload$`last-event-date`)
+  last_date <- as.Date(last_date, origin = "1970-01-01")
+  if (!is.null(request$payload$`aggregated-data`)) {
+    if (request$payload$`aggregated-data`=="month") {
+      last_date <- last_date %m+% months(1) - 1
+    }
+  }
+  last_date
+}
+
+
 #' Parse separations for implied cutpoints
 #' 
 #' @example 
@@ -424,7 +440,7 @@ find_days_in_period <- function(x, period) {
   if (period$period=="fixed") {
     return(period$days)
   } else if (period$period=="month") {
-    return(x %>% lubridate::days_in_month())
+    return(x %>% lubridate::days_in_month() %>% setNames(NULL))
   } else if (period$period=="day") {
     return(1L)
   } else {
@@ -575,14 +591,12 @@ forecast_se <- function(x, tail = TRUE) {
 
 # Forecast helpers --------------------------------------------------------
 
-create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
-                            partial_outcome = FALSE, yobs = NULL, yn = NULL, 
-                            fcast_dates = NULL, data_period = NULL, 
-                            binary_ifp = NULL, options = NULL,
-                            ifp_name = NULL, fun = NULL) {
+create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
+  pr <- parsed_request
+  
   result <- tryCatch({
     if (model=="ARIMA") {
-      mdl <- auto.arima(ts, lambda = lambda)
+      mdl <- auto.arima(ts, lambda = pr$lambda)
       mdl$model_string <- forecast:::arima.string(mdl)
     } else if (model=="ETS") {
       if (frequency(ts) > 24) {
@@ -590,28 +604,34 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
       } else {
         spec = "ZZZ"
       }
-      mdl <- ets(ts, model = spec, lambda = lambda)
+      mdl <- ets(ts, model = spec, lambda = pr$lambda)
       mdl$model_string <- mdl$method
     } else if (model=="RW") {
       mdl        <- Arima(ts, c(0, 1, 0), lambda = NULL)
       mdl$model_string <- "RW"
     } else if (model=="geometric RW") {
+      
+      if (!sum(ts<=0)==0) {
+        stop("Series contains values <= 0, model not estimated.")
+      }
       mdl        <- Arima(ts, c(0, 1, 0), lambda = 0)
       mdl$model_sring <- "geometric RW"
+      
     } else if (model=="mean") {
-      mdl <- Arima(ts, c(0, 0, 0), lambda = lambda)
+      mdl <- Arima(ts, c(0, 0, 0), lambda = pr$lambda)
       mdl$model_string <- "mean"
     }
     
-    fcast    <- forecast(mdl, h = h, level = c(95))
+    fcast    <- forecast(mdl, h = pr$h, level = c(95))
     fcast$se <- forecast_se(fcast, tail = TRUE) 
     fcast$trunc_lower <- -Inf
     fcast$trunc_upper <- +Inf
-    if (partial_outcome) {
-      fcast <- update_forecast(fcast, yobs, yn, fcast_dates, data_period, fun)
+    if (pr$partial_outcome) {
+      fcast <- update_forecast(fcast, pr$yobs, pr$yn, pr$fcast_date, 
+                               pr$data_period, pr$agg_method)
     } 
     
-    fcast <- enforce_series_type(fcast, series_type)
+    fcast <- enforce_series_type(fcast, pr$series_type)
     
     # Fit statistics
     rmse      <- sqrt(mean(residuals(mdl)^2))
@@ -622,14 +642,17 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
     usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
     
+    fcast_end_date <- tail(pr$fcast_date, 1) + 
+      find_days_in_period(max(pr$fcast_date), pr$data_period$period) - 1
+    
     result <- list(
       model = model,
       ts_colnames = c("date", names(as.data.frame(fcast))),
       ts = data.frame(
-        date = fcast_dates,
+        date = pr$fcast_date,
         as.data.frame(fcast)
       ) %>% as.matrix(),
-      to_date = tail(fcast_dates, 1) + find_days_in_period(max(fcast_dates), data_period$period) - 1,
+      to_date = fcast_end_date,
       forecast_is_usable = usable, 
       internal = list(
         mdl_string = mdl$model_string,
@@ -644,16 +667,16 @@ create_forecast <- function(ts, model = "ARIMA", lambda, h, series_type,
     rownames(result$ts) <- NULL
     
     # Get the answer option probabilities 
-    catfcast <- category_forecasts(result$fcast, options$cutpoints)
+    catfcast <- category_forecasts(result$fcast, pr$separations$cutpoints)
     
     # for binary IFPs, category_forecast will return P for "no"/"yes" options
     # if the question is "any" or "more", then we want the second option only??
-    if (binary_ifp) {
-      pos <- ifelse(str_detect(ifp_name, "(any|more)"), 1L, 2L)
+    if (pr$binary_ifp) {
+      pos <- ifelse(str_detect(pr$ifp_name, "(any|more)"), 1L, 2L)
       catfcast         <- catfcast[pos]
     }
     result$option_probabilities <- catfcast
-    result$option_labels <- options$values
+    result$option_labels <- pr$separations$values
     
     result
   }, error = function(e) {
@@ -730,7 +753,7 @@ category_forecasts <- function(fc, cp) {
   trunc_upper <- fc$trunc_upper
   se <- fc$se
   
-  # BoxCox is lambda was given
+  # BoxCox if lambda was given
   # se is already on transformed scale
   if (!is.null(fc$model$lambda) & is.null(fc$model$constant)) {
     lambda <- fc$model$lambda
@@ -761,6 +784,15 @@ category_forecasts <- function(fc, cp) {
   catp
 }
 
+#' Clean model forecast
+#' 
+#' Take out data we don't need to return in response
+clean_model <- function(x) {
+  x$est_model <- NULL
+  x$fcast <- NULL
+  x
+}
+
 
 # Main script -------------------------------------------------------------
 
@@ -771,6 +803,7 @@ r_basil_ts <- function(fh = NULL) {
   test <- FALSE
   backcast <- FALSE
   drop_after <- as.Date("9999-12-31")
+  #fh = "tests/io/andy_input_1145.json"
   
   if (length(args) > 0) {
     # normal use via Rscript
@@ -787,116 +820,108 @@ r_basil_ts <- function(fh = NULL) {
     test <- TRUE
   }
   
-  #fh = "tests/io/andy_input_1145.json"
-  
   request <- jsonlite::fromJSON(fh)
+  validate_seps(request$payload$separations$values)
+  
   # missing file makes error more obvious in Flask
   if (!test) unlink(fh)
   # also remove any other request files that may stick around if this function
   # fails with error
   on.exit(file.remove(dir("basil-ts", pattern = "request-", full.names = TRUE)))
-
-  # Pull out needed info
-  ifp_name   <- request$ifp$name
-  binary_ifp <- request$ifp$`binary?`
-  validate_seps(request$payload$separations$values)
   
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
-  last_date <- ifelse(is.null(request$payload$`last-event-date`),
-                      max(target$date),
-                      request$payload$`last-event-date`)
-  last_date <- as.Date(last_date, origin = "1970-01-01")
-  if (!is.null(request$payload$`aggregated-data`)) {
-    if (request$payload$`aggregated-data`=="month") {
-      last_date <- last_date %m+% months(1) - 1
-    }
-  }
   
-  # Parse characteristics
-  question_period <- parse_question_period(ifp_name)
-  data_period     <- parse_data_period(target$date)
-  series_type     <- guess_series_type(target$value, ifp_name)
-  options         <- parse_separations(request$payload$separations, 
-                                       series_type, ifp_name)
-  agg_method      <- determine_aggregation_method(series_type, ifp_name)
+  # Initialize list parsed request data
+  pr <- list()
+  pr$ifp_name        <- request$ifp$name
+  pr$binary_ifp      <- request$ifp$`binary?`
+  pr$last_date       <- parse_last_date(request, target)
+  pr$question_period <- parse_question_period(pr$ifp_name)
+  pr$data_period     <- parse_data_period(target$date)
+  pr$series_type     <- guess_series_type(target$value, pr$ifp_name)
+  pr$separations     <- parse_separations(request$payload$separations, 
+                                          pr$series_type, pr$ifp_name)
+  pr$agg_method      <- determine_aggregation_method(pr$series_type, pr$ifp_name)
   
   # Check aggregation was not done for fixed period questions
-  if (question_period$period$period=="fixed" & 
+  if (pr$question_period$period$period=="fixed" & 
       # weeks are ok, only need to catch like 100 day fixed periods
-      question_period$period$days!="7" & 
-      data_period$period$period!="day") {
+      pr$question_period$period$days!="7" & 
+      pr$data_period$period$period!="day") {
     stop(sprintf(
       "Send daily data in the request, not aggregated data. Question is over %s day periods.",
-      question_period$period$days))
+      pr$question_period$period$days))
   }
   
   # Backcasting 
   if (backcast) {
     # drop-after defaults to 9999-12-31, change the default to day before 
     # question period starts
-    if (drop_after==as.Date("9999-12-31")) drop_after <- question_period$dates[1] + 1
+    if (drop_after==as.Date("9999-12-31")) drop_after <- pr$question_period$dates[1] + 1
     # if drop after was user supplied, make sure it does not exceed question end date
-    drop_after <- min(c(drop_after, question_period$dates[2] - 1))
-    target     <- target[target$date < (drop_after + 1), ]
-    last_date  <- max(target$date)
+    drop_after    <- min(c(drop_after, pr$question_period$dates[2] - 1))
+    target        <- target[target$date < (drop_after + 1), ]
+    pr$last_date  <- max(target$date)
   }
   
   # Check data end does not exceed question end
-  if (last_date >= question_period$dates[2]) {
+  if (pr$last_date >= pr$question_period$dates[2]) {
     stop(sprintf(
       "Payload data (to '%s') exceed question end date ('%s'), there is nothing to forecast.",
-      last_date, question_period$date[2]))
+      pr$last_date, pr$question_period$date[2]))
   }
   
   # Do aggregation if neccessary
-  was_data_aggregated <- FALSE
-  were_dates_shifted  <- FALSE
-  if (data_period$period$period=="day" & question_period$period$period=="fixed") {
+  pr$was_data_aggregated <- FALSE
+  #were_dates_shifted  <- FALSE
+  if (pr$data_period$period$period=="day" & pr$question_period$period$period=="fixed") {
     # update internal data
-    target      <- aggregate_data(target, question_period, agg_method)
-    data_period <- parse_data_period(target$date)
-    was_data_aggregated <- TRUE
+    target      <- aggregate_data(target, pr$question_period, pr$agg_method)
+    pr$data_period <- parse_data_period(target$date)
+    pr$was_data_aggregated <- TRUE
   }
   
   # Check that data are aggregated correctly and dates are aligned
-  validate_data(target, data_period, question_period, ifp_name)
+  validate_data(target, pr$data_period, pr$question_period, pr$ifp_name)
   
   # Check for partial outcome info
-  partial_outcome <- FALSE
-  partial_train   <- "no"
-  if (data_period$period$period!="day") {
+  pr$partial_outcome <- FALSE
+  pr$partial_train   <- "no"
+  pr$yobs <- NA
+  pr$yn <- NA
+  if (pr$data_period$period$period!="day") {
     
-    gt_train_end      <- last_date >= max(target$date)
-    gt_question_start <- last_date >= question_period$dates[1]
+    gt_train_end      <- pr$last_date >= max(target$date)
+    gt_question_start <- pr$last_date >= pr$question_period$dates[1]
     
-    days_in_period <- find_days_in_period(max(target$date), data_period$period)
-    days_avail <- (last_date - max(target$date)) %>% `+`(1) %>% as.integer()
+    days_in_period <- find_days_in_period(max(target$date), pr$data_period$period)
+    days_avail <- (pr$last_date - max(target$date)) %>% `+`(1) %>% as.integer()
     
     if (gt_train_end & !gt_question_start) {
       # partial info in last training data period
       # if more than half of period, extrapolate, else discard that period
       # only use if > half of period days have data; because danger of extrapolating
       if (days_avail > (days_in_period/2)) {
-        partial_train <- "used"
-        if (agg_method=="sum") {
+        pr$partial_train <- "used"
+        if (pr$agg_method=="sum") {
           target$value[nrow(target)] <- target$value[nrow(target)] * days_in_period / days_avail
         } else {
           target$value[nrow(target)] <- target$value[nrow(target)]
         }
       } else {
-        partial_train <- "discarded"
+        pr$partial_train <- "discarded"
         target <- target[-nrow(target), ]
       }
       
     } else if (gt_train_end & gt_question_start) {
       # we have partial outcome info
       
-      partial_outcome <- TRUE
-      yobs <- target$value[nrow(target)]
-      yn   <- days_avail
+      pr$partial_outcome <- TRUE
+      pr$yobs <- target$value[nrow(target)]
+      pr$yn   <- days_avail
       target <- target[-nrow(target), ]
     } 
   }
@@ -906,14 +931,14 @@ r_basil_ts <- function(fh = NULL) {
   
   # Cut down training data if needed to speed up model estimation
   upperN <- 200
-  if (data_period$period$period=="day") {
+  if (pr$data_period$period$period=="day") {
     upperN <- 120
-  } else if (data_period$period$period=="month") {
+  } else if (pr$data_period$period$period=="month") {
     upperN <- 12*5
-  } else if (data_period$period$period=="fixed") {
+  } else if (pr$data_period$period$period=="fixed") {
     upperN <- 120
   }
-  if (nrow(target > upperN)) {
+  if (nrow(target) > upperN) {
     target <- tail(target, upperN)
   }
   
@@ -923,77 +948,38 @@ r_basil_ts <- function(fh = NULL) {
   )
   
   # How many time periods do I need to forecast ahead?
-  h <- bb_diff_period(max(target$date), question_period$dates[1], question_period$period)
+  pr$h <- bb_diff_period(max(target$date), pr$question_period$dates[1], pr$question_period$period)
   # What will those dates be?
-  fcast_dates <- bb_seq_period(max(target$date), length.out = h + 1, question_period$period) %>% tail(h)
+  pr$fcast_dates <- bb_seq_period(max(target$date), length.out = pr$h + 1, pr$question_period$period) %>% tail(pr$h)
   
   # Estimate model and forecast
-  lambda <- lambda_heuristic(target_ts, series_type)
+  pr$lambda <- lambda_heuristic(target_ts, pr$series_type)
   
-  # Create the actual forecast
-  forecast <- create_forecast(target_ts, "ARIMA", lambda = lambda, h = h, series_type = series_type,
-                              partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                              fcast_dates = fcast_dates, data_period = data_period,
-                              binary_ifp = binary_ifp, options = options,
-                              ifp_name = ifp_name, fun = agg_method)
-  forecast_ets <- create_forecast(target_ts, "ETS", lambda = lambda, h = h, series_type = series_type,
-                                  partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                  fcast_dates = fcast_dates, data_period = data_period,
-                                  binary_ifp = binary_ifp, options = options,
-                                  ifp_name = ifp_name, fun = agg_method)
-  forecast_rwf <- create_forecast(target_ts, "RW", lambda = lambda, h = h, series_type = series_type,
-                                  partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                  fcast_dates = fcast_dates, data_period = data_period,
-                                  binary_ifp = binary_ifp, options = options,
-                                  ifp_name = ifp_name, fun = agg_method)
-  
-  if (sum(target_ts<=0)==0) {
-    forecast_geo_rwf <- create_forecast(target_ts, "geometric RW", lambda = lambda, h = h, series_type = series_type,
-                                        partial_outcome = partial_outcome, yobs = yobs, yn = yn, 
-                                        fcast_dates = fcast_dates, data_period = data_period,
-                                        binary_ifp = binary_ifp, options = options,
-                                        ifp_name = ifp_name, fun = agg_method)
-  } else {
-    forecast_geo_rwf <- list(model = "geometric RWF", message = "Not estimated",
-                             r_error_message = "Series contains values <= 0, model not estimated.")
-  }
-
-  # Fit statistics
-  rmse_mean <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 0, 0), lambda = lambda))^2))
-  rmse_rwf  <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 1, 0), lambda = lambda))^2, na.rm = TRUE))
+  # Identify which models to run
+  model_types <- c("ARIMA", "ETS", "RW", "geometric RW", "mean")
+  forecasts   <- lapply(model_types, create_forecast, 
+                        ts = target_ts, parsed_request = pr)
+  names(forecasts) <- model_types
   
   # The estimated model and fcast object are helpers for stuff in this level,
   # can take out now, don't need actually in response.
-  forecast$est_model <- NULL
-  forecast$fcast <- NULL
-  forecast_ets$est_model <- NULL
-  forecast_ets$fcast <- NULL
-  forecast_rwf$est_model <- NULL
-  forecast_rwf$fcast <- NULL
-  forecast_geo_rwf$est_model <- NULL
-  forecast_geo_rwf$fcast <- NULL
+  forecasts <- lapply(forecasts, clean_model)
+  names(forecasts) <- model_types
   
-  internal_info <- list(
-    forecast_created_at = lubridate::now(), 
-    data_period = data_period$period,
-    was_data_aggregated = was_data_aggregated,
-    separations = options, 
-    question_period = question_period$period,
-    question_date = question_period$date,
-    series_type = series_type,
-    partial_train = partial_train,
-    partial_outcome = partial_outcome,
-    last_event_date = last_date,
-    h = as.integer(h),
-    lambda = lambda,
-    rmse_mean = rmse_mean,
-    rmse_rwf  = rmse_rwf,
-    backcast = backcast
-  )
+  # Fit statistics
+  rmse_mean <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 0, 0), lambda = pr$lambda))^2))
+  rmse_rwf  <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 1, 0), lambda = pr$lambda))^2, na.rm = TRUE))
   
-  response <- forecast
-  response[["internal2"]] <- internal_info
-  response[["forecasts"]] <- list(forecast, forecast_ets, forecast_rwf, forecast_geo_rwf)
+  internal_info <- pr
+  internal_info$forecast_created_at <- lubridate::now()
+  internal_info$rmse_mean <- rmse_mean
+  internal_info$rmse_rwf  <- rmse_rwf
+  
+  # Put ARIMA forecast at top-level; also copied in forecasts below
+  # in the future maybe this will be selected by AIC/BIC/whatever
+  response                     <- forecasts[["ARIMA"]]
+  response[["parsed_request"]] <- internal_info
+  response[["forecasts"]]      <- forecasts
   
   if (test) {
     return(invisible(response))

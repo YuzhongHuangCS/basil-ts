@@ -43,21 +43,21 @@ for (fh in output_list) {
     this_ifp <- data.frame(
       IFP = request_no, 
       Model = "ARIMA",  
-      time = response$internal2$question_period$period,
-      data_type = response$internal2$series_type,
+      time = response$parsed_request$question_period$period$period,
+      data_type = response$parsed_request$series_type,
       N = response$trainN,
-      h = response$internal2$h,
+      h = response$parsed_request$h,
       lambda = ifelse(
-        length(response$internal2$lambda)==0, 
+        length(response$parsed_request$lambda)==0, 
         NA_integer_, 
-        response$internal2$lambda),
+        response$parsed_request$lambda),
       data_agg = ifelse(
-        response$internal2$was_data_aggregated,
+        response$parsed_request$was_data_aggregated,
         "yes",
         "no"),
-      partial_train = response$internal2$partial_train,
+      partial_train = response$parsed_request$partial_train,
       partial_y = ifelse(
-        response$internal2$partial_outcome,
+        response$parsed_request$partial_outcome,
         "yes",
         "no"),
       stringsAsFactors = FALSE)
@@ -193,18 +193,18 @@ arima_plotter <- function(file_list) {
       df <- bind_rows(target_i, fcast_i, fcast_end) %>%
         spread(var, value)
       
-      subt <- sprintf("N = %s, h = %s", response$trainN, response$internal2$h)
-      if (response$internal2$partial_train %in% c("used", "discarded")) {
+      subt <- sprintf("N = %s, h = %s", response$trainN, response$parsed_request$h)
+      if (response$parsed_request$partial_train %in% c("used", "discarded")) {
         subt <- paste0(
           subt, 
           sprintf(", partial train to %s (%s)", 
-                  as.character( response$internal2$last_event_date),
-                  response$internal2$partial_train))
-      } else if (response$internal2$partial_outcome) {
+                  as.character( response$parsed_request$last_event_date),
+                  response$parsed_request$partial_train))
+      } else if (response$parsed_request$partial_outcome) {
         subt <- paste0(
           subt,
           sprintf(", partial outcome to %s",
-                  as.character( response$internal2$last_event_date)))
+                  as.character( response$parsed_request$last_event_date)))
       }
       if (response$forecast_is_usable==0) {
         subt <- paste0(subt, ", flagged not usable")

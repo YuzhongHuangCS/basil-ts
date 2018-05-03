@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -71,7 +71,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -139,7 +139,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -207,7 +207,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -272,8 +272,76 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "AIC": [
+          190.0822
+        ],
+        "BIC": [
+          191.3603
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          186.2062
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<900",
+        "900 - 1010",
+        "1010 - 1110",
+        "1110 - 1220",
+        ">1220"
+      ],
+      "option_probabilities": [
+        0.7339,
+        0.1498,
+        0.0728,
+        0.0322,
+        0.0113
+      ],
+      "to_date": [
+        "2018-05-31"
+      ],
+      "trainN": [
+        14
+      ],
+      "ts": [
+        [
+          "2018-03-01",
+          "779.3025",
+          "400.5683",
+          "1158.037"
+        ],
+        [
+          "2018-04-01",
+          "779.3025",
+          "400.5683",
+          "1158.037"
+        ],
+        [
+          "2018-05-01",
+          "779.3025",
+          "400.5683",
+          "1158.037"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       175.6423
@@ -288,26 +356,55 @@
       185.4081
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<900",
+    "900 - 1010",
+    "1010 - 1110",
+    "1110 - 1220",
+    ">1220"
+  ],
+  "option_probabilities": [
+    0.5284,
+    0.1275,
+    0.1026,
+    0.0904,
+    0.1511
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-03-01",
+      "2018-04-01",
+      "2018-05-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:21:24"
+      "2018-05-03T15:25:30"
     ],
     "h": [
       3
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "How many battle deaths will ACLED record in Yemen in May 2018?"
+    ],
+    "last_date": [
       "2018-02-17"
     ],
     "partial_outcome": [
@@ -316,17 +413,19 @@
     "partial_train": [
       "used"
     ],
-    "question_date": [
-      "2018-05-01",
-      "2018-05-31"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-05-01",
+        "2018-05-31"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       186.2062
@@ -366,25 +465,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<900",
-    "900 - 1010",
-    "1010 - 1110",
-    "1110 - 1220",
-    ">1220"
-  ],
-  "option_probabilities": [
-    0.5284,
-    0.1275,
-    0.1026,
-    0.0904,
-    0.1511
-  ],
   "to_date": [
     "2018-05-31"
   ],

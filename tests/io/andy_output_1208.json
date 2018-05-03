@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -59,7 +59,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -115,7 +115,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         1
       ],
@@ -171,7 +171,7 @@
         "Hi 95"
       ]
     },
-    {
+    "geometric RW": {
       "forecast_is_usable": [
         1
       ],
@@ -224,8 +224,64 @@
         "Lo 95",
         "Hi 95"
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        0
+      ],
+      "internal": {
+        "AIC": [
+          3538.3902
+        ],
+        "BIC": [
+          3543.9652
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          601804.2336
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<1830000",
+        "1830000 - 1880000",
+        "1880000 - 1920000",
+        "1920000 - 1970000",
+        ">1970000"
+      ],
+      "option_probabilities": [
+        0.6497,
+        0.0516,
+        0.0374,
+        0.042,
+        0.2193
+      ],
+      "to_date": [
+        "2018-04-10"
+      ],
+      "trainN": [
+        120
+      ],
+      "ts": [
+        [
+          "2018-03-21",
+          "1385889",
+          "1385875",
+          "2019202"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       3176.4805
@@ -240,26 +296,53 @@
       123009.6306
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<1830000",
+    "1830000 - 1880000",
+    "1880000 - 1920000",
+    "1920000 - 1970000",
+    ">1970000"
+  ],
+  "option_probabilities": [
+    0.9928,
+    0.0056,
+    0.0012,
+    0.0003,
+    0.0001
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "max"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        21
-      ],
-      "period": [
-        "fixed"
-      ]
+      "period": {
+        "days": [
+          21
+        ],
+        "period": [
+          "fixed"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-03-21"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:38"
+      "2018-05-03T15:24:46"
     ],
     "h": [
       1
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?"
+    ],
+    "last_date": [
       "2018-03-28"
     ],
     "partial_outcome": [
@@ -268,17 +351,19 @@
     "partial_train": [
       "no"
     ],
-    "question_date": [
-      "2018-03-21",
-      "2018-04-10"
-    ],
     "question_period": {
-      "days": [
-        21
+      "dates": [
+        "2018-03-21",
+        "2018-04-10"
       ],
-      "period": [
-        "fixed"
-      ]
+      "period": {
+        "days": [
+          21
+        ],
+        "period": [
+          "fixed"
+        ]
+      }
     },
     "rmse_mean": [
       601804.2336
@@ -318,25 +403,14 @@
     ],
     "was_data_aggregated": [
       true
+    ],
+    "yn": [
+      8
+    ],
+    "yobs": [
+      1385874.66
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<1830000",
-    "1830000 - 1880000",
-    "1880000 - 1920000",
-    "1920000 - 1970000",
-    ">1970000"
-  ],
-  "option_probabilities": [
-    0.9928,
-    0.0056,
-    0.0012,
-    0.0003,
-    0.0001
-  ],
   "to_date": [
     "2018-04-10"
   ],

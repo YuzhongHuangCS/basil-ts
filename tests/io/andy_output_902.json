@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     1
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -77,7 +77,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         0
       ],
@@ -151,7 +151,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         0
       ],
@@ -225,18 +225,92 @@
         "Hi 95"
       ]
     },
-    {
-      "message": [
-        "Not estimated"
+    "geometric RW": {
+      "estimated": [
+        false
       ],
       "model": [
-        "geometric RWF"
+        "geometric RW"
       ],
       "r_error_message": [
         "Series contains values <= 0, model not estimated."
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          265.2681
+        ],
+        "BIC": [
+          269.4568
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          2.1346
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "<92",
+        "92 - 117",
+        "117 - 144",
+        "144 - 177",
+        ">177"
+      ],
+      "option_probabilities": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-01-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-02-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-03-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ],
+        [
+          "2018-04-01",
+          "2.1",
+          "0",
+          "6.319115"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       265.2681
@@ -251,26 +325,56 @@
       2.1346
     ]
   },
-  "internal2": {
-    "backcast": [
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "<92",
+    "92 - 117",
+    "117 - 144",
+    "144 - 177",
+    ">177"
+  ],
+  "option_probabilities": [
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
       false
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-01-01",
+      "2018-02-01",
+      "2018-03-01",
+      "2018-04-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:21:10"
+      "2018-05-03T15:25:15"
     ],
     "h": [
       4
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "How many material conflict events involving India will ICEWS record in April 2018?"
+    ],
+    "last_date": [
       "2018-01-01"
     ],
     "partial_outcome": [
@@ -279,17 +383,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-04-01",
-      "2018-04-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-04-01",
+        "2018-04-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       2.1346
@@ -329,25 +435,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<92",
-    "92 - 117",
-    "117 - 144",
-    "144 - 177",
-    ">177"
-  ],
-  "option_probabilities": [
-    1,
-    0,
-    0,
-    0,
-    0
-  ],
   "to_date": [
     "2018-04-30"
   ],

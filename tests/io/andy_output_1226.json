@@ -2,8 +2,8 @@
   "forecast_is_usable": [
     0
   ],
-  "forecasts": [
-    {
+  "forecasts": {
+    "ARIMA": {
       "forecast_is_usable": [
         0
       ],
@@ -76,7 +76,7 @@
         "Hi 95"
       ]
     },
-    {
+    "ETS": {
       "forecast_is_usable": [
         1
       ],
@@ -149,7 +149,7 @@
         "Hi 95"
       ]
     },
-    {
+    "RW": {
       "forecast_is_usable": [
         0
       ],
@@ -222,18 +222,91 @@
         "Hi 95"
       ]
     },
-    {
-      "message": [
-        "Not estimated"
+    "geometric RW": {
+      "estimated": [
+        false
       ],
       "model": [
-        "geometric RWF"
+        "geometric RW"
       ],
       "r_error_message": [
         "Series contains values <= 0, model not estimated."
       ]
+    },
+    "mean": {
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          329.1298
+        ],
+        "BIC": [
+          333.3185
+        ],
+        "mdl_string": [
+          "mean"
+        ],
+        "rmse": [
+          3.6345
+        ]
+      },
+      "model": [
+        "mean"
+      ],
+      "option_labels": [
+        "Yes",
+        "No"
+      ],
+      "option_probabilities": [
+        0.9496
+      ],
+      "to_date": [
+        "2018-06-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2018-02-01",
+          "3.083333",
+          "0",
+          "10.26697"
+        ],
+        [
+          "2018-03-01",
+          "3.083333",
+          "0",
+          "10.26697"
+        ],
+        [
+          "2018-04-01",
+          "3.083333",
+          "0",
+          "10.26697"
+        ],
+        [
+          "2018-05-01",
+          "3.083333",
+          "0",
+          "10.26697"
+        ],
+        [
+          "2018-06-01",
+          "3.083333",
+          "0",
+          "10.26697"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
     }
-  ],
+  },
   "internal": {
     "AIC": [
       290.2428
@@ -248,26 +321,50 @@
       4.0506
     ]
   },
-  "internal2": {
-    "backcast": [
-      false
+  "model": [
+    "ARIMA"
+  ],
+  "option_labels": [
+    "Yes",
+    "No"
+  ],
+  "option_probabilities": [
+    0.9682
+  ],
+  "parsed_request": {
+    "agg_method": [
+      "sum"
+    ],
+    "binary_ifp": [
+      true
     ],
     "data_period": {
-      "days": [
-        null
-      ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
+    "fcast_dates": [
+      "2018-02-01",
+      "2018-03-01",
+      "2018-04-01",
+      "2018-05-01",
+      "2018-06-01"
+    ],
     "forecast_created_at": [
-      "2018-05-02T11:20:30"
+      "2018-05-03T15:24:39"
     ],
     "h": [
       5
     ],
-    "lambda": {},
-    "last_event_date": [
+    "ifp_name": [
+      "Will ACLED record any civilian fatalities in Ghana in June 2018?"
+    ],
+    "last_date": [
       "2018-02-08"
     ],
     "partial_outcome": [
@@ -276,17 +373,19 @@
     "partial_train": [
       "discarded"
     ],
-    "question_date": [
-      "2018-06-01",
-      "2018-06-30"
-    ],
     "question_period": {
-      "days": [
-        null
+      "dates": [
+        "2018-06-01",
+        "2018-06-30"
       ],
-      "period": [
-        "month"
-      ]
+      "period": {
+        "days": [
+          null
+        ],
+        "period": [
+          "month"
+        ]
+      }
     },
     "rmse_mean": [
       3.6345
@@ -317,18 +416,14 @@
     ],
     "was_data_aggregated": [
       false
+    ],
+    "yn": [
+      null
+    ],
+    "yobs": [
+      null
     ]
   },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "Yes",
-    "No"
-  ],
-  "option_probabilities": [
-    0.9682
-  ],
   "to_date": [
     "2018-06-30"
   ],
