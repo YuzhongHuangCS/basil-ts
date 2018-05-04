@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-05-03
+2018-05-04
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts for open IFPs](#plot-arima-forecasts-for-open-ifps)

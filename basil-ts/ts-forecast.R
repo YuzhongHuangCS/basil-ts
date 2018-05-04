@@ -645,13 +645,28 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
     fcast_end_date <- tail(pr$fcast_date, 1) + 
       find_days_in_period(max(pr$fcast_date), pr$data_period$period) - 1
     
+    # Create data for time series plot
+    # we're going to extend the raw forecast on either end for plotting
+    resp_ts <- data.frame(
+      date = pr$fcast_date,
+      as.data.frame(fcast)
+    )
+    lead_point   <- head(resp_ts, 1)
+    target_tail  <- tail(pr$target, 1) 
+    lead_point$date <- target_tail$date
+    lead_point[, 2:ncol(lead_point)] <- target_tail$value
+    resp_ts <- rbind(lead_point, resp_ts)
+    if (fcast_end_date != max(resp_ts$date)) {
+      tail_point <- tail(resp_ts, 1)
+      tail_point$date <- fcast_end_date
+      resp_ts <- rbind(resp_ts, tail_point)
+    }
+    
+    
     result <- list(
       model = model,
       ts_colnames = c("date", names(as.data.frame(fcast))),
-      ts = data.frame(
-        date = pr$fcast_date,
-        as.data.frame(fcast)
-      ) %>% as.matrix(),
+      ts = as.matrix(resp_ts),
       to_date = fcast_end_date,
       forecast_is_usable = usable, 
       internal = list(
@@ -927,7 +942,7 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   # Determine periods per year for ts frequency
-  fr <- determine_ts_frequency(target)
+  fr <- determine_ts_frequency(target) %>% as.integer()
   
   # Cut down training data if needed to speed up model estimation
   upperN <- 200
@@ -941,6 +956,8 @@ r_basil_ts <- function(fh = NULL) {
   if (nrow(target) > upperN) {
     target <- tail(target, upperN)
   }
+  
+  pr$target <- target
   
   target_ts <- ts(
     data = as.numeric(target$value),
