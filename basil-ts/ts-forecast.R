@@ -927,7 +927,7 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   # Determine periods per year for ts frequency
-  fr <- determine_ts_frequency(target)
+  fr <- as.integer(determine_ts_frequency(target))
   
   # Cut down training data if needed to speed up model estimation
   upperN <- 200
