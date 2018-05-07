@@ -86,7 +86,7 @@ Data aggregation
 
 The response is a JSON object. It contains the ARIMA forecast and two other JSON objects, one containing forecasts for a larger set of models, e.g. ETS, random walk, etc., and the other one ("parsed_request") has debugging info on how the request was internally processed. 
 
-```json
+```
 {
   FORECAST
   "forecasts": {
@@ -102,7 +102,7 @@ The response is a JSON object. It contains the ARIMA forecast and two other JSON
 
 Where FORECAST has the following structure:
 
-```json
+```
 "model": [ "ARIMA" ],
 
 # Raw time series forecast

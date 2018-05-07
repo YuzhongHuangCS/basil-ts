@@ -198,13 +198,13 @@ arima_plotter <- function(file_list) {
         subt <- paste0(
           subt, 
           sprintf(", partial train to %s (%s)", 
-                  as.character( response$parsed_request$last_event_date),
+                  as.character( response$parsed_request$last_date),
                   response$parsed_request$partial_train))
       } else if (response$parsed_request$partial_outcome) {
         subt <- paste0(
           subt,
           sprintf(", partial outcome to %s",
-                  as.character( response$parsed_request$last_event_date)))
+                  as.character( response$parsed_request$last_date)))
       }
       if (response$forecast_is_usable==0) {
         subt <- paste0(subt, ", flagged not usable")
