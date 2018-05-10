@@ -63,8 +63,8 @@ class TestSampleRequests(unittest.TestCase):
                                      content_type = 'application/json')
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['internal2']['backcast'][0] == True
-        assert payload['internal2']['h'][0] == 1
+        assert payload['parsed_request']['backcast'][0] == True
+        assert payload['parsed_request']['h'][0] == 1
         
         # call with option-after, forecast horizon should change
         with open("tests/io/example1.json", "rb") as req:
@@ -73,7 +73,7 @@ class TestSampleRequests(unittest.TestCase):
                                      content_type = 'application/json')
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['internal2']['h'][0] == 2
+        assert payload['parsed_request']['h'][0] == 2
         
         # call with wrong option-after format
         with open("tests/io/example1.json", "rb") as req:

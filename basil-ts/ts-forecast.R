@@ -971,9 +971,11 @@ r_basil_ts <- function(fh = NULL) {
   rmse_rwf  <- sqrt(mean(residuals(Arima(target_ts, order = c(0, 1, 0), lambda = pr$lambda))^2, na.rm = TRUE))
   
   internal_info <- pr
+  # Legacy info, maybe take out in future
   internal_info$forecast_created_at <- lubridate::now()
   internal_info$rmse_mean <- rmse_mean
   internal_info$rmse_rwf  <- rmse_rwf
+  internal_info$backcast  <- backcast
   
   # Put ARIMA forecast at top-level; also copied in forecasts below
   # in the future maybe this will be selected by AIC/BIC/whatever
