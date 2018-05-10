@@ -11,7 +11,7 @@ A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (
 To start a container running the forecaster in a Docker container:
 
 ```bash
-cd ~/Work/SAGE-ward-share/basil-ts
+cd ~/Work/2017-HFC/SAGE-ward-share/basil-ts
 
 # build/run app
 docker build -t basil-ts ./ 
