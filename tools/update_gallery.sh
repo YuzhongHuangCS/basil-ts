@@ -3,7 +3,7 @@
 #   Andreas Beger
 #   30 April 2018
 #
-#   bash tests/update_gallery.sh
+#   bash tools/update_gallery.sh
 
 curl http://0.0.0.0:5000
 if [ $? -ne 0 ]; then
@@ -14,7 +14,7 @@ fi
 find ../../sage-research-tool/ifp/andyio -type f -name '*input*' \
   -exec cp '{}' tests/io/ ';'
 
-bash tests/format_inputs.sh
+bash tools/format_inputs.sh
 
 python3 tests/run_all.py
 

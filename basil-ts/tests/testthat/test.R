@@ -228,17 +228,29 @@ test_that("Forecast generator runs", {
 
 context("Sample requests")
 
-test_that("Sample requests throw correct error", {
-  expect_error(r_basil_ts("tests/io/example1.json"), NA)
-  expect_error(r_basil_ts("tests/io/example2.json"), NA)
-  expect_error(r_basil_ts("tests/io/example3.json"),
-               "character string is not in a standard unambiguous format")
-  expect_error(r_basil_ts("tests/io/example4.json"), 
-               "exceed question end date")
+test_that("Basic examples run",  {
+  expect_warning(r_basil_ts("tests/io/example1.json"), 
+                 "no seasonal differencing is selected")
+  expect_warning(r_basil_ts("tests/io/example2.json"), 
+                 "no seasonal differencing is selected")
+})
+
+test_that("Malformatted separations are rejected", {
   expect_error(r_basil_ts("tests/io/example5.json"), 
                "Separations contain ambiguous decimal separator")
 })
 
+test_that("Historical data with integer dates is rejected", {
+  expect_error(r_basil_ts("tests/io/example3.json"),
+               "character string is not in a standard unambiguous format")
+})
 
+test_that("Request with data past IFP end date is rejected", {
+  expect_error(r_basil_ts("tests/io/example4.json"), 
+               "exceed question end date")
+})
 
-
+test_that("Request with aggregated data for fixed period IFP is rejected", {
+  expect_error(r_basil_ts("tests/io/andy_input_938.json"), 
+               "Send daily data in the request, not aggregated data. Question is over 100 day periods.")
+})
