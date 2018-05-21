@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error", 
+  "r_error_message": "Error in validate_seps(request$payload$separations$values) : \n  Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [<6; 6 - 10; >10; <14; 14 - 22; >22]\nCalls: r_basil_ts -> validate_seps\nExecution halted\n"
+}
