@@ -637,10 +637,10 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
     rmse      <- sqrt(mean(residuals(mdl)^2))
     rmse_mean <- sqrt(mean(residuals(Arima(ts, c(0, 0, 0)))^2))
     rmse_rwf  <- sqrt(mean(residuals(Arima(ts, c(0, 1, 0), lambda = NULL))^2))
-    # check out rwf/naive and MASE (https://www.otexts.org/fpp/2/5)
-    # mase doesn't work when any baseline forecast is 0, bc /0
-    #mase <- mean(abs(resid / resid_rwf), na.rm = TRUE)
-    usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
+    # wrong metric, should be in part based on CI and cat answer spread
+    # hard set to 1 for now; 2018-05-21
+    #usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)
+    usable <- 1
     
     fcast_end_date <- tail(pr$fcast_date, 1) + 
       find_days_in_period(max(pr$fcast_date), pr$data_period$period) - 1
