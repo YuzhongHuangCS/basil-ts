@@ -645,13 +645,29 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
     fcast_end_date <- tail(pr$fcast_date, 1) + 
       find_days_in_period(max(pr$fcast_date), pr$data_period$period) - 1
     
+    # Create data for time series plot
+    # we're going to extend the raw forecast on either end for plotting
+    resp_ts <- data.frame(
+      date = pr$fcast_date,
+      as.data.frame(fcast)
+    )
+    
+    lead_point   <- head(resp_ts, 1)
+    lead_point$date <- pr$target_tail$date
+    lead_point[, 2:ncol(lead_point)] <- pr$target_tail$value
+    resp_ts <- rbind(lead_point, resp_ts)
+    
+    if (fcast_end_date != max(resp_ts$date)) {
+      tail_point <- tail(resp_ts, 1)
+      tail_point$date <- fcast_end_date
+      resp_ts <- rbind(resp_ts, tail_point)
+    }
+    
+    
     result <- list(
       model = model,
       ts_colnames = c("date", names(as.data.frame(fcast))),
-      ts = data.frame(
-        date = pr$fcast_date,
-        as.data.frame(fcast)
-      ) %>% as.matrix(),
+      ts = as.matrix(resp_ts),
       to_date = fcast_end_date,
       forecast_is_usable = usable, 
       internal = list(
@@ -890,6 +906,8 @@ r_basil_ts <- function(fh = NULL) {
   # Check for partial outcome info
   pr$partial_outcome <- FALSE
   pr$partial_train   <- "no"
+  # retain original target tail for plotting
+  pr$target_tail <- tail(target, 1)
   pr$yobs <- NA
   pr$yn <- NA
   if (pr$data_period$period$period!="day") {
@@ -914,6 +932,7 @@ r_basil_ts <- function(fh = NULL) {
       } else {
         pr$partial_train <- "discarded"
         target <- target[-nrow(target), ]
+        pr$target_tail <- tail(target, 1)
       }
       
     } else if (gt_train_end & gt_question_start) {
@@ -923,6 +942,9 @@ r_basil_ts <- function(fh = NULL) {
       pr$yobs <- target$value[nrow(target)]
       pr$yn   <- days_avail
       target <- target[-nrow(target), ]
+      # Update the target tail used for plotting as well to exclude partial 
+      # outcome data that is dropped
+      pr$target_tail <- tail(target, 1)
     } 
   }
   
@@ -941,6 +963,8 @@ r_basil_ts <- function(fh = NULL) {
   if (nrow(target) > upperN) {
     target <- tail(target, upperN)
   }
+  
+  pr$target <- target
   
   target_ts <- ts(
     data = as.numeric(target$value),

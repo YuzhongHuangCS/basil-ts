@@ -1,1 +1,381 @@
-{"ifp": {"clarifications": [], "image": {"url": "forecast/questions/default-question-image.jpg"}, "site_id": 6, "updated_at": "2018-04-18T16:30:36.801Z", "membership_id": 76, "discover_question_id": 244, "published_at": "2018-04-18T16:30:36.773Z", "id": 1514, "active?": true, "type": "Forecast::Question", "metadata": {}, "prediction_sets_count": 0, "description": "This question will be resolved using the United States Geological Survey's Earthquake Catalog (<a href=\"https://earthquake.usgs.gov/earthquakes/search/\"target=\"_blank\">https://earthquake.usgs.gov/earthquakes/search/</a>). To access the relevant data: \r\n- Set the Magnitude to a Custom Minimum equal to the magnitude of interest;\r\n- Set the Date & Time to a Custom Start with the first day of interest and End to the last day of interest;\r\n- Leave the UTC times to the default settings (00:00:00 & 23:59:59);\r\n- Set Geographic Region to World;\r\n- Click Search beneath Output Options.\r\nThe number of earthquakes displays in the top left Search Results window. This question will be resolved by consulting the source between 10:00 AM and 4:00 PM ET starting on Monday, 2 July and each Monday thereafter until data are posted. Resolution will be based on the value observed at the time of source consultation.\r\n", "brier_score": "0.0", "binary?": false, "ifp": {"parsed_answers": {"values": ["<100", "100 - 140", "140 - 170", "170 - 210", ">210"], "unit": "number"}, "answers": [{"ended?": false, "probability": 0.2, "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "updated_at": "2018-04-18T16:30:36.663Z", "sort_order": 0, "probability_formatted": "20%", "display_probability": "20%", "id": 4550, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Less than 100", "created_at": "2018-04-18T16:30:36.663Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 722, "question_id": 1514}, {"ended?": false, "probability": 0.2, "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "updated_at": "2018-04-18T16:30:36.614Z", "sort_order": 1, "probability_formatted": "20%", "display_probability": "20%", "id": 4549, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between 100 and 140, inclusive", "created_at": "2018-04-18T16:30:36.614Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 723, "question_id": 1514}, {"ended?": false, "probability": 0.2, "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "updated_at": "2018-04-18T16:30:36.573Z", "sort_order": 2, "probability_formatted": "20%", "display_probability": "20%", "id": 4548, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 140 but less than 170", "created_at": "2018-04-18T16:30:36.573Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 724, "question_id": 1514}, {"ended?": false, "probability": 0.2, "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "updated_at": "2018-04-18T16:30:36.516Z", "sort_order": 3, "probability_formatted": "20%", "display_probability": "20%", "id": 4547, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between 170 and 210, inclusive", "created_at": "2018-04-18T16:30:36.516Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 725, "question_id": 1514}, {"ended?": false, "probability": 0.2, "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "updated_at": "2018-04-18T16:30:36.476Z", "sort_order": 4, "probability_formatted": "20%", "display_probability": "20%", "id": 4546, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 210", "created_at": "2018-04-18T16:30:36.476Z", "predictions_count": 0, "membership_id": 76, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 726, "question_id": 1514}]}, "use_ordinal_scoring": true, "ends_at": "2018-05-31T18:01:52.000Z", "resolved_at": null, "resolution_notes": [], "name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?", "created_at": "2018-04-18T16:30:36.469Z", "featured": false, "resolved?": false, "comments_count": 0, "starts_at": "2018-04-18T16:30:52.000Z", "voided_at": null, "answers_count": 5}, "payload": {"question_type": "Ordered Multinomial", "separations": {"values": ["<100", "100 - 140", "140 - 170", "170 - 210", ">210"], "unit": "number"}, "historical_data": {"dimensions": ["DATE", {"type": "int", "semantic_type": "count"}], "ts": [["2015-01-01T00:00:00.000Z", 86], ["2015-02-01T00:00:00.000Z", 104], ["2015-03-01T00:00:00.000Z", 89], ["2015-04-01T00:00:00.000Z", 95], ["2015-05-01T00:00:00.000Z", 141], ["2015-06-01T00:00:00.000Z", 76], ["2015-07-01T00:00:00.000Z", 107], ["2015-08-01T00:00:00.000Z", 93], ["2015-09-01T00:00:00.000Z", 155], ["2015-10-01T00:00:00.000Z", 71], ["2015-11-01T00:00:00.000Z", 119], ["2015-12-01T00:00:00.000Z", 83], ["2016-01-01T00:00:00.000Z", 101], ["2016-02-01T00:00:00.000Z", 76], ["2016-03-01T00:00:00.000Z", 79], ["2016-04-01T00:00:00.000Z", 130], ["2016-05-01T00:00:00.000Z", 74], ["2016-06-01T00:00:00.000Z", 107], ["2016-07-01T00:00:00.000Z", 103], ["2016-08-01T00:00:00.000Z", 113], ["2016-09-01T00:00:00.000Z", 128], ["2016-10-01T00:00:00.000Z", 85], ["2016-11-01T00:00:00.000Z", 121], ["2016-12-01T00:00:00.000Z", 172], ["2017-01-01T00:00:00.000Z", 122], ["2017-02-01T00:00:00.000Z", 80], ["2017-03-01T00:00:00.000Z", 105], ["2017-04-01T00:00:00.000Z", 100], ["2017-05-01T00:00:00.000Z", 113], ["2017-06-01T00:00:00.000Z", 75], ["2017-07-01T00:00:00.000Z", 89], ["2017-08-01T00:00:00.000Z", 98], ["2017-09-01T00:00:00.000Z", 97], ["2017-10-01T00:00:00.000Z", 82], ["2017-11-01T00:00:00.000Z", 124], ["2017-12-01T00:00:00.000Z", 99], ["2018-01-01T00:00:00.000Z", 205], ["2018-02-01T00:00:00.000Z", 176], ["2018-03-01T00:00:00.000Z", 99], ["2018-04-01T00:00:00.000Z", 79], ["2018-05-01T00:00:00.000Z", 45]]}, "last-event-date": "2018-05-17T00:00:00.000Z"}}
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-04-18T16:30:36.801Z",
+        "membership_id": 76,
+        "discover_question_id": 244,
+        "published_at": "2018-04-18T16:30:36.773Z",
+        "id": 1514,
+        "active?": true,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using the United States Geological Survey's Earthquake Catalog (<a href=\"https://earthquake.usgs.gov/earthquakes/search/\"target=\"_blank\">https://earthquake.usgs.gov/earthquakes/search/</a>). To access the relevant data: \r\n- Set the Magnitude to a Custom Minimum equal to the magnitude of interest;\r\n- Set the Date & Time to a Custom Start with the first day of interest and End to the last day of interest;\r\n- Leave the UTC times to the default settings (00:00:00 & 23:59:59);\r\n- Set Geographic Region to World;\r\n- Click Search beneath Output Options.\r\nThe number of earthquakes displays in the top left Search Results window. This question will be resolved by consulting the source between 10:00 AM and 4:00 PM ET starting on Monday, 2 July and each Monday thereafter until data are posted. Resolution will be based on the value observed at the time of source consultation.\r\n",
+        "brier_score": "0.0",
+        "binary?": false,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<100",
+                    "100 - 140",
+                    "140 - 170",
+                    "170 - 210",
+                    ">210"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+                    "updated_at": "2018-04-18T16:30:36.663Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 4550,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than 100",
+                    "created_at": "2018-04-18T16:30:36.663Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 722,
+                    "question_id": 1514
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+                    "updated_at": "2018-04-18T16:30:36.614Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 4549,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 100 and 140, inclusive",
+                    "created_at": "2018-04-18T16:30:36.614Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 723,
+                    "question_id": 1514
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+                    "updated_at": "2018-04-18T16:30:36.573Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 4548,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 140 but less than 170",
+                    "created_at": "2018-04-18T16:30:36.573Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 724,
+                    "question_id": 1514
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+                    "updated_at": "2018-04-18T16:30:36.516Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 4547,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 170 and 210, inclusive",
+                    "created_at": "2018-04-18T16:30:36.516Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 725,
+                    "question_id": 1514
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+                    "updated_at": "2018-04-18T16:30:36.476Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 4546,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 210",
+                    "created_at": "2018-04-18T16:30:36.476Z",
+                    "predictions_count": 0,
+                    "membership_id": 76,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 726,
+                    "question_id": 1514
+                }
+            ]
+        },
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-05-31T18:01:52.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
+        "name": "How many earthquakes of magnitude 5 or stronger will occur worldwide in May 2018?",
+        "created_at": "2018-04-18T16:30:36.469Z",
+        "featured": false,
+        "resolved?": false,
+        "comments_count": 0,
+        "starts_at": "2018-04-18T16:30:52.000Z",
+        "voided_at": null,
+        "answers_count": 5
+    },
+    "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<100",
+                "100 - 140",
+                "140 - 170",
+                "170 - 210",
+                ">210"
+            ],
+            "unit": "number"
+        },
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "int",
+                    "semantic_type": "count"
+                }
+            ],
+            "ts": [
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    86
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    104
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    89
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    95
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    141
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    76
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    107
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    93
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    155
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    71
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    119
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    83
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    101
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    76
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    79
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    130
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    74
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    107
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    103
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    113
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    128
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    85
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    121
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    172
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    122
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    80
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    105
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    100
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    113
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    75
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    89
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    98
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    97
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    82
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    124
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    99
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    205
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    176
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    99
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    79
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    45
+                ]
+            ]
+        },
+        "last-event-date": "2018-05-17T00:00:00.000Z"
+    }
+}

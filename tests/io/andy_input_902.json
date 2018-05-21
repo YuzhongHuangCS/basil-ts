@@ -1,1 +1,608 @@
-{"ifp": {"clarifications": [], "image": {"url": "forecast/questions/default-question-image.jpg"}, "site_id": 6, "updated_at": "2018-03-07T17:31:38.819Z", "membership_id": 471, "discover_question_id": 191, "published_at": "2018-03-07T17:31:38.518Z", "id": 902, "active?": true, "type": "Forecast::Question", "metadata": {}, "prediction_sets_count": 0, "description": "This question will be resolved using event data collected by the Worldwide Integrated Conflict Early Warning System (W-ICEWS or simply ICEWS - https://www.lockheedmartin.com/us/products/W-ICEWS.html), which can be accessed here: https://github.com/gfchallenge/gfc/tree/master/data/ICEWS.  The files entitled Events_YYYY-MM_Factiva.csv contain events that occurred in month MM of year YYYY, whereas the files entitled ReleaseXXX_Factiva.csv each contain a few weeks\u2019 worth of events, spanning the end of 2015 (Release 272) to the present. ICEWS event data are extracted from the Factiva news database, which draws from a multilingual roster of over 6,000 news sources from around the world. These event data are then assigned event type codes based on the Conflict Events and Mediation Observations (CAMEO) event coding ontology (see http://eventdata.parusanalytics.com/cameo.dir/CAMEO.Manual.1.1b3.pdf).This question will be resolved by counting the number of event records for which: 'Event.Date' falls in the period of interest; 'CAMEO code' is three digits equal to: 14x, 15x, 17x, 18x, 19x, 20x, or four digits equal to: 14xx, 15xx, 17xx, 18xx, 19xx, 20xx (where x=any number); and 'Country' is the country of interest.", "brier_score": "0.0", "binary?": false, "use_ordinal_scoring": true, "ends_at": "2018-04-30T18:01:00.000Z", "resolved_at": null, "ifp": {"parsed_answers": {"values": ["<92", "92 - 117", "117 - 144", "144 - 177", ">177"], "unit": "number"}, "answers": [{"ended?": false, "probability": 0.2, "question_name": "How many material conflict events involving India will ICEWS record in April 2018?", "updated_at": "2018-03-07T17:31:38.777Z", "sort_order": 0, "probability_formatted": "20%", "display_probability": "20%", "id": 2849, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Less than 92", "created_at": "2018-03-07T17:31:38.777Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 520, "question_id": 902}, {"ended?": false, "probability": 0.2, "question_name": "How many material conflict events involving India will ICEWS record in April 2018?", "updated_at": "2018-03-07T17:31:38.746Z", "sort_order": 1, "probability_formatted": "20%", "display_probability": "20%", "id": 2848, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between 92 and 117, inclusive", "created_at": "2018-03-07T17:31:38.746Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 521, "question_id": 902}, {"ended?": false, "probability": 0.2, "question_name": "How many material conflict events involving India will ICEWS record in April 2018?", "updated_at": "2018-03-07T17:31:38.708Z", "sort_order": 2, "probability_formatted": "20%", "display_probability": "20%", "id": 2847, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 117 but less than 144", "created_at": "2018-03-07T17:31:38.708Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 522, "question_id": 902}, {"ended?": false, "probability": 0.2, "question_name": "How many material conflict events involving India will ICEWS record in April 2018?", "updated_at": "2018-03-07T17:31:38.670Z", "sort_order": 3, "probability_formatted": "20%", "display_probability": "20%", "id": 2846, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "Between 144 and 177, inclusive", "created_at": "2018-03-07T17:31:38.670Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 523, "question_id": 902}, {"ended?": false, "probability": 0.2, "question_name": "How many material conflict events involving India will ICEWS record in April 2018?", "updated_at": "2018-03-07T17:31:38.632Z", "sort_order": 4, "probability_formatted": "20%", "display_probability": "20%", "id": 2845, "active?": true, "correctness_known_at": null, "normalized_probability": 0.2, "type": "Forecast::Answer", "status": null, "positions_count": null, "description": null, "binary?": false, "resolving?": false, "ends_at": null, "resolved_at": null, "name": "More than 177", "created_at": "2018-03-07T17:31:38.632Z", "predictions_count": 0, "membership_id": 471, "resolved?": false, "resolved_by_id": null, "discover_answer_id": 524, "question_id": 902}]}, "name": "How many material conflict events involving India will ICEWS record in April 2018?", "created_at": "2018-03-07T17:31:38.625Z", "featured": false, "resolved?": false, "comments_count": 0, "starts_at": "2018-03-07T17:30:00.000Z", "voided_at": null, "answers_count": 5}, "payload": {"question_type": "Ordered Multinomial", "separations": {"values": ["<92", "92 - 117", "117 - 144", "144 - 177", ">177"], "unit": "number"}, "historical_data": {"dimensions": ["DATE", {"type": "int", "semantic_type": "count"}], "ts": [["2010-01-01T00:00:00.000Z", 79], ["2010-02-01T00:00:00.000Z", 49], ["2010-03-01T00:00:00.000Z", 103], ["2010-04-01T00:00:00.000Z", 94], ["2010-05-01T00:00:00.000Z", 30], ["2010-06-01T00:00:00.000Z", 111], ["2010-07-01T00:00:00.000Z", 152], ["2010-08-01T00:00:00.000Z", 70], ["2010-09-01T00:00:00.000Z", 62], ["2010-10-01T00:00:00.000Z", 91], ["2010-11-01T00:00:00.000Z", 88], ["2010-12-01T00:00:00.000Z", 54], ["2011-01-01T00:00:00.000Z", 0], ["2011-02-01T00:00:00.000Z", 149], ["2011-03-01T00:00:00.000Z", 72], ["2011-04-01T00:00:00.000Z", 128], ["2011-05-01T00:00:00.000Z", 67], ["2011-06-01T00:00:00.000Z", 131], ["2011-07-01T00:00:00.000Z", 89], ["2011-08-01T00:00:00.000Z", 182], ["2011-09-01T00:00:00.000Z", 37], ["2011-10-01T00:00:00.000Z", 46], ["2011-11-01T00:00:00.000Z", 84], ["2011-12-01T00:00:00.000Z", 143], ["2012-01-01T00:00:00.000Z", 42], ["2012-02-01T00:00:00.000Z", 103], ["2012-03-01T00:00:00.000Z", 111], ["2012-04-01T00:00:00.000Z", 0], ["2012-05-01T00:00:00.000Z", 120], ["2012-06-01T00:00:00.000Z", 79], ["2012-07-01T00:00:00.000Z", 205], ["2012-08-01T00:00:00.000Z", 122], ["2012-09-01T00:00:00.000Z", 309], ["2012-10-01T00:00:00.000Z", 253], ["2012-11-01T00:00:00.000Z", 80], ["2012-12-01T00:00:00.000Z", 207], ["2013-01-01T00:00:00.000Z", 318], ["2013-02-01T00:00:00.000Z", 91], ["2013-03-01T00:00:00.000Z", 262], ["2013-04-01T00:00:00.000Z", 103], ["2013-05-01T00:00:00.000Z", 305], ["2013-06-01T00:00:00.000Z", 78], ["2013-07-01T00:00:00.000Z", 114], ["2013-08-01T00:00:00.000Z", 362], ["2013-09-01T00:00:00.000Z", 111], ["2013-10-01T00:00:00.000Z", 269], ["2013-11-01T00:00:00.000Z", 121], ["2013-12-01T00:00:00.000Z", 127], ["2014-01-01T00:00:00.000Z", 416], ["2014-02-01T00:00:00.000Z", 407], ["2014-03-01T00:00:00.000Z", 230], ["2014-04-01T00:00:00.000Z", 276], ["2014-05-01T00:00:00.000Z", 158], ["2014-06-01T00:00:00.000Z", 444], ["2014-07-01T00:00:00.000Z", 222], ["2014-08-01T00:00:00.000Z", 449], ["2014-09-01T00:00:00.000Z", 0], ["2014-10-01T00:00:00.000Z", 165], ["2014-11-01T00:00:00.000Z", 436], ["2014-12-01T00:00:00.000Z", 525], ["2015-01-01T00:00:00.000Z", 151], ["2015-02-01T00:00:00.000Z", 409], ["2015-03-01T00:00:00.000Z", 224], ["2015-04-01T00:00:00.000Z", 244], ["2015-05-01T00:00:00.000Z", 410], ["2015-06-01T00:00:00.000Z", 514], ["2015-07-01T00:00:00.000Z", 498], ["2015-08-01T00:00:00.000Z", 736], ["2015-09-01T00:00:00.000Z", 244], ["2015-10-01T00:00:00.000Z", 268], ["2015-11-01T00:00:00.000Z", 420], ["2015-12-01T00:00:00.000Z", 324], ["2016-01-01T00:00:00.000Z", 439], ["2016-02-01T00:00:00.000Z", 821], ["2016-03-01T00:00:00.000Z", 386], ["2016-04-01T00:00:00.000Z", 168], ["2016-05-01T00:00:00.000Z", 394], ["2016-06-01T00:00:00.000Z", 447], ["2016-07-01T00:00:00.000Z", 660], ["2016-08-01T00:00:00.000Z", 362], ["2016-09-01T00:00:00.000Z", 495], ["2016-10-01T00:00:00.000Z", 255], ["2016-11-01T00:00:00.000Z", 386], ["2016-12-01T00:00:00.000Z", 214], ["2017-01-01T00:00:00.000Z", 342], ["2017-02-01T00:00:00.000Z", 275], ["2017-03-01T00:00:00.000Z", 371], ["2017-04-01T00:00:00.000Z", 243], ["2017-05-01T00:00:00.000Z", 340], ["2017-06-01T00:00:00.000Z", 215], ["2017-07-01T00:00:00.000Z", 379], ["2017-08-01T00:00:00.000Z", 306], ["2017-09-01T00:00:00.000Z", 208], ["2017-10-01T00:00:00.000Z", 185], ["2017-11-01T00:00:00.000Z", 257], ["2017-12-01T00:00:00.000Z", 313], ["2018-01-01T00:00:00.000Z", 213], ["2018-02-01T00:00:00.000Z", 194]]}, "last-event-date": "2018-02-12T00:00:00.000Z"}}
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-03-07T17:31:38.819Z",
+        "membership_id": 471,
+        "discover_question_id": 191,
+        "published_at": "2018-03-07T17:31:38.518Z",
+        "id": 902,
+        "active?": true,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using event data collected by the Worldwide Integrated Conflict Early Warning System (W-ICEWS or simply ICEWS - https://www.lockheedmartin.com/us/products/W-ICEWS.html), which can be accessed here: https://github.com/gfchallenge/gfc/tree/master/data/ICEWS.  The files entitled Events_YYYY-MM_Factiva.csv contain events that occurred in month MM of year YYYY, whereas the files entitled ReleaseXXX_Factiva.csv each contain a few weeks\u2019 worth of events, spanning the end of 2015 (Release 272) to the present. ICEWS event data are extracted from the Factiva news database, which draws from a multilingual roster of over 6,000 news sources from around the world. These event data are then assigned event type codes based on the Conflict Events and Mediation Observations (CAMEO) event coding ontology (see http://eventdata.parusanalytics.com/cameo.dir/CAMEO.Manual.1.1b3.pdf).This question will be resolved by counting the number of event records for which: 'Event.Date' falls in the period of interest; 'CAMEO code' is three digits equal to: 14x, 15x, 17x, 18x, 19x, 20x, or four digits equal to: 14xx, 15xx, 17xx, 18xx, 19xx, 20xx (where x=any number); and 'Country' is the country of interest.",
+        "brier_score": "0.0",
+        "binary?": false,
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-04-30T18:01:00.000Z",
+        "resolved_at": null,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<92",
+                    "92 - 117",
+                    "117 - 144",
+                    "144 - 177",
+                    ">177"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many material conflict events involving India will ICEWS record in April 2018?",
+                    "updated_at": "2018-03-07T17:31:38.777Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 2849,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than 92",
+                    "created_at": "2018-03-07T17:31:38.777Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 520,
+                    "question_id": 902
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many material conflict events involving India will ICEWS record in April 2018?",
+                    "updated_at": "2018-03-07T17:31:38.746Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 2848,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 92 and 117, inclusive",
+                    "created_at": "2018-03-07T17:31:38.746Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 521,
+                    "question_id": 902
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many material conflict events involving India will ICEWS record in April 2018?",
+                    "updated_at": "2018-03-07T17:31:38.708Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 2847,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 117 but less than 144",
+                    "created_at": "2018-03-07T17:31:38.708Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 522,
+                    "question_id": 902
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many material conflict events involving India will ICEWS record in April 2018?",
+                    "updated_at": "2018-03-07T17:31:38.670Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 2846,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 144 and 177, inclusive",
+                    "created_at": "2018-03-07T17:31:38.670Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 523,
+                    "question_id": 902
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many material conflict events involving India will ICEWS record in April 2018?",
+                    "updated_at": "2018-03-07T17:31:38.632Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 2845,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 177",
+                    "created_at": "2018-03-07T17:31:38.632Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 524,
+                    "question_id": 902
+                }
+            ]
+        },
+        "name": "How many material conflict events involving India will ICEWS record in April 2018?",
+        "created_at": "2018-03-07T17:31:38.625Z",
+        "featured": false,
+        "resolved?": false,
+        "comments_count": 0,
+        "starts_at": "2018-03-07T17:30:00.000Z",
+        "voided_at": null,
+        "answers_count": 5
+    },
+    "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<92",
+                "92 - 117",
+                "117 - 144",
+                "144 - 177",
+                ">177"
+            ],
+            "unit": "number"
+        },
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "int",
+                    "semantic_type": "count"
+                }
+            ],
+            "ts": [
+                [
+                    "2010-01-01T00:00:00.000Z",
+                    79
+                ],
+                [
+                    "2010-02-01T00:00:00.000Z",
+                    49
+                ],
+                [
+                    "2010-03-01T00:00:00.000Z",
+                    103
+                ],
+                [
+                    "2010-04-01T00:00:00.000Z",
+                    94
+                ],
+                [
+                    "2010-05-01T00:00:00.000Z",
+                    30
+                ],
+                [
+                    "2010-06-01T00:00:00.000Z",
+                    111
+                ],
+                [
+                    "2010-07-01T00:00:00.000Z",
+                    152
+                ],
+                [
+                    "2010-08-01T00:00:00.000Z",
+                    70
+                ],
+                [
+                    "2010-09-01T00:00:00.000Z",
+                    62
+                ],
+                [
+                    "2010-10-01T00:00:00.000Z",
+                    91
+                ],
+                [
+                    "2010-11-01T00:00:00.000Z",
+                    88
+                ],
+                [
+                    "2010-12-01T00:00:00.000Z",
+                    54
+                ],
+                [
+                    "2011-01-01T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2011-02-01T00:00:00.000Z",
+                    149
+                ],
+                [
+                    "2011-03-01T00:00:00.000Z",
+                    72
+                ],
+                [
+                    "2011-04-01T00:00:00.000Z",
+                    128
+                ],
+                [
+                    "2011-05-01T00:00:00.000Z",
+                    67
+                ],
+                [
+                    "2011-06-01T00:00:00.000Z",
+                    131
+                ],
+                [
+                    "2011-07-01T00:00:00.000Z",
+                    89
+                ],
+                [
+                    "2011-08-01T00:00:00.000Z",
+                    182
+                ],
+                [
+                    "2011-09-01T00:00:00.000Z",
+                    37
+                ],
+                [
+                    "2011-10-01T00:00:00.000Z",
+                    46
+                ],
+                [
+                    "2011-11-01T00:00:00.000Z",
+                    84
+                ],
+                [
+                    "2011-12-01T00:00:00.000Z",
+                    143
+                ],
+                [
+                    "2012-01-01T00:00:00.000Z",
+                    42
+                ],
+                [
+                    "2012-02-01T00:00:00.000Z",
+                    103
+                ],
+                [
+                    "2012-03-01T00:00:00.000Z",
+                    111
+                ],
+                [
+                    "2012-04-01T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2012-05-01T00:00:00.000Z",
+                    120
+                ],
+                [
+                    "2012-06-01T00:00:00.000Z",
+                    79
+                ],
+                [
+                    "2012-07-01T00:00:00.000Z",
+                    205
+                ],
+                [
+                    "2012-08-01T00:00:00.000Z",
+                    122
+                ],
+                [
+                    "2012-09-01T00:00:00.000Z",
+                    309
+                ],
+                [
+                    "2012-10-01T00:00:00.000Z",
+                    253
+                ],
+                [
+                    "2012-11-01T00:00:00.000Z",
+                    80
+                ],
+                [
+                    "2012-12-01T00:00:00.000Z",
+                    207
+                ],
+                [
+                    "2013-01-01T00:00:00.000Z",
+                    318
+                ],
+                [
+                    "2013-02-01T00:00:00.000Z",
+                    91
+                ],
+                [
+                    "2013-03-01T00:00:00.000Z",
+                    262
+                ],
+                [
+                    "2013-04-01T00:00:00.000Z",
+                    103
+                ],
+                [
+                    "2013-05-01T00:00:00.000Z",
+                    305
+                ],
+                [
+                    "2013-06-01T00:00:00.000Z",
+                    78
+                ],
+                [
+                    "2013-07-01T00:00:00.000Z",
+                    114
+                ],
+                [
+                    "2013-08-01T00:00:00.000Z",
+                    362
+                ],
+                [
+                    "2013-09-01T00:00:00.000Z",
+                    111
+                ],
+                [
+                    "2013-10-01T00:00:00.000Z",
+                    269
+                ],
+                [
+                    "2013-11-01T00:00:00.000Z",
+                    121
+                ],
+                [
+                    "2013-12-01T00:00:00.000Z",
+                    127
+                ],
+                [
+                    "2014-01-01T00:00:00.000Z",
+                    416
+                ],
+                [
+                    "2014-02-01T00:00:00.000Z",
+                    407
+                ],
+                [
+                    "2014-03-01T00:00:00.000Z",
+                    230
+                ],
+                [
+                    "2014-04-01T00:00:00.000Z",
+                    276
+                ],
+                [
+                    "2014-05-01T00:00:00.000Z",
+                    158
+                ],
+                [
+                    "2014-06-01T00:00:00.000Z",
+                    444
+                ],
+                [
+                    "2014-07-01T00:00:00.000Z",
+                    222
+                ],
+                [
+                    "2014-08-01T00:00:00.000Z",
+                    449
+                ],
+                [
+                    "2014-09-01T00:00:00.000Z",
+                    0
+                ],
+                [
+                    "2014-10-01T00:00:00.000Z",
+                    165
+                ],
+                [
+                    "2014-11-01T00:00:00.000Z",
+                    436
+                ],
+                [
+                    "2014-12-01T00:00:00.000Z",
+                    525
+                ],
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    151
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    409
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    224
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    244
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    410
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    514
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    498
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    736
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    244
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    268
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    420
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    324
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    439
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    821
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    386
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    168
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    394
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    447
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    660
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    362
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    495
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    255
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    386
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    214
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    342
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    275
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    371
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    243
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    340
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    215
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    379
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    306
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    208
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    185
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    257
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    313
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    213
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    194
+                ]
+            ]
+        },
+        "last-event-date": "2018-02-12T00:00:00.000Z"
+    }
+}
