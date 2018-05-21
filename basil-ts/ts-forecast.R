@@ -652,10 +652,12 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
       as.data.frame(fcast)
     )
     
-    lead_point   <- head(resp_ts, 1)
-    lead_point$date <- pr$target_tail$date
-    lead_point[, 2:ncol(lead_point)] <- pr$target_tail$value
-    resp_ts <- rbind(lead_point, resp_ts)
+    if (pr$partial_outcome == FALSE & pr$partial_train != "discarded") {
+      lead_point   <- head(resp_ts, 1)
+      lead_point$date <- pr$target_tail$date
+      lead_point[, 2:ncol(lead_point)] <- pr$target_tail$value
+      resp_ts <- rbind(lead_point, resp_ts)
+    }
     
     if (fcast_end_date != max(resp_ts$date)) {
       tail_point <- tail(resp_ts, 1)
@@ -932,7 +934,7 @@ r_basil_ts <- function(fh = NULL) {
       } else {
         pr$partial_train <- "discarded"
         target <- target[-nrow(target), ]
-        pr$target_tail <- tail(target, 1)
+        #pr$target_tail <- tail(target, 1)  # connect to discarded data anyways, not previous point
       }
       
     } else if (gt_train_end & gt_question_start) {

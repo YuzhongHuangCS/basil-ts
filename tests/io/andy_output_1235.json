@@ -79,7 +79,7 @@
     },
     "ETS": {
       "forecast_is_usable": [
-        0
+        1
       ],
       "internal": {
         "AIC": [
@@ -153,7 +153,7 @@
     },
     "RW": {
       "forecast_is_usable": [
-        0
+        1
       ],
       "internal": {
         "AIC": [
@@ -367,7 +367,7 @@
       "2018-04-01"
     ],
     "forecast_created_at": [
-      "2018-05-21T10:14:27"
+      "2018-05-21T21:47:17"
     ],
     "h": [
       2

@@ -104,7 +104,11 @@ output_list <- output_list[order(as.integer(req_no), decreasing = TRUE)]
 
 close_date <- sapply(output_list, function(fh) {
   response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
-  response$to_date
+  out <- response$to_date
+  if (is.null(out)) {
+    out <- as.character(today() + 1)
+  } 
+  out
 })
 close_date["io/andy_output_938.json"] <- "2018-04-10"
 close_date <- unlist(close_date) %>% as.Date()
