@@ -84,6 +84,14 @@ class TestSampleRequests(unittest.TestCase):
         payload = json.loads(response.data)
         assert payload['message'] == "Invalid 'drop_after' argument"
         
+    def test_quick_option(self):
+        with open("tests/io/example1.json", "rb") as req:
+            response = self.app.post('/forecast?quick=True',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 200
+        payload = json.loads(response.data)
+        assert len(payload['forecasts']) == 1
 
 # class TestRctRequests(unittest.TestCase):
 #     def setUp(self):

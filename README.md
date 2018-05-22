@@ -71,6 +71,35 @@ http://0.0.0.0:5000/forecast?backast=True&drop-after=2017-10-29
 
 This should be a date in ISO format, i.e. 'YYYY-mm-dd'. If it exceeds the question period end date it will be reset to the question period end date - 1. 
 
+List of options:
+
+<table>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>backcast</code></td>
+<td>True</td>
+<td>Use with backcasting option, which will drop data after question start (default) or `drop-after` if specified.</td>
+</tr>
+<tr class="even">
+<td><code>drop-after</code></td>
+<td>YYYY-MM-DD</td>
+<td>If `backcast=True`, drop data after this date.</td>
+</tr>
+<tr class="odd">
+<td>`quick`</td>
+<td>True</td>
+<td>Do not estimate secondary models in `forecasts`, only estimate main ARIMA model forecast.</td>
+</tr>
+</tbody>
+</table>
+
 ### Request conventions
 
 Data aggregation

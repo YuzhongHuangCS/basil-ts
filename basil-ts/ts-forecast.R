@@ -821,6 +821,7 @@ r_basil_ts <- function(fh = NULL) {
   test <- FALSE
   backcast <- FALSE
   drop_after <- as.Date("9999-12-31")
+  quick <- FALSE
   #fh = "tests/io/andy_input_1145.json"
   
   if (length(args) > 0) {
@@ -828,6 +829,7 @@ r_basil_ts <- function(fh = NULL) {
     request_id   <- args[1]
     backcast     <- ifelse(args[2]=="True", TRUE, backcast)
     drop_after   <- as.Date(args[3])
+    quick        <- ifelse(args[4]=="True", TRUE, backcast)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced
@@ -983,6 +985,7 @@ r_basil_ts <- function(fh = NULL) {
   
   # Identify which models to run
   model_types <- c("ARIMA", "ETS", "RW", "geometric RW", "mean")
+  if (quick) model_types <- "ARIMA"
   forecasts   <- lapply(model_types, create_forecast, 
                         ts = target_ts, parsed_request = pr)
   names(forecasts) <- model_types
@@ -1008,6 +1011,13 @@ r_basil_ts <- function(fh = NULL) {
   response                     <- forecasts[["ARIMA"]]
   response[["parsed_request"]] <- internal_info
   response[["forecasts"]]      <- forecasts
+  
+  call <- list(
+    backcast = backcast,
+    drop_after = drop_after,
+    quick = quick
+  )
+  response[["call_options"]] <- call
   
   if (test) {
     return(invisible(response))
