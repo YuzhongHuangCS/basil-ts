@@ -1,55 +1,41 @@
 RCT test output
 ================
-2018-05-21
+2018-05-22
 
--   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
--   [Plot ARIMA forecasts for open IFPs](#plot-arima-forecasts-for-open-ifps)
--   [Plots for closed IFPs](#plots-for-closed-ifps)
+-   [Open IFP summary table](#open-ifp-summary-table)
+-   [Open IFP plots](#open-ifp-plots)
+-   [Closed IFP summary table](#closed-ifp-summary-table)
+-   [Closed IFP plots](#closed-ifp-plots)
 
-Are the base models estimating and without obvious mistakes?
-============================================================
+Open IFP summary table
+======================
 
-|   IFP| time  | data\_type |    N|    h|  lambda| data\_agg | partial\_train | partial\_y |
-|-----:|:------|:-----------|----:|----:|-------:|:----------|:---------------|:-----------|
-|  1694| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
-|  1622| month | count      |   38|    5|      NA| no        | used           | no         |
-|  1541| day   | continuous |  120|   45|      NA| no        | no             | no         |
-|  1514| month | count      |   40|    1|      NA| no        | no             | yes        |
-|  1451| month | count      |   60|    5|      NA| no        | used           | no         |
-|  1433| month | continuous |   60|    4|      NA| no        | used           | no         |
-|  1406| month | continuous |   60|    3|      NA| no        | used           | no         |
-|  1271| fixed | count      |   19|    2|      NA| yes       | used           | no         |
-|  1235| month | continuous |   60|    2|      NA| no        | used           | no         |
-|  1226| month | count      |   60|    5|      NA| no        | discarded      | no         |
-|  1217| month | continuous |   60|    4|      NA| no        | discarded      | no         |
-|  1208| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
-|  1190| month | count      |   60|    4|     0.5| no        | discarded      | no         |
-|  1172| month | count      |   60|    2|      NA| no        | discarded      | no         |
-|  1145| month | continuous |   60|    2|      NA| no        | used           | no         |
-|  1136| month | count      |   60|    7|     0.5| no        | discarded      | no         |
-|  1055| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
-|  1037| month | continuous |   60|    1|      NA| no        | used           | no         |
-|  1028| day   | continuous |  120|   14|      NA| no        | no             | no         |
-|  1019| month | continuous |   60|    3|      NA| no        | discarded      | no         |
-|   938| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
-|   929| month | count      |   60|    3|      NA| no        | used           | no         |
-|   911| month | count      |   60|    3|     0.5| no        | discarded      | no         |
-|   902| month | count      |   60|    3|      NA| no        | discarded      | no         |
-|   893| day   | continuous |  120|   85|      NA| no        | no             | no         |
-|   884| fixed | count      |  120|   11|      NA| no        | discarded      | no         |
-|   875| month | continuous |   60|    4|      NA| no        | discarded      | no         |
-|   866| month | count      |   38|    1|      NA| no        | no             | yes        |
-|   839| month | count      |   60|    3|     0.0| no        | discarded      | no         |
-|   830| month | count      |   16|    1|      NA| no        | used           | no         |
-|   821| month | count      |   14|    2|      NA| no        | used           | no         |
+|   IFP|    N|    h| lambda | time  | data\_type | data\_agg | partial\_train | partial\_y | end        |
+|-----:|----:|----:|:-------|:------|:-----------|:----------|:---------------|:-----------|:-----------|
+|  1694|   NA|   NA|        | NA    | NA         | NA        | NA             | NA         | NA         |
+|  1622|   38|    5|        | month | count      | no        | used           | no         | 2018-07-31 |
+|  1541|  120|   45|        | day   | continuous | no        | no             | no         | 2018-05-31 |
+|  1514|   40|    1|        | month | count      | no        | no             | yes        | 2018-05-31 |
+|  1451|   60|    5|        | month | count      | no        | used           | no         | 2018-07-31 |
+|  1433|   60|    4|        | month | continuous | no        | used           | no         | 2018-06-30 |
+|  1406|   60|    3|        | month | continuous | no        | used           | no         | 2018-05-31 |
+|  1271|   19|    2|        | fixed | count      | yes       | used           | no         | 2018-08-22 |
+|  1226|   60|    5|        | month | count      | no        | discarded      | no         | 2018-06-30 |
+|  1217|   60|    4|        | month | continuous | no        | discarded      | no         | 2018-06-30 |
+|  1190|   60|    4| 0.5    | month | count      | no        | discarded      | no         | 2018-07-31 |
+|  1136|   60|    7| 0.5    | month | count      | no        | discarded      | no         | 2018-07-31 |
+|  1019|   60|    3|        | month | continuous | no        | discarded      | no         | 2018-05-31 |
+|   929|   60|    3|        | month | count      | no        | used           | no         | 2018-05-31 |
+|   893|  120|   85|        | day   | continuous | no        | no             | no         | 2018-06-29 |
+|   875|   60|    4|        | month | continuous | no        | discarded      | no         | 2018-06-30 |
+|   830|   16|    1|        | month | count      | no        | used           | no         | 2018-05-31 |
 
 | IFP  | Error                                                                                                    |
 |:-----|:---------------------------------------------------------------------------------------------------------|
-| 938  | r\_basil\_ts(): Send daily data in the request, not aggregated data. Question is over 100 day            |
 | 1694 | validate\_seps(request*p**a**y**l**o**a**d*separations$values): Separations appear to be mis-parsed, mul |
 
-Plot ARIMA forecasts for open IFPs
-==================================
+Open IFP plots
+==============
 
 Request 1694
 ------------
@@ -170,8 +156,32 @@ How many battle deaths will ACLED record in Afghanistan in April 2018?
 
 ![](README_files/figure-markdown_github/arima-plots-open-ifps-17.png)
 
-Plots for closed IFPs
-=====================
+Closed IFP summary table
+========================
+
+|   IFP|    N|    h| lambda | time  | data\_type | data\_agg | partial\_train | partial\_y | end        |
+|-----:|----:|----:|:-------|:------|:-----------|:----------|:---------------|:-----------|:-----------|
+|  1235|   60|    2|        | month | continuous | no        | used           | no         | 2018-04-30 |
+|  1208|  120|    1|        | fixed | continuous | yes       | no             | yes        | 2018-04-10 |
+|  1172|   60|    2|        | month | count      | no        | discarded      | no         | 2018-04-30 |
+|  1145|   60|    2|        | month | continuous | no        | used           | no         | 2018-04-30 |
+|  1055|  120|    1|        | fixed | continuous | yes       | no             | yes        | 2018-04-10 |
+|  1037|   60|    1|        | month | continuous | no        | used           | no         | 2018-04-30 |
+|  1028|  120|   14|        | day   | continuous | no        | no             | no         | 2018-04-26 |
+|   938|   NA|   NA|        | NA    | NA         | NA        | NA             | NA         | NA         |
+|   911|   60|    3| 0.5    | month | count      | no        | discarded      | no         | 2018-03-31 |
+|   902|   60|    3|        | month | count      | no        | discarded      | no         | 2018-04-30 |
+|   884|  120|   11|        | fixed | count      | no        | discarded      | no         | 2018-03-18 |
+|   866|   38|    1|        | month | count      | no        | no             | yes        | 2018-03-31 |
+|   839|   60|    3| 0      | month | count      | no        | discarded      | no         | 2018-04-30 |
+|   821|   14|    2|        | month | count      | no        | used           | no         | 2018-04-30 |
+
+| IFP | Error                                                                                         |
+|:----|:----------------------------------------------------------------------------------------------|
+| 938 | r\_basil\_ts(): Send daily data in the request, not aggregated data. Question is over 100 day |
+
+Closed IFP plots
+================
 
 Request 1271
 ------------

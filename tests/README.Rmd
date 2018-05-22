@@ -18,85 +18,6 @@ library("cowplot")
 source("../basil-ts/ts-forecast.R")
 ```
 
-# Are the base models estimating and without obvious mistakes?
-
-```{r, warning=FALSE}
-output_list <- dir("io", pattern = "_output_", full.names = TRUE)
-
-summary_table <- list()
-for (fh in output_list) {
-  input_fh <- str_replace(fh, "output", "input")
-  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
-  request  <- jsonlite::fromJSON(input_fh)
-  request_no <- str_extract(fh, "[0-9]+")
-  
-  this_ifp <- list()
-  if (!is.null(response$estimated) | !is.null(response$message)) {
-    this_ifp <- data.frame(
-      IFP = request_no, 
-      Model = "ARIMA", 
-      N = NA,
-      h = NA,
-      lambda = NA,
-      stringsAsFactors = FALSE)
-  } else {
-    this_ifp <- data.frame(
-      IFP = request_no, 
-      Model = "ARIMA",  
-      time = response$parsed_request$question_period$period$period,
-      data_type = response$parsed_request$series_type,
-      N = response$trainN,
-      h = response$parsed_request$h,
-      lambda = ifelse(
-        length(response$parsed_request$lambda)==0, 
-        NA_integer_, 
-        response$parsed_request$lambda),
-      data_agg = ifelse(
-        response$parsed_request$was_data_aggregated,
-        "yes",
-        "no"),
-      partial_train = response$parsed_request$partial_train,
-      partial_y = ifelse(
-        response$parsed_request$partial_outcome,
-        "yes",
-        "no"),
-      stringsAsFactors = FALSE)
-  }
-  this_ifp <- bind_rows(this_ifp)
-  
-  summary_table <- c(summary_table, list(this_ifp))
-}
-summary_table <- bind_rows(summary_table)
-summary_table %>% 
-  mutate(IFP = as.integer(IFP)) %>%
-  arrange(desc(IFP)) %>%
-  select(-Model) %>%
-  knitr::kable(digits = 2)
-
-error_ifps <- summary_table$IFP[is.na(summary_table$time)]
-erorr_requests <- sapply(error_ifps, function(x) output_list[str_detect(output_list, x)])
-error_table <- list()
-for (fh in erorr_requests) {
-  response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
-  err <- response$r_error_message %>% 
-      str_replace_all(., "\\n", "") %>%
-      str_replace_all(., "[ ]{2,}", " ") %>%
-      str_replace_all(., " :", ":") %>%
-      substr(., 10, 100)
-  this_ifp <- data.frame(
-    IFP = str_extract(fh, "[0-9]+"),
-    Error = err
-  )
-  error_table <- c(error_table, list(this_ifp))
-}
-error_table <- bind_rows(error_table)
-error_table %>% 
-  arrange(desc(IFP)) %>%
-  knitr::kable(digits = 2)
-```
-
-# Plot ARIMA forecasts for open IFPs
-
 ```{r sort-closed-ifps}
 output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 req_no <- sapply(output_list, str_extract, "[0-9]+")
@@ -112,6 +33,94 @@ close_date <- unlist(close_date) %>% as.Date()
 open_ifps   <- output_list[close_date > today()]
 closed_ifps <- output_list[!close_date > today()]
 ```
+
+# Open IFP summary table
+
+```{r open-ifp-table, warning=FALSE}
+make_table <- function(files) {
+  summary_table <- list()
+  for (fh in files) {
+    input_fh <- str_replace(fh, "output", "input")
+    response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+    request  <- jsonlite::fromJSON(input_fh)
+    request_no <- str_extract(fh, "[0-9]+")
+    
+    this_ifp <- list()
+    if (!is.null(response$estimated) | !is.null(response$message)) {
+      this_ifp <- data.frame(
+        IFP = request_no, 
+        Model = "ARIMA", 
+        N = NA,
+        h = NA,
+        lambda = "",
+        stringsAsFactors = FALSE)
+    } else {
+      this_ifp <- data.frame(
+        IFP = request_no, 
+        Model = "ARIMA",  
+        N = response$trainN,
+        h = response$parsed_request$h,
+        lambda = ifelse(
+          length(response$parsed_request$lambda)==0, 
+          "", 
+          response$parsed_request$lambda) %>% as.character(),
+        time = response$parsed_request$question_period$period$period,
+        data_type = response$parsed_request$series_type,
+        data_agg = ifelse(
+          response$parsed_request$was_data_aggregated,
+          "yes",
+          "no"),
+        partial_train = response$parsed_request$partial_train,
+        partial_y = ifelse(
+          response$parsed_request$partial_outcome,
+          "yes",
+          "no"),
+        end = response$to_date,
+        stringsAsFactors = FALSE)
+    }
+    this_ifp <- bind_rows(this_ifp)
+    
+    summary_table <- c(summary_table, list(this_ifp))
+  }
+  summary_table <- bind_rows(summary_table)
+  summary_table
+}
+
+make_error_table <- function(summary_table, output_list) {
+  error_ifps <- summary_table$IFP[is.na(summary_table$time)]
+  erorr_requests <- sapply(error_ifps, function(x) output_list[str_detect(output_list, x)])
+  error_table <- list()
+  for (fh in erorr_requests) {
+    response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+    err <- response$r_error_message %>% 
+      str_replace_all(., "\\n", "") %>%
+      str_replace_all(., "[ ]{2,}", " ") %>%
+      str_replace_all(., " :", ":") %>%
+      substr(., 10, 100)
+    this_ifp <- data.frame(
+      IFP = str_extract(fh, "[0-9]+"),
+      Error = err
+    )
+    error_table <- c(error_table, list(this_ifp))
+  }
+  error_table <- bind_rows(error_table)
+  error_table
+}
+
+summary_table <- make_table(open_ifps)
+summary_table %>% 
+  mutate(IFP = as.integer(IFP)) %>%
+  arrange(desc(IFP)) %>%
+  select(-Model) %>%
+  knitr::kable(digits = 2)
+
+make_error_table(summary_table, output_list) %>% 
+  arrange(desc(IFP)) %>%
+  knitr::kable(digits = 2)
+```
+
+
+# Open IFP plots
 
 ```{r arima-plots-open-ifps, warning = FALSE, fig.height=3, results = 'asis'}
 error_plot <- function(fcast, target, request_no, request) {
@@ -253,7 +262,22 @@ arima_plotter <- function(file_list) {
 arima_plotter(open_ifps)
 ```
 
-# Plots for closed IFPs
+# Closed IFP summary table
+
+```{r, warning=FALSE}
+summary_table <- make_table(closed_ifps) 
+summary_table %>% 
+  mutate(IFP = as.integer(IFP)) %>%
+  arrange(desc(IFP)) %>%
+  select(-Model) %>%
+  knitr::kable(digits = 2)
+
+make_error_table(summary_table, output_list) %>% 
+  arrange(desc(IFP)) %>%
+  knitr::kable(digits = 2)
+```
+
+# Closed IFP plots
 
 ```{r arima-plots-closed, warning = FALSE, fig.height=3, results = 'asis'}
 arima_plotter(closed_ifps)
