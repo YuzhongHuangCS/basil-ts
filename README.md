@@ -60,13 +60,13 @@ http://0.0.0.0:5000/forecast
 For backcasting, add a `backcast=True` option:
 
 ```url
-http://0.0.0.0:5000/forecast?backast=True
+http://0.0.0.0:5000/forecast?backcast=True
 ```
 
 This will by default drop all data from the beginning of the question period on. Another argument controls how much data is dropped, `drop-after=YYYY-mm-dd`: 
 
 ```url
-http://0.0.0.0:5000/forecast?backast=True&drop-after=2017-10-29
+'http://0.0.0.0:5000/forecast?backcast=True&drop-after=2017-10-29'
 ```
 
 This should be a date in ISO format, i.e. 'YYYY-mm-dd'. If it exceeds the question period end date it will be reset to the question period end date - 1. 
