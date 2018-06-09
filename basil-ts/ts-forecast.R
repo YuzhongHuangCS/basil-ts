@@ -1001,7 +1001,7 @@ r_basil_ts <- function(fh = NULL) {
   
   internal_info <- pr
   # Legacy info, maybe take out in future
-  internal_info$forecast_created_at <- lubridate::now()
+  #internal_info$forecast_created_at <- lubridate::now()
   internal_info$rmse_mean <- rmse_mean
   internal_info$rmse_rwf  <- rmse_rwf
   internal_info$backcast  <- backcast
