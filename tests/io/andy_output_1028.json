@@ -1,4 +1,15 @@
 {
+  "call_options": {
+    "backcast": [
+      false
+    ],
+    "drop_after": [
+      "9999-12-31"
+    ],
+    "quick": [
+      false
+    ]
+  },
   "forecast_is_usable": [
     1
   ],
@@ -563,7 +574,7 @@
     },
     "mean": {
       "forecast_is_usable": [
-        0
+        1
       ],
       "internal": {
         "AIC": [
@@ -768,9 +779,6 @@
       "2018-04-24",
       "2018-04-25",
       "2018-04-26"
-    ],
-    "forecast_created_at": [
-      "2018-05-21T10:14:52"
     ],
     "h": [
       14

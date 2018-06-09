@@ -23,12 +23,19 @@ output_list <- dir("io", pattern = "_output_", full.names = TRUE)
 req_no <- sapply(output_list, str_extract, "[0-9]+")
 output_list <- output_list[order(as.integer(req_no), decreasing = TRUE)]
 
-close_date <- sapply(output_list, function(fh) {
+close_date <- lapply(output_list, function(fh) {
   response <- jsonlite::fromJSON(fh, simplifyVector = TRUE, simplifyDataFrame = FALSE)
   response$to_date
 })
-close_date["io/andy_output_938.json"] <- "2018-04-10"
+names(close_date) <- output_list
+close_date[["io/andy_output_1694.json"]] <- "2018-05-31"
+close_date[["io/andy_output_2099.json"]] <- "2018-06-28"
+close_date[["io/andy_output_938.json"]] <- "2018-04-10"
 close_date <- unlist(close_date) %>% as.Date()
+
+if (length(close_date) != length(output_list)) {
+  stop("Add close date for failing IFPs")
+}
 
 open_ifps   <- output_list[close_date > today()]
 closed_ifps <- output_list[!close_date > today()]

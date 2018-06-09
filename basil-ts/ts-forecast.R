@@ -101,14 +101,24 @@ norm_fixed_period <- function(x, days, ref_date) {
 
 #' Parse last date in input data
 #' 
-parse_last_date <- function(request, target) {
+parse_last_date <- function(request, target, data_period) {
   last_date <- ifelse(is.null(request$payload$`last-event-date`),
-                      max(target$date),
+                      NA,
                       request$payload$`last-event-date`)
   last_date <- as.Date(last_date, origin = "1970-01-01")
   if (!is.null(request$payload$`aggregated-data`)) {
     if (request$payload$`aggregated-data`=="month") {
-      last_date <- last_date %m+% months(1) - 1
+      last_date <- max(target$date) %m+% months(1) - 1
+    }
+  } else if (is.null(request$payload$`aggregated-data`)) {
+    if (data_period$period$period=="month" & is.na(last_date)) {
+      last_date <- max(target$date) %m+% months(1) - 1
+    }
+    if (data_period$period$period=="day" & is.na(last_date)) {
+      last_date <- max(target$date)
+    }
+    if (data_period$period$period=="fixed" & is.na(last_date)) {
+      last_date <- max(target$date) + data_period$period$days
     }
   }
   last_date
@@ -652,10 +662,12 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
       as.data.frame(fcast)
     )
     
-    lead_point   <- head(resp_ts, 1)
-    lead_point$date <- pr$target_tail$date
-    lead_point[, 2:ncol(lead_point)] <- pr$target_tail$value
-    resp_ts <- rbind(lead_point, resp_ts)
+    if (pr$partial_outcome == FALSE & pr$partial_train != "discarded") {
+      lead_point   <- head(resp_ts, 1)
+      lead_point$date <- pr$target_tail$date
+      lead_point[, 2:ncol(lead_point)] <- pr$target_tail$value
+      resp_ts <- rbind(lead_point, resp_ts)
+    }
     
     if (fcast_end_date != max(resp_ts$date)) {
       tail_point <- tail(resp_ts, 1)
@@ -819,6 +831,7 @@ r_basil_ts <- function(fh = NULL) {
   test <- FALSE
   backcast <- FALSE
   drop_after <- as.Date("9999-12-31")
+  quick <- FALSE
   #fh = "tests/io/andy_input_1145.json"
   
   if (length(args) > 0) {
@@ -826,6 +839,7 @@ r_basil_ts <- function(fh = NULL) {
     request_id   <- args[1]
     backcast     <- ifelse(args[2]=="True", TRUE, backcast)
     drop_after   <- as.Date(args[3])
+    quick        <- ifelse(args[4]=="True", TRUE, backcast)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced
@@ -854,9 +868,9 @@ r_basil_ts <- function(fh = NULL) {
   pr <- list()
   pr$ifp_name        <- request$ifp$name
   pr$binary_ifp      <- request$ifp$`binary?`
-  pr$last_date       <- parse_last_date(request, target)
   pr$question_period <- parse_question_period(pr$ifp_name)
   pr$data_period     <- parse_data_period(target$date)
+  pr$last_date       <- parse_last_date(request, target, pr$data_period)
   pr$series_type     <- guess_series_type(target$value, pr$ifp_name)
   pr$separations     <- parse_separations(request$payload$separations, 
                                           pr$series_type, pr$ifp_name)
@@ -881,6 +895,9 @@ r_basil_ts <- function(fh = NULL) {
     drop_after    <- min(c(drop_after, pr$question_period$dates[2] - 1))
     target        <- target[target$date < (drop_after + 1), ]
     pr$last_date  <- max(target$date)
+    # maybe need to reset `last-event-date` to avoid dropping by partial data
+    # handling?
+    #parse_last_date(list(payload = list()), target, data_period)
   }
   
   # Check data end does not exceed question end
@@ -932,7 +949,7 @@ r_basil_ts <- function(fh = NULL) {
       } else {
         pr$partial_train <- "discarded"
         target <- target[-nrow(target), ]
-        pr$target_tail <- tail(target, 1)
+        #pr$target_tail <- tail(target, 1)  # connect to discarded data anyways, not previous point
       }
       
     } else if (gt_train_end & gt_question_start) {
@@ -981,6 +998,7 @@ r_basil_ts <- function(fh = NULL) {
   
   # Identify which models to run
   model_types <- c("ARIMA", "ETS", "RW", "geometric RW", "mean")
+  if (quick) model_types <- "ARIMA"
   forecasts   <- lapply(model_types, create_forecast, 
                         ts = target_ts, parsed_request = pr)
   names(forecasts) <- model_types
@@ -996,7 +1014,7 @@ r_basil_ts <- function(fh = NULL) {
   
   internal_info <- pr
   # Legacy info, maybe take out in future
-  internal_info$forecast_created_at <- lubridate::now()
+  #internal_info$forecast_created_at <- lubridate::now()
   internal_info$rmse_mean <- rmse_mean
   internal_info$rmse_rwf  <- rmse_rwf
   internal_info$backcast  <- backcast
@@ -1006,6 +1024,13 @@ r_basil_ts <- function(fh = NULL) {
   response                     <- forecasts[["ARIMA"]]
   response[["parsed_request"]] <- internal_info
   response[["forecasts"]]      <- forecasts
+  
+  call <- list(
+    backcast = backcast,
+    drop_after = drop_after,
+    quick = quick
+  )
+  response[["call_options"]] <- call
   
   if (test) {
     return(invisible(response))

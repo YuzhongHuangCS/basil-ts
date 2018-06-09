@@ -1,4 +1,15 @@
 {
+  "call_options": {
+    "backcast": [
+      false
+    ],
+    "drop_after": [
+      "9999-12-31"
+    ],
+    "quick": [
+      false
+    ]
+  },
   "forecast_is_usable": [
     1
   ],
@@ -85,7 +96,7 @@
     },
     "ETS": {
       "forecast_is_usable": [
-        0
+        1
       ],
       "internal": {
         "AIC": [
@@ -165,7 +176,7 @@
     },
     "RW": {
       "forecast_is_usable": [
-        0
+        1
       ],
       "internal": {
         "AIC": [
@@ -390,9 +401,6 @@
       "2018-03-01",
       "2018-04-01",
       "2018-05-01"
-    ],
-    "forecast_created_at": [
-      "2018-05-21T10:14:23"
     ],
     "h": [
       3
