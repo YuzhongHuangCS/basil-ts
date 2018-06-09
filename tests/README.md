@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-05-31
+2018-06-09
 
 -   [Are the base models estimating and without obvious mistakes?](#are-the-base-models-estimating-and-without-obvious-mistakes)
 -   [Plot ARIMA forecasts for open IFPs](#plot-arima-forecasts-for-open-ifps)
@@ -23,23 +23,23 @@ Are the base models estimating and without obvious mistakes?
 |  1271| fixed | count      |   19|    2|      NA| yes       | used           | no         |
 |  1235| month | continuous |   60|    2|      NA| no        | used           | no         |
 |  1226| month | count      |   60|    5|      NA| no        | discarded      | no         |
-|  1217| month | continuous |   60|    4|      NA| no        | discarded      | no         |
+|  1217| month | continuous |   60|    2|      NA| no        | used           | no         |
 |  1208| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
-|  1190| month | count      |   60|    4|     0.5| no        | discarded      | no         |
+|  1190| month | count      |   60|    2|     0.0| no        | used           | no         |
 |  1172| month | count      |   60|    2|      NA| no        | discarded      | no         |
 |  1145| month | continuous |   60|    2|      NA| no        | used           | no         |
 |  1136| month | count      |   60|    7|     0.5| no        | discarded      | no         |
 |  1055| fixed | continuous |  120|    1|      NA| yes       | no             | yes        |
 |  1037| month | continuous |   60|    1|      NA| no        | used           | no         |
 |  1028| day   | continuous |  120|   14|      NA| no        | no             | no         |
-|  1019| month | continuous |   60|    3|      NA| no        | discarded      | no         |
+|  1019| month | continuous |   60|    2|      NA| no        | used           | no         |
 |   938| NA    | NA         |   NA|   NA|      NA| NA        | NA             | NA         |
 |   929| month | count      |   60|    3|      NA| no        | used           | no         |
-|   911| month | count      |   60|    3|     0.5| no        | discarded      | no         |
+|   911| month | count      |   60|    2|     0.5| no        | used           | no         |
 |   902| month | count      |   60|    3|      NA| no        | discarded      | no         |
 |   893| day   | continuous |  120|   85|      NA| no        | no             | no         |
-|   884| fixed | count      |  120|   11|      NA| no        | discarded      | no         |
-|   875| month | continuous |   60|    4|      NA| no        | discarded      | no         |
+|   884| fixed | count      |  120|   10|      NA| no        | used           | no         |
+|   875| month | continuous |   60|    3|      NA| no        | used           | no         |
 |   866| month | count      |   38|    1|      NA| no        | no             | yes        |
 |   839| month | count      |   60|    3|     0.0| no        | discarded      | no         |
 |   830| month | count      |   16|    1|      NA| no        | used           | no         |

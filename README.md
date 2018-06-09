@@ -178,5 +178,8 @@ Rscript -e 'library(rmarkdown); rmarkdown::render("tests/README.Rmd")'
 
 # To run a specific IFP
 bash tests/test.sh 1055
+
+# To pretty format io files
+bash tools/format_inputs.sh
 ```
 

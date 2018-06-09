@@ -101,14 +101,24 @@ norm_fixed_period <- function(x, days, ref_date) {
 
 #' Parse last date in input data
 #' 
-parse_last_date <- function(request, target) {
+parse_last_date <- function(request, target, data_period) {
   last_date <- ifelse(is.null(request$payload$`last-event-date`),
-                      max(target$date),
+                      NA,
                       request$payload$`last-event-date`)
   last_date <- as.Date(last_date, origin = "1970-01-01")
   if (!is.null(request$payload$`aggregated-data`)) {
     if (request$payload$`aggregated-data`=="month") {
-      last_date <- last_date %m+% months(1) - 1
+      last_date <- max(target$date) %m+% months(1) - 1
+    }
+  } else if (is.null(request$payload$`aggregated-data`)) {
+    if (data_period$period$period=="month" & is.na(last_date)) {
+      last_date <- max(target$date) %m+% months(1) - 1
+    }
+    if (data_period$period$period=="day" & is.na(last_date)) {
+      last_date <- max(target$date)
+    }
+    if (data_period$period$period=="fixed" & is.na(last_date)) {
+      last_date <- max(target$date) + data_period$period$days
     }
   }
   last_date
@@ -858,9 +868,9 @@ r_basil_ts <- function(fh = NULL) {
   pr <- list()
   pr$ifp_name        <- request$ifp$name
   pr$binary_ifp      <- request$ifp$`binary?`
-  pr$last_date       <- parse_last_date(request, target)
   pr$question_period <- parse_question_period(pr$ifp_name)
   pr$data_period     <- parse_data_period(target$date)
+  pr$last_date       <- parse_last_date(request, target, pr$data_period)
   pr$series_type     <- guess_series_type(target$value, pr$ifp_name)
   pr$separations     <- parse_separations(request$payload$separations, 
                                           pr$series_type, pr$ifp_name)

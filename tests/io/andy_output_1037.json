@@ -1,4 +1,15 @@
 {
+  "call_options": {
+    "backcast": [
+      false
+    ],
+    "drop_after": [
+      "9999-12-31"
+    ],
+    "quick": [
+      false
+    ]
+  },
   "forecast_is_usable": [
     1
   ],
@@ -371,9 +382,6 @@
     },
     "fcast_dates": [
       "2018-04-01"
-    ],
-    "forecast_created_at": [
-      "2018-05-21T21:47:40"
     ],
     "h": [
       1
