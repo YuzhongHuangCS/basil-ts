@@ -21,5 +21,10 @@ get_historical_data <- function(ifp) {
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
+  target
+}
+
+get_separation_cutoffs <- function(ifp) {
+  request <- load_request(ifp)
   
 }
