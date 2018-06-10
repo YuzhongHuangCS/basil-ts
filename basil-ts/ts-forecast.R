@@ -894,10 +894,10 @@ r_basil_ts <- function(fh = NULL) {
     # if drop after was user supplied, make sure it does not exceed question end date
     drop_after    <- min(c(drop_after, pr$question_period$dates[2] - 1))
     target        <- target[target$date < (drop_after + 1), ]
-    pr$last_date  <- max(target$date)
+    #pr$last_date  <- max(target$date)
     # maybe need to reset `last-event-date` to avoid dropping by partial data
     # handling?
-    #parse_last_date(list(payload = list()), target, data_period)
+    parse_last_date(list(payload = list()), target, data_period)
   }
   
   # Check data end does not exceed question end
