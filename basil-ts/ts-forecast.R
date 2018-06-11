@@ -890,14 +890,31 @@ r_basil_ts <- function(fh = NULL) {
   if (backcast) {
     # drop-after defaults to 9999-12-31, change the default to day before 
     # question period starts
-    if (drop_after==as.Date("9999-12-31")) drop_after <- pr$question_period$dates[1] + 1
+    if (drop_after==as.Date("9999-12-31")) drop_after <- pr$question_period$dates[1] - 1
     # if drop after was user supplied, make sure it does not exceed question end date
-    drop_after    <- min(c(drop_after, pr$question_period$dates[2] - 1))
+    if (drop_after > pr$question_period$dates[2]) {
+      stop("Drop after argument exceeds question end date")
+    }
     target        <- target[target$date < (drop_after + 1), ]
-    #pr$last_date  <- max(target$date)
-    # maybe need to reset `last-event-date` to avoid dropping by partial data
-    # handling?
-    parse_last_date(list(payload = list()), target, pr$data_period)
+    # reset pr$last_date
+    # messy messy
+    if (pr$data_period$period$period=="day" | pr$data_period$period$period=="fixed") {
+      # fixed because we do aggregation on this side with daily data
+      # here we have daily data so we can just use max in data
+      pr$last_date <- max(target$date)
+    } else {
+      # monthly data
+      # two kinds: pre-aggregated on platform, or just straight monthly source data
+      if (is.na(request$payload$`last-event-date`)) {
+        # monthly source data
+        # reparse with new ts target
+        pr$last_date <- parse_last_date(list(payload = list()), target, pr$data_period)
+      } else {
+        # pre-aggregated data; trust the input
+        pr$last_date <- drop_after
+      }
+    }
+    
   }
   
   # Check data end does not exceed question end
