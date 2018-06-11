@@ -897,7 +897,7 @@ r_basil_ts <- function(fh = NULL) {
     #pr$last_date  <- max(target$date)
     # maybe need to reset `last-event-date` to avoid dropping by partial data
     # handling?
-    parse_last_date(list(payload = list()), target, data_period)
+    parse_last_date(list(payload = list()), target, pr$data_period)
   }
   
   # Check data end does not exceed question end
