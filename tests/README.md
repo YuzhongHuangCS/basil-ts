@@ -1,6 +1,6 @@
 RCT test output
 ================
-2018-06-09
+2018-06-13
 
 -   [Open IFP summary table](#open-ifp-summary-table)
 -   [Open IFP plots](#open-ifp-plots)
