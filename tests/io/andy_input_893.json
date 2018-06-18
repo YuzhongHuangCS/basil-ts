@@ -6,20 +6,17 @@
         },
         "site_id": 6,
         "updated_at": "2018-03-07T17:31:35.044Z",
+        "membership_id": 471,
         "discover_question_id": 188,
         "published_at": "2018-03-07T17:31:34.815Z",
         "id": 893,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "This question will be resolved using the daily rate reported by Federal Reserve Economic Data (FRED) for the date of interest (https://fred.stlouisfed.org/series/DEXKOUS). Question will be closed the day before the date of interest and resolved when the data is released, usually on Monday of the following week.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
-        "ends_at": "2018-06-28T18:01:07.000Z",
-        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
@@ -35,18 +32,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
                     "updated_at": "2018-03-07T17:31:34.995Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2804,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -64,18 +61,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
                     "updated_at": "2018-03-07T17:31:34.968Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2803,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -93,18 +90,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
                     "updated_at": "2018-03-07T17:31:34.939Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2802,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -122,18 +119,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
                     "updated_at": "2018-03-07T17:31:34.911Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2801,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -151,18 +148,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
                     "updated_at": "2018-03-07T17:31:34.879Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2800,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -179,16 +176,32 @@
                 }
             ]
         },
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-06-28T18:01:07.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
         "name": "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?",
         "created_at": "2018-03-07T17:31:34.872Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
+        "void_reason": null,
         "comments_count": 0,
         "starts_at": "2018-03-07T17:30:07.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 5
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<1004",
+                "1004 - 1046",
+                "1046 - 1082",
+                "1082 - 1123",
+                ">1123"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -54164,11 +54177,11 @@
                 ],
                 [
                     "2018-03-21T00:00:00.000Z",
-                    1070.61
+                    1070.51
                 ],
                 [
                     "2018-03-22T00:00:00.000Z",
-                    1070.61
+                    1079.51
                 ],
                 [
                     "2018-03-23T00:00:00.000Z",
@@ -54225,19 +54238,268 @@
                 [
                     "2018-04-05T00:00:00.000Z",
                     1061.56
+                ],
+                [
+                    "2018-04-06T00:00:00.000Z",
+                    1068.73
+                ],
+                [
+                    "2018-04-07T00:00:00.000Z",
+                    1068.73
+                ],
+                [
+                    "2018-04-08T00:00:00.000Z",
+                    1068.73
+                ],
+                [
+                    "2018-04-09T00:00:00.000Z",
+                    1067.11
+                ],
+                [
+                    "2018-04-10T00:00:00.000Z",
+                    1064.53
+                ],
+                [
+                    "2018-04-11T00:00:00.000Z",
+                    1066.76
+                ],
+                [
+                    "2018-04-12T00:00:00.000Z",
+                    1069.84
+                ],
+                [
+                    "2018-04-13T00:00:00.000Z",
+                    1070.55
+                ],
+                [
+                    "2018-04-14T00:00:00.000Z",
+                    1070.55
+                ],
+                [
+                    "2018-04-15T00:00:00.000Z",
+                    1070.55
+                ],
+                [
+                    "2018-04-16T00:00:00.000Z",
+                    1071.59
+                ],
+                [
+                    "2018-04-17T00:00:00.000Z",
+                    1066.56
+                ],
+                [
+                    "2018-04-18T00:00:00.000Z",
+                    1064.51
+                ],
+                [
+                    "2018-04-19T00:00:00.000Z",
+                    1065.68
+                ],
+                [
+                    "2018-04-20T00:00:00.000Z",
+                    1071.0
+                ],
+                [
+                    "2018-04-21T00:00:00.000Z",
+                    1071.0
+                ],
+                [
+                    "2018-04-22T00:00:00.000Z",
+                    1071.0
+                ],
+                [
+                    "2018-04-23T00:00:00.000Z",
+                    1077.72
+                ],
+                [
+                    "2018-04-24T00:00:00.000Z",
+                    1074.8
+                ],
+                [
+                    "2018-04-25T00:00:00.000Z",
+                    1082.99
+                ],
+                [
+                    "2018-04-26T00:00:00.000Z",
+                    1078.2
+                ],
+                [
+                    "2018-04-27T00:00:00.000Z",
+                    1067.59
+                ],
+                [
+                    "2018-04-28T00:00:00.000Z",
+                    1067.59
+                ],
+                [
+                    "2018-04-29T00:00:00.000Z",
+                    1067.59
+                ],
+                [
+                    "2018-04-30T00:00:00.000Z",
+                    1069.07
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    1071.91
+                ],
+                [
+                    "2018-05-02T00:00:00.000Z",
+                    1076.52
+                ],
+                [
+                    "2018-05-03T00:00:00.000Z",
+                    1078.33
+                ],
+                [
+                    "2018-05-04T00:00:00.000Z",
+                    1074.09
+                ],
+                [
+                    "2018-05-05T00:00:00.000Z",
+                    1074.09
+                ],
+                [
+                    "2018-05-06T00:00:00.000Z",
+                    1074.09
+                ],
+                [
+                    "2018-05-07T00:00:00.000Z",
+                    1079.72
+                ],
+                [
+                    "2018-05-08T00:00:00.000Z",
+                    1078.35
+                ],
+                [
+                    "2018-05-09T00:00:00.000Z",
+                    1078.22
+                ],
+                [
+                    "2018-05-10T00:00:00.000Z",
+                    1065.41
+                ],
+                [
+                    "2018-05-11T00:00:00.000Z",
+                    1067.14
+                ],
+                [
+                    "2018-05-12T00:00:00.000Z",
+                    1067.14
+                ],
+                [
+                    "2018-05-13T00:00:00.000Z",
+                    1067.14
+                ],
+                [
+                    "2018-05-14T00:00:00.000Z",
+                    1068.83
+                ],
+                [
+                    "2018-05-15T00:00:00.000Z",
+                    1076.46
+                ],
+                [
+                    "2018-05-16T00:00:00.000Z",
+                    1076.66
+                ],
+                [
+                    "2018-05-17T00:00:00.000Z",
+                    1082.37
+                ],
+                [
+                    "2018-05-18T00:00:00.000Z",
+                    1080.91
+                ],
+                [
+                    "2018-05-19T00:00:00.000Z",
+                    1080.91
+                ],
+                [
+                    "2018-05-20T00:00:00.000Z",
+                    1080.91
+                ],
+                [
+                    "2018-05-21T00:00:00.000Z",
+                    1079.33
+                ],
+                [
+                    "2018-05-22T00:00:00.000Z",
+                    1073.3
+                ],
+                [
+                    "2018-05-23T00:00:00.000Z",
+                    1078.88
+                ],
+                [
+                    "2018-05-24T00:00:00.000Z",
+                    1082.77
+                ],
+                [
+                    "2018-05-25T00:00:00.000Z",
+                    1076.35
+                ],
+                [
+                    "2018-05-26T00:00:00.000Z",
+                    1076.35
+                ],
+                [
+                    "2018-05-27T00:00:00.000Z",
+                    1076.35
+                ],
+                [
+                    "2018-05-28T00:00:00.000Z",
+                    1076.35
+                ],
+                [
+                    "2018-05-29T00:00:00.000Z",
+                    1082.59
+                ],
+                [
+                    "2018-05-30T00:00:00.000Z",
+                    1077.62
+                ],
+                [
+                    "2018-05-31T00:00:00.000Z",
+                    1080.75
+                ],
+                [
+                    "2018-06-01T00:00:00.000Z",
+                    1071.27
+                ],
+                [
+                    "2018-06-02T00:00:00.000Z",
+                    1071.27
+                ],
+                [
+                    "2018-06-03T00:00:00.000Z",
+                    1071.27
+                ],
+                [
+                    "2018-06-04T00:00:00.000Z",
+                    1070.13
+                ],
+                [
+                    "2018-06-05T00:00:00.000Z",
+                    1071.86
+                ],
+                [
+                    "2018-06-06T00:00:00.000Z",
+                    1065.9
+                ],
+                [
+                    "2018-06-07T00:00:00.000Z",
+                    1071.11
+                ],
+                [
+                    "2018-06-08T00:00:00.000Z",
+                    1075.0
                 ]
             ]
         },
-        "separations": {
-            "values": [
-                "<1004",
-                "1004 - 1046",
-                "1046 - 1082",
-                "1082 - 1123",
-                ">1123"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": [
+            "2018-06-08T00:00:00"
+        ]
+    },
+    "aggregated-data": false
 }

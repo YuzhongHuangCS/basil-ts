@@ -1,4 +1,4 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in validate_data(target, pr$data_period, pr$question_period, pr$ifp_name) : \n  Request data appear to not be aggregated correctly\n  Data dates: ...2017-12-01, 2018-01-01, 2018-02-01, 2018-03-01, 2018-04-01, 2018-05-01\n  Parsed data period: 'month'\n  Question title: What will be the daily closing price of Swiss Market Index (INDEXSWX: SMI) on 28 June 2018?\n  Parsed question period: 'day'\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
+  "message": "Internal R error", 
+  "r_error_message": "Error in validate_data(target, pr$data_period, pr$question_period, pr$ifp_name) : \n  Request data appear to not be aggregated correctly\n  Data dates: ...2018-01-01, 2018-02-01, 2018-03-01, 2018-04-01, 2018-05-01, 2018-06-01\n  Parsed data period: 'month'\n  Question title: What will be the daily closing price of Swiss Market Index (INDEXSWX: SMI) on 28 June 2018?\n  Parsed question period: 'day'\nCalls: r_basil_ts -> validate_data\nExecution halted\n"
 }

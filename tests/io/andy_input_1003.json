@@ -1,0 +1,165 @@
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-03-07T17:39:48.145Z",
+        "membership_id": 53,
+        "discover_question_id": 203,
+        "published_at": "2018-03-07T17:39:48.022Z",
+        "id": 1003,
+        "active?": true,
+        "type": "Forecast::Binary::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "The September 2014 agreement that produced Afghanistan's current national unity government called for the convocation of a Loya Jirga (<a href = \"http://www.rferl.org/content/afghanistan-loya-jirga-explainer/25174483.html\"target=\"_blank\">Radio Free Europe/Radio Liberty</a>, \r\n <a href = \"http://foreignpolicy.com/2011/11/15/the-law-and-politics-behind-afghanistans-traditional-loya-jirga/\"target=\"_blank\"Foreign Policy</a>, \r\n <a href = \"http://www.afghanembassy.com.pl/afg/images/pliki/TheConstitution.pdf\"target=\"_blank\">Afghan Embassy</a>). However, the Loya Jirga has not yet convened and the stability of Afghanistan's government remains tenuous (<a href = \"http://afghanistantimes.af/loya-jirga-gaining-momentum-2/\"target=\"_blank\">Afghanistan Times</a>, <a href = \"http://www.1tvnews.af/en/news/afghanistan/32132-afghan-government-reacts-on-preparations-for-loya-jirga\"target=\"_blank\">1 TV News</a>, \r\n <a href = \"https://www.reuters.com/article/us-afghanistan-politics/afghan-political-crisis-deepens-as-ousted-governor-refuses-to-go-idUSKBN1EJ0NQ\"target=\"_blank\">Reuters</a>, \r\n <a href = \"http://www.tolonews.com/index.php/afghanistan/calls-rise-loya-jirga-resolve-crisis\"target=\"_blank\">Tolo News</a>).\r\n",
+        "brier_score": "0.0",
+        "binary?": true,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "Yes",
+                    "No"
+                ],
+                "unit": "boolean"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.5,
+                    "question_name": "Will a Loya Jirga convene in Afghanistan before 8 September 2018?",
+                    "updated_at": "2018-03-07T17:39:48.096Z",
+                    "sort_order": 0,
+                    "probability_formatted": "50%",
+                    "display_probability": "50%",
+                    "id": 3092,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.5,
+                    "type": "Forecast::Binary::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": true,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Yes",
+                    "created_at": "2018-03-07T17:39:48.096Z",
+                    "predictions_count": 0,
+                    "membership_id": 53,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 570,
+                    "question_id": 1003
+                }
+            ]
+        },
+        "use_ordinal_scoring": false,
+        "ends_at": "2018-09-07T18:01:42.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
+        "name": "Will a Loya Jirga convene in Afghanistan before 8 September 2018?",
+        "created_at": "2018-03-07T17:39:48.091Z",
+        "featured": false,
+        "resolved?": false,
+        "void_reason": null,
+        "comments_count": 0,
+        "starts_at": "2018-03-07T17:30:42.000Z",
+        "voided_at": null,
+        "answers_count": 1
+    },
+    "payload": {
+        "question_type": "Boolean",
+        "separations": {
+            "values": [
+                "Yes",
+                "No"
+            ],
+            "unit": "boolean"
+        },
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "int",
+                    "semantic_type": "count"
+                }
+            ],
+            "ts": [
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    21
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    17
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    2
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    18
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    12
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    3
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    11
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    17
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    17
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    22
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    26
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    23
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    26
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    6
+                ]
+            ]
+        },
+        "last-event-date": "2018-05-28T00:00:00.000Z"
+    },
+    "aggregated-data": true
+}

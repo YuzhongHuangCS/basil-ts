@@ -6,18 +6,18 @@
         },
         "site_id": 6,
         "updated_at": "2018-03-07T17:31:42.287Z",
+        "membership_id": 471,
         "discover_question_id": 192,
         "published_at": "2018-03-07T17:31:42.056Z",
         "id": 911,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "This question will be resolved using event data collected by the Worldwide Integrated Conflict Early Warning System (W-ICEWS or simply ICEWS - https://www.lockheedmartin.com/us/products/W-ICEWS.html), which can be accessed here: https://github.com/gfchallenge/gfc/tree/master/data/ICEWS.  The files entitled Events_YYYY-MM_Factiva.csv contain events that occurred in month MM of year YYYY, whereas the files entitled ReleaseXXX_Factiva.csv each contain a few weeks\u2019 worth of events, spanning the end of 2015 (Release 272) to the present. ICEWS event data are extracted from the Factiva news database, which draws from a multilingual roster of over 6,000 news sources from around the world. These event data are then assigned event type codes based on the Conflict Events and Mediation Observations (CAMEO) event coding ontology (see http://eventdata.parusanalytics.com/cameo.dir/CAMEO.Manual.1.1b3.pdf).This question will be resolved by counting the number of event records for which: 'Event.Date' falls in the period of interest; 'CAMEO code' is three digits equal to: 14x, 15x, 17x, 18x, 19x, 20x, or four digits equal to: 14xx, 15xx, 17xx, 18xx, 19xx, 20xx (where x=any number); and 'Country' is the country of interest.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
+        "use_ordinal_scoring": true,
         "ends_at": "2018-03-31T18:01:41.000Z",
         "resolved_at": null,
         "ifp": {
@@ -35,18 +35,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
                     "updated_at": "2018-03-07T17:31:42.255Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2894,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -64,18 +64,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
                     "updated_at": "2018-03-07T17:31:42.220Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2893,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -93,18 +93,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
                     "updated_at": "2018-03-07T17:31:42.190Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2892,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -122,18 +122,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
                     "updated_at": "2018-03-07T17:31:42.164Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2891,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -151,18 +151,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
                     "updated_at": "2018-03-07T17:31:42.136Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2890,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -181,14 +181,25 @@
         },
         "name": "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?",
         "created_at": "2018-03-07T17:31:42.131Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
         "comments_count": 0,
         "starts_at": "2018-03-07T17:30:41.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 5
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<28",
+                "28 - 52",
+                "52 - 78",
+                "78 - 126",
+                ">126"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -200,111 +211,111 @@
             "ts": [
                 [
                     "2010-01-01T00:00:00.000Z",
-                    2
+                    18
                 ],
                 [
                     "2010-02-01T00:00:00.000Z",
-                    1
+                    14
                 ],
                 [
                     "2010-03-01T00:00:00.000Z",
-                    0
+                    29
                 ],
                 [
                     "2010-04-01T00:00:00.000Z",
-                    1
+                    19
                 ],
                 [
                     "2010-05-01T00:00:00.000Z",
-                    1
+                    21
                 ],
                 [
                     "2010-06-01T00:00:00.000Z",
-                    6
+                    31
                 ],
                 [
                     "2010-07-01T00:00:00.000Z",
-                    0
+                    15
                 ],
                 [
                     "2010-08-01T00:00:00.000Z",
-                    1
+                    19
                 ],
                 [
                     "2010-09-01T00:00:00.000Z",
-                    0
+                    13
                 ],
                 [
                     "2010-10-01T00:00:00.000Z",
-                    0
+                    10
                 ],
                 [
                     "2010-11-01T00:00:00.000Z",
-                    2
+                    4
                 ],
                 [
                     "2010-12-01T00:00:00.000Z",
-                    0
+                    12
                 ],
                 [
                     "2011-01-01T00:00:00.000Z",
-                    1
+                    0
                 ],
                 [
                     "2011-02-01T00:00:00.000Z",
-                    2
+                    53
                 ],
                 [
                     "2011-03-01T00:00:00.000Z",
-                    3
+                    71
                 ],
                 [
                     "2011-04-01T00:00:00.000Z",
-                    4
+                    18
                 ],
                 [
                     "2011-05-01T00:00:00.000Z",
-                    0
+                    47
                 ],
                 [
                     "2011-06-01T00:00:00.000Z",
-                    0
+                    19
                 ],
                 [
                     "2011-07-01T00:00:00.000Z",
-                    0
+                    18
                 ],
                 [
                     "2011-08-01T00:00:00.000Z",
-                    0
+                    8
                 ],
                 [
                     "2011-09-01T00:00:00.000Z",
-                    4
+                    62
                 ],
                 [
                     "2011-10-01T00:00:00.000Z",
-                    2
+                    21
                 ],
                 [
                     "2011-11-01T00:00:00.000Z",
-                    0
+                    7
                 ],
                 [
                     "2011-12-01T00:00:00.000Z",
-                    0
+                    11
                 ],
                 [
                     "2012-01-01T00:00:00.000Z",
-                    0
+                    9
                 ],
                 [
                     "2012-02-01T00:00:00.000Z",
-                    0
+                    32
                 ],
                 [
                     "2012-03-01T00:00:00.000Z",
-                    0
+                    23
                 ],
                 [
                     "2012-04-01T00:00:00.000Z",
@@ -312,292 +323,287 @@
                 ],
                 [
                     "2012-05-01T00:00:00.000Z",
-                    0
+                    19
                 ],
                 [
                     "2012-06-01T00:00:00.000Z",
-                    0
+                    19
                 ],
                 [
                     "2012-07-01T00:00:00.000Z",
-                    10
+                    14
                 ],
                 [
                     "2012-08-01T00:00:00.000Z",
-                    0
-                ],
-                [
-                    "2012-09-01T00:00:00.000Z",
-                    0
-                ],
-                [
-                    "2012-10-01T00:00:00.000Z",
-                    5
-                ],
-                [
-                    "2012-11-01T00:00:00.000Z",
                     6
                 ],
                 [
+                    "2012-09-01T00:00:00.000Z",
+                    48
+                ],
+                [
+                    "2012-10-01T00:00:00.000Z",
+                    9
+                ],
+                [
+                    "2012-11-01T00:00:00.000Z",
+                    82
+                ],
+                [
                     "2012-12-01T00:00:00.000Z",
-                    1
+                    19
                 ],
                 [
                     "2013-01-01T00:00:00.000Z",
-                    1
+                    22
                 ],
                 [
                     "2013-02-01T00:00:00.000Z",
-                    0
+                    26
                 ],
                 [
                     "2013-03-01T00:00:00.000Z",
-                    0
+                    29
                 ],
                 [
                     "2013-04-01T00:00:00.000Z",
-                    0
+                    30
                 ],
                 [
                     "2013-05-01T00:00:00.000Z",
-                    0
+                    22
                 ],
                 [
                     "2013-06-01T00:00:00.000Z",
-                    0
+                    11
                 ],
                 [
                     "2013-07-01T00:00:00.000Z",
-                    0
+                    7
                 ],
                 [
                     "2013-08-01T00:00:00.000Z",
-                    0
+                    11
                 ],
                 [
                     "2013-09-01T00:00:00.000Z",
-                    0
+                    13
                 ],
                 [
                     "2013-10-01T00:00:00.000Z",
-                    0
+                    7
                 ],
                 [
                     "2013-11-01T00:00:00.000Z",
-                    0
+                    8
                 ],
                 [
                     "2013-12-01T00:00:00.000Z",
-                    0
+                    8
                 ],
                 [
                     "2014-01-01T00:00:00.000Z",
-                    0
+                    30
                 ],
                 [
                     "2014-02-01T00:00:00.000Z",
-                    0
+                    13
                 ],
                 [
                     "2014-03-01T00:00:00.000Z",
-                    2
+                    16
                 ],
                 [
                     "2014-04-01T00:00:00.000Z",
-                    0
+                    12
                 ],
                 [
                     "2014-05-01T00:00:00.000Z",
-                    0
+                    12
                 ],
                 [
                     "2014-06-01T00:00:00.000Z",
-                    1
+                    11
                 ],
                 [
                     "2014-07-01T00:00:00.000Z",
-                    3
+                    113
                 ],
                 [
                     "2014-08-01T00:00:00.000Z",
-                    0
+                    44
                 ],
                 [
                     "2014-09-01T00:00:00.000Z",
-                    1
+                    0
                 ],
                 [
                     "2014-10-01T00:00:00.000Z",
-                    1
+                    9
                 ],
                 [
                     "2014-11-01T00:00:00.000Z",
-                    0
+                    19
                 ],
                 [
                     "2014-12-01T00:00:00.000Z",
-                    0
+                    21
                 ],
                 [
                     "2015-01-01T00:00:00.000Z",
-                    1
+                    20
                 ],
                 [
                     "2015-02-01T00:00:00.000Z",
-                    0
+                    12
                 ],
                 [
                     "2015-03-01T00:00:00.000Z",
-                    0
+                    22
                 ],
                 [
                     "2015-04-01T00:00:00.000Z",
-                    1
+                    22
                 ],
                 [
                     "2015-05-01T00:00:00.000Z",
-                    0
+                    11
                 ],
                 [
                     "2015-06-01T00:00:00.000Z",
-                    1
+                    9
                 ],
                 [
                     "2015-07-01T00:00:00.000Z",
-                    0
+                    6
                 ],
                 [
                     "2015-08-01T00:00:00.000Z",
-                    2
+                    19
                 ],
                 [
                     "2015-09-01T00:00:00.000Z",
-                    0
+                    16
                 ],
                 [
                     "2015-10-01T00:00:00.000Z",
-                    0
+                    28
                 ],
                 [
                     "2015-11-01T00:00:00.000Z",
-                    1
+                    8
                 ],
                 [
                     "2015-12-01T00:00:00.000Z",
-                    0
+                    8
                 ],
                 [
                     "2016-01-01T00:00:00.000Z",
-                    0
+                    1
                 ],
                 [
                     "2016-02-01T00:00:00.000Z",
-                    1
+                    8
                 ],
                 [
                     "2016-03-01T00:00:00.000Z",
-                    0
+                    10
                 ],
                 [
                     "2016-04-01T00:00:00.000Z",
-                    1
+                    2
                 ],
                 [
                     "2016-05-01T00:00:00.000Z",
-                    0
+                    5
                 ],
                 [
                     "2016-06-01T00:00:00.000Z",
-                    1
+                    4
                 ],
                 [
                     "2016-07-01T00:00:00.000Z",
-                    0
+                    2
                 ],
                 [
                     "2016-08-01T00:00:00.000Z",
-                    1
+                    4
                 ],
                 [
                     "2016-09-01T00:00:00.000Z",
-                    0
+                    2
                 ],
                 [
                     "2016-10-01T00:00:00.000Z",
-                    0
+                    1
                 ],
                 [
                     "2016-11-01T00:00:00.000Z",
-                    0
+                    4
                 ],
                 [
                     "2016-12-01T00:00:00.000Z",
-                    0
+                    6
                 ],
                 [
                     "2017-01-01T00:00:00.000Z",
-                    0
+                    19
                 ],
                 [
                     "2017-02-01T00:00:00.000Z",
-                    0
+                    11
                 ],
                 [
                     "2017-03-01T00:00:00.000Z",
-                    0
+                    15
                 ],
                 [
                     "2017-04-01T00:00:00.000Z",
-                    0
+                    6
                 ],
                 [
                     "2017-05-01T00:00:00.000Z",
-                    0
+                    24
                 ],
                 [
                     "2017-06-01T00:00:00.000Z",
-                    0
+                    1
                 ],
                 [
                     "2017-07-01T00:00:00.000Z",
-                    0
+                    27
                 ],
                 [
                     "2017-08-01T00:00:00.000Z",
-                    1
+                    4
                 ],
                 [
                     "2017-09-01T00:00:00.000Z",
-                    0
+                    3
                 ],
                 [
                     "2017-10-01T00:00:00.000Z",
-                    0
+                    5
                 ],
                 [
                     "2017-11-01T00:00:00.000Z",
-                    0
+                    10
                 ],
                 [
                     "2017-12-01T00:00:00.000Z",
-                    0
+                    61
                 ],
                 [
                     "2018-01-01T00:00:00.000Z",
-                    1
+                    8
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    3
                 ]
             ]
         },
-        "separations": {
-            "values": [
-                "<28",
-                "28 - 52",
-                "52 - 78",
-                "78 - 126",
-                ">126"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-02-08T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

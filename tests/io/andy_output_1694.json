@@ -1,4 +1,4 @@
 {
-  "message": "Internal R error",
-  "r_error_message": "Error in validate_seps(request$payload$separations$values) : \n  Separations appear to be mis-parsed, multiple '<X' or '>X'\n  Values: [<6; 6 - 10; >10; <14; 14 - 22; >22]\nCalls: r_basil_ts -> validate_seps\nExecution halted\n"
+  "message": "Internal R error", 
+  "r_error_message": "Error in r_basil_ts() : \n  Payload data (to '2018-06-01') exceed question end date ('2018-05-31'), there is nothing to forecast.\nExecution halted\n"
 }

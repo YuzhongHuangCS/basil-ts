@@ -6,20 +6,17 @@
         },
         "site_id": 6,
         "updated_at": "2018-03-28T16:30:35.868Z",
+        "membership_id": 471,
         "discover_question_id": 234,
         "published_at": "2018-03-28T16:30:35.808Z",
         "id": 1226,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Binary::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "The Armed Conflict Location and Event Dataset (ACLED) summarizes press reports on conflict and protest events in Africa and parts of Asia. The relevant data can be accessed using the export tool at <a href=https://www.acleddata.com/data/>https://www.acleddata.com/data/</a>: \r\n- Set \u2018From\u2019 to the first day of the period of interest; \r\n- Set \u2018To\u2019 to the last day of the period of interest; \r\n- Set \u2018Country\u2019 to the country of interest; \r\n- Click \u2018Export.\u2019 \r\nThe question will resolve as \"yes\" if ACLED records any event for which 'fatalities' is greater than or equal to 1; and a) \u2018event_type\u2019 is Violence against civilians or b) \u2018event type\u2019 is Remote violence and \u2018actor_2\u2019 includes Civilians. Question will be resolved when the relevant data is first released. If a qualifying event is recorded, the question will be closed retroactively with the date of the first event as the end date of the question.",
         "brier_score": "0.0",
         "binary?": true,
-        "voided_at": null,
-        "ends_at": "2018-06-30T18:01:33.000Z",
-        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
@@ -32,18 +29,18 @@
                 {
                     "ended?": false,
                     "probability": 0.5,
-                    "positions_count": null,
+                    "question_name": "Will ACLED record any civilian fatalities in Ghana in June 2018?",
                     "updated_at": "2018-03-28T16:30:35.708Z",
                     "sort_order": 0,
                     "probability_formatted": "50%",
                     "display_probability": "50%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3801,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.5,
                     "type": "Forecast::Binary::Answer",
                     "status": null,
-                    "question_name": "Will ACLED record any civilian fatalities in Ghana in June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": true,
                     "resolving?": false,
@@ -60,16 +57,29 @@
                 }
             ]
         },
+        "use_ordinal_scoring": false,
+        "ends_at": "2018-06-30T18:01:33.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
         "name": "Will ACLED record any civilian fatalities in Ghana in June 2018?",
         "created_at": "2018-03-28T16:30:35.698Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
+        "void_reason": null,
         "comments_count": 0,
         "starts_at": "2018-03-28T16:30:33.000Z",
-        "use_ordinal_scoring": false,
+        "voided_at": null,
         "answers_count": 1
     },
     "payload": {
+        "question_type": "Boolean",
+        "separations": {
+            "values": [
+                "Yes",
+                "No"
+            ],
+            "unit": "boolean"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -1081,22 +1091,27 @@
                 ],
                 [
                     "2018-01-01T00:00:00.000Z",
-                    5.0
+                    10.0
                 ],
                 [
                     "2018-02-01T00:00:00.000Z",
-                    1.0
+                    2.0
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    0.0
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    0.0
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    0.0
                 ]
             ]
         },
-        "last-event-date": "2018-02-08T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "Yes",
-                "No"
-            ],
-            "unit": "boolean"
-        },
-        "question_type": "Boolean"
-    }
+        "last-event-date": "2018-05-20T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

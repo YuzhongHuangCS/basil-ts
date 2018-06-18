@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error", 
+  "r_error_message": "Error in binary_seps(ifp_name) : \n  Unable to identify implied question separations for binary question\nCalls: r_basil_ts -> parse_separations -> binary_seps\nExecution halted\n"
+}

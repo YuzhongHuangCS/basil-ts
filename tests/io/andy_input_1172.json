@@ -1,31 +1,23 @@
 {
     "ifp": {
-        "clarifications": [
-            {
-                "content": "Because some events listed in the Privacy Rights Clearinghouse may have occurred in 2017 or earlier but not made public until 2018, you should download all available data and sort by \u2018Date Made Public\u2019 to count the number of entries made public in a given month. Updated resolution criteria will state: \r\n\r\nThis question will be resolved using Privacy Rights Clearinghouse's Chronology of Data Breaches (https://www.privacyrights.org/data-breaches). To access the relevant data: \r\n- Select 'Hacking or Malware (HACK)' as the type of breach, \r\n- Click 'Search Data Breaches', \r\n- Download the 'Data Breach File', \r\n- Count the number of entries, for all organizations, in which 'Date Made Public' falls in the month of interest (if necessary, sort on \u2018Date Made Public\u2019). \r\nThe question will be resolved using data from the last day of the following month.\r\n",
-                "created_at": "2018-03-27T17:21:02.605Z",
-                "id": 95,
-                "updated_at": "2018-03-27T17:21:02.605Z",
-                "question_id": 1172
-            }
-        ],
+        "clarifications": [],
         "image": {
             "url": "forecast/questions/default-question-image.jpg"
         },
         "site_id": 6,
-        "updated_at": "2018-03-27T20:34:08.293Z",
+        "updated_at": "2018-03-21T16:30:24.610Z",
+        "membership_id": 471,
         "discover_question_id": 222,
         "published_at": "2018-03-21T16:30:24.461Z",
         "id": 1172,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
-        "description": "This question will be resolved using Privacy Rights Clearinghouse's Chronology of Data Breaches (<a href = \"https://www.privacyrights.org/data-breaches\"target=\"_blank\">https://www.privacyrights.org/data-breaches</a>). To access the relevant data: *UPDATED instructions as of 27 March (see 'clarification' tab)*\r\n- Select 'Hacking or Malware (HACK)' as the type of breach,\r\n- Click 'Search Data Breaches',\r\n- Download the 'Data Breach File', \r\n- Count the number of entries, for all organizations, in which 'Date Made Public' falls in the month of interest. \r\nThe question will be resolved using data from the last day of the following month.",
+        "description": "This question will be resolved using Privacy Rights Clearinghouse's Chronology of Data Breaches (<a href = \"https://www.privacyrights.org/data-breaches\"target=\"_blank\">https://www.privacyrights.org/data-breaches</a>). To access the relevant data:\r\n- Select 'Hacking or Malware (HACK)' as the type of breach,\r\n- Select '2018' as the year,\r\n- Click 'Search Data Breaches',\r\n- Download the 'Data Breach File', \r\n- Count the number of entries, for all organizations, in which 'Date Made Public' falls in the month of interest. \r\nThe question will be resolved using data from the last day of the following month.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
+        "use_ordinal_scoring": true,
         "ends_at": "2018-04-30T18:01:22.000Z",
         "resolved_at": null,
         "ifp": {
@@ -43,18 +35,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
                     "updated_at": "2018-03-21T16:30:24.359Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3569,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -72,18 +64,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
                     "updated_at": "2018-03-21T16:30:24.333Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3568,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -101,18 +93,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
                     "updated_at": "2018-03-21T16:30:24.302Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3567,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -130,18 +122,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
                     "updated_at": "2018-03-21T16:30:24.282Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3566,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -159,18 +151,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
                     "updated_at": "2018-03-21T16:30:24.261Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3565,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -189,14 +181,25 @@
         },
         "name": "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in April 2018?",
         "created_at": "2018-03-21T16:30:24.258Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
         "comments_count": 0,
         "starts_at": "2018-03-21T16:30:22.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 5
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<15",
+                "15 - 24",
+                "24 - 33",
+                "33 - 45",
+                ">45"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -212,7 +215,7 @@
                 ],
                 [
                     "2005-02-01T00:00:00.000Z",
-                    2
+                    0
                 ],
                 [
                     "2005-03-01T00:00:00.000Z",
@@ -244,7 +247,7 @@
                 ],
                 [
                     "2005-10-01T00:00:00.000Z",
-                    1
+                    0
                 ],
                 [
                     "2005-11-01T00:00:00.000Z",
@@ -832,29 +835,31 @@
                 ],
                 [
                     "2018-01-01T00:00:00.000Z",
-                    13
+                    19
                 ],
                 [
                     "2018-02-01T00:00:00.000Z",
-                    14
+                    26
                 ],
                 [
                     "2018-03-01T00:00:00.000Z",
+                    9
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    24
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    16
+                ],
+                [
+                    "2018-06-01T00:00:00.000Z",
                     2
                 ]
             ]
         },
-        "last-event-date": "2018-03-02T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "<15",
-                "15 - 24",
-                "24 - 33",
-                "33 - 45",
-                ">45"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-06-01T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

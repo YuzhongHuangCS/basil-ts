@@ -6,18 +6,18 @@
         },
         "site_id": 6,
         "updated_at": "2018-03-14T16:30:07.990Z",
+        "membership_id": 471,
         "discover_question_id": 189,
         "published_at": "2018-03-14T16:30:07.812Z",
         "id": 1028,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "This question will be resolved using the last daily London Bullion Market Association (LBMA) Gold Price USD (PM) <a href=http://www.lbma.org.uk/pricing-and-statistics>http://www.lbma.org.uk/pricing-and-statistics</a> for the date of interest. The relevant data is available by selecting 'Table' and referring to the 'PM' column under 'USD.' Question will be closed on the day before the date of interest and resolved the day after the date of interest.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
+        "use_ordinal_scoring": true,
         "ends_at": "2018-04-25T18:01:55.000Z",
         "resolved_at": null,
         "ifp": {
@@ -35,18 +35,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
                     "updated_at": "2018-03-14T16:30:07.961Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3173,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -64,18 +64,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
                     "updated_at": "2018-03-14T16:30:07.933Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3172,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -93,18 +93,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
                     "updated_at": "2018-03-14T16:30:07.914Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3171,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -122,18 +122,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
                     "updated_at": "2018-03-14T16:30:07.891Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3170,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -151,18 +151,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
                     "updated_at": "2018-03-14T16:30:07.868Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3169,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -181,14 +181,25 @@
         },
         "name": "What will be the daily closing price of gold on 26 April 2018 in USD?",
         "created_at": "2018-03-14T16:30:07.863Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
         "comments_count": 0,
         "starts_at": "2018-03-14T16:30:55.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 5
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<1221",
+                "1221 - 1303",
+                "1303 - 1374",
+                "1374 - 1456",
+                ">1456"
+            ],
+            "unit": "currency"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -55800,15 +55811,15 @@
                 ],
                 [
                     "2018-01-22T00:00:00.000Z",
-                    1334.95
+                    1332.6
                 ],
                 [
                     "2018-01-23T00:00:00.000Z",
-                    1334.95
+                    1333.4
                 ],
                 [
                     "2018-01-24T00:00:00.000Z",
-                    1334.95
+                    1353.7
                 ],
                 [
                     "2018-01-25T00:00:00.000Z",
@@ -56064,23 +56075,23 @@
                 ],
                 [
                     "2018-03-29T00:00:00.000Z",
-                    1332.45
+                    1323.85
                 ],
                 [
                     "2018-03-30T00:00:00.000Z",
-                    1332.45
+                    1323.85
                 ],
                 [
                     "2018-03-31T00:00:00.000Z",
-                    1332.45
+                    1323.85
                 ],
                 [
                     "2018-04-01T00:00:00.000Z",
-                    1332.45
+                    1323.85
                 ],
                 [
                     "2018-04-02T00:00:00.000Z",
-                    1332.45
+                    1323.85
                 ],
                 [
                     "2018-04-03T00:00:00.000Z",
@@ -56096,15 +56107,15 @@
                 ],
                 [
                     "2018-04-06T00:00:00.000Z",
-                    1327.7
+                    1331.2
                 ],
                 [
                     "2018-04-07T00:00:00.000Z",
-                    1327.7
+                    1331.2
                 ],
                 [
                     "2018-04-08T00:00:00.000Z",
-                    1327.7
+                    1331.2
                 ],
                 [
                     "2018-04-09T00:00:00.000Z",
@@ -56112,7 +56123,7 @@
                 ],
                 [
                     "2018-04-10T00:00:00.000Z",
-                    1331.95
+                    1338.95
                 ],
                 [
                     "2018-04-11T00:00:00.000Z",
@@ -56121,20 +56132,266 @@
                 [
                     "2018-04-12T00:00:00.000Z",
                     1341.35
+                ],
+                [
+                    "2018-04-13T00:00:00.000Z",
+                    1343.7
+                ],
+                [
+                    "2018-04-14T00:00:00.000Z",
+                    1343.7
+                ],
+                [
+                    "2018-04-15T00:00:00.000Z",
+                    1343.7
+                ],
+                [
+                    "2018-04-16T00:00:00.000Z",
+                    1349.35
+                ],
+                [
+                    "2018-04-17T00:00:00.000Z",
+                    1342.1
+                ],
+                [
+                    "2018-04-18T00:00:00.000Z",
+                    1351.45
+                ],
+                [
+                    "2018-04-19T00:00:00.000Z",
+                    1348.6
+                ],
+                [
+                    "2018-04-20T00:00:00.000Z",
+                    1336.75
+                ],
+                [
+                    "2018-04-21T00:00:00.000Z",
+                    1336.75
+                ],
+                [
+                    "2018-04-22T00:00:00.000Z",
+                    1336.75
+                ],
+                [
+                    "2018-04-23T00:00:00.000Z",
+                    1324.3
+                ],
+                [
+                    "2018-04-24T00:00:00.000Z",
+                    1328.85
+                ],
+                [
+                    "2018-04-25T00:00:00.000Z",
+                    1321.65
+                ],
+                [
+                    "2018-04-26T00:00:00.000Z",
+                    1320.7
+                ],
+                [
+                    "2018-04-27T00:00:00.000Z",
+                    1321.5
+                ],
+                [
+                    "2018-04-28T00:00:00.000Z",
+                    1321.5
+                ],
+                [
+                    "2018-04-29T00:00:00.000Z",
+                    1321.5
+                ],
+                [
+                    "2018-04-30T00:00:00.000Z",
+                    1313.2
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    1307.1
+                ],
+                [
+                    "2018-05-02T00:00:00.000Z",
+                    1304.2
+                ],
+                [
+                    "2018-05-03T00:00:00.000Z",
+                    1315.05
+                ],
+                [
+                    "2018-05-04T00:00:00.000Z",
+                    1309.4
+                ],
+                [
+                    "2018-05-05T00:00:00.000Z",
+                    1309.4
+                ],
+                [
+                    "2018-05-06T00:00:00.000Z",
+                    1309.4
+                ],
+                [
+                    "2018-05-07T00:00:00.000Z",
+                    1309.4
+                ],
+                [
+                    "2018-05-08T00:00:00.000Z",
+                    1309.4
+                ],
+                [
+                    "2018-05-09T00:00:00.000Z",
+                    1313.85
+                ],
+                [
+                    "2018-05-10T00:00:00.000Z",
+                    1318.8
+                ],
+                [
+                    "2018-05-11T00:00:00.000Z",
+                    1324.35
+                ],
+                [
+                    "2018-05-12T00:00:00.000Z",
+                    1324.35
+                ],
+                [
+                    "2018-05-13T00:00:00.000Z",
+                    1324.35
+                ],
+                [
+                    "2018-05-14T00:00:00.000Z",
+                    1324.35
+                ],
+                [
+                    "2018-05-15T00:00:00.000Z",
+                    1295.0
+                ],
+                [
+                    "2018-05-16T00:00:00.000Z",
+                    1295.0
+                ],
+                [
+                    "2018-05-17T00:00:00.000Z",
+                    1289.5
+                ],
+                [
+                    "2018-05-18T00:00:00.000Z",
+                    1288.3
+                ],
+                [
+                    "2018-05-19T00:00:00.000Z",
+                    1288.3
+                ],
+                [
+                    "2018-05-20T00:00:00.000Z",
+                    1288.3
+                ],
+                [
+                    "2018-05-21T00:00:00.000Z",
+                    1288.35
+                ],
+                [
+                    "2018-05-22T00:00:00.000Z",
+                    1293.05
+                ],
+                [
+                    "2018-05-23T00:00:00.000Z",
+                    1289.0
+                ],
+                [
+                    "2018-05-24T00:00:00.000Z",
+                    1304.85
+                ],
+                [
+                    "2018-05-25T00:00:00.000Z",
+                    1303.5
+                ],
+                [
+                    "2018-05-26T00:00:00.000Z",
+                    1303.5
+                ],
+                [
+                    "2018-05-27T00:00:00.000Z",
+                    1303.5
+                ],
+                [
+                    "2018-05-28T00:00:00.000Z",
+                    1303.5
+                ],
+                [
+                    "2018-05-29T00:00:00.000Z",
+                    1295.5
+                ],
+                [
+                    "2018-05-30T00:00:00.000Z",
+                    1300.7
+                ],
+                [
+                    "2018-05-31T00:00:00.000Z",
+                    1300.7
+                ],
+                [
+                    "2018-06-01T00:00:00.000Z",
+                    1294.6
+                ],
+                [
+                    "2018-06-02T00:00:00.000Z",
+                    1294.6
+                ],
+                [
+                    "2018-06-03T00:00:00.000Z",
+                    1294.6
+                ],
+                [
+                    "2018-06-04T00:00:00.000Z",
+                    1295.45
+                ],
+                [
+                    "2018-06-05T00:00:00.000Z",
+                    1292.05
+                ],
+                [
+                    "2018-06-06T00:00:00.000Z",
+                    1300.1
+                ],
+                [
+                    "2018-06-07T00:00:00.000Z",
+                    1297.25
+                ],
+                [
+                    "2018-06-08T00:00:00.000Z",
+                    1297.25
+                ],
+                [
+                    "2018-06-09T00:00:00.000Z",
+                    1297.25
+                ],
+                [
+                    "2018-06-10T00:00:00.000Z",
+                    1297.25
+                ],
+                [
+                    "2018-06-11T00:00:00.000Z",
+                    1299.6
+                ],
+                [
+                    "2018-06-12T00:00:00.000Z",
+                    1298.65
+                ],
+                [
+                    "2018-06-13T00:00:00.000Z",
+                    1298.65
+                ],
+                [
+                    "2018-06-14T00:00:00.000Z",
+                    1302.75
+                ],
+                [
+                    "2018-06-15T00:00:00.000Z",
+                    1285.25
                 ]
             ]
         },
-        "last-event-date": "2018-04-12T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "<1221",
-                "1221 - 1303",
-                "1303 - 1374",
-                "1374 - 1456",
-                ">1456"
-            ],
-            "unit": "currency"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-06-15T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

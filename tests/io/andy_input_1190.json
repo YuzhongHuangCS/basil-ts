@@ -17,6 +17,9 @@
         "description": "The Council on Foreign Relations (CFR) <a href = \"https://www.cfr.org/nigeria/nigeria-security-tracker/p29483\"target=\"_blank\">Nigeria Security Tracker</a> reports on countrywide violence stemming from political, economic and social grievances. The question will be resolved using data downloaded from CFR at: <a href = \"https://docs.google.com/spreadsheets/d/1_QY-l4xhMu5nZVluprOgRs6rUzgkkBemapdsg5lFzKU/pub?output=xlsx\"target=\"_blank\">https://docs.google.com/spreadsheets/d/1_QY-l4xhMu5nZVluprOgRs6rUzgkkBemapdsg5lFzKU/pub?output=xlsx</a>. Refer to the sheet entitled \u2018NST Main Dataset.\u2019 The count of deaths for the period of interest is obtained by summing the \u2018Total Deaths\u2019 column for events in which Boko Haram is identified as a perpetrator (in the \u2018Boko Haram (P)\u2019 column) and \u2018Date\u2019 falls in the period of interest. Question will be resolved when the data is released, likely the week after the period of interest.",
         "brier_score": "0.0",
         "binary?": false,
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-07-31T18:01:00.000Z",
+        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
@@ -176,15 +179,10 @@
                 }
             ]
         },
-        "use_ordinal_scoring": true,
-        "ends_at": "2018-07-31T18:01:00.000Z",
-        "resolved_at": null,
-        "resolution_notes": [],
         "name": "How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for July 2018?",
         "created_at": "2018-03-21T16:30:29.954Z",
         "featured": false,
         "resolved?": false,
-        "void_reason": null,
         "comments_count": 0,
         "starts_at": "2018-03-21T16:30:00.000Z",
         "voided_at": null,
@@ -549,10 +547,11 @@
                 ],
                 [
                     "2018-05-01T00:00:00.000Z",
-                    208.0
+                    209.0
                 ]
             ]
         },
-        "last-event-date": "2018-05-20T00:00:00.000Z"
-    }
+        "last-event-date": "2018-05-28T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

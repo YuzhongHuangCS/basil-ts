@@ -1,31 +1,23 @@
 {
     "ifp": {
-        "clarifications": [
-            {
-                "content": "This question will be resolved based on data precise to the hundredths place. When selecting the country of interest, do not remove the countries that are highlighted by default. Doing this will display data to the correct precision.",
-                "created_at": "2018-04-10T13:08:59.145Z",
-                "id": 113,
-                "updated_at": "2018-04-10T13:08:59.145Z",
-                "question_id": 1037
-            }
-        ],
+        "clarifications": [],
         "image": {
             "url": "forecast/questions/default-question-image.jpg"
         },
         "site_id": 6,
         "updated_at": "2018-03-14T16:30:09.822Z",
+        "membership_id": 471,
         "discover_question_id": 207,
         "published_at": "2018-03-14T16:30:09.725Z",
         "id": 1037,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "This question will be resolved using monthly data reported by the Organization for Economic Cooperation and Development (OECD) at <a href=https://data.oecd.org/interest/long-term-interest-rates.htm>https://data.oecd.org/interest/long-term-interest-rates.htm</a>). Data is retrievable via download or on the 'Long-term interest rates' table on the web site. The relevant country can be found in the HIGHLIGHTED COUNTRIES or LOCATION field, and the relevant time period can be found in the TIME field. Question will be resolved when the data is released, likely the month after the period of interest.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
+        "use_ordinal_scoring": true,
         "ends_at": "2018-04-30T18:01:50.000Z",
         "resolved_at": null,
         "ifp": {
@@ -41,18 +33,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
                     "updated_at": "2018-03-14T16:30:09.801Z",
                     "sort_order": 0,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3208,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -70,18 +62,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
                     "updated_at": "2018-03-14T16:30:09.783Z",
                     "sort_order": 1,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3207,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -99,18 +91,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
                     "updated_at": "2018-03-14T16:30:09.761Z",
                     "sort_order": 2,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 3206,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -129,14 +121,23 @@
         },
         "name": "What will be the long-term interest rate for Portugal (PRT) in April 2018?",
         "created_at": "2018-03-14T16:30:09.757Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
         "comments_count": 0,
         "starts_at": "2018-03-14T16:30:50.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 3
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<1.7",
+                "1.7 - 2.1",
+                ">2.1"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -1333,18 +1334,18 @@
                 [
                     "2018-03-01T00:00:00.000Z",
                     1.79
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    1.79
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    1.84
                 ]
             ]
         },
-        "last-event-date": "2018-03-16T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "<1.7",
-                "1.7 - 2.1",
-                ">2.1"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-05-16T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

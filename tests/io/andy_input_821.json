@@ -6,18 +6,18 @@
         },
         "site_id": 6,
         "updated_at": "2018-03-07T17:31:03.956Z",
+        "membership_id": 471,
         "discover_question_id": 177,
         "published_at": "2018-03-07T17:31:03.688Z",
         "id": 821,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "The Armed Conflict Location and Event Dataset (ACLED) summarizes press reports on conflict and protest events in Africa and parts of Asia. The relevant data can be accessed using the export tool at https://www.acleddata.com/data/: set \u2018From\u2019 to the first day of the period of interest; \u2018To\u2019 to the last day of the period of interest; and \u2018Country\u2019 to the country of interest. Click \u2018Export.\u2019 The count of battle deaths for the period of interest is obtained by summing the 'fatalities\u2019 column for events in which \u2018event_type\u2019 is Battle-Government regains territory, Battle-No change of territory, or Battle-Non-state actor overtakes territory. Question will be resolved when the relevant data are first released.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
+        "use_ordinal_scoring": true,
         "ends_at": "2018-04-30T18:01:28.000Z",
         "resolved_at": null,
         "ifp": {
@@ -35,18 +35,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
                     "updated_at": "2018-03-07T17:31:03.778Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2476,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -64,18 +64,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
                     "updated_at": "2018-03-07T17:31:03.809Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2477,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -93,18 +93,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
                     "updated_at": "2018-03-07T17:31:03.845Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2478,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -122,18 +122,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
                     "updated_at": "2018-03-07T17:31:03.877Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2479,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -151,18 +151,18 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "positions_count": null,
+                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
                     "updated_at": "2018-03-07T17:31:03.914Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 2480,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.2,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -181,14 +181,25 @@
         },
         "name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
         "created_at": "2018-03-07T17:31:03.773Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
         "comments_count": 0,
         "starts_at": "2018-03-07T17:30:28.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 5
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<2000",
+                "2000 - 2500",
+                "2500 - 2900",
+                "2900 - 3400",
+                ">3400"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -200,7 +211,7 @@
             "ts": [
                 [
                     "2017-01-01T00:00:00.000Z",
-                    2400.0
+                    2401.0
                 ],
                 [
                     "2017-02-01T00:00:00.000Z",
@@ -228,7 +239,7 @@
                 ],
                 [
                     "2017-08-01T00:00:00.000Z",
-                    3228.0
+                    3229.0
                 ],
                 [
                     "2017-09-01T00:00:00.000Z",
@@ -248,25 +259,31 @@
                 ],
                 [
                     "2018-01-01T00:00:00.000Z",
-                    2317.0
+                    4632.0
                 ],
                 [
                     "2018-02-01T00:00:00.000Z",
-                    838.0
+                    2134.0
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    1212.0
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    1358.0
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    2462.0
+                ],
+                [
+                    "2018-06-01T00:00:00.000Z",
+                    2.0
                 ]
             ]
         },
-        "last-event-date": "2018-02-16T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "<2000",
-                "2000 - 2500",
-                "2500 - 2900",
-                "2900 - 3400",
-                ">3400"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-06-01T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

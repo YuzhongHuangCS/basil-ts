@@ -17,6 +17,9 @@
         "description": "The Armed Conflict Location and Event Dataset (ACLED) summarizes press reports on conflict and protest events in Africa and parts of Asia. The relevant data can be accessed using the export tool at https://www.acleddata.com/data/: set \u2018From\u2019 to the first day of the period of interest; \u2018To\u2019 to the last day of the period of interest; and \u2018Country\u2019 to the country of interest. Click \u2018Export.\u2019 The count of battle deaths for the period of interest is obtained by summing the 'fatalities\u2019 column for events in which \u2018event_type\u2019 is Battle-Government regains territory, Battle-No change of territory, or Battle-Non-state actor overtakes territory. Question will be resolved when the relevant data are first released.",
         "brier_score": "0.0",
         "binary?": false,
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-05-31T18:01:23.000Z",
+        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
@@ -176,10 +179,6 @@
                 }
             ]
         },
-        "use_ordinal_scoring": true,
-        "ends_at": "2018-05-31T18:01:23.000Z",
-        "resolved_at": null,
-        "resolution_notes": [],
         "name": "How many battle deaths will ACLED record in Yemen in May 2018?",
         "created_at": "2018-03-07T17:31:07.649Z",
         "featured": false,
@@ -273,9 +272,14 @@
                 [
                     "2018-04-01T00:00:00.000Z",
                     748.0
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    791.0
                 ]
             ]
         },
-        "last-event-date": "2018-04-28T00:00:00.000Z"
-    }
+        "last-event-date": "2018-05-31T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

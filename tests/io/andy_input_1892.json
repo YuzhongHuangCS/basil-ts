@@ -1,0 +1,647 @@
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-05-16T16:30:08.440Z",
+        "membership_id": 471,
+        "discover_question_id": 325,
+        "published_at": "2018-05-16T16:30:08.426Z",
+        "id": 1892,
+        "active?": true,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using oil production data measured in thousands of barrels per day (tb/d) reported for the country of interest for the month of interest in the \"OPEC crude oil production based on secondary sources\" table of the OPEC Monthly Oil Market Report (<a href=\"http://www.opec.org/opec_web/en/publications/338.htm\"target=\"_blank\">http://www.opec.org/opec_web/en/publications/338.htm</a>), expected to be published the first part of the following month.",
+        "brier_score": "0.0",
+        "binary?": false,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<4280",
+                    "4280 - 4384",
+                    "4384 - 4473",
+                    "4473 - 4576",
+                    ">4576"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How much crude oil will Iraq produce in May 2018?",
+                    "updated_at": "2018-05-16T16:30:08.384Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 5612,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than 4,280",
+                    "created_at": "2018-05-16T16:30:08.384Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 917,
+                    "question_id": 1892
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How much crude oil will Iraq produce in May 2018?",
+                    "updated_at": "2018-05-16T16:30:08.365Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 5611,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 4,280 and 4,384, inclusive",
+                    "created_at": "2018-05-16T16:30:08.365Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 918,
+                    "question_id": 1892
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How much crude oil will Iraq produce in May 2018?",
+                    "updated_at": "2018-05-16T16:30:08.350Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 5610,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 4,384 but less than 4,473",
+                    "created_at": "2018-05-16T16:30:08.350Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 919,
+                    "question_id": 1892
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How much crude oil will Iraq produce in May 2018?",
+                    "updated_at": "2018-05-16T16:30:08.335Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 5609,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 4,473 and 4,576, inclusive",
+                    "created_at": "2018-05-16T16:30:08.335Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 920,
+                    "question_id": 1892
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How much crude oil will Iraq produce in May 2018?",
+                    "updated_at": "2018-05-16T16:30:08.321Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 5608,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 4,576",
+                    "created_at": "2018-05-16T16:30:08.321Z",
+                    "predictions_count": 0,
+                    "membership_id": 471,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 921,
+                    "question_id": 1892
+                }
+            ]
+        },
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-05-31T18:01:30.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
+        "name": "How much crude oil will Iraq produce in May 2018?",
+        "created_at": "2018-05-16T16:30:08.318Z",
+        "featured": false,
+        "resolved?": false,
+        "void_reason": null,
+        "comments_count": 0,
+        "starts_at": "2018-05-16T16:30:30.000Z",
+        "voided_at": null,
+        "answers_count": 5
+    },
+    "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<4280",
+                "4280 - 4384",
+                "4384 - 4473",
+                "4473 - 4576",
+                ">4576"
+            ],
+            "unit": "number"
+        },
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "float",
+                    "semantic_type": "size"
+                }
+            ],
+            "ts": [
+                [
+                    "2009-05-01T00:00:00.000Z",
+                    2432.0
+                ],
+                [
+                    "2009-06-01T00:00:00.000Z",
+                    2433.0
+                ],
+                [
+                    "2009-07-01T00:00:00.000Z",
+                    2519.0
+                ],
+                [
+                    "2009-08-01T00:00:00.000Z",
+                    2521.0
+                ],
+                [
+                    "2009-09-01T00:00:00.000Z",
+                    2480.0
+                ],
+                [
+                    "2009-10-01T00:00:00.000Z",
+                    2455.0
+                ],
+                [
+                    "2009-11-01T00:00:00.000Z",
+                    2448.0
+                ],
+                [
+                    "2009-12-01T00:00:00.000Z",
+                    2489.0
+                ],
+                [
+                    "2010-01-01T00:00:00.000Z",
+                    2463.0
+                ],
+                [
+                    "2010-02-01T00:00:00.000Z",
+                    2549.0
+                ],
+                [
+                    "2010-03-01T00:00:00.000Z",
+                    2380.0
+                ],
+                [
+                    "2010-04-01T00:00:00.000Z",
+                    2310.0
+                ],
+                [
+                    "2010-05-01T00:00:00.000Z",
+                    2404.0
+                ],
+                [
+                    "2010-06-01T00:00:00.000Z",
+                    2356.0
+                ],
+                [
+                    "2010-07-01T00:00:00.000Z",
+                    2353.0
+                ],
+                [
+                    "2010-08-01T00:00:00.000Z",
+                    2305.0
+                ],
+                [
+                    "2010-09-01T00:00:00.000Z",
+                    2414.0
+                ],
+                [
+                    "2010-10-01T00:00:00.000Z",
+                    2397.0
+                ],
+                [
+                    "2010-11-01T00:00:00.000Z",
+                    2405.0
+                ],
+                [
+                    "2010-12-01T00:00:00.000Z",
+                    2466.0
+                ],
+                [
+                    "2011-01-01T00:00:00.000Z",
+                    2658.0
+                ],
+                [
+                    "2011-02-01T00:00:00.000Z",
+                    2643.0
+                ],
+                [
+                    "2011-03-01T00:00:00.000Z",
+                    2637.0
+                ],
+                [
+                    "2011-04-01T00:00:00.000Z",
+                    2631.0
+                ],
+                [
+                    "2011-05-01T00:00:00.000Z",
+                    2679.0
+                ],
+                [
+                    "2011-06-01T00:00:00.000Z",
+                    2702.0
+                ],
+                [
+                    "2011-07-01T00:00:00.000Z",
+                    2635.0
+                ],
+                [
+                    "2011-08-01T00:00:00.000Z",
+                    2694.0
+                ],
+                [
+                    "2011-09-01T00:00:00.000Z",
+                    2694.0
+                ],
+                [
+                    "2011-10-01T00:00:00.000Z",
+                    2637.0
+                ],
+                [
+                    "2011-11-01T00:00:00.000Z",
+                    2680.0
+                ],
+                [
+                    "2011-12-01T00:00:00.000Z",
+                    2703.0
+                ],
+                [
+                    "2012-01-01T00:00:00.000Z",
+                    2647.0
+                ],
+                [
+                    "2012-02-01T00:00:00.000Z",
+                    2541.0
+                ],
+                [
+                    "2012-03-01T00:00:00.000Z",
+                    2691.0
+                ],
+                [
+                    "2012-04-01T00:00:00.000Z",
+                    2942.0
+                ],
+                [
+                    "2012-05-01T00:00:00.000Z",
+                    2915.0
+                ],
+                [
+                    "2012-06-01T00:00:00.000Z",
+                    2951.0
+                ],
+                [
+                    "2012-07-01T00:00:00.000Z",
+                    3051.0
+                ],
+                [
+                    "2012-08-01T00:00:00.000Z",
+                    3166.0
+                ],
+                [
+                    "2012-09-01T00:00:00.000Z",
+                    3235.0
+                ],
+                [
+                    "2012-10-01T00:00:00.000Z",
+                    3035.0
+                ],
+                [
+                    "2012-11-01T00:00:00.000Z",
+                    3190.0
+                ],
+                [
+                    "2012-12-01T00:00:00.000Z",
+                    2953.0
+                ],
+                [
+                    "2013-01-01T00:00:00.000Z",
+                    2920.0
+                ],
+                [
+                    "2013-02-01T00:00:00.000Z",
+                    2963.0
+                ],
+                [
+                    "2013-03-01T00:00:00.000Z",
+                    2988.0
+                ],
+                [
+                    "2013-04-01T00:00:00.000Z",
+                    3061.0
+                ],
+                [
+                    "2013-05-01T00:00:00.000Z",
+                    3070.0
+                ],
+                [
+                    "2013-06-01T00:00:00.000Z",
+                    2994.0
+                ],
+                [
+                    "2013-07-01T00:00:00.000Z",
+                    2972.0
+                ],
+                [
+                    "2013-08-01T00:00:00.000Z",
+                    3207.0
+                ],
+                [
+                    "2013-09-01T00:00:00.000Z",
+                    2833.0
+                ],
+                [
+                    "2013-10-01T00:00:00.000Z",
+                    2964.0
+                ],
+                [
+                    "2013-11-01T00:00:00.000Z",
+                    2773.0
+                ],
+                [
+                    "2013-12-01T00:00:00.000Z",
+                    3002.0
+                ],
+                [
+                    "2014-01-01T00:00:00.000Z",
+                    2848.0
+                ],
+                [
+                    "2014-02-01T00:00:00.000Z",
+                    3410.0
+                ],
+                [
+                    "2014-03-01T00:00:00.000Z",
+                    3089.0
+                ],
+                [
+                    "2014-04-01T00:00:00.000Z",
+                    3064.0
+                ],
+                [
+                    "2014-05-01T00:00:00.000Z",
+                    3177.0
+                ],
+                [
+                    "2014-06-01T00:00:00.000Z",
+                    3111.0
+                ],
+                [
+                    "2014-07-01T00:00:00.000Z",
+                    3012.0
+                ],
+                [
+                    "2014-08-01T00:00:00.000Z",
+                    3023.0
+                ],
+                [
+                    "2014-09-01T00:00:00.000Z",
+                    3198.0
+                ],
+                [
+                    "2014-10-01T00:00:00.000Z",
+                    3054.0
+                ],
+                [
+                    "2014-11-01T00:00:00.000Z",
+                    3009.0
+                ],
+                [
+                    "2014-12-01T00:00:00.000Z",
+                    3356.0
+                ],
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    3042.0
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    2783.0
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    3339.0
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    3176.0
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    3288.0
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    3591.0
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    3718.0
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    3760.0
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    3755.0
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    3659.0
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    3747.0
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    4130.0
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    4775.0
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    4458.0
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    4553.0
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    4521.0
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    4499.0
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    4549.0
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    4606.0
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    4622.0
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    4774.0
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    4776.0
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    4800.0
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    4830.0
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    4630.0
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    4566.0
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    4568.0
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    4531.0
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    4564.0
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    4550.0
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    4400.0
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    4380.0
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    4360.0
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    4360.0
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    4360.0
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    4362.0
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    4360.0
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    4360.0
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    4360.0
+                ]
+            ]
+        },
+        "last-event-date": "2018-03-31T00:00:00.000Z"
+    },
+    "aggregated-data": true
+}

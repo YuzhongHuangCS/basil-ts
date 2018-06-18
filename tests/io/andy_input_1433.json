@@ -6,20 +6,17 @@
         },
         "site_id": 6,
         "updated_at": "2018-04-11T16:30:44.173Z",
+        "membership_id": 471,
         "discover_question_id": 262,
         "published_at": "2018-04-11T16:30:44.147Z",
         "id": 1433,
         "active?": true,
-        "featured": false,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
         "description": "This question will be resolved using monthly data reported by the Organization for Economic Cooperation and Development (OECD) at <a href=\"https://data.oecd.org/interest/short-term-interest-rates.htm\"target=\"_blank\">https://data.oecd.org/interest/short-term-interest-rates.htm</a>. To access the relevant data: \r\n- Select 'Table';\r\n- Select the country of interest in the 'Countries' field;\r\n- Use the slider bar to select the time period of interest in the 'Time' field.\r\nQuestion will be resolved when initial data is released using the CSV download of the data, which is precise to at least two (2) digits after the decimal.",
         "brier_score": "0.0",
         "binary?": false,
-        "voided_at": null,
-        "ends_at": "2018-06-30T18:01:53.000Z",
-        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
@@ -33,18 +30,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
                     "updated_at": "2018-04-11T16:30:44.052Z",
                     "sort_order": 0,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 4378,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -62,18 +59,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
                     "updated_at": "2018-04-11T16:30:44.027Z",
                     "sort_order": 1,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 4377,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -91,18 +88,18 @@
                 {
                     "ended?": false,
                     "probability": 0.3333,
-                    "positions_count": null,
+                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
                     "updated_at": "2018-04-11T16:30:43.999Z",
                     "sort_order": 2,
                     "probability_formatted": "33%",
                     "display_probability": "33%",
-                    "correctness_known_at": null,
-                    "active?": true,
                     "id": 4376,
+                    "active?": true,
+                    "correctness_known_at": null,
                     "normalized_probability": 0.3333333333333333,
                     "type": "Forecast::Answer",
                     "status": null,
-                    "question_name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
+                    "positions_count": null,
                     "description": null,
                     "binary?": false,
                     "resolving?": false,
@@ -119,16 +116,30 @@
                 }
             ]
         },
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-06-30T18:01:53.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
         "name": "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?",
         "created_at": "2018-04-11T16:30:43.995Z",
-        "membership_id": 471,
+        "featured": false,
         "resolved?": false,
+        "void_reason": null,
         "comments_count": 0,
         "starts_at": "2018-04-11T16:30:53.000Z",
-        "use_ordinal_scoring": true,
+        "voided_at": null,
         "answers_count": 3
     },
     "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<0.87",
+                "0.87 - 1.02",
+                ">1.02"
+            ],
+            "unit": "number"
+        },
         "historical_data": {
             "dimensions": [
                 "DATE",
@@ -1345,18 +1356,22 @@
                 [
                     "2018-02-01T00:00:00.000Z",
                     0.9
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    0.9
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    0.9
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    0.9
                 ]
             ]
         },
-        "last-event-date": "2018-02-16T00:00:00.000Z",
-        "separations": {
-            "values": [
-                "<0.87",
-                "0.87 - 1.02",
-                ">1.02"
-            ],
-            "unit": "number"
-        },
-        "question_type": "Ordered Multinomial"
-    }
+        "last-event-date": "2018-05-16T00:00:00.000Z"
+    },
+    "aggregated-data": true
 }

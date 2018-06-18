@@ -1,0 +1,383 @@
+{
+    "ifp": {
+        "clarifications": [],
+        "image": {
+            "url": "forecast/questions/default-question-image.jpg"
+        },
+        "site_id": 6,
+        "updated_at": "2018-06-06T16:30:16.213Z",
+        "membership_id": 2938,
+        "discover_question_id": 352,
+        "published_at": "2018-06-06T16:30:16.150Z",
+        "id": 2126,
+        "active?": true,
+        "type": "Forecast::Question",
+        "metadata": {},
+        "prediction_sets_count": 0,
+        "description": "This question will be resolved using the United States Geological Survey's Earthquake Catalog (<a href=\"https://earthquake.usgs.gov/earthquakes/search/\"target=\"_blank\">https://earthquake.usgs.gov/earthquakes/search/</a>). To access the relevant data: \r\n- Set the Magnitude to a Custom Minimum equal to the magnitude of interest;\r\n- Set the Date & Time to a Custom Start with the first day of interest and End to the last day of interest;\r\n- Leave the UTC times to the default settings (00:00:00 & 23:59:59);\r\n- Set Geographic Region to World;\r\n- Click Search beneath Output Options.\r\nThe number of earthquakes displays in the top left Search Results window. This question will be resolved using data accessed between 10:00 AM and 4:00 PM ET on 3 September 2018.",
+        "brier_score": "0.0",
+        "binary?": false,
+        "ifp": {
+            "parsed_answers": {
+                "values": [
+                    "<6",
+                    "6 - 11",
+                    "11 - 15",
+                    "15 - 19",
+                    ">19"
+                ],
+                "unit": "number"
+            },
+            "answers": [
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+                    "updated_at": "2018-06-06T16:30:16.100Z",
+                    "sort_order": 0,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 6188,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Less than 6",
+                    "created_at": "2018-06-06T16:30:16.100Z",
+                    "predictions_count": 0,
+                    "membership_id": 2938,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 983,
+                    "question_id": 2126
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+                    "updated_at": "2018-06-06T16:30:16.078Z",
+                    "sort_order": 1,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 6187,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 6 and 11, inclusive",
+                    "created_at": "2018-06-06T16:30:16.078Z",
+                    "predictions_count": 0,
+                    "membership_id": 2938,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 984,
+                    "question_id": 2126
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+                    "updated_at": "2018-06-06T16:30:16.055Z",
+                    "sort_order": 2,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 6186,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 11 but less than 15",
+                    "created_at": "2018-06-06T16:30:16.055Z",
+                    "predictions_count": 0,
+                    "membership_id": 2938,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 985,
+                    "question_id": 2126
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+                    "updated_at": "2018-06-06T16:30:16.033Z",
+                    "sort_order": 3,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 6185,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "Between 15 and 19, inclusive",
+                    "created_at": "2018-06-06T16:30:16.033Z",
+                    "predictions_count": 0,
+                    "membership_id": 2938,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 986,
+                    "question_id": 2126
+                },
+                {
+                    "ended?": false,
+                    "probability": 0.2,
+                    "question_name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+                    "updated_at": "2018-06-06T16:30:16.011Z",
+                    "sort_order": 4,
+                    "probability_formatted": "20%",
+                    "display_probability": "20%",
+                    "id": 6184,
+                    "active?": true,
+                    "correctness_known_at": null,
+                    "normalized_probability": 0.2,
+                    "type": "Forecast::Answer",
+                    "status": null,
+                    "positions_count": null,
+                    "description": null,
+                    "binary?": false,
+                    "resolving?": false,
+                    "ends_at": null,
+                    "resolved_at": null,
+                    "name": "More than 19",
+                    "created_at": "2018-06-06T16:30:16.011Z",
+                    "predictions_count": 0,
+                    "membership_id": 2938,
+                    "resolved?": false,
+                    "resolved_by_id": null,
+                    "discover_answer_id": 987,
+                    "question_id": 2126
+                }
+            ]
+        },
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-07-31T18:01:13.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
+        "name": "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?",
+        "created_at": "2018-06-06T16:30:16.006Z",
+        "featured": false,
+        "resolved?": false,
+        "void_reason": null,
+        "comments_count": 0,
+        "starts_at": "2018-06-06T16:30:13.000Z",
+        "voided_at": null,
+        "answers_count": 5
+    },
+    "payload": {
+        "question_type": "Ordered Multinomial",
+        "separations": {
+            "values": [
+                "<6",
+                "6 - 11",
+                "11 - 15",
+                "15 - 19",
+                ">19"
+            ],
+            "unit": "number"
+        },
+        "historical_data": {
+            "dimensions": [
+                "DATE",
+                {
+                    "type": "int",
+                    "semantic_type": "count"
+                }
+            ],
+            "ts": [
+                [
+                    "2015-01-01T00:00:00.000Z",
+                    3
+                ],
+                [
+                    "2015-02-01T00:00:00.000Z",
+                    11
+                ],
+                [
+                    "2015-03-01T00:00:00.000Z",
+                    9
+                ],
+                [
+                    "2015-04-01T00:00:00.000Z",
+                    13
+                ],
+                [
+                    "2015-05-01T00:00:00.000Z",
+                    15
+                ],
+                [
+                    "2015-06-01T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2015-07-01T00:00:00.000Z",
+                    9
+                ],
+                [
+                    "2015-08-01T00:00:00.000Z",
+                    3
+                ],
+                [
+                    "2015-09-01T00:00:00.000Z",
+                    19
+                ],
+                [
+                    "2015-10-01T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2015-11-01T00:00:00.000Z",
+                    15
+                ],
+                [
+                    "2015-12-01T00:00:00.000Z",
+                    8
+                ],
+                [
+                    "2016-01-01T00:00:00.000Z",
+                    12
+                ],
+                [
+                    "2016-02-01T00:00:00.000Z",
+                    7
+                ],
+                [
+                    "2016-03-01T00:00:00.000Z",
+                    3
+                ],
+                [
+                    "2016-04-01T00:00:00.000Z",
+                    16
+                ],
+                [
+                    "2016-05-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2016-06-01T00:00:00.000Z",
+                    13
+                ],
+                [
+                    "2016-07-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2016-08-01T00:00:00.000Z",
+                    10
+                ],
+                [
+                    "2016-09-01T00:00:00.000Z",
+                    10
+                ],
+                [
+                    "2016-10-01T00:00:00.000Z",
+                    7
+                ],
+                [
+                    "2016-11-01T00:00:00.000Z",
+                    11
+                ],
+                [
+                    "2016-12-01T00:00:00.000Z",
+                    15
+                ],
+                [
+                    "2017-01-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2017-02-01T00:00:00.000Z",
+                    5
+                ],
+                [
+                    "2017-03-01T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2017-04-01T00:00:00.000Z",
+                    5
+                ],
+                [
+                    "2017-05-01T00:00:00.000Z",
+                    8
+                ],
+                [
+                    "2017-06-01T00:00:00.000Z",
+                    5
+                ],
+                [
+                    "2017-07-01T00:00:00.000Z",
+                    7
+                ],
+                [
+                    "2017-08-01T00:00:00.000Z",
+                    8
+                ],
+                [
+                    "2017-09-01T00:00:00.000Z",
+                    10
+                ],
+                [
+                    "2017-10-01T00:00:00.000Z",
+                    10
+                ],
+                [
+                    "2017-11-01T00:00:00.000Z",
+                    12
+                ],
+                [
+                    "2017-12-01T00:00:00.000Z",
+                    7
+                ],
+                [
+                    "2018-01-01T00:00:00.000Z",
+                    24
+                ],
+                [
+                    "2018-02-01T00:00:00.000Z",
+                    12
+                ],
+                [
+                    "2018-03-01T00:00:00.000Z",
+                    6
+                ],
+                [
+                    "2018-04-01T00:00:00.000Z",
+                    4
+                ],
+                [
+                    "2018-05-01T00:00:00.000Z",
+                    12
+                ]
+            ]
+        },
+        "last-event-date": "2018-05-18T00:00:00.000Z"
+    },
+    "aggregated-data": true
+}
