@@ -100,15 +100,15 @@ List of options:
 </tbody>
 </table>
 
-### Request conventions
+### Request conventions / API input file expectations
 
 Data aggregation
 
 - For questions with weird fixed time periods like a 40-day period, the data in the request will be daily and aggregation will take place in basil-ts. 
 - For questions with regular time periods (day, week, month), data in the request will already be aggregated and the request should include additional information: 
-    - a `aggregated-data` field identifying the level of aggregation, e.g. "month".
-    - a `last-event-date` field listing the date through which the source data reach, or the last observed date in the source data before aggregation. This is used to handle partial data for a time period. 
-- For monthly data dates should be for the 1st of the month. 
+    - a `aggregated-data` field identifying whether the data were aggregated in the platform, "true/false".
+    - a `last-event-date` field listing the date through which the source data reach. This is used to handle partial data for a time period. 
+- For monthly data, the reference date should be the first of the month, e.g. the time series historical data should be indexed by the first day of each month. 
 
 
 ### Response format

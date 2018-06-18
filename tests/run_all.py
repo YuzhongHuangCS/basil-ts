@@ -8,7 +8,7 @@ helloworld = requests.get("http://0.0.0.0:5000")
 basilts = 'app.py' in os.listdir()
 
 inputs = os.listdir('tests/io')
-inputs = [x for x in inputs if 'input' in x]
+inputs = [x for x in inputs if 'andy_input' in x]
 request_no = []
 for fh in inputs:
     x = int("".join(filter(str.isdigit, fh)))

@@ -1678,6 +1678,9 @@
     "agg_method": [
       "mean"
     ],
+    "aggregated_data": [
+      false
+    ],
     "backcast": [
       false
     ],

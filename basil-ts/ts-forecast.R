@@ -10,6 +10,21 @@ suppressPackageStartupMessages({
 
 # Parsing requests --------------------------------------------------------
 
+#' Check input file has correct format matching API spec
+#' 
+validate_input_file_format <- function(x) {
+  if (is.null(x$payload$`aggregated-data`)) {
+    stop("The input file is missing the `aggregated-data` field. Add it and try again.")
+  }
+  if (x$payload$`aggregated-data`==TRUE & is.null(x$payload$`last-event-date`)) {
+    stop("The input file is missing the `last-event-date` field under `payload`. Add it and try again.")
+  }
+  if (length(x$payload$`last-event-date`) > 1) {
+    stop("Check 'last-event-date' in the input file, it seems to be too long.")
+  }
+  invisible(TRUE)
+}
+
 #' Create period object
 #' 
 #' To handle weird time periods that are not months or days use a fixed option, which 
@@ -101,27 +116,38 @@ norm_fixed_period <- function(x, days, ref_date) {
 
 #' Parse last date in input data
 #' 
-parse_last_date <- function(request, target, data_period) {
-  last_date <- ifelse(is.null(request$payload$`last-event-date`),
-                      NA,
-                      request$payload$`last-event-date`)
-  last_date <- as.Date(last_date, origin = "1970-01-01")
-  if (!is.null(request$payload$`aggregated-data`)) {
-    if (request$payload$`aggregated-data`=="month") {
-      last_date <- max(target$date) %m+% months(1) - 1
+parse_last_date <- function(last_event_date, aggregated_data, data_period, target) {
+  
+  if (is.na(aggregated_data)) stop("aggregated_data argument cannot be NA")
+  
+  # If aggregated data take input LED at face value
+  # otherwise infer, no matter what the passed value is (might be wrong...)
+  #
+  # WARNING: I'm resetting last_event_date every time aggregated_data is FALSE
+  #
+  #
+  if (aggregated_data==TRUE) {
+    
+    if (is.na(last_event_date)) stop("last_event_date cannot be missing for aggregated data.")
+    
+    last_date <- last_event_date
+
+    # make sure it doesn't exceed max date implied by data
+    implied_date_range <- c(
+        max(target$date),
+        bb_seq_period(max(target$date), 2, data_period$period)[2] - 1
+      )
+    if (last_date < implied_date_range[1] | last_date > implied_date_range[2]) {
+      stop("last_event_date seems to be wrong, outside the date range implied by last data point in historical data")
     }
-  } else if (is.null(request$payload$`aggregated-data`)) {
-    if (data_period$period$period=="month" & is.na(last_date)) {
-      last_date <- max(target$date) %m+% months(1) - 1
-    }
-    if (data_period$period$period=="day" & is.na(last_date)) {
-      last_date <- max(target$date)
-    }
-    if (data_period$period$period=="fixed" & is.na(last_date)) {
-      last_date <- max(target$date) + data_period$period$days
-    }
+    
+  } else {
+    
+    last_date <- bb_seq_period(max(target$date), 2, data_period$period)[2] - 1
+    
   }
-  last_date
+
+  as.Date(last_date)
 }
 
 
@@ -228,7 +254,7 @@ parse_data_period <- function(x) {
     # fixed difference in dates
     if (tdiff[1]==1) {
       pd <- bb_period("day")
-      days   <- NA
+      days   <- 1
     } else {
       pd <- bb_period("fixed", tdiff[1])
     }
@@ -851,6 +877,7 @@ r_basil_ts <- function(fh = NULL) {
   }
   
   request <- jsonlite::fromJSON(fh)
+  validate_input_file_format(request)
   validate_seps(request$payload$separations$values)
   
   # missing file makes error more obvious in Flask
@@ -870,7 +897,10 @@ r_basil_ts <- function(fh = NULL) {
   pr$binary_ifp      <- request$ifp$`binary?`
   pr$question_period <- parse_question_period(pr$ifp_name)
   pr$data_period     <- parse_data_period(target$date)
-  pr$last_date       <- parse_last_date(request, target, pr$data_period)
+  pr$aggregated_data <- request$payload$`aggregated-data`
+  pr$last_date       <- parse_last_date(request$payload$`last-event-date`, 
+                                        pr$aggregated_data, pr$data_period,
+                                        target)
   pr$series_type     <- guess_series_type(target$value, pr$ifp_name)
   pr$separations     <- parse_separations(request$payload$separations, 
                                           pr$series_type, pr$ifp_name)
@@ -895,26 +925,14 @@ r_basil_ts <- function(fh = NULL) {
     if (drop_after > pr$question_period$dates[2]) {
       stop("Drop after argument exceeds question end date")
     }
-    target        <- target[target$date < (drop_after + 1), ]
-    # reset pr$last_date
-    # messy messy
-    if (pr$data_period$period$period=="day" | pr$data_period$period$period=="fixed") {
-      # fixed because we do aggregation on this side with daily data
-      # here we have daily data so we can just use max in data
-      pr$last_date <- max(target$date)
-    } else {
-      # monthly data
-      # two kinds: pre-aggregated on platform, or just straight monthly source data
-      if (is.na(request$payload$`last-event-date`)) {
-        # monthly source data
-        # reparse with new ts target
-        pr$last_date <- parse_last_date(list(payload = list()), target, pr$data_period)
-      } else {
-        # pre-aggregated data; trust the input
-        pr$last_date <- drop_after
-      }
-    }
     
+    target <- target[target$date < (drop_after + 1), ]
+    if (pr$aggregated_data==TRUE) {
+      pr$last_date <- drop_after
+    } else {
+      # let the last_date parser infer last date based on data_period
+      pr$last_date <- parse_last_date(NA, pr$aggregated_data, pr$data_period, target)
+    }
   }
   
   # Check data end does not exceed question end
@@ -928,10 +946,11 @@ r_basil_ts <- function(fh = NULL) {
   pr$was_data_aggregated <- FALSE
   #were_dates_shifted  <- FALSE
   if (pr$data_period$period$period=="day" & pr$question_period$period$period=="fixed") {
-    # update internal data
     target      <- aggregate_data(target, pr$question_period, pr$agg_method)
     pr$data_period <- parse_data_period(target$date)
     pr$was_data_aggregated <- TRUE
+    pr$aggregated_data <- TRUE
+    # for backcasting, pr$last_date is still correct because we had daily data and it was set to max(target)
   }
   
   # Check that data are aggregated correctly and dates are aligned

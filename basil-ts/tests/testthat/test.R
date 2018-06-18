@@ -251,6 +251,6 @@ test_that("Request with data past IFP end date is rejected", {
 })
 
 test_that("Request with aggregated data for fixed period IFP is rejected", {
-  expect_error(r_basil_ts("tests/io/andy_input_938.json"), 
+  expect_error(r_basil_ts("tests/io/ex_938_input.json"), 
                "Send daily data in the request, not aggregated data. Question is over 100 day periods.")
 })

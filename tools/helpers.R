@@ -7,6 +7,9 @@ library("jsonlite")
 BASE_PATH <- ifelse(str_detect(getwd(), "basil-ts"),
                     "../",
                     ".")
+BASE_PATH <- ifelse(str_detect(getwd(), "basil-ts/tests"),
+                    "../../",
+                    BASE_PATH)
 
 load_request <- function(ifp) {
   request_file <- sprintf("basil-ts/tests/io/andy_input_%s.json", ifp)
