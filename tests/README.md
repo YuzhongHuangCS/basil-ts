@@ -12,27 +12,27 @@ Open IFP summary table
 
 |   IFP|    N|    h| lambda | time  | data\_type | data\_agg | partial\_train | partial\_y | end        |
 |-----:|----:|----:|:-------|:------|:-----------|:----------|:---------------|:-----------|:-----------|
-|   893|  120|   21|        | day   | continuous | no        | no             | no         | 2018-06-29 |
-|  2000|   60|    1| 0      | month | count      | no        | used           | no         | 2018-06-30 |
-|  1964|   60|    1|        | month | count      | no        | used           | no         | 2018-06-30 |
-|  1721|   60|    3|        | month | continuous | no        | used           | no         | 2018-06-30 |
-|  1433|   60|    1|        | month | continuous | no        | used           | no         | 2018-06-30 |
-|  1226|   60|    1|        | month | count      | no        | used           | no         | 2018-06-30 |
-|  1217|   60|    2|        | month | continuous | no        | used           | no         | 2018-06-30 |
-|   875|   60|    2|        | month | continuous | no        | used           | no         | 2018-06-30 |
-|  2135|   60|    2|        | month | continuous | no        | used           | no         | 2018-07-31 |
-|  2126|   41|    2|        | month | count      | no        | used           | no         | 2018-07-31 |
-|  2072|   60|    2|        | month | count      | no        | discarded      | no         | 2018-07-31 |
-|  1973|   60|    4|        | month | continuous | no        | used           | no         | 2018-07-31 |
-|  1829|   60|    4|        | month | count      | no        | used           | no         | 2018-07-31 |
-|  1793|   60|    2|        | month | continuous | no        | used           | no         | 2018-07-31 |
-|  1730|   60|    2|        | month | continuous | no        | used           | no         | 2018-07-31 |
-|  1622|   41|    2|        | month | count      | no        | discarded      | no         | 2018-07-31 |
-|  1451|   60|    4|        | month | count      | no        | used           | no         | 2018-07-31 |
-|  1190|   60|    2| 0      | month | count      | no        | used           | no         | 2018-07-31 |
-|  1136|   60|    3| 0.5    | month | count      | no        | discarded      | no         | 2018-07-31 |
+|   893|  120|   21|        | day   | continuous | no        |                | no         | 2018-06-29 |
+|  2000|   60|    1| 0      | month | count      | yes       | used           | no         | 2018-06-30 |
+|  1964|   60|    1|        | month | count      | yes       | used           | no         | 2018-06-30 |
+|  1721|   60|    3|        | month | continuous | no        |                | no         | 2018-06-30 |
+|  1433|   60|    1|        | month | continuous | no        |                | no         | 2018-06-30 |
+|  1226|   60|    1|        | month | count      | yes       | used           | no         | 2018-06-30 |
+|  1217|   60|    2|        | month | continuous | no        |                | no         | 2018-06-30 |
+|   875|   60|    2|        | month | continuous | no        |                | no         | 2018-06-30 |
+|  2135|   60|    2|        | month | continuous | no        |                | no         | 2018-07-31 |
+|  2126|   41|    2|        | month | count      | yes       | used           | no         | 2018-07-31 |
+|  2072|   60|    2|        | month | count      | yes       | discarded      | no         | 2018-07-31 |
+|  1973|   60|    4|        | month | continuous | no        |                | no         | 2018-07-31 |
+|  1829|   60|    4|        | month | count      | no        |                | no         | 2018-07-31 |
+|  1793|   60|    2|        | month | continuous | no        |                | no         | 2018-07-31 |
+|  1730|   60|    2|        | month | continuous | no        |                | no         | 2018-07-31 |
+|  1622|   41|    2|        | month | count      | yes       | discarded      | no         | 2018-07-31 |
+|  1451|   60|    4|        | month | count      | no        |                | no         | 2018-07-31 |
+|  1190|   60|    2| 0      | month | count      | yes       | used           | no         | 2018-07-31 |
+|  1136|   60|    3| 0.5    | month | count      | yes       | discarded      | no         | 2018-07-31 |
 |  1271|   19|    2|        | fixed | count      | yes       | used           | no         | 2018-08-22 |
-|  2117|   60|    3| 0.5    | month | count      | no        | used           | no         | 2018-08-31 |
+|  2117|   60|    3| 0.5    | month | count      | yes       | used           | no         | 2018-08-31 |
 
 Open IFP plots
 ==============
@@ -189,31 +189,31 @@ Closed IFP summary table
 
 |   IFP|    N|    h| lambda | time  | data\_type | data\_agg | partial\_train | partial\_y | end        |
 |-----:|----:|----:|:-------|:------|:-----------|:----------|:---------------|:-----------|:-----------|
-|  1892|   60|    2|        | month | count      | no        | used           | no         | 2018-05-31 |
-|  1712|  120|    1|        | day   | continuous | no        | no             | no         | 2018-06-05 |
-|  1694|   60|    1|        | month | count      | no        | used           | no         | 2018-05-31 |
-|  1541|  120|   45|        | day   | continuous | no        | no             | no         | 2018-05-31 |
-|  1514|   40|    1|        | month | count      | no        | used           | no         | 2018-05-31 |
-|  1406|   60|    2|        | month | continuous | no        | used           | no         | 2018-05-31 |
-|  1244|    5|    1|        | month | continuous | no        | used           | no         | 2018-04-30 |
-|  1235|   60|    1|        | month | continuous | no        | used           | no         | 2018-04-30 |
-|  1208|  120|    1|        | fixed | continuous | yes       | no             | yes        | 2018-04-10 |
-|  1172|   60|    1|        | month | count      | no        | used           | no         | 2018-04-30 |
-|  1145|   60|    2|        | month | continuous | no        | used           | no         | 2018-04-30 |
-|  1055|  120|    1|        | fixed | count      | yes       | no             | yes        | 2018-04-10 |
-|  1037|   60|    1|        | month | continuous | no        | used           | no         | 2018-04-30 |
-|  1028|  120|    2|        | day   | continuous | no        | no             | no         | 2018-04-26 |
-|  1019|   60|    1|        | month | continuous | no        | used           | no         | 2018-05-31 |
-|   938|   44|    1|        | fixed | count      | yes       | no             | yes        | 2018-04-10 |
-|   929|   60|    2|        | month | count      | no        | used           | no         | 2018-05-31 |
-|   920|   60|    1|        | month | continuous | no        | used           | no         | 2018-03-31 |
-|   911|   60|    2| 0.5    | month | count      | no        | discarded      | no         | 2018-03-31 |
-|   902|   60|    3|        | month | count      | no        | discarded      | no         | 2018-04-30 |
-|   884|  120|   10|        | fixed | count      | no        | used           | no         | 2018-03-18 |
-|   866|   38|    1|        | month | count      | no        | no             | yes        | 2018-03-31 |
-|   839|   60|    1| 0.5    | month | count      | no        | used           | no         | 2018-04-30 |
-|   830|   16|    1|        | month | count      | no        | used           | no         | 2018-05-31 |
-|   821|   15|    1|        | month | count      | no        | used           | no         | 2018-04-30 |
+|  1892|   60|    2|        | month | count      | no        |                | no         | 2018-05-31 |
+|  1712|  120|    1|        | day   | continuous | no        |                | no         | 2018-06-05 |
+|  1694|   60|    1|        | month | count      | yes       | used           | no         | 2018-05-31 |
+|  1541|  120|   45|        | day   | continuous | no        |                | no         | 2018-05-31 |
+|  1514|   40|    1|        | month | count      | yes       | used           | no         | 2018-05-31 |
+|  1406|   60|    2|        | month | continuous | no        |                | no         | 2018-05-31 |
+|  1244|    5|    1|        | month | continuous | no        |                | no         | 2018-04-30 |
+|  1235|   60|    1|        | month | continuous | no        |                | no         | 2018-04-30 |
+|  1208|  120|    1|        | fixed | continuous | yes       |                | yes        | 2018-04-10 |
+|  1172|   60|    1|        | month | count      | yes       | used           | no         | 2018-04-30 |
+|  1145|   60|    2|        | month | continuous | no        |                | no         | 2018-04-30 |
+|  1055|  120|    1|        | fixed | count      | yes       |                | yes        | 2018-04-10 |
+|  1037|   60|    1|        | month | continuous | no        |                | no         | 2018-04-30 |
+|  1028|  120|    2|        | day   | continuous | no        |                | no         | 2018-04-26 |
+|  1019|   60|    1|        | month | continuous | no        |                | no         | 2018-05-31 |
+|   938|   44|    1|        | fixed | count      | yes       |                | yes        | 2018-04-10 |
+|   929|   60|    2|        | month | count      | no        |                | no         | 2018-05-31 |
+|   920|   60|    1|        | month | continuous | no        |                | no         | 2018-03-31 |
+|   911|   60|    2| 0.5    | month | count      | yes       | discarded      | no         | 2018-03-31 |
+|   902|   60|    3|        | month | count      | yes       | discarded      | no         | 2018-04-30 |
+|   884|  120|   10|        | fixed | count      | no        |                | no         | 2018-03-18 |
+|   866|   38|    1|        | month | count      | yes       |                | yes        | 2018-03-31 |
+|   839|   60|    1| 0.5    | month | count      | yes       | used           | no         | 2018-04-30 |
+|   830|   16|    1|        | month | count      | yes       | used           | no         | 2018-05-31 |
+|   821|   15|    1|        | month | count      | yes       | used           | no         | 2018-04-30 |
 
 Closed IFP plots
 ================

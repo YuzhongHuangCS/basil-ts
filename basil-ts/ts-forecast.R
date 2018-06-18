@@ -956,49 +956,54 @@ r_basil_ts <- function(fh = NULL) {
   # Check that data are aggregated correctly and dates are aligned
   validate_data(target, pr$data_period, pr$question_period, pr$ifp_name)
   
-  # Check for partial outcome info
+  
+  # Partial data handling
+  
   pr$partial_outcome <- FALSE
-  pr$partial_train   <- "no"
+  pr$partial_train   <- ""
   # retain original target tail for plotting
   pr$target_tail <- tail(target, 1)
   pr$yobs <- NA
   pr$yn <- NA
-  if (pr$data_period$period$period!="day") {
-    
-    gt_train_end      <- pr$last_date >= max(target$date)
-    gt_question_start <- pr$last_date >= pr$question_period$dates[1]
-    
-    days_in_period <- find_days_in_period(max(target$date), pr$data_period$period)
-    days_avail <- (pr$last_date - max(target$date)) %>% `+`(1) %>% as.integer()
-    
-    if (gt_train_end & !gt_question_start) {
-      # partial info in last training data period
-      # if more than half of period, extrapolate, else discard that period
-      # only use if > half of period days have data; because danger of extrapolating
-      if (days_avail > (days_in_period/2)) {
-        pr$partial_train <- "used"
-        if (pr$agg_method=="sum") {
-          target$value[nrow(target)] <- target$value[nrow(target)] * days_in_period / days_avail
+  
+  if (pr$aggregated_data==TRUE) {
+    if (pr$data_period$period$period!="day") {
+      
+      gt_train_end      <- pr$last_date >= max(target$date)
+      gt_question_start <- pr$last_date >= pr$question_period$dates[1]
+      
+      days_in_period <- find_days_in_period(max(target$date), pr$data_period$period)
+      days_avail <- (pr$last_date - max(target$date)) %>% `+`(1) %>% as.integer()
+      
+      if (gt_train_end & !gt_question_start) {
+        # partial info in last training data period
+        # if more than half of period, extrapolate, else discard that period
+        # only use if > half of period days have data; because danger of extrapolating
+        if (days_avail > (days_in_period/2)) {
+          pr$partial_train <- "used"
+          if (pr$agg_method=="sum") {
+            target$value[nrow(target)] <- target$value[nrow(target)] * days_in_period / days_avail
+          } else {
+            target$value[nrow(target)] <- target$value[nrow(target)]
+          }
         } else {
-          target$value[nrow(target)] <- target$value[nrow(target)]
+          pr$partial_train <- "discarded"
+          target <- target[-nrow(target), ]
+          #pr$target_tail <- tail(target, 1)  # connect to discarded data anyways, not previous point
         }
-      } else {
-        pr$partial_train <- "discarded"
+        
+      } else if (gt_train_end & gt_question_start) {
+        # we have partial outcome info
+        
+        pr$partial_outcome <- TRUE
+        pr$yobs <- target$value[nrow(target)]
+        pr$yn   <- days_avail
         target <- target[-nrow(target), ]
-        #pr$target_tail <- tail(target, 1)  # connect to discarded data anyways, not previous point
-      }
-      
-    } else if (gt_train_end & gt_question_start) {
-      # we have partial outcome info
-      
-      pr$partial_outcome <- TRUE
-      pr$yobs <- target$value[nrow(target)]
-      pr$yn   <- days_avail
-      target <- target[-nrow(target), ]
-      # Update the target tail used for plotting as well to exclude partial 
-      # outcome data that is dropped
-      pr$target_tail <- tail(target, 1)
-    } 
+        # Update the target tail used for plotting as well to exclude partial 
+        # outcome data that is dropped
+        pr$target_tail <- tail(target, 1)
+      } 
+    }
   }
   
   # Determine periods per year for ts frequency

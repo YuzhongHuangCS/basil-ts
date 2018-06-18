@@ -74,7 +74,7 @@ make_table <- function(files) {
         time = response$parsed_request$question_period$period$period,
         data_type = response$parsed_request$series_type,
         data_agg = ifelse(
-          response$parsed_request$was_data_aggregated,
+          response$parsed_request$aggregated_data,
           "yes",
           "no"),
         partial_train = response$parsed_request$partial_train,
