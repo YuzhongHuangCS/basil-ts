@@ -45370,6 +45370,8 @@
             ],
             "unit": "currency"
         },
-        "question_type": "Ordered Multinomial"
+        "question_type": "Ordered Multinomial",
+        "aggregated-data": false,
+        "last-event-date": null
     }
 }

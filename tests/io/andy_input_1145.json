@@ -475,6 +475,7 @@
             ],
             "unit": "number"
         },
-        "question_type": "Ordered Multinomial"
+        "question_type": "Ordered Multinomial",
+        "aggregated-data": false
     }
 }

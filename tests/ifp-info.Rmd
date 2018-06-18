@@ -1,0 +1,48 @@
+---
+title: "IFP info"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library("tidyverse")
+library("stringr")
+
+source("../tools/helpers.R")
+```
+
+```{r}
+input_files <- dir("io", pattern = "andy_input", full.names = TRUE)
+req_no <- sapply(input_files, str_extract, "[0-9]+") %>% 
+  as.integer() %>% sort() %>% rev()
+
+requests <- lapply(req_no, load_request)
+
+summarize_request <- function(req) {
+  tibble(
+    IFP_id = req$ifp$id,
+    Name = req$ifp$name %>% stringr::str_trim(),
+    `aggregated-data` = ifelse(is.null(req$payload$`aggregated-data`), 
+                               NA, 
+                               req$payload$`aggregated-data`),
+    `last-event-date` = ifelse(is.null(req$payload$`last-event-date`), 
+                               NA, 
+                               req$payload$`last-event-date` %>% 
+                                 as.POSIXct() %>% as.Date() %>% as.character())
+  )
+}
+
+
+
+    # target <- data.frame(
+    #   date  = as.Date(request$payload$historical_data$ts[, 1]),
+    #   value = as.numeric(request$payload$historical_data$ts[, 2])
+    # )
+
+info <- lapply(requests, summarize_request) %>%
+  bind_rows()
+info %>%
+  knitr::kable()
+```
+
