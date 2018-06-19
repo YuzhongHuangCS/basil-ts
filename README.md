@@ -71,6 +71,8 @@ This will by default drop all data from the beginning of the question period on.
 
 This should be a date in ISO format, i.e. 'YYYY-mm-dd'. If it exceeds the question period end date it will be reset to the question period end date - 1. 
 
+*Note that 'drop_after' does not correspond to the forecast that would have been made on that date. That forecast also depends on the delay in obtaining data, and for most questions data from the same or previous day would not be available so quickly.*
+
 List of options:
 
 <table>
