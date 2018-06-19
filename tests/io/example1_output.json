@@ -358,6 +358,9 @@
     "agg_method": [
       "mean"
     ],
+    "aggregated_data": [
+      false
+    ],
     "backcast": [
       false
     ],
@@ -390,7 +393,7 @@
       false
     ],
     "partial_train": [
-      "no"
+      ""
     ],
     "question_period": {
       "dates": [
