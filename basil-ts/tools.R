@@ -1,4 +1,6 @@
-
+#
+#   Tools for interactive R debugging
+#
 
 suppressPackageStartupMessages({
   library("methods")
@@ -13,14 +15,22 @@ suppressPackageStartupMessages({
 })
 
 
-plot_ts <- function(ifp_id) {
+get_target <- function(ifp_id) {
   input_fh <- sprintf("tests/io/andy_input_%s.json", ifp_id)
   request  <- jsonlite::fromJSON(input_fh)
-
+  
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
   )
+  target
+}
+
+plot_ts <- function(ifp_id) {
+  input_fh <- sprintf("tests/io/andy_input_%s.json", ifp_id)
+  request  <- jsonlite::fromJSON(input_fh)
+
+  target <- get_target(ifp_id)
   ifp_name  <- request$ifp$name
   p <- ggplot(target, aes(x = date, y = value)) +
     geom_line() +

@@ -2,6 +2,11 @@
 context("parse_last_date")
 
 test_that("It works with monthly data", {
+  target <- data.frame(
+    date = seq(as.Date("2018-01-01"), as.Date("2018-07-01"), by = "month"),
+    value = rnorm(7)
+  )
+  
   pr = list(
     data_period = list(
       period = list(
@@ -40,6 +45,11 @@ test_that("It works with monthly data", {
 
 test_that("It works with daily data", {
   # daily data
+  target <- data.frame(
+    date = seq(as.Date("2018-01-01"), as.Date("2018-07-01"), by = "day"),
+    value = rnorm(182)
+  )
+  
   pr = list(
     data_period = list(
       period = list(
@@ -77,6 +87,10 @@ test_that("It works with daily data", {
 
 test_that("It works with fixed period data", {
   # fixed data
+  target <- data.frame(
+    date = as.Date("2018-07-01") - rev(c(0, 100, 200)),
+    value = rnorm(3)
+  )
   pr <- list(
     data_period = list(
       period = list(
@@ -112,8 +126,12 @@ test_that("It works with fixed period data", {
 })
 
 test_that("last_event_date outside implied range throws an error", {
-  
   # daily data
+  target <- data.frame(
+    date = seq(as.Date("2018-01-01"), as.Date("2018-07-01"), by = "day"),
+    value = rnorm(182)
+  )
+  
   pr = list(
     data_period = list(
       period = list(
