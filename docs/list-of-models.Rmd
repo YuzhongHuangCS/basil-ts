@@ -1,0 +1,72 @@
+---
+title: "List of models"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library("tidyverse")
+library("R6")
+
+modelListGenerator <- R6Class(
+  "modelListGenerator",
+  public = list(
+    data = NULL,
+    initialize = function() {
+      invisible(self)
+    },
+    add = function(Model, Function = "", Basis_function = "", Notes = "") {
+      row <- tibble(Model = Model, Function = Function, Basis_function = Basis_function,
+                    Notes = Notes)
+      if (is.null(self$data)) {
+        self$data <- row
+      } else {
+        self$data <- bind_rows(self$data, row) 
+      }
+      invisible(self)
+    },
+    print = function(...) {
+      print(self$data)
+      invisible(self)
+    },
+    table = function(...) {
+      print(knitr::kable(self$data, ...))
+      invisible(self)
+    }
+  )
+)
+```
+
+```{r, results='asis'}
+model_table <- modelListGenerator$new()
+model_table$add("auto ARIMA", "`auto_arima_forecast`", "`forecast::auto.arima`")
+model_table$add("constant mean", "`constan_mean_forecast`", "`forecast::Arima(c(0,0,0))`")
+model_table$add("ETS", "`ets_forecast`", "`forecast::ets()`", Notes = "auto add/mult order, auto damped")
+model_table$add("RW", "`rw_forecast`", "`forecast::rwf()`", "flexible lambda")
+model_table$add("RW-DRIFT", "`rw_drift_forecast`", "`forecast::rwf(drift = TRUE)`")
+model_table$add("seasonal RW")
+model_table$add("arithmetic RW", "`arithmetic_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = NULL)`")
+model_table$add("geometric RW", "`geometric_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = 0)`", Notes = "Values >0 only")
+model_table$add("NNAR")
+model_table$add("TBATS")
+model_table$add("STLM-AR")
+model_table$add("DS-ses", Notes = "same as ets(\"ANN\")")
+model_table$add("DS-holt", Notes = "same as ets(\"AAN\")")
+model_table$add("DS-holt-damped", Notes = "same as ets(\"AAN\", damped = TRUE)")
+model_table$add("THETAF")
+model_table$add("M4_Comp", Notes = "M4 benchmark composite")
+model_table$add("M4_Meta", Notes = "M4 meta learning composite")
+
+model_table$table()
+```
+
+## M4 competition
+
+The benchmark and second place winner in the M4 competition were ensemble models that would not be too hard to integrate. And the benchmark is very simple, would not be difficult at all.
+
+Competition benchmark: raw code at https://github.com/M4Competition/M4-methods/blob/master/Benchmarks%20and%20Evaluation.R, it is a combination f4, 5, and 6, which are plain exponential smoothing models on deseasoned data. 
+
+Hyndman et all have a M4 meta learning model, basically 9 plain time series models whose ensemble weights are determined by xgboost using a broad range of extra time series features extracted as features for the meta model. See here https://github.com/robjhyndman/M4metalearning/blob/master/R/forec_methods_list.R and here https://github.com/M4Competition/M4-methods/blob/master/245%20-%20pmontman/M4-Method-Description.pdf. 
+
+The 3 and 9 component models for the benchmark and M4_meta model are already included in the list above. 
