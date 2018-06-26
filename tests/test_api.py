@@ -159,7 +159,7 @@ class TestBackcastFeature(unittest.TestCase):
         payload = json.loads(response.data)
         assert payload['parsed_request']['last_date'][0]       == '2018-02-28'
         assert payload['parsed_request']['aggregated_data'][0] == True
-        assert payload['parsed_request']['partial_train'][0]   == 'used'
+        assert payload['parsed_request']['partial_train'][0]   == 'no'
         assert payload['parsed_request']['partial_outcome'][0] == False
         # no updating of last train data value
         assert payload['parsed_request']['target']['value'][-1] == 176
@@ -215,7 +215,7 @@ class TestBackcastFeature(unittest.TestCase):
         payload = json.loads(response.data)
         assert payload['parsed_request']['last_date'][0]       == '2018-03-20'
         assert payload['parsed_request']['aggregated_data'][0] == True
-        assert payload['parsed_request']['partial_train'][0]   == 'used'
+        assert payload['parsed_request']['partial_train'][0]   == 'no'
         assert payload['parsed_request']['partial_outcome'][0] == False
         assert payload['parsed_request']['data_period']['period']['period'][0] == 'fixed'
 
