@@ -13,15 +13,17 @@ suppressPackageStartupMessages({
 #' Check input file has correct format matching API spec
 #' 
 validate_input_file_format <- function(x) {
-  if (is.null(x$payload$`aggregated-data`)) {
-    stop("The input file is missing the `aggregated-data` field. Add it and try again.")
-  }
-  if (x$payload$`aggregated-data`==TRUE & is.null(x$payload$`last-event-date`)) {
-    stop("The input file is missing the `last-event-date` field under `payload`. Add it and try again.")
-  }
+  # if (x$payload$`aggregated-data`==TRUE & is.null(x$payload$`last-event-date`)) {
+  #   stop("The input file is missing the `last-event-date` field under `payload`. Add it and try again.")
+  # }
   if (length(x$payload$`last-event-date`) > 1) {
     stop("Check 'last-event-date' in the input file, it seems to be too long.")
   }
+  if (!is.null(x$payload$`last-event-date`)) {
+    last_date <- as.Date(as.POSIXct(x$payload$`last-event-date`))
+    if (last_date > lubridate::today()) stop("last-event-date in request must be wrong, it is after today.")
+  }
+  
   invisible(TRUE)
 }
 
@@ -383,6 +385,14 @@ binary_seps <- function(x) {
 
 
 # Data helpers ------------------------------------------------------------
+
+#' Identify whether aggregated data based on IFP question title
+id_aggregated_data <- function(ifp_name) {
+  title <- tolower(ifp_name)
+  patterns <- c("(acled|icews|earthquakes|sea ice|hacking|boko haram|how many united nations security)")
+  aggdata <- str_detect(title, patterns)
+  aggdata
+}
 
 #' Heuristic for determining how data should be aggregated over time
 #' 
@@ -897,7 +907,7 @@ r_basil_ts <- function(fh = NULL) {
   pr$binary_ifp      <- request$ifp$`binary?`
   pr$question_period <- parse_question_period(pr$ifp_name)
   pr$data_period     <- parse_data_period(target$date)
-  pr$aggregated_data <- request$payload$`aggregated-data`
+  pr$aggregated_data <- id_aggregated_data(pr$ifp_name)
   pr$last_date       <- parse_last_date(request$payload$`last-event-date`, 
                                         pr$aggregated_data, pr$data_period,
                                         target)

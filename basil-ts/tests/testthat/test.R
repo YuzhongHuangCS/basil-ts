@@ -137,6 +137,26 @@ test_that("Separations are correctly parsed", {
 
 })
 
+test_that("Aggregation is correctly identified", {
+  q <- "How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for July 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "Will ACLED record any riot/protest events in Gambia in July 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in July 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?"
+  expect_true(id_aggregated_data(q))
+  q <- "What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?"
+  expect_true(id_aggregated_data(q))
+  
+  q <- "How much crude oil will Venezuela produce in July 2018?"
+  expect_false(id_aggregated_data(q))
+})
+
 
 # Data and forecast handling ----------------------------------------------
 

@@ -155,5 +155,3 @@ test_that("last_event_date outside implied range throws an error", {
     "last_event_date seems to be wrong, outside the date range"
   )
 })
-
-
