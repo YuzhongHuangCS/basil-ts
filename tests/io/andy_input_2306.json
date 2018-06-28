@@ -5,29 +5,26 @@
             "url": "forecast/questions/default-question-image.jpg"
         },
         "site_id": 6,
-        "updated_at": "2018-03-07T17:31:03.956Z",
-        "membership_id": 471,
-        "discover_question_id": 177,
-        "published_at": "2018-03-07T17:31:03.688Z",
-        "id": 821,
+        "updated_at": "2018-06-27T16:30:35.591Z",
+        "membership_id": 2938,
+        "discover_question_id": 373,
+        "published_at": "2018-06-27T16:30:35.333Z",
+        "id": 2306,
         "active?": true,
         "type": "Forecast::Question",
         "metadata": {},
         "prediction_sets_count": 0,
-        "description": "The Armed Conflict Location and Event Dataset (ACLED) summarizes press reports on conflict and protest events in Africa and parts of Asia. The relevant data can be accessed using the export tool at https://www.acleddata.com/data/: set \u2018From\u2019 to the first day of the period of interest; \u2018To\u2019 to the last day of the period of interest; and \u2018Country\u2019 to the country of interest. Click \u2018Export.\u2019 The count of battle deaths for the period of interest is obtained by summing the 'fatalities\u2019 column for events in which \u2018event_type\u2019 is Battle-Government regains territory, Battle-No change of territory, or Battle-Non-state actor overtakes territory. Question will be resolved when the relevant data are first released.",
+        "description": "This question will be resolved using oil production data measured in thousands of barrels per day (tb/d) reported for the country of interest for the month of interest in the \"OPEC crude oil production based on secondary sources\" table of the OPEC Monthly Oil Market Report (<a href=\"http://www.opec.org/opec_web/en/publications/338.htm\"target=\"_blank\">http://www.opec.org/opec_web/en/publications/338.htm</a>), expected to be published the first part of the following month.",
         "brier_score": "0.0",
         "binary?": false,
-        "use_ordinal_scoring": true,
-        "ends_at": "2018-04-30T18:01:28.000Z",
-        "resolved_at": null,
         "ifp": {
             "parsed_answers": {
                 "values": [
-                    "<2000",
-                    "2000 - 2500",
-                    "2500 - 2900",
-                    "2900 - 3400",
-                    ">3400"
+                    "<9820",
+                    "9820 - 9940",
+                    "9940 - 10040",
+                    "10040 - 10160",
+                    ">10160"
                 ],
                 "unit": "number"
             },
@@ -35,12 +32,12 @@
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-                    "updated_at": "2018-03-07T17:31:03.778Z",
+                    "question_name": "How much crude oil will Saudi Arabia produce in July 2018?",
+                    "updated_at": "2018-06-27T16:30:34.968Z",
                     "sort_order": 0,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "id": 2476,
+                    "id": 6674,
                     "active?": true,
                     "correctness_known_at": null,
                     "normalized_probability": 0.2,
@@ -52,24 +49,24 @@
                     "resolving?": false,
                     "ends_at": null,
                     "resolved_at": null,
-                    "name": "Less than 2,000",
-                    "created_at": "2018-03-07T17:31:03.778Z",
+                    "name": "Less than 9,820",
+                    "created_at": "2018-06-27T16:30:34.968Z",
                     "predictions_count": 0,
-                    "membership_id": 471,
+                    "membership_id": 2938,
                     "resolved?": false,
                     "resolved_by_id": null,
-                    "discover_answer_id": 561,
-                    "question_id": 821
+                    "discover_answer_id": 1037,
+                    "question_id": 2306
                 },
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-                    "updated_at": "2018-03-07T17:31:03.809Z",
+                    "question_name": "How much crude oil will Saudi Arabia produce in July 2018?",
+                    "updated_at": "2018-06-27T16:30:34.889Z",
                     "sort_order": 1,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "id": 2477,
+                    "id": 6673,
                     "active?": true,
                     "correctness_known_at": null,
                     "normalized_probability": 0.2,
@@ -81,24 +78,24 @@
                     "resolving?": false,
                     "ends_at": null,
                     "resolved_at": null,
-                    "name": "Between 2,000 and 2,500, inclusive",
-                    "created_at": "2018-03-07T17:31:03.809Z",
+                    "name": "Between 9,820 and 9,940, inclusive",
+                    "created_at": "2018-06-27T16:30:34.889Z",
                     "predictions_count": 0,
-                    "membership_id": 471,
+                    "membership_id": 2938,
                     "resolved?": false,
                     "resolved_by_id": null,
-                    "discover_answer_id": 560,
-                    "question_id": 821
+                    "discover_answer_id": 1038,
+                    "question_id": 2306
                 },
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-                    "updated_at": "2018-03-07T17:31:03.845Z",
+                    "question_name": "How much crude oil will Saudi Arabia produce in July 2018?",
+                    "updated_at": "2018-06-27T16:30:34.853Z",
                     "sort_order": 2,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "id": 2478,
+                    "id": 6672,
                     "active?": true,
                     "correctness_known_at": null,
                     "normalized_probability": 0.2,
@@ -110,24 +107,24 @@
                     "resolving?": false,
                     "ends_at": null,
                     "resolved_at": null,
-                    "name": "More than 2,500 but less than 2,900",
-                    "created_at": "2018-03-07T17:31:03.845Z",
+                    "name": "More than 9,940 but less than 10,040",
+                    "created_at": "2018-06-27T16:30:34.853Z",
                     "predictions_count": 0,
-                    "membership_id": 471,
+                    "membership_id": 2938,
                     "resolved?": false,
                     "resolved_by_id": null,
-                    "discover_answer_id": 559,
-                    "question_id": 821
+                    "discover_answer_id": 1039,
+                    "question_id": 2306
                 },
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-                    "updated_at": "2018-03-07T17:31:03.877Z",
+                    "question_name": "How much crude oil will Saudi Arabia produce in July 2018?",
+                    "updated_at": "2018-06-27T16:30:34.778Z",
                     "sort_order": 3,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "id": 2479,
+                    "id": 6671,
                     "active?": true,
                     "correctness_known_at": null,
                     "normalized_probability": 0.2,
@@ -139,24 +136,24 @@
                     "resolving?": false,
                     "ends_at": null,
                     "resolved_at": null,
-                    "name": "Between 2,900 and 3,400, inclusive",
-                    "created_at": "2018-03-07T17:31:03.877Z",
+                    "name": "Between 10,040 and 10,160, inclusive",
+                    "created_at": "2018-06-27T16:30:34.778Z",
                     "predictions_count": 0,
-                    "membership_id": 471,
+                    "membership_id": 2938,
                     "resolved?": false,
                     "resolved_by_id": null,
-                    "discover_answer_id": 558,
-                    "question_id": 821
+                    "discover_answer_id": 1040,
+                    "question_id": 2306
                 },
                 {
                     "ended?": false,
                     "probability": 0.2,
-                    "question_name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-                    "updated_at": "2018-03-07T17:31:03.914Z",
+                    "question_name": "How much crude oil will Saudi Arabia produce in July 2018?",
+                    "updated_at": "2018-06-27T16:30:34.733Z",
                     "sort_order": 4,
                     "probability_formatted": "20%",
                     "display_probability": "20%",
-                    "id": 2480,
+                    "id": 6670,
                     "active?": true,
                     "correctness_known_at": null,
                     "normalized_probability": 0.2,
@@ -168,23 +165,28 @@
                     "resolving?": false,
                     "ends_at": null,
                     "resolved_at": null,
-                    "name": "More than 3,400",
-                    "created_at": "2018-03-07T17:31:03.914Z",
+                    "name": "More than 10,160",
+                    "created_at": "2018-06-27T16:30:34.733Z",
                     "predictions_count": 0,
-                    "membership_id": 471,
+                    "membership_id": 2938,
                     "resolved?": false,
                     "resolved_by_id": null,
-                    "discover_answer_id": 557,
-                    "question_id": 821
+                    "discover_answer_id": 1041,
+                    "question_id": 2306
                 }
             ]
         },
-        "name": "How many battle deaths will ACLED record in Afghanistan in April 2018?",
-        "created_at": "2018-03-07T17:31:03.773Z",
+        "use_ordinal_scoring": true,
+        "ends_at": "2018-07-31T18:01:04.000Z",
+        "resolved_at": null,
+        "resolution_notes": [],
+        "name": "How much crude oil will Saudi Arabia produce in July 2018?",
+        "created_at": "2018-06-27T16:30:34.724Z",
         "featured": false,
         "resolved?": false,
+        "void_reason": null,
         "comments_count": 0,
-        "starts_at": "2018-03-07T17:30:28.000Z",
+        "starts_at": "2018-06-27T16:30:04.000Z",
         "voided_at": null,
         "answers_count": 5
     },
@@ -192,11 +194,11 @@
         "question_type": "Ordered Multinomial",
         "separations": {
             "values": [
-                "<2000",
-                "2000 - 2500",
-                "2500 - 2900",
-                "2900 - 3400",
-                ">3400"
+                "<9820",
+                "9820 - 9940",
+                "9940 - 10040",
+                "10040 - 10160",
+                ">10160"
             ],
             "unit": "number"
         },
@@ -205,73 +207,53 @@
                 "DATE",
                 {
                     "type": "float",
-                    "semantic_type": "fatalities__size"
+                    "semantic_type": "size"
                 }
             ],
             "ts": [
                 [
-                    "2017-01-01T00:00:00.000Z",
-                    2401.0
-                ],
-                [
-                    "2017-02-01T00:00:00.000Z",
-                    1582.0
-                ],
-                [
-                    "2017-03-01T00:00:00.000Z",
-                    2892.0
-                ],
-                [
-                    "2017-04-01T00:00:00.000Z",
-                    2922.0
-                ],
-                [
-                    "2017-05-01T00:00:00.000Z",
-                    4226.0
-                ],
-                [
                     "2017-06-01T00:00:00.000Z",
-                    1836.0
+                    10070.0
                 ],
                 [
                     "2017-07-01T00:00:00.000Z",
-                    4359.0
+                    10010.0
                 ],
                 [
                     "2017-08-01T00:00:00.000Z",
-                    3229.0
+                    9951.0
                 ],
                 [
                     "2017-09-01T00:00:00.000Z",
-                    2067.0
+                    9973.0
                 ],
                 [
                     "2017-10-01T00:00:00.000Z",
-                    3384.0
+                    10056.0
                 ],
                 [
                     "2017-11-01T00:00:00.000Z",
-                    1544.0
+                    9891.0
                 ],
                 [
                     "2017-12-01T00:00:00.000Z",
-                    2135.0
+                    9980.0
                 ],
                 [
                     "2018-01-01T00:00:00.000Z",
-                    4632.0
+                    9983.0
                 ],
                 [
                     "2018-02-01T00:00:00.000Z",
-                    2134.0
+                    9935.0
                 ],
                 [
                     "2018-03-01T00:00:00.000Z",
-                    1212.0
+                    9907.0
                 ]
             ]
         },
-        "last-event-date": "2018-03-31T00:00:00.000Z",
-        "aggregated-data": true
+        "last-event-date": "2018-03-31T00:00:00",
+        "data-updated-to": "2018-03-31T00:00:00"
     }
 }

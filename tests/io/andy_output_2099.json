@@ -1,0 +1,4 @@
+{
+  "message": "Internal R error",
+  "r_error_message": "Error in validate_input_file_format(request) : \n  Check 'last-event-date' in the input file, it seems to be too long.\nCalls: r_basil_ts -> validate_input_file_format\nExecution halted\n"
+}

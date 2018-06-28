@@ -908,6 +908,11 @@ r_basil_ts <- function(fh = NULL) {
   pr$question_period <- parse_question_period(pr$ifp_name)
   pr$data_period     <- parse_data_period(target$date)
   pr$aggregated_data <- id_aggregated_data(pr$ifp_name)
+  if (!is.null(request$payload$`data-updated-to`)) {
+    req_data_updated_to <- request$payload$`data-updated-to`
+  } else {
+    req_data_updated_to <- request$payload$`last-event-date`
+  }
   pr$last_date       <- parse_last_date(request$payload$`last-event-date`, 
                                         pr$aggregated_data, pr$data_period,
                                         target)
