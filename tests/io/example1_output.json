@@ -10,11 +10,8 @@
       true
     ]
   },
-  "forecast_is_usable": [
-    1
-  ],
   "forecasts": {
-    "ARIMA": {
+    "auto ARIMA": {
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +30,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "auto ARIMA"
       ],
       "option_labels": [
         "<1229.85",
@@ -77,37 +74,6 @@
       ]
     }
   },
-  "internal": {
-    "AIC": [
-      800.4249
-    ],
-    "BIC": [
-      803.204
-    ],
-    "mdl_string": [
-      "ARIMA(0,1,0)"
-    ],
-    "rmse": [
-      6.9015
-    ]
-  },
-  "model": [
-    "ARIMA"
-  ],
-  "option_labels": [
-    "<1229.85",
-    "1229.85 - 1268.42",
-    "1268.42 - 1301.63",
-    "1301.63 - 1340.19",
-    ">1340.19"
-  ],
-  "option_probabilities": [
-    5.9389e-10,
-    0.3027,
-    0.6973,
-    9.5416e-06,
-    0
-  ],
   "parsed_request": {
     "agg_method": [
       "mean"
@@ -462,31 +428,5 @@
     "yobs": [
       null
     ]
-  },
-  "to_date": [
-    "2017-10-31"
-  ],
-  "trainN": [
-    120
-  ],
-  "ts": [
-    [
-      "2017-10-30",
-      "1272",
-      "1272.000",
-      "1272.000"
-    ],
-    [
-      "2017-10-31",
-      "1272",
-      "1258.417",
-      "1285.583"
-    ]
-  ],
-  "ts_colnames": [
-    "date",
-    "Point Forecast",
-    "Lo 95",
-    "Hi 95"
-  ]
+  }
 }

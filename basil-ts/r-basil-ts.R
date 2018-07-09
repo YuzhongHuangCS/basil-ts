@@ -352,8 +352,8 @@ r_basil_ts <- function(fh = NULL) {
   pr$lambda <- lambda_heuristic(target_ts, pr$series_type)
   
   # Identify which models to run
-  model_types <- c("ARIMA", "ETS", "RW", "geometric RW", "mean")
-  if (quick) model_types <- "ARIMA"
+  model_types <- c("auto ARIMA", "ETS", "RW", "geometric RW", "mean") # names(model_dictionary)
+  if (quick) model_types <- "auto ARIMA"
   forecasts   <- lapply(model_types, create_forecast, 
                         ts = target_ts, parsed_request = pr)
   names(forecasts) <- model_types

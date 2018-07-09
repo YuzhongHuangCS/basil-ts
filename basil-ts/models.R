@@ -2,6 +2,22 @@
 #   Functions that estimate models and their forecasts
 #
 
+model_dictionary <- list(
+  "auto ARIMA"    = "auto_arima_forecast",
+  "mean"          = "constant_mean_forecast",
+  "ETS"           = "ets_forecast",
+  "RW"            = "rw_forecast",
+  "RW-DRIFT"      = "rw_drift_forecast",
+  "RW-SEAS"       = "rw_seasonal_forecast",
+  "arithmetic RW" = "arithmetic_rw_forecast",
+  "geometric RW"  = "geometric_rw_forecast"
+)
+
+get_model <- function(short_name, mdict = model_dictionary) {
+  function_name = mdict[[short_name]]
+  get(function_name)
+}
+
 auto_arima_forecast <- function(ts, lambda, h) {
   model <- forecast::auto.arima(ts, lambda = lambda)
   model$model_string <- forecast:::arima.string(model)
@@ -97,3 +113,14 @@ geometric_rw_forecast <- function(ts, lambda, h) {
 }
 
 
+rw_seasonal_forecast <- function(ts, lambda, h) {
+  model <- snaive(ts, h = h, lambda = lambda, level = 95)
+  model$mdl_string <- "RW-SEAS"
+  
+  fcast    <- forecast(model)
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}

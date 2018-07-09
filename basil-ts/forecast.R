@@ -7,6 +7,20 @@ source("basil-ts/time-period.R")
 # Forecast helpers --------------------------------------------------------
 
 
+safe_AIC <- function(...) {
+  tryCatch(AIC(...),
+           error = function(e) {
+             NA_real_
+           })
+}
+
+safe_BIC <- function(...) {
+  tryCatch(BIC(...),
+           error = function(e) {
+             NA_real_
+           })
+}
+
 
 #' Enforce value constraints
 #' 
@@ -231,41 +245,48 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
 
 # Main function -----------------------------------------------------------
 
-create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
+create_forecast <- function(ts, model = "auto ARIMA", parsed_request = NULL) {
   pr <- parsed_request
   
   result <- tryCatch({
-    if (model=="ARIMA") {
-      mdl <- auto.arima(ts, lambda = pr$lambda)
-      mdl$model_string <- forecast:::arima.string(mdl)
-    } else if (model=="ETS") {
-      if (frequency(ts) > 24) {
-        spec = "ZZN"
-      } else {
-        spec = "ZZZ"
-      }
-      mdl <- ets(ts, model = spec, lambda = pr$lambda)
-      mdl$model_string <- mdl$method
-    } else if (model=="RW") {
-      mdl        <- Arima(ts, c(0, 1, 0), lambda = NULL)
-      mdl$model_string <- "RW"
-    } else if (model=="geometric RW") {
-      
-      if (!sum(ts<=0)==0) {
-        stop("Series contains values <= 0, model not estimated.")
-      }
-      mdl        <- Arima(ts, c(0, 1, 0), lambda = 0)
-      mdl$model_sring <- "geometric RW"
-      
-    } else if (model=="mean") {
-      mdl <- Arima(ts, c(0, 0, 0), lambda = pr$lambda)
-      mdl$model_string <- "mean"
-    }
     
-    fcast    <- forecast(mdl, h = pr$h, level = c(95))
-    fcast$se <- forecast_se(fcast, tail = TRUE) 
-    fcast$trunc_lower <- -Inf
-    fcast$trunc_upper <- +Inf
+    model_function <- get_model(model)
+    res <- model_function(ts, lambda = pr$lambda, h = pr$h)
+    
+    mdl   <- res$model
+    fcast <- res$fcast
+    
+    # if (model=="ARIMA") {
+    #   mdl <- auto.arima(ts, lambda = pr$lambda)
+    #   mdl$model_string <- forecast:::arima.string(mdl)
+    # } else if (model=="ETS") {
+    #   if (frequency(ts) > 24) {
+    #     spec = "ZZN"
+    #   } else {
+    #     spec = "ZZZ"
+    #   }
+    #   mdl <- ets(ts, model = spec, lambda = pr$lambda)
+    #   mdl$model_string <- mdl$method
+    # } else if (model=="RW") {
+    #   mdl        <- Arima(ts, c(0, 1, 0), lambda = NULL)
+    #   mdl$model_string <- "RW"
+    # } else if (model=="geometric RW") {
+    #   
+    #   if (!sum(ts<=0)==0) {
+    #     stop("Series contains values <= 0, model not estimated.")
+    #   }
+    #   mdl        <- Arima(ts, c(0, 1, 0), lambda = 0)
+    #   mdl$model_sring <- "geometric RW"
+    #   
+    # } else if (model=="mean") {
+    #   mdl <- Arima(ts, c(0, 0, 0), lambda = pr$lambda)
+    #   mdl$model_string <- "mean"
+    # }
+    
+    #fcast    <- forecast(mdl, h = pr$h, level = c(95))
+    #fcast$se <- forecast_se(fcast, tail = TRUE) 
+    #fcast$trunc_lower <- -Inf
+    #fcast$trunc_upper <- +Inf
     if (pr$partial_outcome) {
       fcast <- update_forecast(fcast, pr$yobs, pr$yn, pr$fcast_date, 
                                pr$data_period, pr$agg_method)
@@ -274,7 +295,7 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
     fcast <- enforce_series_type(fcast, pr$series_type)
     
     # Fit statistics
-    rmse      <- sqrt(mean(residuals(mdl)^2))
+    rmse      <- sqrt(mean(residuals(mdl)^2, na.rm = TRUE))
     rmse_mean <- sqrt(mean(residuals(Arima(ts, c(0, 0, 0)))^2))
     rmse_rwf  <- sqrt(mean(residuals(Arima(ts, c(0, 1, 0), lambda = NULL))^2))
     # wrong metric, should be in part based on CI and cat answer spread
@@ -315,8 +336,8 @@ create_forecast <- function(ts, model = "ARIMA", parsed_request = NULL) {
       internal = list(
         mdl_string = mdl$model_string,
         rmse = rmse,
-        AIC = AIC(mdl),
-        BIC = BIC(mdl)
+        AIC = safe_AIC(mdl),
+        BIC = safe_BIC(mdl)
       ),
       trainN = length(ts),
       est_model = mdl,
