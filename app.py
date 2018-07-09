@@ -69,10 +69,10 @@ def get_forecast():
             raise InvalidUsage("Invalid 'drop_after' argument", status_code=400,
                                payload = {'error_message': "option 'drop_after' should be blank or 'YYYY-mm-dd'"})
 
-    if quick is None or quick != 'True':
-        quick = False
-    else: 
+    if quick is None or quick != 'False':
         quick = True
+    else: 
+        quick = False
 
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
@@ -101,7 +101,7 @@ def get_forecast():
         json.dump(content, outfile)
     try:
         subprocess.check_output(
-          ["Rscript", "--vanilla", "basil-ts/ts-forecast.R", request_id, str(backcast), str(drop_after), str(quick)], 
+          ["Rscript", "--vanilla", "basil-ts/r-basil-ts.R", request_id, str(backcast), str(drop_after), str(quick)], 
           shell = False, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})

@@ -15,7 +15,7 @@ suppressMessages({
 })
 
 
-source("basil-ts/ts-forecast.R")
+source("basil-ts/r-basil-ts.R")
 source("basil-ts/models.R")
 
 target_getter <- function(request) {
