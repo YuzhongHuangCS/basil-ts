@@ -1,25 +1,26 @@
 List of models
 ================
 
-| Model          | Function                 | Basis\_function                              | Notes                             |
-|:---------------|:-------------------------|:---------------------------------------------|:----------------------------------|
-| auto ARIMA     | `auto_arima_forecast`    | `forecast::auto.arima`                       |                                   |
-| constant mean  | `constan_mean_forecast`  | `forecast::Arima(c(0,0,0))`                  |                                   |
-| ETS            | `ets_forecast`           | `forecast::ets()`                            | auto add/mult order, auto damped  |
-| RW             | `rw_forecast`            | `forecast::rwf()`                            | flexible lambda                   |
-| RW-DRIFT       | `rw_drift_forecast`      | `forecast::rwf(drift = TRUE)`                |                                   |
-| seasonal RW    |                          |                                              |                                   |
-| arithmetic RW  | `arithmetic_rw_forecast` | `forecast::Arima(c(0, 1, 0), lambda = NULL)` |                                   |
-| geometric RW   | `geometric_rw_forecast`  | `forecast::Arima(c(0, 1, 0), lambda = 0)`    | Values &gt;0 only                 |
-| NNAR           |                          |                                              |                                   |
-| TBATS          |                          |                                              |                                   |
-| STLM-AR        |                          |                                              |                                   |
-| DS-ses         |                          |                                              | same as ets("ANN")                |
-| DS-holt        |                          |                                              | same as ets("AAN")                |
-| DS-holt-damped |                          |                                              | same as ets("AAN", damped = TRUE) |
-| THETAF         |                          |                                              |                                   |
-| M4\_Comp       |                          |                                              | M4 benchmark composite            |
-| M4\_Meta       |                          |                                              | M4 meta learning composite        |
+| Model          | Function                  | Basis\_function                              | Notes                                                 |
+|:---------------|:--------------------------|:---------------------------------------------|:------------------------------------------------------|
+| auto ARIMA     | `auto_arima_forecast`     | `forecast::auto.arima`                       |                                                       |
+| mean           | `constan_mean_forecast`   | `forecast::Arima(c(0,0,0))`                  |                                                       |
+| ETS            | `ets_forecast`            | `forecast::ets()`                            | auto add/mult order, auto damped                      |
+| RW             | `rw_forecast`             | `forecast::rwf()`                            | flexible lambda                                       |
+| RW-DRIFT       | `rw_drift_forecast`       | `forecast::rwf(drift = TRUE)`                |                                                       |
+| RW-seasonal    | `rw_seasonal_forecast`    | `forecast::snaive()`                         |                                                       |
+| arithmetic RW  | `arithmetic_rw_forecast`  | `forecast::Arima(c(0, 1, 0), lambda = NULL)` |                                                       |
+| geometric RW   | `geometric_rw_forecast`   | `forecast::Arima(c(0, 1, 0), lambda = 0)`    | Values &gt;0 only                                     |
+| NNAR           |                           |                                              |                                                       |
+| TBATS          |                           |                                              |                                                       |
+| STLM-AR        |                           |                                              |                                                       |
+| DS-RW          | `rw_deseasoned_forecast`  |                                              | RW on de-seasoned data                                |
+| DS-SES         | `ses_deseasoned_forecast` |                                              | same as ets("ANN") on de-seasoned data                |
+| DS-holt        |                           |                                              | same as ets("AAN") on de-seasoned data                |
+| DS-holt-damped |                           |                                              | same as ets("AAN", damped = TRUE) on de-seasoned data |
+| THETAF         |                           |                                              |                                                       |
+| M4\_Comp       |                           |                                              | M4 benchmark composite                                |
+| M4\_Meta       |                           |                                              | M4 meta learning composite                            |
 
 M4 competition
 --------------
@@ -31,3 +32,49 @@ Competition benchmark: raw code at <https://github.com/M4Competition/M4-methods/
 Hyndman et all have a M4 meta learning model, basically 9 plain time series models whose ensemble weights are determined by xgboost using a broad range of extra time series features extracted as features for the meta model. See here <https://github.com/robjhyndman/M4metalearning/blob/master/R/forec_methods_list.R> and here <https://github.com/M4Competition/M4-methods/blob/master/245%20-%20pmontman/M4-Method-Description.pdf>.
 
 The 3 and 9 component models for the benchmark and M4\_meta model are already included in the list above.
+
+### Competition benchmark models
+
+``` r
+SeasonalityTest <- function(input, ppy){
+  #Used to determine whether a time series is seasonal
+  tcrit <- 1.645
+  if (length(input)<3*ppy){
+    test_seasonal <- FALSE
+  }else{
+    xacf <- acf(input, plot = FALSE)$acf[-1, 1, 1]
+    clim <- tcrit/sqrt(length(input)) * sqrt(cumsum(c(1, 2 * xacf^2)))
+    test_seasonal <- ( abs(xacf[ppy]) > clim[ppy] )
+    
+    if (is.na(test_seasonal)==TRUE){ test_seasonal <- FALSE }
+  }
+  
+  return(test_seasonal)
+}
+
+Benchmarks <- function(input, fh){
+  #Used to estimate the statistical benchmarks of the M4 competition
+  
+  #Estimate seasonaly adjusted time series
+  ppy <- frequency(input) ; ST <- F
+  if (ppy>1){ ST <- SeasonalityTest(input,ppy) }
+  if (ST==T){
+    Dec <- decompose(input,type="multiplicative")
+    des_input <- input/Dec$seasonal
+    SIout <- head(rep(Dec$seasonal[(length(Dec$seasonal)-ppy+1):length(Dec$seasonal)], fh), fh)
+  }else{
+    des_input <- input ; SIout <- rep(1, fh)
+  }
+  
+  f1 <- naive(input, h=fh)$mean #Naive
+  f2 <- naive_seasonal(input, fh=fh) #Seasonal Naive
+  f3 <- naive(des_input, h=fh)$mean*SIout #Naive2
+  f4 <- ses(des_input, h=fh)$mean*SIout #Ses
+  f5 <- holt(des_input, h=fh, damped=F)$mean*SIout #Holt
+  f6 <- holt(des_input, h=fh, damped=T)$mean*SIout #Damped
+  f7 <- Theta.classic(input=des_input, fh=fh)$mean*SIout #Theta
+  f8 <- (f4+f5+f6)/3 #Comb
+  
+  return(list(f1,f2,f3,f4,f5,f6,f7,f8))
+}
+```
