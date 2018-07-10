@@ -22,8 +22,8 @@ validate_input_file_format <- function(x) {
     stop("Check 'last-event-date' in the input file, it seems to be too long.")
   }
   if (!is.null(x$payload$`last-event-date`)) {
-    last_date <- as.Date(as.POSIXct(x$payload$`last-event-date`))
-    if (last_date > lubridate::today()) stop("last-event-date in request must be wrong, it is after today.")
+    data_updated_to <- as.Date(as.POSIXct(x$payload$`last-event-date`))
+    if (data_updated_to > lubridate::today()) stop("last-event-date in request must be wrong, it is after today.")
   }
   
   invisible(TRUE)
@@ -33,7 +33,7 @@ validate_input_file_format <- function(x) {
 
 #' Parse last date in input data
 #' 
-parse_last_date <- function(last_event_date, aggregated_data, data_period, target) {
+parse_data_updated_to <- function(last_event_date, aggregated_data, data_period, target) {
   
   if (is.na(aggregated_data)) stop("aggregated_data argument cannot be NA")
   
@@ -47,24 +47,24 @@ parse_last_date <- function(last_event_date, aggregated_data, data_period, targe
     
     if (is.na(last_event_date)) stop("last_event_date cannot be missing for aggregated data.")
     
-    last_date <- last_event_date
+    data_updated_to <- last_event_date
     
     # make sure it doesn't exceed max date implied by data
     implied_date_range <- c(
       max(target$date),
       bb_seq_period(max(target$date), 2, data_period$period)[2] - 1
     )
-    if (last_date < implied_date_range[1] | last_date > implied_date_range[2]) {
+    if (data_updated_to < implied_date_range[1] | data_updated_to > implied_date_range[2]) {
       stop("last_event_date seems to be wrong, outside the date range implied by last data point in historical data")
     }
     
   } else {
     
-    last_date <- bb_seq_period(max(target$date), 2, data_period$period)[2] - 1
+    data_updated_to <- bb_seq_period(max(target$date), 2, data_period$period)[2] - 1
     
   }
   
-  as.Date(last_date)
+  as.Date(data_updated_to)
 }
 
 
@@ -297,3 +297,48 @@ binary_seps <- function(x) {
   }
   stop("Unable to identify implied question separations for binary question")
 }
+
+
+
+# Main function, parse_request() ------------------------------------------
+
+parse_request <- function(request) {
+  
+  target <- data.frame(
+    date  = as.Date(request$payload$historical_data$ts[, 1]),
+    value = as.numeric(request$payload$historical_data$ts[, 2])
+  )
+  
+  # Initialize list parsed request data
+  pr <- list()
+  pr$ifp_name        <- request$ifp$name
+  pr$binary_ifp      <- request$ifp$`binary?`
+  pr$question_period <- parse_question_period(pr$ifp_name)
+  pr$data_period     <- parse_data_period(target$date)
+  pr$aggregated_data <- id_aggregated_data(pr$ifp_name)
+  if (!is.null(request$payload$`data-updated-to`)) {
+    req_data_updated_to <- request$payload$`data-updated-to`
+  } else {
+    req_data_updated_to <- request$payload$`last-event-date`
+  }
+  pr$data_updated_to       <- parse_data_updated_to(request$payload$`last-event-date`, 
+                                                    pr$aggregated_data, pr$data_period,
+                                                    target)
+  pr$series_type     <- guess_series_type(target$value, pr$ifp_name)
+  pr$separations     <- parse_separations(request$payload$separations, 
+                                          pr$series_type, pr$ifp_name)
+  pr$agg_method      <- determine_aggregation_method(pr$series_type, pr$ifp_name)
+  
+  # Check aggregation was not done for fixed period questions
+  if (pr$question_period$period$period=="fixed" & 
+      # weeks are ok, only need to catch like 100 day fixed periods
+      pr$question_period$period$days!="7" & 
+      pr$data_period$period$period!="day") {
+    stop(sprintf(
+      "Send daily data in the request, not aggregated data. Question is over %s day periods.",
+      pr$question_period$period$days))
+  }
+  
+  return(list(target = target, parsed_request = pr))
+}
+
