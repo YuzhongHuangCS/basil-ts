@@ -3,12 +3,12 @@ List of models
 
 | Model          | Function                  | Basis\_function                              | Notes                                                 |
 |:---------------|:--------------------------|:---------------------------------------------|:------------------------------------------------------|
-| auto ARIMA     | `auto_arima_forecast`     | `forecast::auto.arima`                       |                                                       |
-| mean           | `constan_mean_forecast`   | `forecast::Arima(c(0,0,0))`                  |                                                       |
+| Auto ARIMA     | `auto_arima_forecast`     | `forecast::auto.arima`                       |                                                       |
+| Mean           | `constan_mean_forecast`   | `forecast::Arima(c(0,0,0))`                  |                                                       |
 | ETS            | `ets_forecast`            | `forecast::ets()`                            | auto add/mult order, auto damped                      |
 | RW             | `rw_forecast`             | `forecast::rwf()`                            | flexible lambda                                       |
 | RW-DRIFT       | `rw_drift_forecast`       | `forecast::rwf(drift = TRUE)`                |                                                       |
-| RW-seasonal    | `rw_seasonal_forecast`    | `forecast::snaive()`                         |                                                       |
+| RW-SEAS        | `rw_seasonal_forecast`    | `forecast::snaive()`                         |                                                       |
 | arithmetic RW  | `arithmetic_rw_forecast`  | `forecast::Arima(c(0, 1, 0), lambda = NULL)` |                                                       |
 | geometric RW   | `geometric_rw_forecast`   | `forecast::Arima(c(0, 1, 0), lambda = 0)`    | Values &gt;0 only                                     |
 | NNAR           |                           |                                              |                                                       |
@@ -78,3 +78,72 @@ Benchmarks <- function(input, fh){
   return(list(f1,f2,f3,f4,f5,f6,f7,f8))
 }
 ```
+
+Example forecasts
+-----------------
+
+### What will be the daily closing price of gold on 26 April 2018 in USD?
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-1.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-2.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-3.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-4.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-5.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-6.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-7.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-8.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-9.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-10.png)
+
+### What will be the long-term interest rate for Portugal (PRT) in April 2018?
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-11.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-12.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-13.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-14.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-15.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-16.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-17.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-18.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-19.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-20.png)
+
+### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-21.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-22.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-23.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-24.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-25.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-26.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-27.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-28.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-29.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-30.png)

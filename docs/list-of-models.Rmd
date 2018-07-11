@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 library("tidyverse")
 library("R6")
+library("jsonlite")
 
 modelListGenerator <- R6Class(
   "modelListGenerator",
@@ -40,8 +41,8 @@ modelListGenerator <- R6Class(
 
 ```{r, results='asis'}
 model_table <- modelListGenerator$new()
-model_table$add("auto ARIMA", "`auto_arima_forecast`", "`forecast::auto.arima`")
-model_table$add("mean", "`constan_mean_forecast`", "`forecast::Arima(c(0,0,0))`")
+model_table$add("Auto ARIMA", "`auto_arima_forecast`", "`forecast::auto.arima`")
+model_table$add("Mean", "`constan_mean_forecast`", "`forecast::Arima(c(0,0,0))`")
 model_table$add("ETS", "`ets_forecast`", "`forecast::ets()`", Notes = "auto add/mult order, auto damped")
 model_table$add("RW", "`rw_forecast`", "`forecast::rwf()`", "flexible lambda")
 model_table$add("RW-DRIFT", "`rw_drift_forecast`", "`forecast::rwf(drift = TRUE)`")
@@ -117,3 +118,69 @@ Benchmarks <- function(input, fh){
   return(list(f1,f2,f3,f4,f5,f6,f7,f8))
 }
 ```
+
+## Example forecasts
+
+```{r example-forecasts, warning = FALSE, fig.height=3, results = 'asis'}
+output_files <- dir("../tests/io", pattern = "models_[0-9]+_output.json", full.names = TRUE)
+
+error_plot <- function(target, cutpoints, model_string, error_message) {
+  x_pos <- as.Date(target$date[1] + diff(range(target$date)) / 2)
+  y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
+  p <- ggplot(target, aes(x = date, y = value)) +
+    geom_hline(yintercept = cutpoints, linetype = 3) +
+    geom_line() +
+    theme_minimal() +
+    ggtitle(model_string) +
+    labs(x = "", y = "") +
+    annotate("text", x = x_pos, y = y_pos, col = "gray50",
+              label = error_message %>% str_wrap())
+  p
+}
+
+for (of in output_files) {
+  output <- read_json(of, simplifyVector = TRUE)
+  target <- output$parsed_request$target %>%
+    as_tibble() %>%
+    mutate(date = as.Date(date))
+  cutpoints <- output$parsed_request$separations$cutpoints %>% head(-1) %>% tail(-1)
+  
+  cat(sprintf("\n\n### %s\n\n", output$parsed_request$ifp_name))
+  
+  for (ff in sort(names(output$forecasts))) {
+    forecast_data <- output$forecasts[[ff]]
+    
+    if (!is.null(forecast_data$estimated)) {
+      
+      p <- error_plot(target, cutpoints, forecast_data$model, forecast_data$r_error_message)
+      
+    } else {
+      
+      ts_fcast <- forecast_data$ts %>%
+      as_tibble() %>%
+      setNames(forecast_data$ts_colnames) %>%
+      mutate(date = as.Date(date)) %>%
+      mutate_at(vars(-date), as.numeric)
+    
+    df <- bind_rows(target, ts_fcast)
+    
+    p <- ggplot(df, aes(x = date)) +
+        geom_line(aes(y = value)) + 
+        theme_minimal() +
+        ggtitle(sprintf("%s", ff),
+                subtitle = forecast_data$internal$mdl_string) +
+        labs(x = "", y = "") +
+        geom_hline(yintercept = cutpoints, linetype = 3)
+    p <- p + 
+        geom_ribbon(aes(ymin = `Lo 95`, ymax = `Hi 95`), fill = "lightblue") +
+        geom_line(aes(y = `Point Forecast`), color = "blue")
+    
+    }
+    
+    print(p)
+    cat("\n\n")
+    
+  }
+}
+```
+

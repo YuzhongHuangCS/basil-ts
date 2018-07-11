@@ -161,8 +161,8 @@ deseason <- function(input, fh) {
   if (ST==TRUE) {
     Dec <- decompose(input, type = "multiplicative")
     des_input <- input/Dec$seasonal
-    SIout <- rep_len(tail(Dec$seasonal, ppy), length.out = fh)
-    #SIout <- head(rep(Dec$seasonal[(length(Dec$seasonal)-ppy+1):length(Dec$seasonal)], fh), fh)
+    SIout <- rep_len(tail(Dec$seasonal, freq), length.out = fh)
+    #SIout <- head(rep(Dec$seasonal[(length(Dec$seasonal)-freq+1):length(Dec$seasonal)], fh), fh)
   } else {
     des_input <- input
     SIout <- rep(1, fh)

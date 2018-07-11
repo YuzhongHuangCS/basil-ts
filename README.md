@@ -4,6 +4,8 @@ A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (
 
 [Gallery of forecast charts](tests/README.md)
 
+[List and gallery of extended TS models](docs/list-of-models.md)
+
 ## Setup/running
 
 ### Docker
@@ -183,5 +185,7 @@ bash tests/test.sh 1055
 
 # To pretty format io files
 bash tools/format_inputs.sh
+
+python3 tests/run_extended_models.py
 ```
 
