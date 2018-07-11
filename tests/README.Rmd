@@ -137,7 +137,7 @@ error_plot <- function(fcast, target, request_no, request) {
     theme_minimal() +
     #ggtitle(sprintf("Request %s", request_no), subtitle = request$ifp$name) +
     labs(x = "", y = "") +
-    geom_text(x = target$date[1], y = y_pos, col = "gray50",
+    annotate("text", x = target$date[1], y = y_pos, col = "gray50",
               label = fcast$r_error_message %>% str_wrap(), hjust = 0)
   p
 }

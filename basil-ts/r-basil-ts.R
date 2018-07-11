@@ -102,7 +102,7 @@ r_basil_ts <- function(fh = NULL) {
   
   # Put ARIMA forecast at top-level; also copied in forecasts below
   # in the future maybe this will be selected by AIC/BIC/whatever
-  response                     <- forecasts[["auto ARIMA"]]
+  response                     <- forecasts[["Auto ARIMA"]]
   response[["parsed_request"]] <- internal_info
   response[["forecasts"]]      <- forecasts
   

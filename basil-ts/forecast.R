@@ -454,8 +454,8 @@ create_forecasts <- function(target, parsed_request, quick = FALSE) {
   pr$lambda <- lambda_heuristic(target_ts, pr$series_type)
   
   # Identify which models to run
-  model_types <- c("auto ARIMA", "ETS", "RW", "geometric RW", "mean") # names(model_dictionary)
-  if (quick) model_types <- "auto ARIMA"
+  model_types <- names(model_dictionary)
+  if (quick) model_types <- "Auto ARIMA"
   forecasts   <- lapply(model_types, create_single_forecast, 
                         ts = target_ts, parsed_request = pr)
   names(forecasts) <- model_types

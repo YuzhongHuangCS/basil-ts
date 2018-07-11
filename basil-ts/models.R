@@ -3,14 +3,14 @@
 #
 
 model_dictionary <- list(
-  "auto ARIMA"    = "auto_arima_forecast",
-  "mean"          = "constant_mean_forecast",
+  "Auto ARIMA"    = "auto_arima_forecast",
+  "Mean"          = "constant_mean_forecast",
   "ETS"           = "ets_forecast",
   "RW"            = "rw_forecast",
   "RW-DRIFT"      = "rw_drift_forecast",
   "RW-SEAS"       = "rw_seasonal_forecast",
-  "arithmetic RW" = "arithmetic_rw_forecast",
-  "geometric RW"  = "geometric_rw_forecast",
+  "Arithmetic RW" = "arithmetic_rw_forecast",
+  "Geometric RW"  = "geometric_rw_forecast",
   "DS-RW" = "rw_deseasoned_forecast",
   "DS-SES" = "ses_deseasoned_forecast"
 )
@@ -34,7 +34,7 @@ auto_arima_forecast <- function(ts, lambda, h) {
 
 constant_mean_forecast <- function(ts, lambda, h) {
   model <- Arima(ts, c(0, 0, 0), lambda = lambda)
-  model$model_string <- "constant mean"
+  model$model_string <- "Constant mean"
   
   fcast    <- forecast(model, h = h, level = 95)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -50,8 +50,9 @@ ets_forecast <- function(ts, lambda, h) {
   } else {
     spec = "ZZZ"
   }
+  
   model <- forecast::ets(ts, model = spec, lambda = lambda)
-  model$mdl_string <- model$method
+  model$model_string <- model$method
   
   fcast    <- forecast(model, h = h, level = 95)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -63,7 +64,7 @@ ets_forecast <- function(ts, lambda, h) {
 
 rw_forecast <- function(ts, lambda, h) {
   model <- rwf(ts, h = h, lambda = lambda, drift = FALSE, level = 95)
-  model$mdl_string <- "RW"
+  model$model_string <- "RW with lambda heuristic"
   
   fcast    <- forecast(model)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -75,7 +76,7 @@ rw_forecast <- function(ts, lambda, h) {
 
 rw_drift_forecast <- function(ts, lambda, h) {
   model <- rwf(ts, h = h, lambda = lambda, drift = TRUE, level = 95)
-  model$mdl_string <- "RW-DRIFT"
+  model$model_string <- "RW with drift and lambda heuristic"
   
   fcast    <- forecast(model)
   # fix bug
@@ -89,7 +90,7 @@ rw_drift_forecast <- function(ts, lambda, h) {
 
 arithmetic_rw_forecast <- function(ts, lambda, h) {
   model <- Arima(ts, c(0, 1, 0), lambda = NULL)
-  model$mdl_string <- "arithmetic RW"
+  model$model_string <- "RW on original scale"
   
   fcast    <- forecast(model, h = h, level = 95)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -104,7 +105,7 @@ geometric_rw_forecast <- function(ts, lambda, h) {
     stop("Series contains values <= 0, model not estimated.")
   }
   model <- Arima(ts, c(0, 1, 0), lambda = 0)
-  model$model_sring <- "geometric RW"
+  model$model_string <- "RW on log scale"
   
   fcast    <- forecast(model, h = h, level = 95)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -117,7 +118,7 @@ geometric_rw_forecast <- function(ts, lambda, h) {
 
 rw_seasonal_forecast <- function(ts, lambda, h) {
   model <- snaive(ts, h = h, lambda = lambda, level = 95)
-  model$mdl_string <- "RW-SEAS"
+  model$model_string <- "Seasonal RW"
   
   fcast    <- forecast(model)
   fcast$se <- forecast_se(fcast, tail = TRUE)
@@ -183,7 +184,7 @@ rw_deseasoned_forecast <- function(ts, lambda, h) {
   lambda <- NULL
   
   model <- rwf(des$ts, h = h, lambda = lambda, drift = FALSE, level = 95)
-  model$model_string <- "DS-RW (M4-f3)"
+  model$model_string <- "Deseasoned RW (M4-f3)"
   
   fcast       <- forecast(model)
   fcast$mean  <- fcast$mean * des$si
@@ -203,7 +204,7 @@ ses_deseasoned_forecast <- function(ts, lambda, h) {
   lambda <- NULL
   
   model <- ets(des$ts, "ANN", lambda = lambda, opt.crit = "mse")
-  model$model_string <- "DS-SES (M4-f4)"
+  model$model_string <- "Deseasoned ETS(A,N,N) (M4-f4)"
   
   fcast       <- forecast(model, h = h, level = 95)
   fcast$mean  <- fcast$mean * des$si
