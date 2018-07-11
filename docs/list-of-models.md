@@ -1,6 +1,13 @@
 List of models
 ================
 
+-   [M4 competition](#m4-competition)
+    -   [Competition benchmark models](#competition-benchmark-models)
+-   [Example forecasts](#example-forecasts)
+    -   [What will be the daily closing price of gold on 26 April 2018 in USD?](#what-will-be-the-daily-closing-price-of-gold-on-26-april-2018-in-usd)
+    -   [What will be the long-term interest rate for Portugal (PRT) in April 2018?](#what-will-be-the-long-term-interest-rate-for-portugal-prt-in-april-2018)
+    -   [What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?](#what-will-be-the-maximum-sea-ice-extent-on-the-baffin-bay-gulf-of-st.-lawrence-between-21-march-2018-and-10-april-2018)
+
 | Model          | Function                  | Basis\_function                              | Notes                                                 |
 |:---------------|:--------------------------|:---------------------------------------------|:------------------------------------------------------|
 | Auto ARIMA     | `auto_arima_forecast`     | `forecast::auto.arima`                       |                                                       |

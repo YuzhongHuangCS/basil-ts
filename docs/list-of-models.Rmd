@@ -1,6 +1,8 @@
 ---
 title: "List of models"
-output: github_document
+output: 
+  github_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
