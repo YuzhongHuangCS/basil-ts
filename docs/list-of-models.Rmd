@@ -65,6 +65,16 @@ model_table$add("M4_Meta", Notes = "M4 meta learning composite")
 model_table$table()
 ```
 
+## Current models in MASTER branch:
+
+- Auto ARIMA: automatic method for selecting a (seasonal) ARIMA(p,d,q)(P,D,Q)[n] model
+- Mean: constant mean model of the training data, equivalent to ARIMA(0,0,0)
+- ETS(Z,Z,Z): exponential state space smoothing model with automatic selection of additive or multiplicative errors, trend, and season types
+- Arithmetic random walk: random walk model on the raw time series, equivalent to an ARIMA(0,1,0) model
+- Geometric random walk: random walk on the logged time series, equivalent to ARIMA(0,1,0) with lambda = 0 for Box Cox transformation of the time series
+
+All the implementations are from the [R “forecast” package](http://pkg.robjhyndman.com/forecast/), and the package author has an open textbook that has good summaries of the various models at https://www.otexts.org/fpp (he, Hyndman is also on the team that had the second best entry in the M4 competition)
+
 ## M4 competition
 
 The benchmark and second place winner in the M4 competition were ensemble models that would not be too hard to integrate. And the benchmark is very simple, would not be difficult at all.
