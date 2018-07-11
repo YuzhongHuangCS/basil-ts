@@ -206,7 +206,7 @@ test_that("Forecast generator runs", {
   pr     <- readRDS("basil-ts/tests/parsed_request_1019.rds")
   target <- readRDS("basil-ts/tests/target_1019.rds")
   ts <- ts(target$value, frequency = 12)
-  ff <- create_forecast(ts, "RW", pr)
+  ff <- create_single_forecast(ts, "RW", pr)
   expect_equal(ff$model, "RW")
   
 })

@@ -6,6 +6,40 @@ source("basil-ts/time-period.R")
 
 # Forecast helpers --------------------------------------------------------
 
+#' Calculate time periods per year
+determine_ts_frequency <- function(x) {
+  x <- aggregate(x[, c("date")], by = list(year = lubridate::year(x$date)), FUN = length)$x
+  x <- head(x, length(x)-1) %>% tail(length(.)-1)
+  fr <- ifelse(length(x)==0, 1, mean(x))
+  fr
+}
+
+lambda_heuristic <- function(ts, series_type) {
+  lambda <- NULL
+  if (series_type %in% c("count")) {
+    skew <- skewness(as.vector(ts))
+    any0 <- any(ts==0)
+    if (skew > 2 && !any0) lambda <- 0
+    if (skew > 2 && any0)  lambda <- .5
+  } 
+  lambda
+}
+
+#' Calculate skewness
+#' 
+skewness <- function(x) {
+  n <- length(x)
+  (sum((x - mean(x))^3)/n)/(sum((x - mean(x))^2)/n)^(3/2)
+}
+
+#' Clean model forecast
+#' 
+#' Take out data we don't need to return in response
+clean_model <- function(x) {
+  x$est_model <- NULL
+  x$fcast <- NULL
+  x
+}
 
 safe_AIC <- function(...) {
   tryCatch(AIC(...),
@@ -243,9 +277,16 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
 
 
 
-# Main function -----------------------------------------------------------
+# Main functions ----------------------------------------------------------
 
-create_forecast <- function(ts, model = "auto ARIMA", parsed_request = NULL) {
+#' Create forecast from a specific TS model
+#' 
+#' This ties in the time series model and code that converts the TS prediction
+#' to the categorical probability forecast. Save for the models themselves, 
+#' and bug fixes, there is nothing in here that should change. I.e. there are 
+#' no optimizable modeling decisions in here. 
+#' 
+create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NULL) {
   pr <- parsed_request
   
   result <- tryCatch({
@@ -368,3 +409,66 @@ create_forecast <- function(ts, model = "auto ARIMA", parsed_request = NULL) {
   })
   result
 }
+
+
+#' TS process data and make forecasts
+#' 
+#' Controls several optimizable aspects of modeling that are not related to the
+#' models themselves, e.g. how to determine TS frequency, etc. Set up this way
+#' so that function arguments can control different components and make 
+#' testing easier. 
+#' 
+create_forecasts <- function(target, parsed_request, quick = FALSE) {
+  
+  pr <- parsed_request
+  
+  # Determine periods per year for ts frequency
+  fr <- as.integer(determine_ts_frequency(target))
+  
+  # Cut down training data if needed to speed up model estimation
+  upperN <- 200
+  if (pr$data_period$period$period=="day") {
+    upperN <- 120
+  } else if (pr$data_period$period$period=="month") {
+    upperN <- 12*5
+  } else if (pr$data_period$period$period=="fixed") {
+    upperN <- 120
+  }
+  if (nrow(target) > upperN) {
+    target <- tail(target, upperN)
+  }
+  
+  pr$target <- target
+  
+  target_ts <- ts(
+    data = as.numeric(target$value),
+    frequency = fr
+  )
+  
+  # How many time periods do I need to forecast ahead?
+  pr$h <- bb_diff_period(max(target$date), pr$question_period$dates[1], pr$question_period$period)
+  # What will those dates be?
+  pr$fcast_dates <- bb_seq_period(max(target$date), length.out = pr$h + 1, pr$question_period$period) %>% tail(pr$h)
+  
+  # Estimate model and forecast
+  pr$lambda <- lambda_heuristic(target_ts, pr$series_type)
+  
+  # Identify which models to run
+  model_types <- c("auto ARIMA", "ETS", "RW", "geometric RW", "mean") # names(model_dictionary)
+  if (quick) model_types <- "auto ARIMA"
+  forecasts   <- lapply(model_types, create_single_forecast, 
+                        ts = target_ts, parsed_request = pr)
+  names(forecasts) <- model_types
+  
+  # The estimated model and fcast object are helpers for stuff in this level,
+  # can take out now, don't need actually in response.
+  forecasts <- lapply(forecasts, clean_model)
+  names(forecasts) <- model_types
+  
+  return(list(forecasts = forecasts, parsed_request = pr))
+}
+
+
+
+
+
