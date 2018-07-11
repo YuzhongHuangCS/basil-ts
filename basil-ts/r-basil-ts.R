@@ -13,11 +13,24 @@ suppressPackageStartupMessages({
   library("truncnorm")
 })
 
-source("basil-ts/models.R")
-source("basil-ts/parse-requests.R")
-source("basil-ts/time-period.R")
-source("basil-ts/forecast.R")
-source("basil-ts/data.R")
+# Find path to self so we can safely source/load dependencies
+find_own_path <- function() {
+  path <- getSrcDirectory(function(x) {x})
+  # sources from Rscript
+  if (!length(path) > 0) path <- "basil-ts"
+  #if (path == "") path <- "."
+  path
+}
+OWN_PATH <- find_own_path()
+rm(find_own_path)
+
+c(getwd(), OWN_PATH) %>% writeLines("~/Desktop/test.txt")
+
+source(file.path(OWN_PATH, "models.R"))
+source(file.path(OWN_PATH, "parse-requests.R"))
+source(file.path(OWN_PATH, "time-period.R"))
+source(file.path(OWN_PATH, "forecast.R"))
+source(file.path(OWN_PATH, "data.R"))
 
 #' Basil-TS time-series forecaster for SAGE
 #' 
@@ -56,7 +69,7 @@ r_basil_ts <- function(fh = NULL) {
   on.exit(file.remove(dir("basil-ts", pattern = "request-", full.names = TRUE)))
   
   # Parse request input file
-  out <- parse_request(request)
+  out    <- parse_request(request)
   target <- out$target
   pr     <- out$parsed_request
   

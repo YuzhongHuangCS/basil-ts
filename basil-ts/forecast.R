@@ -2,7 +2,18 @@
 #   Forecast helpers
 #
 
-source("basil-ts/time-period.R")
+# Find path to self so we can safely source/load dependencies
+find_own_path <- function() {
+  path <- getSrcDirectory(function(x) {x})
+  # sources from Rscript
+  if (!length(path) > 0) path <- "basil-ts"
+  if (path == "") path <- "."
+  path
+}
+OWN_PATH <- find_own_path()
+rm(find_own_path)
+
+source(file.path(OWN_PATH, "time-period.R"))
 
 # Forecast helpers --------------------------------------------------------
 
@@ -397,6 +408,7 @@ create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NU
     }
     result$option_probabilities <- catfcast
     result$option_labels <- pr$separations$values
+    result$estimated = TRUE
     
     result
   }, error = function(e) {
