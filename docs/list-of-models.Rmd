@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = FALSE)
 library("tidyverse")
 library("R6")
 library("jsonlite")
+library("pander")
+library("checkmate")
 
 modelListGenerator <- R6Class(
   "modelListGenerator",
@@ -39,7 +41,56 @@ modelListGenerator <- R6Class(
     }
   )
 )
+
+model_doc <- function(short_name, long_name, basis_function, notes) {
+  cat(sprintf("\n### %s\n\n", short_name))
+  cat(sprintf("%s\n\n", long_name))
+  cat(sprintf("Implemented with `%s`\n\n", basis_function))
+  cat(sprintf("%s\n\n", notes))
+}
 ```
+
+## Summary table
+
+```{r, results='asis'}
+source("../basil-ts/models.R")
+
+format_logical <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- "?"
+  x[x=="TRUE"] <- "X"
+  x[x=="FALSE"] <- ""
+  x
+}
+
+docs = make_model_list()
+docs$`Short name / Name` = apply(docs[, c("short_name", "long_name")], 1, function(x) {
+  sprintf("**%s** <br /> %s", x["short_name"], x["long_name"])
+})
+docs$`Model Function` = sprintf("`%s`", docs$function_name)
+docs$`Basis Function` = sprintf("`%s`", docs$basis_function)
+docs$`$\\lambda$ heuristic` = format_logical(docs$lambda_heuristic)
+pandoc.table(docs[, c("Short name / Name", "$\\lambda$ heuristic", "Model Function", "Basis Function")], 
+             style = "rmarkdown",
+             justify = c("left", "center", "left", "left"), split.tables = Inf, split.cells = Inf)
+```
+
+## Details
+
+```{r, results='asis'}
+print_model <- function(row) {
+  cat(sprintf("\n### %s\n\n", row$short_name))
+  cat(sprintf("%s\n\n", row$long_name))
+  cat(sprintf("Implemented with `%s`\n\n", row$`Basis Function`))
+  cat(sprintf("%s\n\n", row$notes))
+}
+
+for (i in 1:nrow(docs)) {
+  print_model(docs[i, ])
+}
+```
+
+## List of all models, included ones not implemented
 
 ```{r, results='asis'}
 model_table <- modelListGenerator$new()
@@ -65,15 +116,6 @@ model_table$add("M4_Meta", Notes = "M4 meta learning composite")
 model_table$table()
 ```
 
-## Current models in MASTER branch:
-
-- Auto ARIMA: automatic method for selecting a (seasonal) ARIMA(p,d,q)(P,D,Q)[n] model
-- Mean: constant mean model of the training data, equivalent to ARIMA(0,0,0)
-- ETS(Z,Z,Z): exponential state space smoothing model with automatic selection of additive or multiplicative errors, trend, and season types
-- Arithmetic random walk: random walk model on the raw time series, equivalent to an ARIMA(0,1,0) model
-- Geometric random walk: random walk on the logged time series, equivalent to ARIMA(0,1,0) with lambda = 0 for Box Cox transformation of the time series
-
-All the implementations are from the [R “forecast” package](http://pkg.robjhyndman.com/forecast/), and the package author has an open textbook that has good summaries of the various models at https://www.otexts.org/fpp (he, Hyndman is also on the team that had the second best entry in the M4 competition)
 
 ## M4 competition
 

@@ -1,12 +1,238 @@
 List of models
 ================
 
+-   [Summary table](#summary-table)
+-   [Details](#details)
+    -   [Arithmetic RW](#arithmetic-rw)
+    -   [Auto ARIMA](#auto-arima)
+    -   [Mean](#mean)
+    -   [DS-Holt-damped](#ds-holt-damped)
+    -   [ETS](#ets)
+    -   [Geometric RW](#geometric-rw)
+    -   [DS-Holt](#ds-holt)
+    -   [M4-Comp](#m4-comp)
+    -   [DS-RW](#ds-rw)
+    -   [RW-DRIFT](#rw-drift)
+    -   [RW](#rw)
+    -   [RW-SEAS](#rw-seas)
+    -   [DS-SES](#ds-ses)
+-   [List of all models, included ones not implemented](#list-of-all-models-included-ones-not-implemented)
 -   [M4 competition](#m4-competition)
     -   [Competition benchmark models](#competition-benchmark-models)
 -   [Example forecasts](#example-forecasts)
     -   [What will be the daily closing price of gold on 26 April 2018 in USD?](#what-will-be-the-daily-closing-price-of-gold-on-26-april-2018-in-usd)
     -   [What will be the long-term interest rate for Portugal (PRT) in April 2018?](#what-will-be-the-long-term-interest-rate-for-portugal-prt-in-april-2018)
     -   [What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?](#what-will-be-the-maximum-sea-ice-extent-on-the-baffin-bay-gulf-of-st.-lawrence-between-21-march-2018-and-10-april-2018)
+
+Summary table
+-------------
+
+<table>
+<colgroup>
+<col width="53%" />
+<col width="10%" />
+<col width="14%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Short name / Name</th>
+<th align="center"><span class="math inline"><em>λ</em></span> heuristic</th>
+<th align="left">Model Function</th>
+<th align="left">Basis Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Arithmetic RW</strong> <br /> Random walk on raw scale</td>
+<td align="center"></td>
+<td align="left"><code>arithmetic_rw_forecast</code></td>
+<td align="left"><code>forecast::Arima(c(0,1,0), lambda = NULL)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Auto ARIMA</strong> <br /> Seasonal ARIMA model with automatic selection of the ARIMA model form</td>
+<td align="center">X</td>
+<td align="left"><code>auto_arima_forecast</code></td>
+<td align="left"><code>forecast::auto.arima()</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Mean</strong> <br /> Constant mean model / ARIMA(0,0,0)</td>
+<td align="center">X</td>
+<td align="left"><code>constant_mean_forecast</code></td>
+<td align="left"><code>forecast::Arima(c(0,0,0))</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>DS-Holt-damped</strong> <br /> De-seasoned Holt's linear trend method with damped trend / ETS(A,Ad,N)</td>
+<td align="center"></td>
+<td align="left"><code>damped_deseasoned_forecast</code></td>
+<td align="left"><code>ets(des_ts, 'AAN', damped=TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>ETS</strong> <br /> Exponential smoothing state space model</td>
+<td align="center">?</td>
+<td align="left"><code>ets_forecast</code></td>
+<td align="left"><code>forecast::ets()</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Geometric RW</strong> <br /> Random walk on log scale</td>
+<td align="center"></td>
+<td align="left"><code>geometric_rw_forecast</code></td>
+<td align="left"><code>forecast::Arima(c(0,1,0), lambda = 0)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DS-Holt</strong> <br /> De-seasoned Holt's linear trend method / ETS(A,A,N)</td>
+<td align="center"></td>
+<td align="left"><code>holt_deseasoned_forecast</code></td>
+<td align="left"><code>ets(des_ts, 'AAN')</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>M4-Comp</strong> <br /> M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing</td>
+<td align="center"></td>
+<td align="left"><code>m4comp_forecast</code></td>
+<td align="left"><code>None</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DS-RW</strong> <br /> De-seasoned random walk</td>
+<td align="center">?</td>
+<td align="left"><code>rw_deseasoned_forecast</code></td>
+<td align="left"><code>forecast::rwf(ds_ts)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>RW-DRIFT</strong> <br /> Random walk with drift</td>
+<td align="center">X</td>
+<td align="left"><code>rw_drift_forecast</code></td>
+<td align="left"><code>forecast::rwf(drift = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>RW</strong> <br /> Random walk / ARIMA(0,1,0)</td>
+<td align="center">X</td>
+<td align="left"><code>rw_forecast</code></td>
+<td align="left"><code>forecast::rwf()</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>RW-SEAS</strong> <br /> Seasonal random walk</td>
+<td align="center">X</td>
+<td align="left"><code>rw_seasonal_forecast</code></td>
+<td align="left"><code>forecast::snaive()</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DS-SES</strong> <br /> De-seasoned simple exponential smoothing / ETS(A,N,N)</td>
+<td align="center"></td>
+<td align="left"><code>ses_deseasoned_forecast</code></td>
+<td align="left"><code>ets(des_ts, 'ANN')</code></td>
+</tr>
+</tbody>
+</table>
+
+Details
+-------
+
+### Arithmetic RW
+
+Random walk on raw scale
+
+Implemented with `forecast::Arima(c(0,1,0), lambda = NULL)`
+
+Arithmetic random walk, i.e. on the raw, untransformed time series. Point predictions always equal the last observed data point.
+
+### Auto ARIMA
+
+Seasonal ARIMA model with automatic selection of the ARIMA model form
+
+Implemented with `forecast::auto.arima()`
+
+This chooses and estimates a ARIMA(p,d,q)(P,D,Q)\[m\] model, where p, d, q are the regular ARIMA parameters, P, D, Q are seasonal terms for frequency 'm' time series data
+
+### Mean
+
+Constant mean model / ARIMA(0,0,0)
+
+Implemented with `forecast::Arima(c(0,0,0))`
+
+This model always predicts the mean of the input time series, and the prediction interval is similarly estimated using the input time series variance, although with a standard uncertainty correction for the number of observations.
+
+### DS-Holt-damped
+
+De-seasoned Holt's linear trend method with damped trend / ETS(A,Ad,N)
+
+Implemented with `ets(des_ts, 'AAN', damped=TRUE)`
+
+Holt's linear trend method with damped trend / exponential smoothing with damped linear trend / ETS(A,Ad,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f6 benchmark model
+
+### ETS
+
+Exponential smoothing state space model
+
+Implemented with `forecast::ets()`
+
+A exponential smoothing state space model of the form ETS(error, trend, season, damped), where the error, trend, and season components can be additive, multiplicative, or null, and where optionally a damped trend can be used. All components are automatically chosen using AIC. This model subsumes simpler classical smoothing methods like Holt and Holt-Winters filtering. See [Hyndman and Athanasopoulos, 2018, 7.5](https://otexts.org/fpp2/ets.html) for a summary.
+
+### Geometric RW
+
+Random walk on log scale
+
+Implemented with `forecast::Arima(c(0,1,0), lambda = 0)`
+
+A geometric random walk, i.e. on the log transformed input time series, and thus more appropriate for series with exponential growth. All values in the input time series must be &gt; 0.
+
+### DS-Holt
+
+De-seasoned Holt's linear trend method / ETS(A,A,N)
+
+Implemented with `ets(des_ts, 'AAN')`
+
+Holt's linear trend method / exponential smoothing with linear trend / ETS(A,A,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f5 benchmark model
+
+### M4-Comp
+
+M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing
+
+Implemented with `None`
+
+Holt's linear trend method with damped trend / exponential smoothing with damped linear trend / ETS(A,Ad,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f6 benchmark model
+
+### DS-RW
+
+De-seasoned random walk
+
+Implemented with `forecast::rwf(ds_ts)`
+
+This is a random walk on de-seasoned data, with any seasonal components re-added to the RW forecast. M4-f3 benchmark model.
+
+### RW-DRIFT
+
+Random walk with drift
+
+Implemented with `forecast::rwf(drift = TRUE)`
+
+A random walk with drift, i.e. *Y*<sub>*t*</sub> = *c* + *Y*<sub>*t* − 1</sub> + *Z*<sub>*t*</sub>, where *c* is the drift.
+
+### RW
+
+Random walk / ARIMA(0,1,0)
+
+Implemented with `forecast::rwf()`
+
+Simple random walk, equivalent to a ARIMA(0,1,0) model, with *Y*<sub>*t*</sub> = *Y*<sub>*t* − 1</sub> + *Z*<sub>*t*</sub>, where *Z*<sub>*t*</sub> is normal iid error.
+
+### RW-SEAS
+
+Seasonal random walk
+
+Implemented with `forecast::snaive()`
+
+Seasonal random walk with *Y*<sub>*t*</sub> = *Y*<sub>*t* − *m*</sub> + *Z*<sub>*t*</sub>, where *m* is the seasonal frequency.
+
+### DS-SES
+
+De-seasoned simple exponential smoothing / ETS(A,N,N)
+
+Implemented with `ets(des_ts, 'ANN')`
+
+Simple exponential smooting / ETS(A,N,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f4 benchmark model
+
+List of all models, included ones not implemented
+-------------------------------------------------
 
 | Model          | Function                  | Basis\_function                              | Notes                                                 |
 |:---------------|:--------------------------|:---------------------------------------------|:------------------------------------------------------|
