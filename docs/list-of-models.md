@@ -5,18 +5,18 @@ List of models
 -   [Details](#details)
     -   [Arithmetic RW](#arithmetic-rw)
     -   [Auto ARIMA](#auto-arima)
-    -   [Mean](#mean)
+    -   [DS-Holt](#ds-holt)
     -   [DS-Holt-damped](#ds-holt-damped)
+    -   [DS-RW](#ds-rw)
+    -   [DS-SES](#ds-ses)
     -   [ETS](#ets)
     -   [Geometric RW](#geometric-rw)
-    -   [DS-Holt](#ds-holt)
     -   [M4-Comp](#m4-comp)
-    -   [DS-RW](#ds-rw)
-    -   [RW-DRIFT](#rw-drift)
+    -   [Mean](#mean)
     -   [RW](#rw)
+    -   [RW-DRIFT](#rw-drift)
     -   [RW-SEAS](#rw-seas)
-    -   [DS-SES](#ds-ses)
--   [List of all models, included ones not implemented](#list-of-all-models-included-ones-not-implemented)
+-   [Other models to add](#other-models-to-add)
 -   [M4 competition](#m4-competition)
     -   [Competition benchmark models](#competition-benchmark-models)
 -   [Example forecasts](#example-forecasts)
@@ -56,16 +56,28 @@ Summary table
 <td align="left"><code>forecast::auto.arima()</code></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Mean</strong> <br /> Constant mean model / ARIMA(0,0,0)</td>
-<td align="center">X</td>
-<td align="left"><code>constant_mean_forecast</code></td>
-<td align="left"><code>forecast::Arima(c(0,0,0))</code></td>
+<td align="left"><strong>DS-Holt</strong> <br /> De-seasoned Holt's linear trend method / ETS(A,A,N)</td>
+<td align="center"></td>
+<td align="left"><code>holt_deseasoned_forecast</code></td>
+<td align="left"><code>ets(des_ts, 'AAN')</code></td>
 </tr>
 <tr class="even">
 <td align="left"><strong>DS-Holt-damped</strong> <br /> De-seasoned Holt's linear trend method with damped trend / ETS(A,Ad,N)</td>
 <td align="center"></td>
 <td align="left"><code>damped_deseasoned_forecast</code></td>
 <td align="left"><code>ets(des_ts, 'AAN', damped=TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DS-RW</strong> <br /> De-seasoned random walk</td>
+<td align="center"></td>
+<td align="left"><code>rw_deseasoned_forecast</code></td>
+<td align="left"><code>forecast::rwf(ds_ts)</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>DS-SES</strong> <br /> De-seasoned simple exponential smoothing / ETS(A,N,N)</td>
+<td align="center"></td>
+<td align="left"><code>ses_deseasoned_forecast</code></td>
+<td align="left"><code>ets(des_ts, 'ANN')</code></td>
 </tr>
 <tr class="odd">
 <td align="left"><strong>ETS</strong> <br /> Exponential smoothing state space model</td>
@@ -80,28 +92,16 @@ Summary table
 <td align="left"><code>forecast::Arima(c(0,1,0), lambda = 0)</code></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>DS-Holt</strong> <br /> De-seasoned Holt's linear trend method / ETS(A,A,N)</td>
-<td align="center"></td>
-<td align="left"><code>holt_deseasoned_forecast</code></td>
-<td align="left"><code>ets(des_ts, 'AAN')</code></td>
-</tr>
-<tr class="even">
 <td align="left"><strong>M4-Comp</strong> <br /> M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing</td>
 <td align="center"></td>
 <td align="left"><code>m4comp_forecast</code></td>
-<td align="left"><code>None</code></td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>DS-RW</strong> <br /> De-seasoned random walk</td>
-<td align="center">?</td>
-<td align="left"><code>rw_deseasoned_forecast</code></td>
-<td align="left"><code>forecast::rwf(ds_ts)</code></td>
+<td align="left"><code>Custom / None</code></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>RW-DRIFT</strong> <br /> Random walk with drift</td>
+<td align="left"><strong>Mean</strong> <br /> Constant mean model / ARIMA(0,0,0)</td>
 <td align="center">X</td>
-<td align="left"><code>rw_drift_forecast</code></td>
-<td align="left"><code>forecast::rwf(drift = TRUE)</code></td>
+<td align="left"><code>constant_mean_forecast</code></td>
+<td align="left"><code>forecast::Arima(c(0,0,0))</code></td>
 </tr>
 <tr class="odd">
 <td align="left"><strong>RW</strong> <br /> Random walk / ARIMA(0,1,0)</td>
@@ -110,16 +110,16 @@ Summary table
 <td align="left"><code>forecast::rwf()</code></td>
 </tr>
 <tr class="even">
+<td align="left"><strong>RW-DRIFT</strong> <br /> Random walk with drift</td>
+<td align="center">X</td>
+<td align="left"><code>rw_drift_forecast</code></td>
+<td align="left"><code>forecast::rwf(drift = TRUE)</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><strong>RW-SEAS</strong> <br /> Seasonal random walk</td>
 <td align="center">X</td>
 <td align="left"><code>rw_seasonal_forecast</code></td>
 <td align="left"><code>forecast::snaive()</code></td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>DS-SES</strong> <br /> De-seasoned simple exponential smoothing / ETS(A,N,N)</td>
-<td align="center"></td>
-<td align="left"><code>ses_deseasoned_forecast</code></td>
-<td align="left"><code>ets(des_ts, 'ANN')</code></td>
 </tr>
 </tbody>
 </table>
@@ -141,15 +141,15 @@ Seasonal ARIMA model with automatic selection of the ARIMA model form
 
 Implemented with `forecast::auto.arima()`
 
-This chooses and estimates a ARIMA(p,d,q)(P,D,Q)\[m\] model, where p, d, q are the regular ARIMA parameters, P, D, Q are seasonal terms for frequency 'm' time series data
+This chooses and estimates a ARIMA(*p*, *d*, *q*)(*P*, *D*, *Q*)<sub>*m*</sub> model, where *p*, *d*, *q* are the regular ARIMA parameters, *P*, *D*, *Q* are seasonal terms for frequency *m* time series data. See [Hyndman and Athanasopoulos, 2018, 8.7](https://otexts.org/fpp2/arima-r.html) and [8.9](https://otexts.org/fpp2/seasonal-arima.html).
 
-### Mean
+### DS-Holt
 
-Constant mean model / ARIMA(0,0,0)
+De-seasoned Holt's linear trend method / ETS(A,A,N)
 
-Implemented with `forecast::Arima(c(0,0,0))`
+Implemented with `ets(des_ts, 'AAN')`
 
-This model always predicts the mean of the input time series, and the prediction interval is similarly estimated using the input time series variance, although with a standard uncertainty correction for the number of observations.
+Holt's linear trend method / exponential smoothing with linear trend / ETS(A,A,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f5 benchmark model
 
 ### DS-Holt-damped
 
@@ -158,6 +158,22 @@ De-seasoned Holt's linear trend method with damped trend / ETS(A,Ad,N)
 Implemented with `ets(des_ts, 'AAN', damped=TRUE)`
 
 Holt's linear trend method with damped trend / exponential smoothing with damped linear trend / ETS(A,Ad,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f6 benchmark model
+
+### DS-RW
+
+De-seasoned random walk
+
+Implemented with `forecast::rwf(ds_ts)`
+
+This is a random walk on de-seasoned data, with any seasonal components re-added to the RW forecast. M4-f3 benchmark model.
+
+### DS-SES
+
+De-seasoned simple exponential smoothing / ETS(A,N,N)
+
+Implemented with `ets(des_ts, 'ANN')`
+
+Simple exponential smooting / ETS(A,N,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f4 benchmark model
 
 ### ETS
 
@@ -175,37 +191,23 @@ Implemented with `forecast::Arima(c(0,1,0), lambda = 0)`
 
 A geometric random walk, i.e. on the log transformed input time series, and thus more appropriate for series with exponential growth. All values in the input time series must be &gt; 0.
 
-### DS-Holt
-
-De-seasoned Holt's linear trend method / ETS(A,A,N)
-
-Implemented with `ets(des_ts, 'AAN')`
-
-Holt's linear trend method / exponential smoothing with linear trend / ETS(A,A,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f5 benchmark model
-
 ### M4-Comp
 
 M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing
 
-Implemented with `None`
+Implemented with `Custom / None`
 
-Holt's linear trend method with damped trend / exponential smoothing with damped linear trend / ETS(A,Ad,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f6 benchmark model
+The M4 benchmark composite model is a simple average of forecasts from three models, all with the de-seasoned data correction: simple exponential smoothing (ETS(A,N,N)), Holt's linear trend method (ETS(A,A,N)), and exponential smoothing with a damped trend (ETS(A,Ad,N)).
 
-### DS-RW
+The de-seasoning works by testing data for strong enough seasonality, and in such cases, the seasonal component is removed through classical time series decomposition before models are estimated, and then re-added to the resulting forecasts.
 
-De-seasoned random walk
+### Mean
 
-Implemented with `forecast::rwf(ds_ts)`
+Constant mean model / ARIMA(0,0,0)
 
-This is a random walk on de-seasoned data, with any seasonal components re-added to the RW forecast. M4-f3 benchmark model.
+Implemented with `forecast::Arima(c(0,0,0))`
 
-### RW-DRIFT
-
-Random walk with drift
-
-Implemented with `forecast::rwf(drift = TRUE)`
-
-A random walk with drift, i.e. *Y*<sub>*t*</sub> = *c* + *Y*<sub>*t* − 1</sub> + *Z*<sub>*t*</sub>, where *c* is the drift.
+This model always predicts the mean of the input time series, and the prediction interval is similarly estimated using the input time series variance, although with a standard uncertainty correction for the number of observations.
 
 ### RW
 
@@ -215,6 +217,14 @@ Implemented with `forecast::rwf()`
 
 Simple random walk, equivalent to a ARIMA(0,1,0) model, with *Y*<sub>*t*</sub> = *Y*<sub>*t* − 1</sub> + *Z*<sub>*t*</sub>, where *Z*<sub>*t*</sub> is normal iid error.
 
+### RW-DRIFT
+
+Random walk with drift
+
+Implemented with `forecast::rwf(drift = TRUE)`
+
+A random walk with drift, i.e. *Y*<sub>*t*</sub> = *c* + *Y*<sub>*t* − 1</sub> + *Z*<sub>*t*</sub>, where *c* is the drift.
+
 ### RW-SEAS
 
 Seasonal random walk
@@ -223,37 +233,15 @@ Implemented with `forecast::snaive()`
 
 Seasonal random walk with *Y*<sub>*t*</sub> = *Y*<sub>*t* − *m*</sub> + *Z*<sub>*t*</sub>, where *m* is the seasonal frequency.
 
-### DS-SES
+Other models to add
+-------------------
 
-De-seasoned simple exponential smoothing / ETS(A,N,N)
-
-Implemented with `ets(des_ts, 'ANN')`
-
-Simple exponential smooting / ETS(A,N,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f4 benchmark model
-
-List of all models, included ones not implemented
--------------------------------------------------
-
-| Model          | Function                  | Basis\_function                              | Notes                                                 |
-|:---------------|:--------------------------|:---------------------------------------------|:------------------------------------------------------|
-| Auto ARIMA     | `auto_arima_forecast`     | `forecast::auto.arima`                       |                                                       |
-| Mean           | `constan_mean_forecast`   | `forecast::Arima(c(0,0,0))`                  |                                                       |
-| ETS            | `ets_forecast`            | `forecast::ets()`                            | auto add/mult order, auto damped                      |
-| RW             | `rw_forecast`             | `forecast::rwf()`                            | flexible lambda                                       |
-| RW-DRIFT       | `rw_drift_forecast`       | `forecast::rwf(drift = TRUE)`                |                                                       |
-| RW-SEAS        | `rw_seasonal_forecast`    | `forecast::snaive()`                         |                                                       |
-| arithmetic RW  | `arithmetic_rw_forecast`  | `forecast::Arima(c(0, 1, 0), lambda = NULL)` |                                                       |
-| geometric RW   | `geometric_rw_forecast`   | `forecast::Arima(c(0, 1, 0), lambda = 0)`    | Values &gt;0 only                                     |
-| NNAR           |                           |                                              |                                                       |
-| TBATS          |                           |                                              |                                                       |
-| STLM-AR        |                           |                                              |                                                       |
-| DS-RW          | `rw_deseasoned_forecast`  |                                              | RW on de-seasoned data                                |
-| DS-SES         | `ses_deseasoned_forecast` |                                              | same as ets("ANN") on de-seasoned data                |
-| DS-holt        |                           |                                              | same as ets("AAN") on de-seasoned data                |
-| DS-holt-damped |                           |                                              | same as ets("AAN", damped = TRUE) on de-seasoned data |
-| THETAF         |                           |                                              |                                                       |
-| M4\_Comp       |                           |                                              | M4 benchmark composite                                |
-| M4\_Meta       |                           |                                              | M4 meta learning composite                            |
+-   NNAR: neural net with autoregressive terms
+-   TBATS
+-   STLM-AR
+-   THETAF
+-   M4-Meta: 2nd place in M4
+-   Hybrid-RNN: 1st place, but needs to be ported
 
 M4 competition
 --------------
@@ -337,13 +325,13 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-10.png)
 
-### What will be the long-term interest rate for Portugal (PRT) in April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-11.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-12.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-13.png)
+
+### What will be the long-term interest rate for Portugal (PRT) in April 2018?
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-14.png)
 
@@ -359,8 +347,6 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-20.png)
 
-### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-21.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-22.png)
@@ -373,6 +359,8 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-26.png)
 
+### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
+
 ![](list-of-models_files/figure-markdown_github/example-forecasts-27.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-28.png)
@@ -380,3 +368,21 @@ Example forecasts
 ![](list-of-models_files/figure-markdown_github/example-forecasts-29.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-30.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-31.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-32.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-33.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-34.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-35.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-36.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-37.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-38.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-39.png)

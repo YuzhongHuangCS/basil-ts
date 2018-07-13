@@ -13,41 +13,6 @@ library("R6")
 library("jsonlite")
 library("pander")
 library("checkmate")
-
-modelListGenerator <- R6Class(
-  "modelListGenerator",
-  public = list(
-    data = NULL,
-    initialize = function() {
-      invisible(self)
-    },
-    add = function(Model, Function = "", Basis_function = "", Notes = "") {
-      row <- tibble(Model = Model, Function = Function, Basis_function = Basis_function,
-                    Notes = Notes)
-      if (is.null(self$data)) {
-        self$data <- row
-      } else {
-        self$data <- bind_rows(self$data, row) 
-      }
-      invisible(self)
-    },
-    print = function(...) {
-      print(self$data)
-      invisible(self)
-    },
-    table = function(...) {
-      print(knitr::kable(self$data, ...))
-      invisible(self)
-    }
-  )
-)
-
-model_doc <- function(short_name, long_name, basis_function, notes) {
-  cat(sprintf("\n### %s\n\n", short_name))
-  cat(sprintf("%s\n\n", long_name))
-  cat(sprintf("Implemented with `%s`\n\n", basis_function))
-  cat(sprintf("%s\n\n", notes))
-}
 ```
 
 ## Summary table
@@ -90,32 +55,14 @@ for (i in 1:nrow(docs)) {
 }
 ```
 
-## List of all models, included ones not implemented
+## Other models to add
 
-```{r, results='asis'}
-model_table <- modelListGenerator$new()
-model_table$add("Auto ARIMA", "`auto_arima_forecast`", "`forecast::auto.arima`")
-model_table$add("Mean", "`constan_mean_forecast`", "`forecast::Arima(c(0,0,0))`")
-model_table$add("ETS", "`ets_forecast`", "`forecast::ets()`", Notes = "auto add/mult order, auto damped")
-model_table$add("RW", "`rw_forecast`", "`forecast::rwf()`", "flexible lambda")
-model_table$add("RW-DRIFT", "`rw_drift_forecast`", "`forecast::rwf(drift = TRUE)`")
-model_table$add("RW-SEAS", "`rw_seasonal_forecast`", "`forecast::snaive()`")
-model_table$add("arithmetic RW", "`arithmetic_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = NULL)`")
-model_table$add("geometric RW", "`geometric_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = 0)`", Notes = "Values >0 only")
-model_table$add("NNAR")
-model_table$add("TBATS")
-model_table$add("STLM-AR")
-model_table$add("DS-RW", "`rw_deseasoned_forecast`", Notes = "RW on de-seasoned data")
-model_table$add("DS-SES", "`ses_deseasoned_forecast`", Notes = "same as ets(\"ANN\") on de-seasoned data")
-model_table$add("DS-holt", Notes = "same as ets(\"AAN\") on de-seasoned data")
-model_table$add("DS-holt-damped", Notes = "same as ets(\"AAN\", damped = TRUE) on de-seasoned data")
-model_table$add("THETAF")
-model_table$add("M4_Comp", Notes = "M4 benchmark composite")
-model_table$add("M4_Meta", Notes = "M4 meta learning composite")
-
-model_table$table()
-```
-
+- NNAR: neural net with autoregressive terms
+- TBATS
+- STLM-AR
+- THETAF
+- M4-Meta: 2nd place in M4
+- Hybrid-RNN: 1st place, but needs to be ported
 
 ## M4 competition
 
@@ -204,7 +151,7 @@ for (of in output_files) {
   for (ff in sort(names(output$forecasts))) {
     forecast_data <- output$forecasts[[ff]]
     
-    if (!is.null(forecast_data$estimated)) {
+    if (forecast_data$estimated==FALSE) {
       
       p <- error_plot(target, cutpoints, forecast_data$model, forecast_data$r_error_message)
       

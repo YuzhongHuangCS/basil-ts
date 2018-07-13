@@ -10,11 +10,17 @@
       false
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
     "Arithmetic RW": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -97,6 +103,9 @@
       ]
     },
     "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -178,7 +187,180 @@
         "Hi 95"
       ]
     },
+    "DS-Holt": {
+      "estimated": [
+        true
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          124.7768
+        ],
+        "BIC": [
+          135.2485
+        ],
+        "mdl_string": [
+          "De-seasoned ETS(A,A,N) (M4-f5)"
+        ],
+        "rmse": [
+          0.336
+        ]
+      },
+      "model": [
+        "DS-Holt"
+      ],
+      "option_labels": [
+        "<1.7",
+        "1.7 - 2.1",
+        ">2.1"
+      ],
+      "option_probabilities": [
+        0.6054,
+        0.1966,
+        0.1981
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2017-12-01",
+          "1.830000",
+          "1.8300000",
+          "1.830000"
+        ],
+        [
+          "2018-01-01",
+          "1.752347",
+          "1.0707222",
+          "2.433971"
+        ],
+        [
+          "2018-02-01",
+          "1.673605",
+          "0.7165563",
+          "2.630653"
+        ],
+        [
+          "2018-03-01",
+          "1.594862",
+          "0.4255197",
+          "2.764205"
+        ],
+        [
+          "2018-04-01",
+          "1.516120",
+          "0.1674635",
+          "2.864777"
+        ],
+        [
+          "2018-04-30",
+          "1.516120",
+          "0.1674635",
+          "2.864777"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
+    },
+    "DS-Holt-damped": {
+      "estimated": [
+        true
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          126.6449
+        ],
+        "BIC": [
+          139.211
+        ],
+        "mdl_string": [
+          "De-seasoned damped ETS(A,Ad,N) (M4-f6)"
+        ],
+        "rmse": [
+          0.3356
+        ]
+      },
+      "model": [
+        "DS-Holt-damped"
+      ],
+      "option_labels": [
+        "<1.7",
+        "1.7 - 2.1",
+        ">2.1"
+      ],
+      "option_probabilities": [
+        0.5854,
+        0.1724,
+        0.2422
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2017-12-01",
+          "1.830000",
+          " 1.83000000",
+          "1.830000"
+        ],
+        [
+          "2018-01-01",
+          "1.726981",
+          " 1.03994357",
+          "2.414019"
+        ],
+        [
+          "2018-02-01",
+          "1.642770",
+          " 0.61719533",
+          "2.668344"
+        ],
+        [
+          "2018-03-01",
+          "1.575400",
+          " 0.24249541",
+          "2.908305"
+        ],
+        [
+          "2018-04-01",
+          "1.521505",
+          "-0.09996278",
+          "3.142972"
+        ],
+        [
+          "2018-04-30",
+          "1.521505",
+          "-0.09996278",
+          "3.142972"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
+    },
     "DS-RW": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -261,6 +443,9 @@
       ]
     },
     "DS-SES": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -343,6 +528,9 @@
       ]
     },
     "ETS": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -425,6 +613,9 @@
       ]
     },
     "Geometric RW": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -506,7 +697,95 @@
         "Hi 95"
       ]
     },
+    "M4-Comp": {
+      "estimated": [
+        true
+      ],
+      "forecast_is_usable": [
+        1
+      ],
+      "internal": {
+        "AIC": [
+          "NA"
+        ],
+        "BIC": [
+          "NA"
+        ],
+        "mdl_string": [
+          "M4 Composite benchmark (De-seasoned SES + linear trend + damped trend)"
+        ],
+        "rmse": [
+          "NaN"
+        ]
+      },
+      "model": [
+        "M4-Comp"
+      ],
+      "option_labels": [
+        "<1.7",
+        "1.7 - 2.1",
+        ">2.1"
+      ],
+      "option_probabilities": [
+        0.5442,
+        0.2088,
+        0.2471
+      ],
+      "to_date": [
+        "2018-04-30"
+      ],
+      "trainN": [
+        60
+      ],
+      "ts": [
+        [
+          "2017-12-01",
+          "1.830000",
+          "1.8300000",
+          "1.830000"
+        ],
+        [
+          "2018-01-01",
+          "1.769781",
+          "1.0854206",
+          "2.454141"
+        ],
+        [
+          "2018-02-01",
+          "1.715463",
+          "0.7319668",
+          "2.698959"
+        ],
+        [
+          "2018-03-01",
+          "1.666759",
+          "0.4375536",
+          "2.895965"
+        ],
+        [
+          "2018-04-01",
+          "1.622547",
+          "0.1762602",
+          "3.068833"
+        ],
+        [
+          "2018-04-30",
+          "1.622547",
+          "0.1762602",
+          "3.068833"
+        ]
+      ],
+      "ts_colnames": [
+        "date",
+        "Point Forecast",
+        "Lo 95",
+        "Hi 95"
+      ]
+    },
     "Mean": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -589,6 +868,9 @@
       ]
     },
     "RW": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -671,6 +953,9 @@
       ]
     },
     "RW-DRIFT": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -753,6 +1038,9 @@
       ]
     },
     "RW-SEAS": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],

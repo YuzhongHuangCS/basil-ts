@@ -17,7 +17,8 @@ model_dictionary <- list(
   "DS-RW" = "rw_deseasoned_forecast",
   "DS-SES" = "ses_deseasoned_forecast",
   "DS-Holt" = "holt_deseasoned_forecast",
-  "DS-Holt-damped" = "damped_deaseasoned_forecast"
+  "DS-Holt-damped" = "damped_deseasoned_forecast",
+  "M4-Comp" = "m4comp_forecast"
 )
 
 #' Get model function based on short name
@@ -42,6 +43,7 @@ make_model_list = function() {
   
   df <- lapply(model_funcs, extract_model_doc)
   df <- bind_rows(df)
+  df <- arrange(df, short_name)
   df
 }
 
@@ -55,7 +57,7 @@ auto_arima_forecast <- function(ts, lambda, h) {
     long_name = "Seasonal ARIMA model with automatic selection of the ARIMA model form",
     basis_function = "forecast::auto.arima()",
     lambda_heuristic = TRUE,
-    notes = "This chooses and estimates a ARIMA(p,d,q)(P,D,Q)[m] model, where p, d, q are the regular ARIMA parameters, P, D, Q are seasonal terms for frequency 'm' time series data"
+    notes = "This chooses and estimates a $\\textrm{ARIMA}(p,d,q)(P,D,Q)_m$ model, where $p, d, q$ are the regular ARIMA parameters, $P, D, Q$ are seasonal terms for frequency $m$ time series data. See [Hyndman and Athanasopoulos, 2018, 8.7](https://otexts.org/fpp2/arima-r.html) and [8.9](https://otexts.org/fpp2/seasonal-arima.html)."
   )
   
   model <- forecast::auto.arima(ts, lambda = lambda)
@@ -379,30 +381,39 @@ damped_deseasoned_forecast <- function(ts, lambda, h) {
   list(model = model, fcast = fcast)
 }
 
-m4comp_forecast <- function(ts, lambda, h) {
+m4comp_forecast <- function(ts, lambda = NULL, h) {
   doc <- list(
     short_name = "M4-Comp",
     long_name = "M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing",
-    basis_function = "None",
+    basis_function = "Custom / None",
     lambda_heuristic = FALSE,
-    notes = "Holt's linear trend method with damped trend / exponential smoothing with damped linear trend / ETS(A,Ad,N) model on de-seasoned data. The seasonal components are re-added to the model forecast. M4-f6 benchmark model"
+    notes = "The M4 benchmark composite model is a simple average of forecasts from three models, all with the de-seasoned data correction: simple exponential smoothing (ETS(A,N,N)), Holt's linear trend method (ETS(A,A,N)), and exponential smoothing with a damped trend (ETS(A,Ad,N)).\n\nThe de-seasoning works by testing data for strong enough seasonality, and in such cases, the seasonal component is removed through classical time series decomposition before models are estimated, and then re-added to the resulting forecasts. "
   )
   
-  model <- list(model_string = "M4 Compositve benchmark (De-seasoned SES + linear trend + damped trend)")
+  f4 <- ses_deseasoned_forecast(ts, lambda = NULL, h)$fcast
+  f5 <- holt_deseasoned_forecast(ts, lambda = NULL, h)$fcast
+  f6 <- damped_deseasoned_forecast(ts, lambda = NULL, h)$fcast
   
-  f4 <- ses_deaseasoned_forecast(ts, lambda, h)$fcast
-  f5 <- holt_deaseasoned_forecast(ts, lambda, h)$fcast
-  f6 <- damped_deaseasoned_forecast(ts, lambda, h)$fcast
+  ts_avg <- function(ti, ...) {
+    ts(apply(cbind(...), 1, mean), start = ti[1], frequency = ti[3])
+  }
+  if ("mts" %in% class(f4$upper)) stop("mts averaging needs to be implemented")
   
-  stop("not implemented")
-  fcast <- ""
-  fcast$mean <- "?"
-  fcast$upper <- "?"
-  fcast$lower <- "?"
+  fcast <- f4
+  fcast$method = "M4 Comp"
+  tinfo = tsp(f4$mean)
+  fcast$mean  <- ts_avg(tinfo, f4$mean, f5$mean, f6$mean)
+  fcast$fitted <- ts_avg(tsp(fcast$x), f4$fitted, f5$fitted, f6$fitted)
+  fcast$residuals <- fcast$x - fcast$fitted
+  fcast$upper <- ts_avg(tinfo, f4$upper, f5$upper, f6$upper)
+  fcast$lower <- ts_avg(tinfo, f4$lower, f5$lower, f6$lower)
   
   fcast$se <- mean(f4$se, f5$se, f6$se)
   fcast$trunc_lower <- -Inf
   fcast$trunc_upper <- Inf 
+  
+  model <- list(model_string = "M4 Composite benchmark (De-seasoned SES + linear trend + damped trend)")
+  fcast$model$model_string = model$model_string
   
   list(model = model, fcast = fcast)
 }
