@@ -18,7 +18,7 @@ model_dictionary <- list(
   "DS-SES" = "ses_deseasoned_forecast",
   "DS-Holt" = "holt_deseasoned_forecast",
   "DS-Holt-damped" = "damped_deseasoned_forecast",
-  "M4-Comp" = "m4comp_forecast"
+  "M4-Comb" = "m4comb_forecast"
 )
 
 #' Get model function based on short name
@@ -188,7 +188,7 @@ geometric_rw_forecast <- function(ts, lambda, h) {
     notes = "A geometric random walk, i.e. on the log transformed input time series, and thus more appropriate for series with exponential growth. All values in the input time series must be > 0."
   )
   
-  if (!sum(ts<=0)==0) {
+  if (!sum(ts <= 0, na.rm = TRUE)==0) {
     stop("Series contains values <= 0, model not estimated.")
   }
   model <- Arima(ts, c(0, 1, 0), lambda = 0)
@@ -381,7 +381,7 @@ damped_deseasoned_forecast <- function(ts, lambda, h) {
   list(model = model, fcast = fcast)
 }
 
-m4comp_forecast <- function(ts, lambda = NULL, h) {
+m4comb_forecast <- function(ts, lambda = NULL, h) {
   doc <- list(
     short_name = "M4-Comp",
     long_name = "M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing",
@@ -395,7 +395,8 @@ m4comp_forecast <- function(ts, lambda = NULL, h) {
   f6 <- damped_deseasoned_forecast(ts, lambda = NULL, h)$fcast
   
   ts_avg <- function(ti, ...) {
-    ts(apply(cbind(...), 1, mean), start = ti[1], frequency = ti[3])
+    ts(matrix(apply(cbind(...), 1, mean), ncol = 1), 
+       start = ti[1], frequency = ti[3], names = "95%")
   }
   if ("mts" %in% class(f4$upper)) stop("mts averaging needs to be implemented")
   
@@ -407,6 +408,7 @@ m4comp_forecast <- function(ts, lambda = NULL, h) {
   fcast$residuals <- fcast$x - fcast$fitted
   fcast$upper <- ts_avg(tinfo, f4$upper, f5$upper, f6$upper)
   fcast$lower <- ts_avg(tinfo, f4$lower, f5$lower, f6$lower)
+  colnames(fcast$upper) <- colnames(fcast$lower) <- "95%"
   
   fcast$se <- mean(f4$se, f5$se, f6$se)
   fcast$trunc_lower <- -Inf
