@@ -347,9 +347,15 @@ create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NU
     fcast <- enforce_series_type(fcast, pr$series_type)
     
     # Fit statistics
-    rmse      <- sqrt(mean(residuals(mdl)^2, na.rm = TRUE))
-    rmse_mean <- sqrt(mean(residuals(Arima(ts, c(0, 0, 0)))^2))
-    rmse_rwf  <- sqrt(mean(residuals(Arima(ts, c(0, 1, 0), lambda = NULL))^2))
+    if (model=="M4-Meta") {
+      rmse = NA
+    } else {
+      rmse      <- sqrt(mean(residuals(mdl)^2, na.rm = TRUE))
+    }
+    
+    # residuals does not work M4-Meta
+    #rmse_mean <- sqrt(mean(residuals(Arima(ts, c(0, 0, 0)))^2))
+    #rmse_rwf  <- sqrt(mean(residuals(Arima(ts, c(0, 1, 0), lambda = NULL))^2))
     # wrong metric, should be in part based on CI and cat answer spread
     # hard set to 1 for now; 2018-05-21
     #usable <- as.integer(rmse <= rmse_mean & rmse <= rmse_rwf)

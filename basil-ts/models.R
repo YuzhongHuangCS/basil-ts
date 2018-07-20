@@ -18,7 +18,8 @@ model_dictionary <- list(
   "DS-SES" = "ses_deseasoned_forecast",
   "DS-Holt" = "holt_deseasoned_forecast",
   "DS-Holt-damped" = "damped_deseasoned_forecast",
-  "M4-Comb" = "m4comb_forecast"
+  "M4-Comb" = "m4comb_forecast",
+  "M4-Meta" = "m4meta_forecast"
 )
 
 #' Get model function based on short name
@@ -216,6 +217,40 @@ rw_seasonal_forecast <- function(ts, lambda, h) {
   model$model_string <- "Seasonal RW"
   
   fcast    <- forecast(model)
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}
+
+m4meta_forecast <- function(ts, lambda, h) {
+  # requires R packages: customxgboost, M4comp2018, custom tsfeatures, 
+  # M4metalearning, M4metaresults
+  doc <- list(
+    short_name = "M4-Meta",
+    long_name = "M4 Meta ensemble model",
+    basis_function = "M4metalearning::forecast_meta_m4",
+    lambda_heuristic = FALSE,
+    notes = "An ensemble model from the M4 competition."
+  )
+
+  model <- list(model_string <- "M4 Meta")
+  
+  raw_fcast    <- forecast_meta_M4(model_M4, ts, h)
+  fcast <- list(
+    method = "M4 Metalearning",
+    model = NULL,
+    level = 95,
+    mean = ts(raw_fcast$mean),
+    upper = ts(matrix(raw_fcast$upper, ncol = 1, dimnames = list(NULL, "95%"))),
+    lower = ts(matrix(raw_fcast$lower, ncol = 1, dimnames = list(NULL, "95%"))),
+    x = ts,
+    series = "ts",
+    fitted = NULL,
+    residuals = NULL
+  )
+  class(fcast) <- "forecast"
   fcast$se <- forecast_se(fcast, tail = TRUE)
   fcast$trunc_lower <- -Inf
   fcast$trunc_upper <- Inf 
