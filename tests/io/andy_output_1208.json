@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<1830000",
@@ -67,252 +73,6 @@
           "1401600",
           "1385875",
           "1446501"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          3395.5655
-        ],
-        "BIC": [
-          3451.3153
-        ],
-        "mdl_string": [
-          "ETS(A,N,A)"
-        ],
-        "rmse": [
-          107772.3996
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<1830000",
-        "1830000 - 1880000",
-        "1880000 - 1920000",
-        "1920000 - 1970000",
-        ">1970000"
-      ],
-      "option_probabilities": [
-        1,
-        0,
-        0,
-        0,
-        0
-      ],
-      "to_date": [
-        "2018-04-10"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-03-21",
-          "1398798",
-          "1385875",
-          "1449041"
-        ],
-        [
-          "2018-04-10",
-          "1398798",
-          "1385875",
-          "1449041"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          3278.6784
-        ],
-        "BIC": [
-          3281.4575
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          229677.9899
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<1830000",
-        "1830000 - 1880000",
-        "1880000 - 1920000",
-        "1920000 - 1970000",
-        ">1970000"
-      ],
-      "option_probabilities": [
-        1,
-        0,
-        0,
-        0,
-        0
-      ],
-      "to_date": [
-        "2018-04-10"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-03-21",
-          "1404957",
-          "1385875",
-          "1503602"
-        ],
-        [
-          "2018-04-10",
-          "1404957",
-          "1385875",
-          "1503602"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          246.6902
-        ],
-        "BIC": [
-          249.4693
-        ],
-        "mdl_string": {},
-        "rmse": [
-          0.6737
-        ]
-      },
-      "model": [
-        "geometric RW"
-      ],
-      "option_labels": [
-        "<1830000",
-        "1830000 - 1880000",
-        "1880000 - 1920000",
-        "1920000 - 1970000",
-        ">1970000"
-      ],
-      "option_probabilities": [
-        0.9327,
-        0.0229,
-        0.013,
-        0.0113,
-        0.0201
-      ],
-      "to_date": [
-        "2018-04-10"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-03-21",
-          "1402738",
-          "1385875",
-          "1873416"
-        ],
-        [
-          "2018-04-10",
-          "1402738",
-          "1385875",
-          "1873416"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          3538.3902
-        ],
-        "BIC": [
-          3543.9652
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          601804.2336
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "<1830000",
-        "1830000 - 1880000",
-        "1880000 - 1920000",
-        "1920000 - 1970000",
-        ">1970000"
-      ],
-      "option_probabilities": [
-        0.9992,
-        0.0006,
-        0.0001,
-        0,
-        9.4541e-06
-      ],
-      "to_date": [
-        "2018-04-10"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-03-21",
-          "1385889",
-          "1385875",
-          "1621376"
-        ],
-        [
-          "2018-04-10",
-          "1385889",
-          "1385875",
-          "1621376"
         ]
       ],
       "ts_colnames": [
@@ -338,7 +98,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<1830000",
@@ -377,6 +137,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-04-09"
+    ],
     "fcast_dates": [
       "2018-03-21"
     ],
@@ -385,9 +148,6 @@
     ],
     "ifp_name": [
       "What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?"
-    ],
-    "last_date": [
-      "2018-04-09"
     ],
     "partial_outcome": [
       true
@@ -409,12 +169,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      601804.2336
-    ],
-    "rmse_rwf": [
-      229677.9899
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",

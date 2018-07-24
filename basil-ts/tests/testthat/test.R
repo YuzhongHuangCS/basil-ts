@@ -192,14 +192,7 @@ test_that("Days in period are correctly identified", {
   expect_equal(find_days_in_period(as.Date("2018-02-01"), monthly), 28)
 })
 
-test_that("Category forecasts return correct length and order", {
-  # check that length is correct
-  cp <- c(-Inf, 1221, 1303, 1374, 1456, Inf)
-  fc <- readRDS("basil-ts/tests/fcast_1028.rds")
-  expect_equal(length(category_forecasts(fc, cp)), (length(cp) - 1))
-  
-  expect_equal(category_forecasts(fc, cp), rev(category_forecasts(fc, rev(cp))))
-}) 
+
 
 
 test_that("Forecast generator runs", {
@@ -217,10 +210,8 @@ test_that("Forecast generator runs", {
 context("Sample requests")
 
 test_that("Basic examples run",  {
-  expect_warning(r_basil_ts("tests/io/example1.json"), 
-                 "no seasonal differencing is selected")
-  expect_warning(r_basil_ts("tests/io/example2.json"), 
-                 "no seasonal differencing is selected")
+  expect_true(r_basil_ts("tests/io/example1.json")$estimated)
+  expect_true(r_basil_ts("tests/io/example2.json")$estimated)
 })
 
 test_that("Malformatted separations are rejected", {

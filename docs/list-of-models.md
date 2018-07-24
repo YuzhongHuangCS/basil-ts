@@ -12,6 +12,7 @@ List of models
     -   [ETS](#ets)
     -   [Geometric RW](#geometric-rw)
     -   [M4-Comp](#m4-comp)
+    -   [M4-Meta](#m4-meta)
     -   [Mean](#mean)
     -   [RW](#rw)
     -   [RW-DRIFT](#rw-drift)
@@ -94,28 +95,34 @@ Summary table
 <tr class="odd">
 <td align="left"><strong>M4-Comp</strong> <br /> M4 Composite benchmark, average of de-seasoned SES, linear trend, and damped trend smoothing</td>
 <td align="center"></td>
-<td align="left"><code>m4comp_forecast</code></td>
+<td align="left"><code>m4comb_forecast</code></td>
 <td align="left"><code>Custom / None</code></td>
 </tr>
 <tr class="even">
+<td align="left"><strong>M4-Meta</strong> <br /> M4 Meta ensemble model</td>
+<td align="center"></td>
+<td align="left"><code>m4meta_forecast</code></td>
+<td align="left"><code>M4metalearning::forecast_meta_m4</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><strong>Mean</strong> <br /> Constant mean model / ARIMA(0,0,0)</td>
 <td align="center">X</td>
 <td align="left"><code>constant_mean_forecast</code></td>
 <td align="left"><code>forecast::Arima(c(0,0,0))</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><strong>RW</strong> <br /> Random walk / ARIMA(0,1,0)</td>
 <td align="center">X</td>
 <td align="left"><code>rw_forecast</code></td>
 <td align="left"><code>forecast::rwf()</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>RW-DRIFT</strong> <br /> Random walk with drift</td>
 <td align="center">X</td>
 <td align="left"><code>rw_drift_forecast</code></td>
 <td align="left"><code>forecast::rwf(drift = TRUE)</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><strong>RW-SEAS</strong> <br /> Seasonal random walk</td>
 <td align="center">X</td>
 <td align="left"><code>rw_seasonal_forecast</code></td>
@@ -200,6 +207,14 @@ Implemented with `Custom / None`
 The M4 benchmark composite model is a simple average of forecasts from three models, all with the de-seasoned data correction: simple exponential smoothing (ETS(A,N,N)), Holt's linear trend method (ETS(A,A,N)), and exponential smoothing with a damped trend (ETS(A,Ad,N)).
 
 The de-seasoning works by testing data for strong enough seasonality, and in such cases, the seasonal component is removed through classical time series decomposition before models are estimated, and then re-added to the resulting forecasts.
+
+### M4-Meta
+
+M4 Meta ensemble model
+
+Implemented with `M4metalearning::forecast_meta_m4`
+
+An ensemble model from the M4 competition.
 
 ### Mean
 
@@ -331,9 +346,9 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-13.png)
 
-### What will be the long-term interest rate for Portugal (PRT) in April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-14.png)
+
+### What will be the long-term interest rate for Portugal (PRT) in April 2018?
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-15.png)
 
@@ -359,11 +374,11 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-26.png)
 
-### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-27.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-28.png)
+
+### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-29.png)
 
@@ -386,3 +401,9 @@ Example forecasts
 ![](list-of-models_files/figure-markdown_github/example-forecasts-38.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-39.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-40.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-41.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-42.png)

@@ -3,3 +3,6 @@ env
 
 README.html
 #tests/README.html
+.Rproj.user
+.Rhistory
+basil-ts.Rproj

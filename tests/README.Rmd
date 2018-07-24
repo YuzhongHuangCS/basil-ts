@@ -15,7 +15,7 @@ library("forecast")
 library("stringr")
 library("cowplot")
 
-source("../basil-ts/ts-forecast.R")
+source("../basil-ts/r-basil-ts.R")
 ```
 
 ```{r sort-closed-ifps}
@@ -53,7 +53,7 @@ make_table <- function(files) {
     request_no <- str_extract(fh, "[0-9]+")
     
     this_ifp <- list()
-    if (!is.null(response$estimated) | !is.null(response$message)) {
+    if (response$estimated==FALSE | !is.null(response$message)) {
       this_ifp <- data.frame(
         IFP = request_no, 
         Model = "ARIMA", 
@@ -161,7 +161,7 @@ arima_plotter <- function(file_list) {
       value = as.numeric(request$payload$historical_data$ts[, 2])
     )
     
-    if (!is.null(response$estimated) | !is.null(response$message)) {
+    if (response$estimated==FALSE) {
       p <- error_plot(response, target, request_no, request)
       print(p)
     } else {
@@ -241,10 +241,6 @@ arima_plotter <- function(file_list) {
       if (str_detect(op_labels[1], ">")) {
         op <- rev(op)
         op_labels <- rev(op_labels)
-      }
-      if (binary_ifp) {
-        op <- rev(c(op, 1 - op))
-        op_labels <- rev(c("yes", "no"))
       }
       
       cut_df <- data.frame(

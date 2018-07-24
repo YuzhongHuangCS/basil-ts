@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<-0.9",
@@ -81,221 +87,6 @@
         "Lo 95",
         "Hi 95"
       ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          274.516
-        ],
-        "BIC": [
-          280.799
-        ],
-        "mdl_string": [
-          "ETS(A,N,N)"
-        ],
-        "rmse": [
-          1.2098
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<-0.9",
-        "-0.9 - -0.2",
-        "-0.2 - 0.4",
-        "0.4 - 1.1",
-        ">1.1"
-      ],
-      "option_probabilities": [
-        0.2415,
-        0.2058,
-        0.1915,
-        0.1835,
-        0.1777
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "-0.6272401",
-          "-0.6272401",
-          "-0.6272401"
-        ],
-        [
-          "2018-04-01",
-          "-0.0369509",
-          "-2.4486653",
-          " 2.3747635"
-        ],
-        [
-          "2018-04-30",
-          "-0.0369509",
-          "-2.4486653",
-          " 2.3747635"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          235.6858
-        ],
-        "BIC": [
-          237.7633
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          1.7385
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<-0.9",
-        "-0.9 - -0.2",
-        "-0.2 - 0.4",
-        "0.4 - 1.1",
-        ">1.1"
-      ],
-      "option_probabilities": [
-        0.4382,
-        0.1581,
-        0.1248,
-        0.1167,
-        0.1623
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "-0.6272401",
-          "-0.6272401",
-          "-0.6272401"
-        ],
-        [
-          "2018-04-01",
-          "-0.6272401",
-          "-4.0634725",
-          " 2.8089922"
-        ],
-        [
-          "2018-04-30",
-          "-0.6272401",
-          "-4.0634725",
-          " 2.8089922"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "estimated": [
-        false
-      ],
-      "model": [
-        "geometric RW"
-      ],
-      "r_error_message": [
-        "Series contains values <= 0, model not estimated."
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          197.1219
-        ],
-        "BIC": [
-          201.3106
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          1.2097
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "<-0.9",
-        "-0.9 - -0.2",
-        "-0.2 - 0.4",
-        "0.4 - 1.1",
-        ">1.1"
-      ],
-      "option_probabilities": [
-        0.2397,
-        0.2072,
-        0.193,
-        0.1844,
-        0.1756
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "-0.62724014",
-          "-0.6272401",
-          "-0.6272401"
-        ],
-        [
-          "2018-04-01",
-          "-0.03719232",
-          "-2.4282615",
-          " 2.3538768"
-        ],
-        [
-          "2018-04-30",
-          "-0.03719232",
-          "-2.4282615",
-          " 2.3538768"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
     }
   },
   "internal": {
@@ -313,7 +104,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<-0.9",
@@ -352,6 +143,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-03-31"
+    ],
     "fcast_dates": [
       "2018-04-01"
     ],
@@ -360,9 +154,6 @@
     ],
     "ifp_name": [
       "What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?"
-    ],
-    "last_date": [
-      "2018-03-31"
     ],
     "partial_outcome": [
       false
@@ -384,12 +175,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      1.2097
-    ],
-    "rmse_rwf": [
-      1.7385
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",

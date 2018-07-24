@@ -11,26 +11,31 @@ suppressPackageStartupMessages({
   library("jsonlite")
   library("stringr")
   library("truncnorm")
+  library("xgboost")
+  library("tsfeatures")
+  library("M4comp2018")
+  library("M4metaresults")
+  library("M4metalearning")
 })
 
 # Find path to self so we can safely source/load dependencies
-find_own_path <- function() {
-  path <- getSrcDirectory(function(x) {x})
-  # sources from Rscript
-  if (!length(path) > 0) path <- "basil-ts"
-  #if (path == "") path <- "."
-  path
+OWN_PATH <- "basil-ts"
+if (!file.exists(file.path(OWN_PATH, "models.R"))) {
+  OWN_PATH <- "../basil-ts"
 }
-OWN_PATH <- find_own_path()
-rm(find_own_path)
+if (!file.exists(file.path(OWN_PATH, "models.R"))) {
+  OWN_PATH <- "."
+}
+if (!file.exists(file.path(OWN_PATH, "models.R"))) {
+  stop("There is some problem with r-basil-ts OWN_PATH")
+}
 
-c(getwd(), OWN_PATH) %>% writeLines("~/Desktop/test.txt")
-
+source(file.path(OWN_PATH, "time-period.R"))
 source(file.path(OWN_PATH, "models.R"))
 source(file.path(OWN_PATH, "parse-requests.R"))
-source(file.path(OWN_PATH, "time-period.R"))
 source(file.path(OWN_PATH, "forecast.R"))
 source(file.path(OWN_PATH, "data.R"))
+
 
 #' Basil-TS time-series forecaster for SAGE
 #' 
@@ -39,7 +44,7 @@ r_basil_ts <- function(fh = NULL) {
   test <- FALSE
   backcast <- FALSE
   drop_after <- as.Date("9999-12-31")
-  quick <- FALSE
+  quick <- TRUE
   #fh = "tests/io/andy_input_1145.json"
   
   if (length(args) > 0) {
@@ -47,7 +52,7 @@ r_basil_ts <- function(fh = NULL) {
     request_id   <- args[1]
     backcast     <- ifelse(args[2]=="True", TRUE, backcast)
     drop_after   <- as.Date(args[3])
-    quick        <- ifelse(args[4]=="True", TRUE, backcast)
+    quick        <- ifelse(args[4]=="True", TRUE, FALSE)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced

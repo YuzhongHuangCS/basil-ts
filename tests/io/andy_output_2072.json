@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<11",
@@ -81,276 +87,6 @@
         "Lo 95",
         "Hi 95"
       ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          524.129
-        ],
-        "BIC": [
-          530.412
-        ],
-        "mdl_string": [
-          "ETS(M,N,N)"
-        ],
-        "rmse": [
-          0.418
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<11",
-        "11 - 17",
-        "17 - 24",
-        "24 - 35",
-        ">35"
-      ],
-      "option_probabilities": [
-        0.1827,
-        0.245,
-        0.3181,
-        0.2307,
-        0.0235
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "18.51194",
-          "3.088069",
-          "33.93582"
-        ],
-        [
-          "2018-07-01",
-          "18.51194",
-          "2.247472",
-          "34.77642"
-        ],
-        [
-          "2018-07-31",
-          "18.51194",
-          "2.247472",
-          "34.77642"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          467.9059
-        ],
-        "BIC": [
-          469.9835
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          12.4412
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<11",
-        "11 - 17",
-        "17 - 24",
-        "24 - 35",
-        ">35"
-      ],
-      "option_probabilities": [
-        0.2517,
-        0.1634,
-        0.1856,
-        0.2253,
-        0.1741
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "16",
-          "0",
-          "40.59007"
-        ],
-        [
-          "2018-07-01",
-          "16",
-          "0",
-          "50.77561"
-        ],
-        [
-          "2018-07-31",
-          "16",
-          "0",
-          "50.77561"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          89.0615
-        ],
-        "BIC": [
-          91.1391
-        ],
-        "mdl_string": {},
-        "rmse": [
-          0.5018
-        ]
-      },
-      "model": [
-        "geometric RW"
-      ],
-      "option_labels": [
-        "<11",
-        "11 - 17",
-        "17 - 24",
-        "24 - 35",
-        ">35"
-      ],
-      "option_probabilities": [
-        0.3003,
-        0.2335,
-        0.1807,
-        0.1485,
-        0.137
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "16",
-          "5.934352",
-          "43.13866"
-        ],
-        [
-          "2018-07-01",
-          "16",
-          "3.935068",
-          "65.05606"
-        ],
-        [
-          "2018-07-31",
-          "16",
-          "3.935068",
-          "65.05606"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          464.8056
-        ],
-        "BIC": [
-          468.9943
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          11.2583
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "<11",
-        "11 - 17",
-        "17 - 24",
-        "24 - 35",
-        ">35"
-      ],
-      "option_probabilities": [
-        0.1172,
-        0.1372,
-        0.228,
-        0.34,
-        0.1775
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "24.5",
-          "2.247865",
-          "46.75214"
-        ],
-        [
-          "2018-07-01",
-          "24.5",
-          "2.247865",
-          "46.75214"
-        ],
-        [
-          "2018-07-31",
-          "24.5",
-          "2.247865",
-          "46.75214"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
     }
   },
   "internal": {
@@ -368,7 +104,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<11",
@@ -407,6 +143,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-06-01"
+    ],
     "fcast_dates": [
       "2018-06-01",
       "2018-07-01"
@@ -416,9 +155,6 @@
     ],
     "ifp_name": [
       "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in July 2018?"
-    ],
-    "last_date": [
-      "2018-06-01"
     ],
     "partial_outcome": [
       false
@@ -440,12 +176,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      11.2583
-    ],
-    "rmse_rwf": [
-      12.4412
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",

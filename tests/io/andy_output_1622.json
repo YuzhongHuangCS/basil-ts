@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,207 +39,14 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "Yes",
         "No"
       ],
       "option_probabilities": [
-        0.68
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        41
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "0.4878049",
-          "0",
-          "2.075373"
-        ],
-        [
-          "2018-07-01",
-          "0.4878049",
-          "0",
-          "2.075373"
-        ],
-        [
-          "2018-07-31",
-          "0.4878049",
-          "0",
-          "2.075373"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          139.9689
-        ],
-        "BIC": [
-          145.1096
-        ],
-        "mdl_string": [
-          "ETS(A,N,N)"
-        ],
-        "rmse": [
-          0.8001
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "Yes",
-        "No"
-      ],
-      "option_probabilities": [
-        0.6823
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        41
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "0.4873376",
-          "0",
-          "2.095211"
-        ],
-        [
-          "2018-07-01",
-          "0.4873376",
-          "0",
-          "2.095211"
-        ],
-        [
-          "2018-07-31",
-          "0.4873376",
-          "0",
-          "2.095211"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          126.0097
-        ],
-        "BIC": [
-          127.6985
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          1.1262
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "Yes",
-        "No"
-      ],
-      "option_probabilities": [
-        0.8489
-      ],
-      "to_date": [
-        "2018-07-31"
-      ],
-      "trainN": [
-        41
-      ],
-      "ts": [
-        [
-          "2018-06-01",
-          "1",
-          "0",
-          "3.234703"
-        ],
-        [
-          "2018-07-01",
-          "1",
-          "0",
-          "4.160347"
-        ],
-        [
-          "2018-07-31",
-          "1",
-          "0",
-          "4.160347"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "estimated": [
-        false
-      ],
-      "model": [
-        "geometric RW"
-      ],
-      "r_error_message": [
-        "Series contains values <= 0, model not estimated."
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          102.0613
-        ],
-        "BIC": [
-          105.4884
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          0.8001
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "Yes",
-        "No"
-      ],
-      "option_probabilities": [
+        0.32,
         0.68
       ],
       "to_date": [
@@ -285,13 +98,14 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "Yes",
     "No"
   ],
   "option_probabilities": [
+    0.32,
     0.68
   ],
   "parsed_request": {
@@ -317,6 +131,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-06-02"
+    ],
     "fcast_dates": [
       "2018-06-01",
       "2018-07-01"
@@ -326,9 +143,6 @@
     ],
     "ifp_name": [
       "Will ACLED record any civilian fatalities in Sri Lanka in July 2018?"
-    ],
-    "last_date": [
-      "2018-06-02"
     ],
     "partial_outcome": [
       false
@@ -350,12 +164,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      0.8001
-    ],
-    "rmse_rwf": [
-      1.1262
-    ],
     "separations": {
       "cutpoints": [
         "Inf",

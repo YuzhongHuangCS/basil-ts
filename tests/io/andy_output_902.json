@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<92",
@@ -87,239 +93,6 @@
         "Lo 95",
         "Hi 95"
       ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          836.7548
-        ],
-        "BIC": [
-          843.0378
-        ],
-        "mdl_string": [
-          "ETS(A,N,N)"
-        ],
-        "rmse": [
-          131.0769
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<92",
-        "92 - 117",
-        "117 - 144",
-        "144 - 177",
-        ">177"
-      ],
-      "option_probabilities": [
-        0.0332,
-        0.0154,
-        0.0226,
-        0.0376,
-        0.8912
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-02-01",
-          "350.7917",
-          "89.49381",
-          "612.0897"
-        ],
-        [
-          "2018-03-01",
-          "350.7917",
-          "81.88487",
-          "619.6986"
-        ],
-        [
-          "2018-04-01",
-          "350.7917",
-          "74.48538",
-          "627.0981"
-        ],
-        [
-          "2018-04-30",
-          "350.7917",
-          "74.48538",
-          "627.0981"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          773.7415
-        ],
-        "BIC": [
-          775.8191
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          166.1416
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<92",
-        "92 - 117",
-        "117 - 144",
-        "144 - 177",
-        ">177"
-      ],
-      "option_probabilities": [
-        0.115,
-        0.0358,
-        0.0405,
-        0.0516,
-        0.7571
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-02-01",
-          "267",
-          "0",
-          "595.3796"
-        ],
-        [
-          "2018-03-01",
-          "267",
-          "0",
-          "731.3988"
-        ],
-        [
-          "2018-04-01",
-          "267",
-          "0",
-          "835.7701"
-        ],
-        [
-          "2018-04-30",
-          "267",
-          "0",
-          "835.7701"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "estimated": [
-        false
-      ],
-      "model": [
-        "geometric RW"
-      ],
-      "r_error_message": [
-        "Series contains values <= 0, model not estimated."
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          778.307
-        ],
-        "BIC": [
-          782.4957
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          153.4876
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "<92",
-        "92 - 117",
-        "117 - 144",
-        "144 - 177",
-        ">177"
-      ],
-      "option_probabilities": [
-        0.0196,
-        0.0091,
-        0.0135,
-        0.0229,
-        0.935
-      ],
-      "to_date": [
-        "2018-04-30"
-      ],
-      "trainN": [
-        60
-      ],
-      "ts": [
-        [
-          "2018-02-01",
-          "411.3333",
-          "107.9644",
-          "714.7023"
-        ],
-        [
-          "2018-03-01",
-          "411.3333",
-          "107.9644",
-          "714.7023"
-        ],
-        [
-          "2018-04-01",
-          "411.3333",
-          "107.9644",
-          "714.7023"
-        ],
-        [
-          "2018-04-30",
-          "411.3333",
-          "107.9644",
-          "714.7023"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
     }
   },
   "internal": {
@@ -337,7 +110,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<92",
@@ -376,6 +149,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-02-12"
+    ],
     "fcast_dates": [
       "2018-02-01",
       "2018-03-01",
@@ -386,9 +162,6 @@
     ],
     "ifp_name": [
       "How many material conflict events involving India will ICEWS record in April 2018?"
-    ],
-    "last_date": [
-      "2018-02-12"
     ],
     "partial_outcome": [
       false
@@ -410,12 +183,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      153.4876
-    ],
-    "rmse_rwf": [
-      166.1416
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",
