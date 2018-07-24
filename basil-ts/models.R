@@ -237,7 +237,11 @@ m4meta_forecast <- function(ts, lambda, h) {
 
   model <- list(model_string <- "M4 Meta")
   
-  raw_fcast    <- forecast_meta_M4(model_M4, ts, h)
+  # forecast_meta_M4 has a bug that causes it to fail with h = 1;
+  # hack fix by using h + 1 and then taking out in results
+  raw_fcast <- forecast_meta_M4(model_M4, ts, h + 1)
+  raw_fcast <- lapply(raw_fcast, head, h)
+  
   fcast <- list(
     method = "M4 Metalearning",
     model = NULL,
