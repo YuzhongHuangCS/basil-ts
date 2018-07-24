@@ -405,11 +405,6 @@ create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NU
     # Get the answer option probabilities 
     catfcast <- category_forecasts(result$fcast, pr$separations$cutpoints)
     
-    # for binary IFPs, category_forecast will return P for "no"/"yes" options
-    # check if we need to switch the order for when first separation is "yes"
-    if (pr$binary_ifp & tolower(pr$separations$values[1])=="yes") {
-      catfcast = rev(catfcast)
-    }
     result$option_probabilities <- catfcast
     result$option_labels <- pr$separations$values
     result$estimated = TRUE

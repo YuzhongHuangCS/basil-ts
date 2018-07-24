@@ -127,6 +127,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      true
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -148,6 +151,9 @@
     ],
     "ifp_name": [
       "What will be the maximum sea ice extent on the Bering Sea between 14 March 2018 and 10 April 2018?"
+    ],
+    "orig_N": [
+      161
     ],
     "partial_outcome": [
       true

@@ -127,6 +127,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -148,6 +151,9 @@
     ],
     "ifp_name": [
       "What will the closing price of gold be on 31 October 2017 in USD?"
+    ],
+    "orig_N": [
+      13817
     ],
     "partial_outcome": [
       false

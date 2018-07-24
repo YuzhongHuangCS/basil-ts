@@ -131,6 +131,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      true
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -153,6 +156,9 @@
     ],
     "ifp_name": [
       "How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?"
+    ],
+    "orig_N": [
+      19
     ],
     "partial_outcome": [
       false

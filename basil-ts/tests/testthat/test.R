@@ -99,6 +99,22 @@ test_that("Binary questions are ID'd and parsed", {
   
 })
 
+test_that("Order of cutpoints is correct for binary IFPs", {
+  seps   <- list(values = c("Yes", "No"), units = "boolean")
+  pr <- parse_separations(seps, "count", "Will there be any")
+  
+  expect_equal(pr$cutpoints, c(Inf, 0.5, -Inf))
+  expect_equal(pr$values, c("Yes", "No"))
+  
+  seps   <- list(values = c("No", "Yes"), units = "boolean")
+  pr <- parse_separations(seps, "count", "Will there be any")
+  
+  expect_equal(pr$cutpoints, rev(c(Inf, 0.5, -Inf)))
+  expect_equal(pr$values, c("No", "Yes"))
+  
+  
+})
+
 test_that("Separations are correctly parsed", {
   seps   <- list(values = c("Yes", "No"), units = "boolean")
   expect_equal(

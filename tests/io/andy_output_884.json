@@ -187,6 +187,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -217,6 +220,9 @@
     ],
     "ifp_name": [
       "How many positive influenza virus detections will FluNet record for China between 12 March 2018 and 18 March 2018 (epidemiological week 11)?"
+    ],
+    "orig_N": [
+      523
     ],
     "partial_outcome": [
       false

@@ -131,6 +131,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -153,6 +156,9 @@
     ],
     "ifp_name": [
       "What will be the long-term interest rate for Hungary (HUN) in July 2018?"
+    ],
+    "orig_N": [
+      232
     ],
     "partial_outcome": [
       false

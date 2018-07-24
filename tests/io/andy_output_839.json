@@ -46,8 +46,8 @@
         "No"
       ],
       "option_probabilities": [
-        0.2815,
-        0.7185
+        0.7185,
+        0.2815
       ],
       "to_date": [
         "2018-04-30"
@@ -105,8 +105,8 @@
     "No"
   ],
   "option_probabilities": [
-    0.2815,
-    0.7185
+    0.7185,
+    0.2815
   ],
   "parsed_request": {
     "agg_method": [
@@ -119,6 +119,9 @@
       false
     ],
     "binary_ifp": [
+      true
+    ],
+    "data_has_0": [
       true
     ],
     "data_period": {
@@ -145,6 +148,9 @@
     ],
     "lambda": [
       0.5
+    ],
+    "orig_N": [
+      233
     ],
     "partial_outcome": [
       false

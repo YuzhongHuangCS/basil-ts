@@ -139,6 +139,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -161,6 +164,9 @@
     ],
     "ifp_name": [
       "What will be the monthly period-over-period change in the consumer price index (CPI) for Egypt in May 2018?"
+    ],
+    "orig_N": [
+      67
     ],
     "partial_outcome": [
       false

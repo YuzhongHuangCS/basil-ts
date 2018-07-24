@@ -238,7 +238,7 @@ arima_plotter <- function(file_list) {
       op <- ff$option_probabilities
       extend <- if (length(cutpoints) > 1) mean(diff(cutpoints)) else 1
       op_labels <- options$values
-      if (str_detect(op_labels[1], ">")) {
+      if (str_detect(op_labels[1], "(>|Yes)")) {
         op <- rev(op)
         op_labels <- rev(op_labels)
       }

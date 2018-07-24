@@ -127,6 +127,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -148,6 +151,9 @@
     ],
     "ifp_name": [
       "What will be the maximum sea ice extent on the Barents Sea between 1 January 2018 and 10 April 2018?"
+    ],
+    "orig_N": [
+      45
     ],
     "partial_outcome": [
       true

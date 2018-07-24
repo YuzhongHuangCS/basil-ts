@@ -46,8 +46,8 @@
         "No"
       ],
       "option_probabilities": [
-        0.0452,
-        0.9548
+        0.9548,
+        0.0452
       ],
       "to_date": [
         "2018-06-30"
@@ -105,8 +105,8 @@
     "No"
   ],
   "option_probabilities": [
-    0.0452,
-    0.9548
+    0.9548,
+    0.0452
   ],
   "parsed_request": {
     "agg_method": [
@@ -119,6 +119,9 @@
       false
     ],
     "binary_ifp": [
+      true
+    ],
+    "data_has_0": [
       true
     ],
     "data_period": {
@@ -142,6 +145,9 @@
     ],
     "ifp_name": [
       "Will ACLED record any riot/protest events in Cameroon in June 2018? "
+    ],
+    "orig_N": [
+      253
     ],
     "partial_outcome": [
       false

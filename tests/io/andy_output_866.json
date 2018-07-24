@@ -127,6 +127,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -148,6 +151,9 @@
     ],
     "ifp_name": [
       "How many earthquakes of magnitude 5 or stronger will occur worldwide in March 2018?"
+    ],
+    "orig_N": [
+      39
     ],
     "partial_outcome": [
       true

@@ -151,6 +151,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -175,6 +178,9 @@
     ],
     "ifp_name": [
       "How much crude oil will Venezuela produce in July 2018?"
+    ],
+    "orig_N": [
+      107
     ],
     "partial_outcome": [
       false

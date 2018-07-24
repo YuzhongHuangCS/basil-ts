@@ -49,7 +49,7 @@ test_that("Forecast probabilities are in correct order", {
   expect_equal(fcast_binary$option_labels, c("no", "yes"))
   
   pr_binary$separations <- list(
-    cutpoints = c(-Inf, 200, Inf),
+    cutpoints = c(Inf, 200, -Inf),
     values = c("yes", "no")
   )
   fcast_binary <- create_single_forecast(target, "Auto ARIMA", pr_binary)

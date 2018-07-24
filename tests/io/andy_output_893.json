@@ -247,6 +247,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -288,6 +291,9 @@
     ],
     "ifp_name": [
       "What will be the South Korean Won to one U.S. Dollar daily exchange rate on 29 June 2018?"
+    ],
+    "orig_N": [
+      13571
     ],
     "partial_outcome": [
       false

@@ -391,6 +391,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -456,6 +459,9 @@
     ],
     "ifp_name": [
       "What will be the daily\u00a0closing spot\u00a0price of\u00a0Brent crude\u00a0oil (USD per barrel) on 31 May 2018, according to the U.S. EIA?"
+    ],
+    "orig_N": [
+      11290
     ],
     "partial_outcome": [
       false

@@ -125,6 +125,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -146,6 +149,9 @@
     ],
     "ifp_name": [
       "What will be the short-term interest rate for the Czech Republic (CZE) in June 2018?"
+    ],
+    "orig_N": [
+      305
     ],
     "partial_outcome": [
       false

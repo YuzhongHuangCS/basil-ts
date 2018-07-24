@@ -133,6 +133,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -155,6 +158,9 @@
     ],
     "ifp_name": [
       "What will be the daily closing price of gold on 26 April 2018 in USD?"
+    ],
+    "orig_N": [
+      13993
     ],
     "partial_outcome": [
       false

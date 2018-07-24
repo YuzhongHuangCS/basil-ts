@@ -159,6 +159,13 @@ parse_separations <- function(separations, data_type, ifp_name) {
     if (str_detect(tail(seps$numeric_values, 1), "<")) cutpoints <- c(cutpoints, -Inf)
   }
   
+  # Check if binary cutpoints are in right order
+  # binary_seps() will be default put in "Yes"/"No" order, e.g. [Inf, .5, -Inf]
+  # if there is ever a question starting with "No" as first value, reverse
+  if (binary & tolower(separations$values[1])=="no") {
+    cutpoints <- rev(cutpoints)
+  }
+  
   increasing <- all(cutpoints==cummax(cutpoints))
   decreasing <- all(cutpoints==cummin(cutpoints)) & length(cutpoints) > 1
   if (!xor(increasing, decreasing)) {

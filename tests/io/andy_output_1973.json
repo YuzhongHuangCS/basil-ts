@@ -143,6 +143,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -167,6 +170,9 @@
     ],
     "ifp_name": [
       "What will be the short-term interest rate for Indonesia (IDN) in July 2018?"
+    ],
+    "orig_N": [
+      243
     ],
     "partial_outcome": [
       false

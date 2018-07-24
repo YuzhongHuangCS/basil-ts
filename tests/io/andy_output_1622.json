@@ -46,8 +46,8 @@
         "No"
       ],
       "option_probabilities": [
-        0.32,
-        0.68
+        0.68,
+        0.32
       ],
       "to_date": [
         "2018-07-31"
@@ -105,8 +105,8 @@
     "No"
   ],
   "option_probabilities": [
-    0.32,
-    0.68
+    0.68,
+    0.32
   ],
   "parsed_request": {
     "agg_method": [
@@ -119,6 +119,9 @@
       false
     ],
     "binary_ifp": [
+      true
+    ],
+    "data_has_0": [
       true
     ],
     "data_period": {
@@ -143,6 +146,9 @@
     ],
     "ifp_name": [
       "Will ACLED record any civilian fatalities in Sri Lanka in July 2018?"
+    ],
+    "orig_N": [
+      42
     ],
     "partial_outcome": [
       false

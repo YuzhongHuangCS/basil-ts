@@ -119,6 +119,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -140,6 +143,9 @@
     ],
     "ifp_name": [
       "What will be the daily closing price of gold on 5 June 2018 in USD?\r\n"
+    ],
+    "orig_N": [
+      14034
     ],
     "partial_outcome": [
       false

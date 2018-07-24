@@ -139,6 +139,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      true
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -162,6 +165,9 @@
     ],
     "ifp_name": [
       "How many material conflict events involving India will ICEWS record in April 2018?"
+    ],
+    "orig_N": [
+      98
     ],
     "partial_outcome": [
       false

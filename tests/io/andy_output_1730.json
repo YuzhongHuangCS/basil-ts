@@ -131,6 +131,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -153,6 +156,9 @@
     ],
     "ifp_name": [
       "What will be the short-term interest rate for Canada (CAN) in July 2018?\r\n"
+    ],
+    "orig_N": [
+      461
     ],
     "partial_outcome": [
       false

@@ -133,6 +133,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      true
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -158,6 +161,9 @@
     ],
     "lambda": [
       0.5
+    ],
+    "orig_N": [
+      98
     ],
     "partial_outcome": [
       false

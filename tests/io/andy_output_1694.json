@@ -133,6 +133,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      true
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -154,6 +157,9 @@
     ],
     "ifp_name": [
       "How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in May 2018?"
+    ],
+    "orig_N": [
+      160
     ],
     "partial_outcome": [
       false
