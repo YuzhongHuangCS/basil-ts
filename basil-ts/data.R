@@ -120,6 +120,10 @@ process_data <- function(input_data, parsed_request) {
   # Check that data are aggregated correctly and dates are aligned
   validate_data(target, pr$data_period, pr$question_period, pr$ifp_name)
   
+  # Record some characteristics of aggregated input data
+  pr$orig_N <- nrow(target)
+  pr$data_has_0 <- any(target$value==0)
+  
   pr$partial_outcome <- FALSE
   pr$partial_train   <- ""
   # retain original target tail for plotting

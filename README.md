@@ -2,9 +2,9 @@
 
 A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (`basil-ts`). 
 
-[Gallery of forecast charts](tests/README.md)
-
-[List and gallery of extended TS models](docs/list-of-models.md)
+- [Gallery of forecast charts](tests/README.md)
+- [List and gallery of extended TS models](docs/list-of-models.md)
+- [IFP info](docs/ifp-info.md)
 
 ## Setup/running
 

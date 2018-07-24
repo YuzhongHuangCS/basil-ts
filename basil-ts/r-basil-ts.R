@@ -19,7 +19,10 @@ suppressPackageStartupMessages({
 })
 
 # Find path to self so we can safely source/load dependencies
-OWN_PATH <- "basil-ts"
+OWN_PATH <- getSrcDirectory(function(x) {x})
+if (!file.exists(file.path(OWN_PATH, "models.R"))) {
+  OWN_PATH <- "basil-ts"
+}
 if (!file.exists(file.path(OWN_PATH, "models.R"))) {
   OWN_PATH <- "../basil-ts"
 }
