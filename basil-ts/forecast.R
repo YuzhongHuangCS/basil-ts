@@ -2,18 +2,10 @@
 #   Forecast helpers
 #
 
-# Find path to self so we can safely source/load dependencies
-find_own_path <- function() {
-  path <- getSrcDirectory(function(x) {x})
-  # sources from Rscript
-  if (!length(path) > 0) path <- "basil-ts"
-  if (path == "") path <- "."
-  path
+# depends on time-period.R
+if (!exists("bb_period")) {
+  stop("I depend on functions in time-period.R")
 }
-OWN_PATH <- find_own_path()
-rm(find_own_path)
-
-source(file.path(OWN_PATH, "time-period.R"))
 
 # Forecast helpers --------------------------------------------------------
 
@@ -22,6 +14,10 @@ determine_ts_frequency <- function(x) {
   x <- aggregate(x[, c("date")], by = list(year = lubridate::year(x$date)), FUN = length)$x
   x <- head(x, length(x)-1) %>% tail(length(.)-1)
   fr <- ifelse(length(x)==0, 1, mean(x))
+  # daily data, set to week otherwise models blow up
+  if (all(x %in% c(365, 366))) {
+    fr <- 7
+  }
   fr
 }
 
@@ -139,6 +135,9 @@ category_forecasts <- function(fc, cp) {
     stop(sprintf("Problem with cumulative probabilities, range 0 to 1. [%s]", paste0(cumprob, collapse = ", ")))
   }
   catp    <- diff(cumprob)
+  if (sum(catp)!=1) {
+    stop(sprintf("Forecast probabilities do not sum to 1; [%s]", paste0(catp, collapse = ", ")))
+  }
   if (decreasing) catp <- rev(catp)
   catp
 }
@@ -407,10 +406,9 @@ create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NU
     catfcast <- category_forecasts(result$fcast, pr$separations$cutpoints)
     
     # for binary IFPs, category_forecast will return P for "no"/"yes" options
-    # if the question is "any" or "more", then we want the second option only??
-    if (pr$binary_ifp) {
-      pos <- ifelse(str_detect(pr$ifp_name, "(any|more)"), 1L, 2L)
-      catfcast         <- catfcast[pos]
+    # check if we need to switch the order for when first separation is "yes"
+    if (pr$binary_ifp & tolower(pr$separations$values[1])=="yes") {
+      catfcast = rev(catfcast)
     }
     result$option_probabilities <- catfcast
     result$option_labels <- pr$separations$values
