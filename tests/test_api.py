@@ -144,6 +144,15 @@ class TestBackcastFeature(unittest.TestCase):
                                      content_type = 'application/json')
         payload = json.loads(response.data)
         assert payload['parsed_request']['data_updated_to'][0] == '2018-02-28'
+        
+    def test_multiple_forecasts_are_returned(self):
+        with open("tests/io/ex_1037_input.json", "rb") as req:
+            response = self.app.post('/forecast?backcast=True&quick=False&drop-after=2018-03-31',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 200
+        payload = json.loads(response.data)
+        assert len(payload['forecasts'].keys()) > 1
 
     def test_monthly_series_aggregation_on_platform(self):
         # 866 earthquakes; note the partial updating does not work

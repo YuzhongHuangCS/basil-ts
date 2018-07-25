@@ -63,13 +63,13 @@ http://0.0.0.0:5000/forecast
 For backcasting, add a `backcast=True` option:
 
 ```url
-http://0.0.0.0:5000/forecast?backcast=True
+http://0.0.0.0:5000/forecast?backcast=True&quick=False
 ```
 
 This will by default drop all data from the beginning of the question period on. Another argument controls how much data is dropped, `drop-after=YYYY-mm-dd`: 
 
 ```url
-'http://0.0.0.0:5000/forecast?backcast=True&drop-after=2017-10-29'
+http://0.0.0.0:5000/forecast?backcast=True&quick=False&drop-after=2017-10-29
 ```
 
 This should be a date in ISO format, i.e. 'YYYY-mm-dd'. If it exceeds the question period end date it will be reset to the question period end date - 1. 
@@ -90,17 +90,17 @@ List of options:
 <tr class="odd">
 <td><code>backcast</code></td>
 <td>True</td>
-<td>Use with backcasting option, which will drop data after question start (default) or `drop-after` if specified.</td>
+<td>Use with backcasting option, which will drop data after question start (default) or <code>drop-after</code> if specified.</td>
 </tr>
 <tr class="even">
 <td><code>drop-after</code></td>
 <td>YYYY-MM-DD</td>
-<td>If `backcast=True`, drop data after this date.</td>
+<td>If <code>backcast=True</code>, drop data after this date.</td>
 </tr>
 <tr class="odd">
-<td>`quick`</td>
+<td><code>quick</code></td>
 <td>True</td>
-<td>Do not estimate secondary models in `forecasts`, only estimate main ARIMA model forecast.</td>
+<td>Do not estimate secondary models in <code>forecasts<code>, only estimate main ARIMA model forecast.</td>
 </tr>
 </tbody>
 </table>
