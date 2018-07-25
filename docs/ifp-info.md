@@ -3,9 +3,11 @@ IFP info
 
 |  IFP\_id| Name                                                                                                                                         | aggregated-data | last-event-date |
 |--------:|:---------------------------------------------------------------------------------------------------------------------------------------------|:----------------|:----------------|
+|     2306| How much crude oil will Saudi Arabia produce in July 2018?                                                                                   | NA              | 2018-03-30      |
 |     2135| What will be the long-term interest rate for South Africa (ZAF) in July 2018?                                                                | FALSE           | 2018-05-15      |
 |     2126| How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?                                                           | TRUE            | 2018-05-17      |
 |     2117| How many battle deaths will ACLED record in Central African Republic in August 2018?                                                         | TRUE            | 2018-05-30      |
+|     2099| What will be the daily closing price of Swiss Market Index (INDEXSWX: SMI) on 28 June 2018?                                                  | NA              | 2018-06-21      |
 |     2072| How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in July 2018?                                    | TRUE            | 2018-05-31      |
 |     2000| How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for June 2018?                                        | TRUE            | 2018-05-27      |
 |     1973| What will be the short-term interest rate for Indonesia (IDN) in July 2018?                                                                  | FALSE           | 2018-03-03      |
@@ -26,7 +28,7 @@ IFP info
 |     1271| How many United Nations Security Council Resolutions concerning Syria will be vetoed by Russia between 22 April 2018 and 22 August 2018?     | TRUE            | 2017-11-16      |
 |     1244| What will be the monthly period-over-period change in the consumer price index (CPI) for Niger in April 2018?                                | FALSE           | 2018-03-30      |
 |     1235| What will be the monthly period-over-period change in the consumer price index (CPI) for Benin in April 2018?                                | FALSE           | 2018-03-30      |
-|     1226| Will ACLED record any civilian fatalities in Ghana in June 2018?                                                                             | TRUE            | 2018-05-19      |
+|     1226| Will ACLED record any civilian fatalities in Ghana in June 2018?                                                                             | TRUE            | 2018-06-19      |
 |     1217| What will be the approval rate for Japan's cabinet in NHK's monthly survey in June 2018?                                                     | FALSE           | 2018-03-31      |
 |     1208| What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?                      | FALSE           | 2018-04-08      |
 |     1190| How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for July 2018?                                        | TRUE            | 2018-05-27      |
@@ -37,7 +39,7 @@ IFP info
 |     1037| What will be the long-term interest rate for Portugal (PRT) in April 2018?                                                                   | FALSE           | 2018-03-30      |
 |     1028| What will be the daily closing price of gold on 26 April 2018 in USD?                                                                        | FALSE           | 2018-04-23      |
 |     1019| What will be the FAO Dairy Price Index in May 2018?                                                                                          | FALSE           | 2018-03-31      |
-|      938| What will be the maximum sea ice extent on the Barents Sea between 1 January 2018 and 10 April 2018?                                         | FALSE           | 2018-04-30      |
+|      938| What will be the maximum sea ice extent on the Barents Sea between 1 January 2018 and 10 April 2018?                                         | FALSE           | 2018-04-08      |
 |      929| How much crude oil will Libya produce in May 2018?                                                                                           | FALSE           | 2018-03-30      |
 |      920| What will be the long-term interest rate for Greece (GRC) in March 2018?                                                                     | FALSE           | 2018-02-27      |
 |      911| How many material conflict events involving Occupied Palestinian Territory will ICEWS record in March 2018?                                  | TRUE            | 2018-02-07      |

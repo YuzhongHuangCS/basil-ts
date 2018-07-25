@@ -13,11 +13,11 @@ source("../tools/helpers.R")
 ```
 
 ```{r}
-input_files <- dir("io", pattern = "andy_input", full.names = TRUE)
+input_files <- dir("../tests/io", pattern = "andy_input", full.names = TRUE)
 req_no <- sapply(input_files, str_extract, "[0-9]+") %>% 
   as.integer() %>% sort() %>% rev()
 
-requests <- lapply(req_no, load_request)
+requests <- lapply(req_no, load_request, "..")
 
 summarize_request <- function(req) {
   tibble(

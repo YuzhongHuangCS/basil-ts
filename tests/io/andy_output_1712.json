@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,7 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<1330",
@@ -63,236 +69,6 @@
           "1295.45",
           "1282.708",
           "1308.192"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          1028.1892
-        ],
-        "BIC": [
-          1036.5517
-        ],
-        "mdl_string": [
-          "ETS(M,N,N)"
-        ],
-        "rmse": [
-          0.0049
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<1330",
-        "1330 - 1360",
-        ">1360"
-      ],
-      "option_probabilities": [
-        1,
-        3.0772e-08,
-        0
-      ],
-      "to_date": [
-        "2018-06-05"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-06-04",
-          "1295.45",
-          "1295.450",
-          "1295.450"
-        ],
-        [
-          "2018-06-05",
-          "1295.45",
-          "1282.943",
-          "1307.957"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          785.1881
-        ],
-        "BIC": [
-          787.9672
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          6.4738
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<1330",
-        "1330 - 1360",
-        ">1360"
-      ],
-      "option_probabilities": [
-        1,
-        5.3438e-08,
-        0
-      ],
-      "to_date": [
-        "2018-06-05"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-06-04",
-          "1295.45",
-          "1295.450",
-          "1295.450"
-        ],
-        [
-          "2018-06-05",
-          "1295.45",
-          "1282.708",
-          "1308.192"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          -925.5956
-        ],
-        "BIC": [
-          -922.8164
-        ],
-        "mdl_string": {},
-        "rmse": [
-          0.0049
-        ]
-      },
-      "model": [
-        "geometric RW"
-      ],
-      "option_labels": [
-        "<1330",
-        "1330 - 1360",
-        ">1360"
-      ],
-      "option_probabilities": [
-        1,
-        5.4067e-08,
-        0
-      ],
-      "to_date": [
-        "2018-06-05"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-06-04",
-          "1295.45",
-          "1295.450",
-          "1295.450"
-        ],
-        [
-          "2018-06-05",
-          "1295.45",
-          "1282.931",
-          "1308.091"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          1021.3983
-        ],
-        "BIC": [
-          1026.9732
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          16.7806
-        ]
-      },
-      "model": [
-        "mean"
-      ],
-      "option_labels": [
-        "<1330",
-        "1330 - 1360",
-        ">1360"
-      ],
-      "option_probabilities": [
-        0.6838,
-        0.3043,
-        0.012
-      ],
-      "to_date": [
-        "2018-06-05"
-      ],
-      "trainN": [
-        120
-      ],
-      "ts": [
-        [
-          "2018-06-04",
-          "1295.450",
-          "1295.450",
-          "1295.450"
-        ],
-        [
-          "2018-06-05",
-          "1321.942",
-          "1288.914",
-          "1354.969"
         ]
       ],
       "ts_colnames": [
@@ -318,7 +94,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<1330",
@@ -343,6 +119,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -353,6 +132,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-06-04"
+    ],
     "fcast_dates": [
       "2018-06-05"
     ],
@@ -362,8 +144,8 @@
     "ifp_name": [
       "What will be the daily closing price of gold on 5 June 2018 in USD?\r\n"
     ],
-    "last_date": [
-      "2018-06-04"
+    "orig_N": [
+      14034
     ],
     "partial_outcome": [
       false
@@ -385,12 +167,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      16.7806
-    ],
-    "rmse_rwf": [
-      6.4738
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",

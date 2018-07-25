@@ -116,7 +116,7 @@ class TestBackcastFeature(unittest.TestCase):
                                      content_type = 'application/json')
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0] == '2018-03-31'
+        assert payload['parsed_request']['data_updated_to'][0] == '2018-03-31'
         assert payload['parsed_request']['aggregated_data'][0] == False
         assert payload['parsed_request']['partial_train'][0] == ''
 
@@ -135,7 +135,7 @@ class TestBackcastFeature(unittest.TestCase):
                                      data = req,
                                      content_type = 'application/json')
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0] == '2018-03-31'
+        assert payload['parsed_request']['data_updated_to'][0] == '2018-03-31'
 
         # check: now March is dropped too
         with open("tests/io/ex_1037_input.json", "rb") as req:
@@ -143,7 +143,7 @@ class TestBackcastFeature(unittest.TestCase):
                                      data = req,
                                      content_type = 'application/json')
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0] == '2018-02-28'
+        assert payload['parsed_request']['data_updated_to'][0] == '2018-02-28'
 
     def test_monthly_series_aggregation_on_platform(self):
         # 866 earthquakes; note the partial updating does not work
@@ -157,7 +157,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-02-28'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-02-28'
         assert payload['parsed_request']['aggregated_data'][0] == True
         assert payload['parsed_request']['partial_train'][0]   == 'no'
         assert payload['parsed_request']['partial_outcome'][0] == False
@@ -171,7 +171,7 @@ class TestBackcastFeature(unittest.TestCase):
                                              content_type = 'application/json')
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-02-15'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-02-15'
         assert payload['parsed_request']['partial_train'][0]   == 'used'
         assert payload['parsed_request']['partial_outcome'][0] == False
 
@@ -185,7 +185,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-04-25'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-04-25'
         assert payload['parsed_request']['aggregated_data'][0] == False
         assert payload['parsed_request']['partial_train'][0]   == ''
         assert payload['parsed_request']['partial_outcome'][0] == False
@@ -197,7 +197,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-04-24'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-04-24'
         assert payload['parsed_request']['aggregated_data'][0] == False
         assert payload['parsed_request']['partial_train'][0]   == ''
         assert payload['parsed_request']['partial_outcome'][0] == False
@@ -213,7 +213,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-03-20'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-03-20'
         assert payload['parsed_request']['aggregated_data'][0] == True
         assert payload['parsed_request']['partial_train'][0]   == 'no'
         assert payload['parsed_request']['partial_outcome'][0] == False
@@ -227,7 +227,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-03-19'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-03-19'
         assert payload['parsed_request']['aggregated_data'][0] == True
         assert payload['parsed_request']['partial_train'][0]   == 'used'
         assert payload['parsed_request']['partial_outcome'][0] == False
@@ -240,7 +240,7 @@ class TestBackcastFeature(unittest.TestCase):
 
         assert response.status_code == 200
         payload = json.loads(response.data)
-        assert payload['parsed_request']['last_date'][0]       == '2018-03-25'
+        assert payload['parsed_request']['data_updated_to'][0]       == '2018-03-25'
         assert payload['parsed_request']['aggregated_data'][0] == True
         assert payload['parsed_request']['partial_train'][0]   == ''
         assert payload['parsed_request']['partial_outcome'][0] == True

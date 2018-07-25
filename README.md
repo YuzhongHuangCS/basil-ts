@@ -2,7 +2,9 @@
 
 A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (`basil-ts`). 
 
-[Gallery of forecast charts](tests/README.md)
+- [Gallery of forecast charts](tests/README.md)
+- [List and gallery of extended TS models](docs/list-of-models.md)
+- [IFP info](docs/ifp-info.md)
 
 ## Setup/running
 
@@ -34,6 +36,7 @@ if [ ! -d "env" ]; then
   python3 -m venv env
 fi
 source env/bin/activate
+pip3 install --upgrade pip
 pip3 install -r requirements.txt
 python3 app.py
 
@@ -183,5 +186,7 @@ bash tests/test.sh 1055
 
 # To pretty format io files
 bash tools/format_inputs.sh
+
+python3 tests/run_extended_models.py
 ```
 

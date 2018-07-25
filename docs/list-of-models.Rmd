@@ -1,6 +1,8 @@
 ---
 title: "List of models"
-output: github_document
+output: 
+  github_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -8,58 +10,59 @@ knitr::opts_chunk$set(echo = FALSE)
 
 library("tidyverse")
 library("R6")
-
-modelListGenerator <- R6Class(
-  "modelListGenerator",
-  public = list(
-    data = NULL,
-    initialize = function() {
-      invisible(self)
-    },
-    add = function(Model, Function = "", Basis_function = "", Notes = "") {
-      row <- tibble(Model = Model, Function = Function, Basis_function = Basis_function,
-                    Notes = Notes)
-      if (is.null(self$data)) {
-        self$data <- row
-      } else {
-        self$data <- bind_rows(self$data, row) 
-      }
-      invisible(self)
-    },
-    print = function(...) {
-      print(self$data)
-      invisible(self)
-    },
-    table = function(...) {
-      print(knitr::kable(self$data, ...))
-      invisible(self)
-    }
-  )
-)
+library("jsonlite")
+library("pander")
+library("checkmate")
 ```
+
+## Summary table
 
 ```{r, results='asis'}
-model_table <- modelListGenerator$new()
-model_table$add("auto ARIMA", "`auto_arima_forecast`", "`forecast::auto.arima`")
-model_table$add("constant mean", "`constan_mean_forecast`", "`forecast::Arima(c(0,0,0))`")
-model_table$add("ETS", "`ets_forecast`", "`forecast::ets()`", Notes = "auto add/mult order, auto damped")
-model_table$add("RW", "`rw_forecast`", "`forecast::rwf()`", "flexible lambda")
-model_table$add("RW-DRIFT", "`rw_drift_forecast`", "`forecast::rwf(drift = TRUE)`")
-model_table$add("seasonal RW")
-model_table$add("arithmetic RW", "`arithmetic_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = NULL)`")
-model_table$add("geometric RW", "`geometric_rw_forecast`", "`forecast::Arima(c(0, 1, 0), lambda = 0)`", Notes = "Values >0 only")
-model_table$add("NNAR")
-model_table$add("TBATS")
-model_table$add("STLM-AR")
-model_table$add("DS-ses", Notes = "same as ets(\"ANN\")")
-model_table$add("DS-holt", Notes = "same as ets(\"AAN\")")
-model_table$add("DS-holt-damped", Notes = "same as ets(\"AAN\", damped = TRUE)")
-model_table$add("THETAF")
-model_table$add("M4_Comp", Notes = "M4 benchmark composite")
-model_table$add("M4_Meta", Notes = "M4 meta learning composite")
+source("../basil-ts/models.R")
 
-model_table$table()
+format_logical <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- "?"
+  x[x=="TRUE"] <- "X"
+  x[x=="FALSE"] <- ""
+  x
+}
+
+docs = make_model_list()
+docs$`Short name / Name` = apply(docs[, c("short_name", "long_name")], 1, function(x) {
+  sprintf("**%s** <br /> %s", x["short_name"], x["long_name"])
+})
+docs$`Model Function` = sprintf("`%s`", docs$function_name)
+docs$`Basis Function` = sprintf("`%s`", docs$basis_function)
+docs$`$\\lambda$ heuristic` = format_logical(docs$lambda_heuristic)
+pandoc.table(docs[, c("Short name / Name", "$\\lambda$ heuristic", "Model Function", "Basis Function")], 
+             style = "rmarkdown",
+             justify = c("left", "center", "left", "left"), split.tables = Inf, split.cells = Inf)
 ```
+
+## Details
+
+```{r, results='asis'}
+print_model <- function(row) {
+  cat(sprintf("\n### %s\n\n", row$short_name))
+  cat(sprintf("%s\n\n", row$long_name))
+  cat(sprintf("Implemented with `%s`\n\n", row$`Basis Function`))
+  cat(sprintf("%s\n\n", row$notes))
+}
+
+for (i in 1:nrow(docs)) {
+  print_model(docs[i, ])
+}
+```
+
+## Other models to add
+
+- NNAR: neural net with autoregressive terms
+- TBATS
+- STLM-AR
+- THETAF
+- M4-Meta: 2nd place in M4
+- Hybrid-RNN: 1st place, but needs to be ported
 
 ## M4 competition
 
@@ -70,3 +73,115 @@ Competition benchmark: raw code at https://github.com/M4Competition/M4-methods/b
 Hyndman et all have a M4 meta learning model, basically 9 plain time series models whose ensemble weights are determined by xgboost using a broad range of extra time series features extracted as features for the meta model. See here https://github.com/robjhyndman/M4metalearning/blob/master/R/forec_methods_list.R and here https://github.com/M4Competition/M4-methods/blob/master/245%20-%20pmontman/M4-Method-Description.pdf. 
 
 The 3 and 9 component models for the benchmark and M4_meta model are already included in the list above. 
+
+### Competition benchmark models
+
+```r
+SeasonalityTest <- function(input, ppy){
+  #Used to determine whether a time series is seasonal
+  tcrit <- 1.645
+  if (length(input)<3*ppy){
+    test_seasonal <- FALSE
+  }else{
+    xacf <- acf(input, plot = FALSE)$acf[-1, 1, 1]
+    clim <- tcrit/sqrt(length(input)) * sqrt(cumsum(c(1, 2 * xacf^2)))
+    test_seasonal <- ( abs(xacf[ppy]) > clim[ppy] )
+    
+    if (is.na(test_seasonal)==TRUE){ test_seasonal <- FALSE }
+  }
+  
+  return(test_seasonal)
+}
+
+Benchmarks <- function(input, fh){
+  #Used to estimate the statistical benchmarks of the M4 competition
+  
+  #Estimate seasonaly adjusted time series
+  ppy <- frequency(input) ; ST <- F
+  if (ppy>1){ ST <- SeasonalityTest(input,ppy) }
+  if (ST==T){
+    Dec <- decompose(input,type="multiplicative")
+    des_input <- input/Dec$seasonal
+    SIout <- head(rep(Dec$seasonal[(length(Dec$seasonal)-ppy+1):length(Dec$seasonal)], fh), fh)
+  }else{
+    des_input <- input ; SIout <- rep(1, fh)
+  }
+  
+  f1 <- naive(input, h=fh)$mean #Naive
+  f2 <- naive_seasonal(input, fh=fh) #Seasonal Naive
+  f3 <- naive(des_input, h=fh)$mean*SIout #Naive2
+  f4 <- ses(des_input, h=fh)$mean*SIout #Ses
+  f5 <- holt(des_input, h=fh, damped=F)$mean*SIout #Holt
+  f6 <- holt(des_input, h=fh, damped=T)$mean*SIout #Damped
+  f7 <- Theta.classic(input=des_input, fh=fh)$mean*SIout #Theta
+  f8 <- (f4+f5+f6)/3 #Comb
+  
+  return(list(f1,f2,f3,f4,f5,f6,f7,f8))
+}
+```
+
+## Example forecasts
+
+```{r example-forecasts, warning = FALSE, fig.height=3, results = 'asis'}
+output_files <- dir("../tests/io", pattern = "models_[0-9]+_output.json", full.names = TRUE)
+
+error_plot <- function(target, cutpoints, model_string, error_message) {
+  x_pos <- as.Date(target$date[1] + diff(range(target$date)) / 2)
+  y_pos <- (max(target$value, na.rm = TRUE) + mean(target$value, na.rm = TRUE)) / 2
+  p <- ggplot(target, aes(x = date, y = value)) +
+    geom_hline(yintercept = cutpoints, linetype = 3) +
+    geom_line() +
+    theme_minimal() +
+    ggtitle(model_string) +
+    labs(x = "", y = "") +
+    annotate("text", x = x_pos, y = y_pos, col = "gray50",
+              label = error_message %>% str_wrap())
+  p
+}
+
+for (of in output_files) {
+  output <- read_json(of, simplifyVector = TRUE)
+  target <- output$parsed_request$target %>%
+    as_tibble() %>%
+    mutate(date = as.Date(date))
+  cutpoints <- output$parsed_request$separations$cutpoints %>% head(-1) %>% tail(-1)
+  
+  cat(sprintf("\n\n### %s\n\n", output$parsed_request$ifp_name))
+  
+  for (ff in sort(names(output$forecasts))) {
+    forecast_data <- output$forecasts[[ff]]
+    
+    if (forecast_data$estimated==FALSE) {
+      
+      p <- error_plot(target, cutpoints, forecast_data$model, forecast_data$r_error_message)
+      
+    } else {
+      
+      ts_fcast <- forecast_data$ts %>%
+      as_tibble() %>%
+      setNames(forecast_data$ts_colnames) %>%
+      mutate(date = as.Date(date)) %>%
+      mutate_at(vars(-date), as.numeric)
+    
+    df <- bind_rows(target, ts_fcast)
+    
+    p <- ggplot(df, aes(x = date)) +
+        geom_line(aes(y = value)) + 
+        theme_minimal() +
+        ggtitle(sprintf("%s", ff),
+                subtitle = forecast_data$internal$mdl_string) +
+        labs(x = "", y = "") +
+        geom_hline(yintercept = cutpoints, linetype = 3)
+    p <- p + 
+        geom_ribbon(aes(ymin = `Lo 95`, ymax = `Hi 95`), fill = "lightblue") +
+        geom_line(aes(y = `Point Forecast`), color = "blue")
+    
+    }
+    
+    print(p)
+    cat("\n\n")
+    
+  }
+}
+```
+

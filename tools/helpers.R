@@ -5,15 +5,15 @@ library("tidyverse")
 library("jsonlite")
 
 BASE_PATH <- ifelse(str_detect(getwd(), "basil-ts"),
-                    "../",
-                    ".")
+                    ".",
+                    "basil-ts")
 BASE_PATH <- ifelse(str_detect(getwd(), "basil-ts/tests"),
-                    "../../",
+                    "..",
                     BASE_PATH)
 
-load_request <- function(ifp) {
-  request_file <- sprintf("basil-ts/tests/io/andy_input_%s.json", ifp)
-  request <- fromJSON(file.path(BASE_PATH, request_file))
+load_request <- function(ifp, base_path = BASE_PATH) {
+  request_file <- sprintf("tests/io/andy_input_%s.json", ifp)
+  request <- fromJSON(file.path(base_path, request_file))
   request
 }
 

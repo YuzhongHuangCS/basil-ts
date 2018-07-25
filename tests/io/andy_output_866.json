@@ -7,14 +7,20 @@
       "9999-12-31"
     ],
     "quick": [
-      false
+      true
     ]
   },
+  "estimated": [
+    true
+  ],
   "forecast_is_usable": [
     1
   ],
   "forecasts": {
-    "ARIMA": {
+    "Auto ARIMA": {
+      "estimated": [
+        true
+      ],
       "forecast_is_usable": [
         1
       ],
@@ -33,253 +39,7 @@
         ]
       },
       "model": [
-        "ARIMA"
-      ],
-      "option_labels": [
-        "<101",
-        "101 - 140",
-        "140 - 174",
-        "174 - 213",
-        ">213"
-      ],
-      "option_probabilities": [
-        0.0827,
-        0.5716,
-        0.3202,
-        0.0254,
-        0.0001
-      ],
-      "to_date": [
-        "2018-03-31"
-      ],
-      "trainN": [
-        38
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "131.3209",
-          "88.47285",
-          "174.1689"
-        ],
-        [
-          "2018-03-31",
-          "131.3209",
-          "88.47285",
-          "174.1689"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "ETS": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          402.7916
-        ],
-        "BIC": [
-          407.7043
-        ],
-        "mdl_string": [
-          "ETS(A,N,N)"
-        ],
-        "rmse": [
-          30.0286
-        ]
-      },
-      "model": [
-        "ETS"
-      ],
-      "option_labels": [
-        "<101",
-        "101 - 140",
-        "140 - 174",
-        "174 - 213",
-        ">213"
-      ],
-      "option_probabilities": [
-        0.0856,
-        0.5666,
-        0.3207,
-        0.027,
-        0.0001
-      ],
-      "to_date": [
-        "2018-03-31"
-      ],
-      "trainN": [
-        38
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "131.325",
-          "87.88375",
-          "174.7662"
-        ],
-        [
-          "2018-03-31",
-          "131.325",
-          "87.88375",
-          "174.7662"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          379.1889
-        ],
-        "BIC": [
-          380.7998
-        ],
-        "mdl_string": [
-          "RW"
-        ],
-        "rmse": [
-          39.0513
-        ]
-      },
-      "model": [
-        "RW"
-      ],
-      "option_labels": [
-        "<101",
-        "101 - 140",
-        "140 - 174",
-        "174 - 213",
-        ">213"
-      ],
-      "option_probabilities": [
-        0.0103,
-        0.1623,
-        0.4268,
-        0.3483,
-        0.0522
-      ],
-      "to_date": [
-        "2018-03-31"
-      ],
-      "trainN": [
-        38
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "166.8387",
-          "111.1133",
-          "222.5641"
-        ],
-        [
-          "2018-03-31",
-          "166.8387",
-          "111.1133",
-          "222.5641"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "geometric RW": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          30.3993
-        ],
-        "BIC": [
-          32.0102
-        ],
-        "mdl_string": {},
-        "rmse": [
-          0.3505
-        ]
-      },
-      "model": [
-        "geometric RW"
-      ],
-      "option_labels": [
-        "<101",
-        "101 - 140",
-        "140 - 174",
-        "174 - 213",
-        ">213"
-      ],
-      "option_probabilities": [
-        0.0246,
-        0.2213,
-        0.3195,
-        0.2654,
-        0.1692
-      ],
-      "to_date": [
-        "2018-03-31"
-      ],
-      "trainN": [
-        38
-      ],
-      "ts": [
-        [
-          "2018-03-01",
-          "166.8387",
-          "101.1821",
-          "275.0996"
-        ],
-        [
-          "2018-03-31",
-          "166.8387",
-          "101.1821",
-          "275.0996"
-        ]
-      ],
-      "ts_colnames": [
-        "date",
-        "Point Forecast",
-        "Lo 95",
-        "Hi 95"
-      ]
-    },
-    "mean": {
-      "forecast_is_usable": [
-        1
-      ],
-      "internal": {
-        "AIC": [
-          370.3988
-        ],
-        "BIC": [
-          373.674
-        ],
-        "mdl_string": [
-          "mean"
-        ],
-        "rmse": [
-          30.0271
-        ]
-      },
-      "model": [
-        "mean"
+        "Auto ARIMA"
       ],
       "option_labels": [
         "<101",
@@ -338,7 +98,7 @@
     ]
   },
   "model": [
-    "ARIMA"
+    "Auto ARIMA"
   ],
   "option_labels": [
     "<101",
@@ -367,6 +127,9 @@
     "binary_ifp": [
       false
     ],
+    "data_has_0": [
+      false
+    ],
     "data_period": {
       "period": {
         "days": [
@@ -377,6 +140,9 @@
         ]
       }
     },
+    "data_updated_to": [
+      "2018-03-15"
+    ],
     "fcast_dates": [
       "2018-03-01"
     ],
@@ -386,8 +152,8 @@
     "ifp_name": [
       "How many earthquakes of magnitude 5 or stronger will occur worldwide in March 2018?"
     ],
-    "last_date": [
-      "2018-03-15"
+    "orig_N": [
+      39
     ],
     "partial_outcome": [
       true
@@ -409,12 +175,6 @@
         ]
       }
     },
-    "rmse_mean": [
-      30.0271
-    ],
-    "rmse_rwf": [
-      39.0513
-    ],
     "separations": {
       "cutpoints": [
         "-Inf",

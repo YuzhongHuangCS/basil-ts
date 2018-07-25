@@ -88,15 +88,41 @@ test_that("Question dates and periods are correctly parsed", {
 test_that("Binary questions are ID'd and parsed", {
   
   q1 <- "Will there be any ACLED events in xxx?"
+  expect_equal(binary_seps(q1), c(">0", "0"))
+  
   q2 <- "Will ACLED record more than 500 events in xxx?"
   q3 <- "Will ACLED record less than 800 events in xxx?"
+  
+  expect_equal(binary_seps(q2), c(">500", "0 - 500"))
+  expect_error(binary_seps(q3), "not implemented")
+  
   q4 <- "Will ACLED record more than 5 but less than 800 events in xxx?"
+  expect_error(binary_seps(q4), "Both 'more' and 'less' detected")
   
-  expect_equal(binary_seps(q1), c(">0", "0"))
-  expect_equal(binary_seps(q2), c(">500", "<500"))
-  expect_equal(binary_seps(q3), c(">800", "<800"))
-  expect_error(binary_seps(q4))
+  # 1919
+  q5 <- "Will ACLED record more than one riot/protest event in Algeria on 19 May 2018?"
+  expect_equal(binary_seps(q5), c(">1", "0 - 1"))
   
+})
+
+test_that("Order of cutpoints is correct for binary IFPs", {
+  seps   <- list(values = c("Yes", "No"), units = "boolean")
+  pr <- parse_separations(seps, "count", "Will there be any")
+  
+  expect_equal(pr$cutpoints, c(Inf, 0.5, -Inf))
+  expect_equal(pr$values, c("Yes", "No"))
+  
+  seps   <- list(values = c("No", "Yes"), units = "boolean")
+  pr <- parse_separations(seps, "count", "Will there be any")
+  
+  expect_equal(pr$cutpoints, c(-Inf, 0.5, Inf))
+  expect_equal(pr$values, c("No", "Yes"))
+  
+  pr <- parse_separations(list(values = c("Yes", "No")), 
+                          "count", 
+                          "Will there more than one")
+  expect_equal(pr$cutpoints, c(Inf, 1.5, -Inf))
+  expect_equal(pr$numeric_values, c(">1", "0 - 1"))
 })
 
 test_that("Separations are correctly parsed", {
@@ -192,21 +218,14 @@ test_that("Days in period are correctly identified", {
   expect_equal(find_days_in_period(as.Date("2018-02-01"), monthly), 28)
 })
 
-test_that("Category forecasts return correct length and order", {
-  # check that length is correct
-  cp <- c(-Inf, 1221, 1303, 1374, 1456, Inf)
-  fc <- readRDS("basil-ts/tests/fcast_1028.rds")
-  expect_equal(length(category_forecasts(fc, cp)), (length(cp) - 1))
-  
-  expect_equal(category_forecasts(fc, cp), rev(category_forecasts(fc, rev(cp))))
-}) 
+
 
 
 test_that("Forecast generator runs", {
   pr     <- readRDS("basil-ts/tests/parsed_request_1019.rds")
   target <- readRDS("basil-ts/tests/target_1019.rds")
   ts <- ts(target$value, frequency = 12)
-  ff <- create_forecast(ts, "RW", pr)
+  ff <- create_single_forecast(ts, "RW", pr)
   expect_equal(ff$model, "RW")
   
 })
@@ -217,10 +236,8 @@ test_that("Forecast generator runs", {
 context("Sample requests")
 
 test_that("Basic examples run",  {
-  expect_warning(r_basil_ts("tests/io/example1.json"), 
-                 "no seasonal differencing is selected")
-  expect_warning(r_basil_ts("tests/io/example2.json"), 
-                 "no seasonal differencing is selected")
+  expect_true(r_basil_ts("tests/io/example1.json")$estimated)
+  expect_true(r_basil_ts("tests/io/example2.json")$estimated)
 })
 
 test_that("Malformatted separations are rejected", {
