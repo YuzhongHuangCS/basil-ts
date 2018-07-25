@@ -10,6 +10,8 @@ A collection of R scripts (`basil-ts/basil-ts`) in a Python Flask microservice (
 
 ### Docker
 
+**2018-07-25: I haven't updated this in a while, probably doesn't work anymore**
+
 To start a container running the forecaster in a Docker container:
 
 ```bash
@@ -38,6 +40,43 @@ fi
 source env/bin/activate
 pip3 install --upgrade pip
 pip3 install -r requirements.txt
+```
+
+There are also several required R packages. This takes a while to install. First, one of the packages has to be downloaded manually from https://github.com/pmontman/M4metaresults/releases/download/v0.0.0.9000/M4metaresults_0.0.0.9000.tar.gz. Change the path below to where it is downloaded accordingly. 
+
+Then, from R:
+
+```r
+packs <- c("devtools", "forecast", "lubridate", "jsonlite", "stringr", "truncnorm")
+install.packages(packs, dependencies = TRUE, repos = "
+https://cloud.r-project.org/")
+
+library("devtools")
+
+devtools::install_github("carlanetto/M4comp2018")
+# custom tsfeatures
+devtools::install_github("pmontman/tsfeatures")
+# custom xgboost
+devtools::install_github("pmontman/customxgboost")
+
+devtools::install_github("robjhyndman/M4metalearning")
+
+# saved results
+# from https://github.com/pmontman/M4metaresults/releases
+# https://github.com/pmontman/M4metaresults/releases/download/v0.0.0.9000/M4metaresults_0.0.0.9000.tar.gz
+install.packages("~/Downloads/M4metaresults_0.0.0.9000.tar", repos = NULL, type = "source")
+
+# check if all packages were successfully installed
+all_packs <- c(packs, "M4comp2018", "tsfeatures", "xgboost", "M4metalearning", 
+  "M4metaresults")
+not_installed <- all_packs[!all_packs %in% rownames(installed.packages())]
+if (length(not_installed) > 0) {
+  cat(sprintf("These packages were not installed, but are needed: %s", 
+              paste0(not_installed, collapse = "; ")))
+}
+```
+
+```bash
 python3 app.py
 
 # later
