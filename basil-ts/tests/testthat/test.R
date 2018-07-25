@@ -88,14 +88,20 @@ test_that("Question dates and periods are correctly parsed", {
 test_that("Binary questions are ID'd and parsed", {
   
   q1 <- "Will there be any ACLED events in xxx?"
+  expect_equal(binary_seps(q1), c(">0", "0"))
+  
   q2 <- "Will ACLED record more than 500 events in xxx?"
   q3 <- "Will ACLED record less than 800 events in xxx?"
-  q4 <- "Will ACLED record more than 5 but less than 800 events in xxx?"
   
-  expect_equal(binary_seps(q1), c(">0", "0"))
-  expect_equal(binary_seps(q2), c(">500", "<500"))
-  expect_equal(binary_seps(q3), c(">800", "<800"))
-  expect_error(binary_seps(q4))
+  expect_equal(binary_seps(q2), c(">500", "0 - 500"))
+  expect_error(binary_seps(q3), "not implemented")
+  
+  q4 <- "Will ACLED record more than 5 but less than 800 events in xxx?"
+  expect_error(binary_seps(q4), "Both 'more' and 'less' detected")
+  
+  # 1919
+  q5 <- "Will ACLED record more than one riot/protest event in Algeria on 19 May 2018?"
+  expect_equal(binary_seps(q5), c(">1", "0 - 1"))
   
 })
 
@@ -109,10 +115,14 @@ test_that("Order of cutpoints is correct for binary IFPs", {
   seps   <- list(values = c("No", "Yes"), units = "boolean")
   pr <- parse_separations(seps, "count", "Will there be any")
   
-  expect_equal(pr$cutpoints, rev(c(Inf, 0.5, -Inf)))
+  expect_equal(pr$cutpoints, c(-Inf, 0.5, Inf))
   expect_equal(pr$values, c("No", "Yes"))
   
-  
+  pr <- parse_separations(list(values = c("Yes", "No")), 
+                          "count", 
+                          "Will there more than one")
+  expect_equal(pr$cutpoints, c(Inf, 1.5, -Inf))
+  expect_equal(pr$numeric_values, c(">1", "0 - 1"))
 })
 
 test_that("Separations are correctly parsed", {

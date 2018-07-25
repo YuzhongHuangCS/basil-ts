@@ -122,7 +122,7 @@ process_data <- function(input_data, parsed_request) {
   
   # Record some characteristics of aggregated input data
   pr$orig_N <- nrow(target)
-  pr$data_has_0 <- any(target$value==0)
+  pr$data_has_0 <- any(target$value==0, na.rm = TRUE)
   
   pr$partial_outcome <- FALSE
   pr$partial_train   <- ""

@@ -72,6 +72,35 @@ parse_data_updated_to <- function(last_event_date, aggregated_data, data_period,
 }
 
 
+#' Determine separation for binary IFPs
+#' 
+#' Heuristic for determining separation value for binary IFPs
+binary_seps <- function(x) {
+  # "Will there be any...?"
+  if (all(str_detect(x, c("^Will", "any")))) {
+    return(c(">0", "0"))
+  }
+  # "Will there be more than...?"
+  # fix for 1919, "more than one" -> "more than 1"
+  x <- str_replace(x, "one", "1")
+  c1 <- str_detect(x, c("^Will", "(more|less) than ([0-9]+)"))
+  # to eliminate "more than...and less than..."
+  if (str_detect(x, "more") & str_detect(x, "less")) {
+    stop("Both 'more' and 'less' detected, something is wrong. Is this a binary question at all?")
+  }
+  # less is not implemented
+  if (str_detect(x, "less")) {
+    stop("Parsing for 'less than' type binary questions is not implemented yet, tell Andy the time has come.")
+  }
+  if (all(c1)) {
+    y <- str_extract(x, "than [0-9,\\.]+")
+    y <- str_replace(y, "than ", "")
+    return(c(sprintf(">%s", y), sprintf("0 - %s", y)))
+  }
+  stop("Unable to identify implied question separations for binary question")
+}
+
+
 #' Parse separations for implied cutpoints
 #' 
 #' @example 
@@ -113,9 +142,16 @@ parse_separations <- function(separations, data_type, ifp_name) {
   if (data_type=="count" & integer_style) {
     cp_list <- seps$numeric_values %>%
       str_extract_all("[<>]?[0-9\\.]+") %>%
+      # [0 - 1] -> [-Inf, 1.5]
+      lapply(., function(x) {
+        if (length(x)==2 && x[1]==0) {
+          x <- c(-Inf, as.numeric(x[2]) + .5)
+        }
+        x
+      }) %>%
       # if two values, shift outwards, [1, 2] -> [.5, 2.5]
       lapply(., function(x) {
-        if (length(x)==2) {
+        if (length(x)==2 && x[1]!=-Inf) {
           x <- as.numeric(x) + c(-.5, .5)
         }
         x
@@ -288,25 +324,6 @@ validate_seps <- function(seps) {
     }
   }
   invisible(TRUE)
-}
-
-#' Determine separation for binary IFPs
-#' 
-#' Heuristic for determining separation value for binary IFPs
-binary_seps <- function(x) {
-  # "Will there be any...?"
-  if (all(str_detect(x, c("^Will", "any")))) {
-    return(c(">0", "0"))
-  }
-  # "Will there be more than...?"
-  c1 <- str_detect(x, c("^Will", "(more|less) than [0-9]+"))
-  c2 <- str_count(x, "(more|less)")  # to eliminate "more than...and less than..."
-  if (all(c1) && c2==1) {
-    y <- str_extract(x, "than [0-9,\\.]+")
-    y <- str_replace(y, "than ", "")
-    return(paste0(c(">", "<"), y))
-  }
-  stop("Unable to identify implied question separations for binary question")
 }
 
 
