@@ -64,7 +64,7 @@ devtools::install_github("robjhyndman/M4metalearning")
 # saved results
 # from https://github.com/pmontman/M4metaresults/releases
 # https://github.com/pmontman/M4metaresults/releases/download/v0.0.0.9000/M4metaresults_0.0.0.9000.tar.gz
-install.packages("~/Downloads/M4metaresults_0.0.0.9000.tar", repos = NULL, type = "source")
+install.packages("~/Downloads/M4metaresults_0.0.0.9000.tar.gz", repos = NULL, type = "source")
 
 # check if all packages were successfully installed
 all_packs <- c(packs, "M4comp2018", "tsfeatures", "xgboost", "M4metalearning", 

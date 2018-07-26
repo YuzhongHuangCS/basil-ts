@@ -232,7 +232,7 @@ m4meta_forecast <- function(ts, lambda, h) {
     long_name = "M4 Meta ensemble model",
     basis_function = "M4metalearning::forecast_meta_m4",
     lambda_heuristic = FALSE,
-    notes = "An ensemble model from the M4 competition."
+    notes = "An ensemble model from the M4 competition. The forecast is based on a linear combination of forecasts from 9 time series models, where the weights are calculated by a xgboost model using characteristics of the input time series as features. Essentially the meta model learns to weigh time series models that work well for a given series more. The models for the mean forecast are Auto ARIMA, ETS, NNETAR, TBATS, STLM-AR, RW-DRIFT, THETAF, RW (NAIVE) and RW-SEAS. The 95% prediction interval is computed only from 3 models, THETAF and the RW models. A total of 42 input series characteristics are used to fit the meta-model.\n\nFor more details, see the note at [http://htmlpreview.github.io/?https://github.com/robjhyndman/M4metalearning/blob/master/docs/M4_methodology.html](http://htmlpreview.github.io/?https://github.com/robjhyndman/M4metalearning/blob/master/docs/M4_methodology.html)"
   )
 
   model <- list(model_string <- "M4 Meta")

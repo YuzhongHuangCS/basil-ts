@@ -74,6 +74,14 @@ Hyndman et all have a M4 meta learning model, basically 9 plain time series mode
 
 The 3 and 9 component models for the benchmark and M4_meta model are already included in the list above. 
 
+The ES-RNN model is described here https://eng.uber.com/m4-forecasting-competition/. For code and more description see https://github.com/M4Competition/M4-methods/tree/master/118%20-%20slaweks17 and https://github.com/M4Competition/M4-methods/tree/slaweks_ES-RNN. 
+
+### Misc
+
+CRPS: https://www.met-learning.eu/pluginfile.php/5277/mod_resource/content/6/www/english/msg/ver_prob_forec/uos3b/uos3b_ko1.htm
+
+- https://robjhyndman.com/hyndsight/gefcom2014/
+
 ### Competition benchmark models
 
 ```r

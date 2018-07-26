@@ -19,6 +19,7 @@ List of models
     -   [RW-SEAS](#rw-seas)
 -   [Other models to add](#other-models-to-add)
 -   [M4 competition](#m4-competition)
+    -   [Misc](#misc)
     -   [Competition benchmark models](#competition-benchmark-models)
 -   [Example forecasts](#example-forecasts)
     -   [What will be the daily closing price of gold on 26 April 2018 in USD?](#what-will-be-the-daily-closing-price-of-gold-on-26-april-2018-in-usd)
@@ -214,7 +215,9 @@ M4 Meta ensemble model
 
 Implemented with `M4metalearning::forecast_meta_m4`
 
-An ensemble model from the M4 competition.
+An ensemble model from the M4 competition. The forecast is based on a linear combination of forecasts from 9 time series models, where the weights are calculated by a xgboost model using characteristics of the input time series as features. Essentially the meta model learns to weigh time series models that work well for a given series more. The models for the mean forecast are Auto ARIMA, ETS, NNETAR, TBATS, STLM-AR, RW-DRIFT, THETAF, RW (NAIVE) and RW-SEAS. The 95% prediction interval is computed only from 3 models, THETAF and the RW models. A total of 42 input series characteristics are used to fit the meta-model.
+
+For more details, see the note at <http://htmlpreview.github.io/?https://github.com/robjhyndman/M4metalearning/blob/master/docs/M4_methodology.html>
 
 ### Mean
 
@@ -268,6 +271,14 @@ Competition benchmark: raw code at <https://github.com/M4Competition/M4-methods/
 Hyndman et all have a M4 meta learning model, basically 9 plain time series models whose ensemble weights are determined by xgboost using a broad range of extra time series features extracted as features for the meta model. See here <https://github.com/robjhyndman/M4metalearning/blob/master/R/forec_methods_list.R> and here <https://github.com/M4Competition/M4-methods/blob/master/245%20-%20pmontman/M4-Method-Description.pdf>.
 
 The 3 and 9 component models for the benchmark and M4\_meta model are already included in the list above.
+
+The ES-RNN model is described here <https://eng.uber.com/m4-forecasting-competition/>. For code and more description see <https://github.com/M4Competition/M4-methods/tree/master/118%20-%20slaweks17> and <https://github.com/M4Competition/M4-methods/tree/slaweks_ES-RNN>.
+
+### Misc
+
+CRPS: <https://www.met-learning.eu/pluginfile.php/5277/mod_resource/content/6/www/english/msg/ver_prob_forec/uos3b/uos3b_ko1.htm>
+
+-   <https://robjhyndman.com/hyndsight/gefcom2014/>
 
 ### Competition benchmark models
 
