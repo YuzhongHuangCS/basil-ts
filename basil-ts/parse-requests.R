@@ -349,7 +349,8 @@ parse_request <- function(request) {
   } else {
     req_data_updated_to <- request$payload$`last-event-date`
   }
-  pr$data_updated_to       <- parse_data_updated_to(request$payload$`last-event-date`, 
+  pr$orig_data_updated_to  <- as.Date(req_data_updated_to)
+  pr$data_updated_to       <- parse_data_updated_to(req_data_updated_to, 
                                                     pr$aggregated_data, pr$data_period,
                                                     target)
   pr$series_type     <- guess_series_type(target$value, pr$ifp_name)

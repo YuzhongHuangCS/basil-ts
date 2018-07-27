@@ -94,6 +94,16 @@ r_basil_ts <- function(fh = NULL) {
       stop("Drop after argument exceeds question end date")
     }
     
+    # make sure drop after does not exceed data_updated_to in the input file
+    if (drop_after > pr$data_updated_to) {
+      msg <- sprintf("The input time series data is too short to support the 'drop_after' date you specified.\n- Last data point is for '%s'\n- Input file 'data-updated-to'/'last-event-date' is '%s'\n- Inferred data_udpated_to date is '%s'\n- 'drop_after' is '%s'; the input data should go to this at least.",
+                     as.character(tail(target$date, 1)), 
+                     as.character(pr$orig_data_updated_to),
+                     as.character(pr$data_updated_to),
+                     drop_after)
+      stop(msg)
+    }
+    
     target <- target[target$date < (drop_after + 1), ]
     if (pr$aggregated_data==TRUE) {
       pr$data_updated_to <- drop_after
