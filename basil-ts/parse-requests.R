@@ -346,8 +346,10 @@ parse_request <- function(request) {
   pr$aggregated_data <- id_aggregated_data(pr$ifp_name)
   if (!is.null(request$payload$`data-updated-to`)) {
     req_data_updated_to <- request$payload$`data-updated-to`
-  } else {
+  } else if (!is.null(request$payload$`last-event-date`)) {
     req_data_updated_to <- request$payload$`last-event-date`
+  } else {
+    req_data_updated_to <- NA
   }
   pr$orig_data_updated_to  <- as.Date(req_data_updated_to)
   pr$data_updated_to       <- parse_data_updated_to(req_data_updated_to, 

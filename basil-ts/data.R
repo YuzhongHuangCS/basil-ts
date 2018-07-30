@@ -16,15 +16,19 @@ determine_aggregation_method <- function(series_type, ifp_name) {
   qmax <- str_detect(ifp_name, "maximum")
   qmin <- str_detect(ifp_name, "minimum")
   agg <- "mean"
+  if (qmax) {
+    return("max")
+  }
+  if (qmin) {
+    return("min")
+  }
   if (series_type=="count") {
-    agg <- "sum"
+    return("sum")
   }
-  if (series_type=="continuous" & qmax) {
-    agg <- "max"
-  } else if (series_type=="continuous" & qmin) {
-    agg <- "min"
-  }
-  agg
+  if (series_type=="continuous") {
+    return("mean")
+  } 
+  return(agg)
 }
 
 #' Aggregate daily data

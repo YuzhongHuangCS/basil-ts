@@ -33,6 +33,16 @@ test_that("Correct date sequences are generated", {
 })
 
 
+test_that("938 is correctly ID's as max", {
+  expect_equal(
+    determine_aggregation_method(
+      "count",
+      "What will be the maximum sea ice extent on the Barents Sea between 1 January 2018 and 10 April 2018?"
+      ),
+    "max")
+})
+
+
 # Question parsing --------------------------------------------------------
 
 context("Question parsing")

@@ -52,6 +52,7 @@ make_model_list = function() {
 
 # Model definitions -------------------------------------------------------
 
+
 auto_arima_forecast <- function(ts, lambda, h) {
   doc <- list(
     short_name = "Auto ARIMA",
