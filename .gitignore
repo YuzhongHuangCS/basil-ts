@@ -6,3 +6,5 @@ README.html
 .Rproj.user
 .Rhistory
 basil-ts.Rproj
+
+*.DS_Store
