@@ -75,9 +75,6 @@ r_basil_ts <- function(fh = NULL) {
   
   # missing file makes error more obvious in Flask
   if (!test) unlink(fh)
-  # also remove any other request files that may stick around if this function
-  # fails with error
-  on.exit(file.remove(dir("basil-ts", pattern = "request-", full.names = TRUE)))
   
   # Parse request input file
   out    <- parse_request(request)
