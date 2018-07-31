@@ -135,7 +135,7 @@ category_forecasts <- function(fc, cp) {
     stop(sprintf("Problem with cumulative probabilities, range 0 to 1. [%s]", paste0(cumprob, collapse = ", ")))
   }
   catp    <- diff(cumprob)
-  if (isFALSE(all.equal(sum(catp), 1))) {
+  if (identical(all.equal(sum(catp), 1), FALSE)) {
     stop(sprintf("Forecast probabilities do not sum to 1; [%s]", paste0(catp, collapse = ", ")))
   }
   if (decreasing) catp <- rev(catp)
