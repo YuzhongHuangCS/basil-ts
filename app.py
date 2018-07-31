@@ -104,6 +104,8 @@ def get_forecast():
           ["Rscript", "--vanilla", "basil-ts/r-basil-ts.R", request_id, str(backcast), str(drop_after), str(quick)], 
           shell = False, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
+        if os.path.exists(request_fh):
+            os.remove(request_fh)
         raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
 
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
@@ -113,5 +115,5 @@ def get_forecast():
     return(jsonify(fcasts))
 
 if __name__ == '__main__':
-    app.run(debug=True, threaded=False, host = '0.0.0.0')
+    app.run(debug=True, threaded=True, host = '0.0.0.0')
 
