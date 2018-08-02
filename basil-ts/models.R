@@ -2,24 +2,26 @@
 #   Functions that estimate models and their forecasts
 #
 
+library("uuid")
 
 # Meta helpers ------------------------------------------------------------
 
 model_dictionary <- list(
-  "Auto ARIMA"    = "auto_arima_forecast",
-  "Mean"          = "constant_mean_forecast",
-  "ETS"           = "ets_forecast",
-  "RW"            = "rw_forecast",
-  "RW-DRIFT"      = "rw_drift_forecast",
-  "RW-SEAS"       = "rw_seasonal_forecast",
-  "Arithmetic RW" = "arithmetic_rw_forecast",
-  "Geometric RW"  = "geometric_rw_forecast",
-  "DS-RW" = "rw_deseasoned_forecast",
-  "DS-SES" = "ses_deseasoned_forecast",
-  "DS-Holt" = "holt_deseasoned_forecast",
-  "DS-Holt-damped" = "damped_deseasoned_forecast",
-  "M4-Comb" = "m4comb_forecast",
-  "M4-Meta" = "m4meta_forecast"
+#  "Auto ARIMA"    = "auto_arima_forecast",
+#  "Mean"          = "constant_mean_forecast",
+#  "ETS"           = "ets_forecast",
+#  "RW"            = "rw_forecast",
+#  "RW-DRIFT"      = "rw_drift_forecast",
+#  "RW-SEAS"       = "rw_seasonal_forecast",
+#  "Arithmetic RW" = "arithmetic_rw_forecast",
+#  "Geometric RW"  = "geometric_rw_forecast",
+#  "DS-RW" = "rw_deseasoned_forecast",
+#  "DS-SES" = "ses_deseasoned_forecast",
+#  "DS-Holt" = "holt_deseasoned_forecast",
+#  "DS-Holt-damped" = "damped_deseasoned_forecast",
+#  "M4-Comb" = "m4comb_forecast",
+#  "M4-Meta" = "m4meta_forecast"
+  "RNN" = "rnn_forecast"
 )
 
 #' Get model function based on short name
@@ -242,7 +244,7 @@ m4meta_forecast <- function(ts, lambda, h) {
   # hack fix by using h + 1 and then taking out in results
   raw_fcast <- forecast_meta_M4(model_M4, ts, h + 1)
   raw_fcast <- lapply(raw_fcast, head, h)
-  
+
   fcast <- list(
     method = "M4 Metalearning",
     model = NULL,
@@ -262,8 +264,6 @@ m4meta_forecast <- function(ts, lambda, h) {
   
   list(model = model, fcast = fcast)
 }
-
-
 
 # Models on de-seasoned data ----------------------------------------------
 
@@ -457,5 +457,45 @@ m4comb_forecast <- function(ts, lambda = NULL, h) {
   model <- list(model_string = "M4 Composite benchmark (De-seasoned SES + linear trend + damped trend)")
   fcast$model$model_string = model$model_string
   
+  list(model = model, fcast = fcast)
+}
+
+rnn_forecast <- function(ts, lambda, h) {
+  doc <- list(
+    short_name = "RNN short_name",
+    long_name = "RNN long_name",
+    notes = "RNN notes"
+  )
+
+  uuid_str <- UUIDgenerate()
+  rnn_input_fh <- paste0("basil-ts/rnn-request-", uuid_str, ".json")
+  toJSON(list(ts=ts, h = h), pretty=TRUE) %>% writeLines(rnn_input_fh)
+
+  cmd <- paste0("/nas/home/yuzhongh/intel/intelpython3/bin/python -u main.py ", rnn_input_fh)
+  system(cmd)
+
+  rnn_output_fh <- paste0("basil-ts/rnn-forecast-", uuid_str, ".json")
+  raw_fcast <- fromJSON(rnn_output_fh)
+  unlink(rnn_input_fh)
+  unlink(rnn_output_fh)
+
+  model <- list(model_string <- "RNN model_string")
+  fcast <- list(
+    method = "RNN",
+    model = NULL,
+    level = 95,
+    mean = ts(raw_fcast$mean),
+    upper = ts(matrix(raw_fcast$upper, ncol = 1, dimnames = list(NULL, "95%"))),
+    lower = ts(matrix(raw_fcast$lower, ncol = 1, dimnames = list(NULL, "95%"))),
+    x = ts,
+    series = "ts",
+    fitted = NULL,
+    residuals = NULL
+  )
+  class(fcast) <- "forecast"
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf
+
   list(model = model, fcast = fcast)
 }

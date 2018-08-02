@@ -11,11 +11,6 @@ suppressPackageStartupMessages({
   library("jsonlite")
   library("stringr")
   library("truncnorm")
-  library("xgboost")
-  library("tsfeatures")
-  library("M4comp2018")
-  library("M4metaresults")
-  library("M4metalearning")
 })
 
 # Find path to self so we can safely source/load dependencies

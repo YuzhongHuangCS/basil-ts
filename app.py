@@ -49,7 +49,7 @@ def handle_invalid_usage(error):
 
 @app.route('/forecast', methods = ['GET', 'POST'])
 def get_forecast():
-  
+
     # parse request arguments
     content    = request.get_json(silent = True)
     backcast   = request.args.get('backcast')
@@ -59,7 +59,7 @@ def get_forecast():
         backcast = False
     if backcast == 'True':
         warnings.warn("?backcast=True, do not use this for live forecasts during the RCT")
-    
+
     if drop_after is None:
         drop_after = '9999-12-31'
     else:
@@ -71,42 +71,42 @@ def get_forecast():
 
     if quick is None or quick != 'False':
         quick = True
-    else: 
+    else:
         quick = False
 
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
-    
+
     # create request UUID (for filenames)
     request_id = str(uuid.uuid4())
     request_fh = "basil-ts/request-" + request_id + ".json"
-    
+
     # Check request is valid
-    
+
     ts = pd.DataFrame.from_records(content['payload']['historical_data']['ts'])
     # Check first column is convertible to datetime
     # TODO right now this will parse integers as dates, which is not OK. But R down the line throws an error for it.
-    try: 
+    try:
         pd.to_datetime(ts[ts.columns[0]])
-    except ValueError: 
-        raise InvalidUsage("Request contains invalid time series", status_code=400, 
+    except ValueError:
+        raise InvalidUsage("Request contains invalid time series", status_code=400,
                            payload = {'error_message': 'first column could not be parsed to datetime'})
     # Reject multi-variate time-series
     if ts.shape[1] > 2:
         raise InvalidUsage("Request contains invalid time series", status_code=400,
                            payload = {'error_message': 'time series has more than one value column; support for multi-variate time-series is not implemented'})
-    
+
     # Pass request to R script
     with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
     try:
-        subprocess.check_output(
-          ["Rscript", "--vanilla", "basil-ts/r-basil-ts.R", request_id, str(backcast), str(drop_after), str(quick)], 
-          shell = False, stderr=subprocess.STDOUT)
+        cmd = 'Rscript --vanilla basil-ts/r-basil-ts.R {} {} {} {} > log/{}.log 2>&1'.format(request_id, str(backcast), str(drop_after), str(quick), request_id)
+        print(cmd)
+        subprocess.check_call(cmd, shell = True)
     except subprocess.CalledProcessError as e:
         if os.path.exists(request_fh):
             os.remove(request_fh)
-        raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': e.output.decode("utf-8")})
+        raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': open('log/{}.log'.format(request_id)).read()})
 
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
     with open(resp_fh, "r") as resp:
@@ -115,5 +115,4 @@ def get_forecast():
     return(jsonify(fcasts))
 
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True, host = '0.0.0.0')
-
+    app.run(debug=True, threaded=True, host='0.0.0.0', port=6002)

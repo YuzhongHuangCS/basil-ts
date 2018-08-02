@@ -437,17 +437,17 @@ create_forecasts <- function(target, parsed_request, quick = FALSE) {
   fr <- as.integer(determine_ts_frequency(target))
   
   # Cut down training data if needed to speed up model estimation
-  upperN <- 200
-  if (pr$data_period$period$period=="day") {
-    upperN <- 120
-  } else if (pr$data_period$period$period=="month") {
-    upperN <- 12*5
-  } else if (pr$data_period$period$period=="fixed") {
-    upperN <- 120
-  }
-  if (nrow(target) > upperN) {
-    target <- tail(target, upperN)
-  }
+  #upperN <- 200
+  #if (pr$data_period$period$period=="day") {
+  #  upperN <- 120
+  #} else if (pr$data_period$period$period=="month") {
+  #  upperN <- 12*5
+  #} else if (pr$data_period$period$period=="fixed") {
+  #  upperN <- 120
+  #}
+  #if (nrow(target) > upperN) {
+  #  target <- tail(target, upperN)
+  #}
   
   pr$target <- target
   
