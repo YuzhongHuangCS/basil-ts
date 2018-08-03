@@ -472,11 +472,16 @@ rnn_forecast <- function(ts, lambda, h) {
   toJSON(list(ts=ts, h = h), pretty=TRUE) %>% writeLines(rnn_input_fh)
 
   cmd <- paste0("/nas/home/yuzhongh/intel/intelpython3/bin/python -u main.py ", rnn_input_fh)
+  print(cmd)
   system(cmd)
+  unlink(rnn_input_fh)
 
   rnn_output_fh <- paste0("basil-ts/rnn-forecast-", uuid_str, ".json")
+  if (!file.exists(rnn_output_fh)) {
+    stop("RNN model failed")
+  }
+
   raw_fcast <- fromJSON(rnn_output_fh)
-  unlink(rnn_input_fh)
   unlink(rnn_output_fh)
 
   model <- list(model_string <- "RNN model_string")

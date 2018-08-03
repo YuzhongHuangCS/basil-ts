@@ -4,8 +4,6 @@ import pdb
 from filelock import FileLock
 import shutil
 import subprocess
-import time
-import random
 
 # uncomment to force CPU training
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -35,21 +33,37 @@ if __name__ == "__main__":
 			shutil.copyfile(json_filename, output_filename)
 		else:
 			print('Run new')
+			core_lock = None
 			if os.name == 'posix':
-				time.sleep(random.uniform(0, 10))
 				#set cpu affinity
-				command = "mpstat -P ALL 1 1 | tail -n 48 | awk '{print ($12)}'"
-				ret = subprocess.check_output(command, shell=True)
-				idles = [float(x) for x in ret.split()]
-				max_idle_index = np.argmax(idles)
-				max_idle = idles[max_idle_index]
+				while True:
+					command = "mpstat -P ALL 1 1 | tail -n 48 | awk '{print ($12)}'"
+					ret = subprocess.check_output(command, shell=True)
+					idles = [float(x) for x in ret.split()]
+					max_idle_index = np.argmax(idles)
+					max_idle = idles[max_idle_index]
+
+					print('Try to lock core {}'.format(max_idle_index))
+					core_filename = 'core/{}.lock'.format(max_idle_index)
+					core_lock = FileLock(core_filename, timeout=1)
+					try:
+						core_lock.acquire()
+						print('Lock acquired on core {}'.format(max_idle_index))
+						break
+					except Exception as e:
+						print('Unable to get lock on core {}'.format(max_idle_index))
+
 				print('idle', max_idle, max_idle_index)
 				os.environ['KMP_AFFINITY'] = 'granularity=thread,explicit,proclist=[{}],verbose'.format(max_idle_index)
 
-			from rnn_predictor import RNNPredictor
-			predictor = RNNPredictor(config)
-			text = open(filename).read()
-			content = json.loads(text)
-			predictor.basename = os.path.basename(filename)
-			predictor.predict(content, filename)
-			shutil.copyfile(output_filename, json_filename)
+			try:
+				from rnn_predictor import RNNPredictor
+				predictor = RNNPredictor(config)
+				text = open(filename).read()
+				content = json.loads(text)
+				predictor.basename = os.path.basename(filename)
+				predictor.predict(content, filename)
+				shutil.copyfile(output_filename, json_filename)
+			finally:
+				if core_lock is not None:
+					core_lock.release()
