@@ -101,7 +101,7 @@ def get_forecast():
         json.dump(content, outfile)
     try:
         cmd = 'Rscript --vanilla basil-ts/r-basil-ts.R {} {} {} {} > log/{}.log 2>&1'.format(request_id, str(backcast), str(drop_after), str(quick), request_id)
-        print(cmd)
+        app.logger.info(cmd)
         subprocess.check_call(cmd, shell = True)
     except subprocess.CalledProcessError as e:
         if os.path.exists(request_fh):
