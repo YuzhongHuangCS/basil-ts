@@ -429,7 +429,7 @@ create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NU
 #' so that function arguments can control different components and make 
 #' testing easier. 
 #' 
-create_forecasts <- function(target, parsed_request, quick = FALSE) {
+create_forecasts <- function(target, parsed_request, quick = FALSE, rnn = FALSE) {
   
   pr <- parsed_request
   
@@ -437,18 +437,20 @@ create_forecasts <- function(target, parsed_request, quick = FALSE) {
   fr <- as.integer(determine_ts_frequency(target))
   
   # Cut down training data if needed to speed up model estimation
-  #upperN <- 200
-  #if (pr$data_period$period$period=="day") {
-  #  upperN <- 120
-  #} else if (pr$data_period$period$period=="month") {
-  #  upperN <- 12*5
-  #} else if (pr$data_period$period$period=="fixed") {
-  #  upperN <- 120
-  #}
-  #if (nrow(target) > upperN) {
-  #  target <- tail(target, upperN)
-  #}
-  
+  if (!rnn) {
+    upperN <- 200
+    if (pr$data_period$period$period=="day") {
+      upperN <- 120
+    } else if (pr$data_period$period$period=="month") {
+      upperN <- 12*5
+    } else if (pr$data_period$period$period=="fixed") {
+      upperN <- 120
+    }
+    if (nrow(target) > upperN) {
+      target <- tail(target, upperN)
+    }
+  }
+
   pr$target <- target
   
   target_ts <- ts(
@@ -467,6 +469,7 @@ create_forecasts <- function(target, parsed_request, quick = FALSE) {
   # Identify which models to run
   model_types <- names(model_dictionary)
   if (quick) model_types <- "Auto ARIMA"
+  if (rnn) model_types <- "RNN"
   forecasts   <- lapply(model_types, create_single_forecast, 
                         ts = target_ts, parsed_request = pr)
   names(forecasts) <- model_types

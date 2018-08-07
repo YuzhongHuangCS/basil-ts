@@ -1,11 +1,10 @@
-import dateutil.parser
+import json
+import logging
 import numpy as np
 import sklearn
 import sklearn.preprocessing
 import tensorflow as tf
-from dateutil.relativedelta import relativedelta
-import pdb
-import json
+
 
 # Each instance is created for each incoming request
 class RNNPredictor(object):
@@ -14,46 +13,22 @@ class RNNPredictor(object):
     def __init__(self, config):
         super(RNNPredictor, self).__init__()
         self.config = config
-        self.content = None
-        self.data = None
-        self.data_all = None
-        self.dates = None
-        self.n_train = None
-        self.mse_train = None
-        self.mse_valid = None
-        self.basename = None
-        self.pred_train = None
-        self.pred_train_lower = None
-        self.pred_train_upper = None
-        self.pred_valid = None
-        self.pred_valid_lower = None
-        self.pred_valid_upper = None
-        self.pred_test = None
-        self.pred_test_lower = None
-        self.pred_test_upper = None
-        self.smallest_weight = None
 
-    def predict(self, content, filename):
-        data_all = content['ts']
+    def predict(self, filename):
+        content = json.loads(open(filename).read())
         n_predict_step = content['h'][0]
 
-        self.config.n_predict_step = n_predict_step
-        self.config.n_output_dim = n_predict_step * 3
-
-        data = data_all
-
+        data = content['ts']
         scaler = sklearn.preprocessing.StandardScaler()
         data_scaled = scaler.fit_transform(np.asarray(data).reshape(-1, 1))
-        data_all_scaled = scaler.transform(np.asarray(data_all).reshape(-1, 1))
 
         x = data_scaled.reshape(-1, 1)
-
-        n_valid = min(self.config.n_predict_step, self.config.max_valid)
+        n_valid = min(n_predict_step, self.config.max_valid)
         n_train = len(x) - n_valid
         n_total = len(x)
 
-        print('Predict step: ', self.config.n_predict_step)
-        print('n_valid:', n_valid, 'n_train:', n_train, 'n_total:', n_total)
+        logging.info('Predict step: {}'.format(n_predict_step))
+        logging.info('n_total: {}, n_train: {}, n_valid: {}'.format(n_total, n_train, n_valid))
 
         # build network
         batchX_placeholder = tf.placeholder(tf.float32, [n_total, self.config.n_input_dim])
@@ -70,25 +45,26 @@ class RNNPredictor(object):
         cell = tf.nn.rnn_cell.GRUCell(self.config.n_neurons)
         cell_state = cell.zero_state(self.config.n_batch, dtype=tf.float32)
 
-        states_series, current_state = tf.nn.dynamic_rnn(cell, inputs_series, initial_state=cell_state, parallel_iterations=1)
+        states_series, current_state = tf.nn.dynamic_rnn(cell, inputs_series, initial_state=cell_state,
+                                                         parallel_iterations=1)
 
         prediction = tf.matmul(tf.tanh(tf.matmul(tf.squeeze(states_series), W1) + b1), W2) + b2
 
-        pred_point_train = tf.slice(prediction, (0, 0), (n_train-n_predict_step, 1))
-        pred_lower_train = tf.slice(prediction, (0, 1), (n_train-n_predict_step, 1))
-        pred_upper_train = tf.slice(prediction, (0, 2), (n_train-n_predict_step, 1))
+        pred_point_train = tf.slice(prediction, (0, 0), (n_train - n_predict_step, 1))
+        pred_lower_train = tf.slice(prediction, (0, 1), (n_train - n_predict_step, 1))
+        pred_upper_train = tf.slice(prediction, (0, 2), (n_train - n_predict_step, 1))
 
-        pred_point_valid = tf.slice(prediction, (n_train-n_predict_step, 0), (n_valid, 1))
-        pred_lower_valid = tf.slice(prediction, (n_train-n_predict_step, 1), (n_valid, 1))
-        pred_upper_valid = tf.slice(prediction, (n_train-n_predict_step, 2), (n_valid, 1))
+        pred_point_valid = tf.slice(prediction, (n_train - n_predict_step, 0), (n_valid, 1))
+        pred_lower_valid = tf.slice(prediction, (n_train - n_predict_step, 1), (n_valid, 1))
+        pred_upper_valid = tf.slice(prediction, (n_train - n_predict_step, 2), (n_valid, 1))
 
-        pred_point_test = tf.slice(prediction, (n_total-n_predict_step, 0), (n_predict_step, 1))
-        pred_lower_test = tf.slice(prediction, (n_total-n_predict_step, 1), (n_predict_step, 1))
-        pred_upper_test = tf.slice(prediction, (n_total-n_predict_step, 2), (n_predict_step, 1))
+        pred_point_test = tf.slice(prediction, (n_total - n_predict_step, 0), (n_predict_step, 1))
+        pred_lower_test = tf.slice(prediction, (n_total - n_predict_step, 1), (n_predict_step, 1))
+        pred_upper_test = tf.slice(prediction, (n_total - n_predict_step, 2), (n_predict_step, 1))
 
-        pred_point_total = tf.slice(prediction, (0, 0), (n_total-n_predict_step, 1))
-        pred_lower_total = tf.slice(prediction, (0, 1), (n_total-n_predict_step, 1))
-        pred_upper_total = tf.slice(prediction, (0, 2), (n_total-n_predict_step, 1))
+        pred_point_total = tf.slice(prediction, (0, 0), (n_total - n_predict_step, 1))
+        pred_lower_total = tf.slice(prediction, (0, 1), (n_total - n_predict_step, 1))
+        pred_upper_total = tf.slice(prediction, (0, 2), (n_total - n_predict_step, 1))
 
         labels_series_train = batchX_placeholder[n_predict_step:n_train, :]
         labels_series_valid = batchX_placeholder[n_train:, :]
@@ -127,9 +103,6 @@ class RNNPredictor(object):
         gradients_total, _ = tf.clip_by_global_norm(gradients_total, 5.0)
         train_step_total = optimizer.apply_gradients(zip(gradients_total, variables_total))
 
-        #saver = tf.train.Saver()
-        #save_path = self.config.model_prefix + basename.replace('json', 'ckpt')
-
         tf_config = tf.ConfigProto()
         tf_config.intra_op_parallelism_threads = 1
         tf_config.inter_op_parallelism_threads = 1
@@ -153,10 +126,10 @@ class RNNPredictor(object):
 
             _current_cell_state = np.zeros((self.config.n_batch, self.config.n_neurons), dtype=np.float32)
             for i in range(self.config.n_max_epoch):
-                print('Epoch: {}/{}'.format(i, self.config.n_max_epoch))
+                logging.info('Epoch: {}/{}'.format(i, self.config.n_max_epoch))
                 # train
                 train_loss, valid_loss, _train_step = sess.run(
-                [total_loss_train, total_loss_valid, train_step],
+                    [total_loss_train, total_loss_valid, train_step],
                     feed_dict={
                         batchX_placeholder: x,
                         cell_state: _current_cell_state,
@@ -164,25 +137,25 @@ class RNNPredictor(object):
                 )
 
                 sum_loss = train_loss * (1 - self.config.valid_loss_weight) + valid_loss * self.config.valid_loss_weight
-                print("Epoch", i, "Train Loss", train_loss, 'Valid Loss', valid_loss, 'Sum Loss', sum_loss)
+                logging.info('Epoch {}, Train loss {}, Valid loss {}, Sum loss {}'.format(i, train_loss, valid_loss, sum_loss))
                 if wait <= self.config.n_patience:
                     if sum_loss < smallest_loss:
                         smallest_loss = sum_loss
                         smallest_train_loss = train_loss
                         _save_weight()
                         wait = 0
-                        print('New smallest')
+                        logging.info('New smallest')
                     else:
                         wait += 1
-                        print('Wait {}'.format(wait))
+                        logging.info('Wait {}'.format(wait))
                         if wait % self.config.n_lr_decay == 0:
                             sess.run(learning_rate_decay_op)
-                            print('Apply lr decay, new lr: %f' % learning_rate.eval())
+                            logging.info('Apply lr decay, new lr: %f' % learning_rate.eval())
                 else:
                     break
 
             _load_weights()
-            print('Training loss', smallest_train_loss)
+            logging.info('Training loss {}'.format(smallest_train_loss))
 
             _total_loss = sess.run(
                 [total_loss_total],
@@ -196,7 +169,7 @@ class RNNPredictor(object):
                 if _total_loss < smallest_train_loss:
                     break
 
-                print('Epoch_total: {}/{}'.format(i, self.config.n_max_epoch_total))
+                logging.info('Epoch_total: {}/{}'.format(i, self.config.n_max_epoch_total))
                 _total_loss, _train_step = sess.run(
                     [total_loss_total, train_step_total],
                     feed_dict={
@@ -204,40 +177,23 @@ class RNNPredictor(object):
                         cell_state: _current_cell_state,
                     }
                 )
-                print("Epoch_total", i, "Total Loss", _total_loss)
+                logging.info("Epoch_total {}, Total Loss {}".format(i, _total_loss))
 
-            #test
-            print('In test')
-            print('Min loss', _total_loss)
-            #saver.save(sess, save_path)
+            # test
+            logging.info('In test')
+            logging.info('Min loss', _total_loss)
 
-            pred_train, pred_train_lower, pred_train_upper, pred_valid, pred_valid_lower, pred_valid_upper, pred_test, pred_test_lower, pred_test_upper = sess.run(
-            [pred_point_train, pred_lower_train, pred_upper_train, pred_point_valid, pred_lower_valid, pred_upper_valid, pred_point_test, pred_lower_test, pred_upper_test],
+            pred_test, pred_test_lower, pred_test_upper = sess.run(
+                [pred_point_test, pred_lower_test, pred_upper_test],
                 feed_dict={
                     batchX_placeholder: x,
                     cell_state: _current_cell_state,
                 }
             )
 
-            mse_train = sklearn.metrics.mean_squared_error(x[n_predict_step:n_train], pred_train)
-            mse_valid = sklearn.metrics.mean_squared_error(x[n_train:], pred_valid)
-            print('mse_train', mse_train)
-            print('mse_valid', mse_valid)
-
-            pred_train = scaler.inverse_transform(pred_train)
-            pred_train_lower = scaler.inverse_transform(pred_train_lower)
-            pred_train_upper = scaler.inverse_transform(pred_train_upper)
-            pred_valid = scaler.inverse_transform(pred_valid)
-            pred_valid_lower = scaler.inverse_transform(pred_valid_lower)
-            pred_valid_upper = scaler.inverse_transform(pred_valid_upper)
             pred_test = scaler.inverse_transform(pred_test)
             pred_test_lower = scaler.inverse_transform(pred_test_lower)
             pred_test_upper = scaler.inverse_transform(pred_test_upper)
-
-            pred_train_lower = np.minimum(pred_train, np.minimum(pred_train_lower, pred_train_upper))
-            pred_train_upper = np.maximum(pred_train, np.maximum(pred_train_upper, pred_train_lower))
-            pred_valid_lower = np.minimum(pred_valid, np.minimum(pred_valid_lower, pred_valid_upper))
-            pred_valid_upper = np.maximum(pred_valid, np.maximum(pred_valid_upper, pred_valid_lower))
             pred_test_lower = np.minimum(pred_test, np.minimum(pred_test_lower, pred_test_upper))
             pred_test_upper = np.maximum(pred_test, np.maximum(pred_test_upper, pred_test_lower))
 

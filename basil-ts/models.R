@@ -2,31 +2,32 @@
 #   Functions that estimate models and their forecasts
 #
 
-library("uuid")
-
 # Meta helpers ------------------------------------------------------------
 
 model_dictionary <- list(
-#  "Auto ARIMA"    = "auto_arima_forecast",
-#  "Mean"          = "constant_mean_forecast",
-#  "ETS"           = "ets_forecast",
-#  "RW"            = "rw_forecast",
-#  "RW-DRIFT"      = "rw_drift_forecast",
-#  "RW-SEAS"       = "rw_seasonal_forecast",
-#  "Arithmetic RW" = "arithmetic_rw_forecast",
-#  "Geometric RW"  = "geometric_rw_forecast",
-#  "DS-RW" = "rw_deseasoned_forecast",
-#  "DS-SES" = "ses_deseasoned_forecast",
-#  "DS-Holt" = "holt_deseasoned_forecast",
-#  "DS-Holt-damped" = "damped_deseasoned_forecast",
-#  "M4-Comb" = "m4comb_forecast",
-#  "M4-Meta" = "m4meta_forecast"
-  "RNN" = "rnn_forecast"
+  "Auto ARIMA"    = "auto_arima_forecast",
+  "Mean"          = "constant_mean_forecast",
+  "ETS"           = "ets_forecast",
+  "RW"            = "rw_forecast",
+  "RW-DRIFT"      = "rw_drift_forecast",
+  "RW-SEAS"       = "rw_seasonal_forecast",
+  "Arithmetic RW" = "arithmetic_rw_forecast",
+  "Geometric RW"  = "geometric_rw_forecast",
+  "DS-RW" = "rw_deseasoned_forecast",
+  "DS-SES" = "ses_deseasoned_forecast",
+  "DS-Holt" = "holt_deseasoned_forecast",
+  "DS-Holt-damped" = "damped_deseasoned_forecast",
+  "M4-Comb" = "m4comb_forecast",
+  "M4-Meta" = "m4meta_forecast"
 )
 
 #' Get model function based on short name
 get_model <- function(short_name, mdict = model_dictionary) {
-  function_name = mdict[[short_name]]
+  if (short_name == "RNN") {
+    function_name = "rnn_forecast"
+  } else {
+    function_name = mdict[[short_name]]
+  }
   get(function_name)
 }
 
@@ -265,6 +266,8 @@ m4meta_forecast <- function(ts, lambda, h) {
   list(model = model, fcast = fcast)
 }
 
+
+
 # Models on de-seasoned data ----------------------------------------------
 
 # from https://github.com/M4Competition/M4-methods/blob/master/Benchmarks%20and%20Evaluation.R
@@ -467,16 +470,18 @@ rnn_forecast <- function(ts, lambda, h) {
     notes = "RNN notes"
   )
 
-  uuid_str <- UUIDgenerate()
-  rnn_input_fh <- paste0("basil-ts/rnn-request-", uuid_str, ".json")
+  args <- commandArgs(trailingOnly=TRUE)
+  request_id   <- args[1]
+
+  rnn_input_fh <- paste0("basil-ts/rnn-request-", request_id, ".json")
   toJSON(list(ts=ts, h = h), pretty=TRUE) %>% writeLines(rnn_input_fh)
 
-  cmd <- paste0("/nas/home/yuzhongh/intel/intelpython3/bin/python -u main.py ", rnn_input_fh)
+  cmd <- paste0("python3 -u rnn/main.py ", rnn_input_fh)
   print(cmd)
   system(cmd)
   unlink(rnn_input_fh)
 
-  rnn_output_fh <- paste0("basil-ts/rnn-forecast-", uuid_str, ".json")
+  rnn_output_fh <- paste0("basil-ts/rnn-forecast-", request_id, ".json")
   if (!file.exists(rnn_output_fh)) {
     stop("RNN model failed")
   }

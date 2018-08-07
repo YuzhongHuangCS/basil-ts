@@ -6,7 +6,6 @@ class Config(object):
         self.n_max_epoch = 1000
         self.n_max_epoch_total = 100
         self.n_neurons = 256
-        self.n_predict_step = 10
         self.n_input_dim = 1
         self.n_dense_dim = 128
         self.n_output_dim = 3
