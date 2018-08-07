@@ -181,7 +181,7 @@ class RNNPredictor(object):
 
             # test
             logging.info('In test')
-            logging.info('Min loss', _total_loss)
+            logging.info('Min loss {}'.format(_total_loss))
 
             pred_test, pred_test_lower, pred_test_upper = sess.run(
                 [pred_point_test, pred_lower_test, pred_upper_test],

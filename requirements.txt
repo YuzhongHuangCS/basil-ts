@@ -21,3 +21,5 @@ numpy
 scipy
 scikit-learn
 tensorflow
+filelock
+psutil

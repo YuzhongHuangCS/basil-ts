@@ -55,7 +55,7 @@ if __name__ == "__main__":
                     except Exception as e:
                         logging.debug('Unable to get lock on core {}'.format(max_idle_index))
 
-                logging.info('idle', max_idle, max_idle_index)
+                logging.info('idle, {}, {}'.format(max_idle, max_idle_index))
                 p = psutil.Process()
                 p.cpu_affinity([max_idle_index])
                 logging.debug('{}, {}'.format(p, p.cpu_affinity()))
