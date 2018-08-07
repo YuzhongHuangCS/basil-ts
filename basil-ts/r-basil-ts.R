@@ -125,9 +125,11 @@ r_basil_ts <- function(fh = NULL) {
   
   # Create the forecast(s), potentially for multiple models
   out       <- create_forecasts(target, pr, quick = quick)
-  out_rnn   <- create_forecasts(target, pr, rnn = TRUE)
+  if (!quick) {
+    out_rnn   <- create_forecasts(target, pr, rnn = TRUE)
+    out$forecasts[["RNN"]] = out_rnn$forecasts[["RNN"]]
+  }
 
-  out$forecasts[["RNN"]] = out_rnn$forecasts[["RNN"]]
   forecasts <- out$forecasts
   pr        <- out$parsed_request
   
