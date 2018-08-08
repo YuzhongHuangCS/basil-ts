@@ -39,7 +39,7 @@ if __name__ == "__main__":
             if platform.system() == 'Linux':
                 # set cpu affinity
                 while True:
-                    command = "mpstat -P ALL 1 1 | tail -n 48 | awk '{print ($12)}'"
+                    command = "mpstat -P ALL 1 1 | tail -n %d | awk '{print ($12)}'" % (os.cpu_count())
                     ret = subprocess.check_output(command, shell=True)
                     idles = [float(x) for x in ret.split()]
                     max_idle_index = np.argmax(idles)
