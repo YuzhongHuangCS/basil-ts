@@ -478,11 +478,11 @@ rnn_forecast <- function(ts, lambda, h) {
 
   cmd <- paste0("python3 -u rnn/main.py ", rnn_input_fh)
   print(cmd)
-  system(cmd)
+  status = system(cmd)
   unlink(rnn_input_fh)
 
   rnn_output_fh <- paste0("basil-ts/rnn-forecast-", request_id, ".json")
-  if (!file.exists(rnn_output_fh)) {
+  if ((status != 0) || (!file.exists(rnn_output_fh))) {
     stop("RNN model failed")
   }
 
