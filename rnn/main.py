@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import sys
 from config import Config
-from filelock import FileLock
+from filelock import FileLock, Timeout
 
 # uncomment to force CPU training
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                         core_lock.acquire()
                         logging.debug('Lock acquired on core {}'.format(max_idle_index))
                         break
-                    except Exception as e:
+                    except Timeout as e:
                         logging.debug('Unable to get lock on core {}'.format(max_idle_index))
 
                 logging.info('idle, {}, {}'.format(max_idle, max_idle_index))
