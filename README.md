@@ -144,7 +144,7 @@ List of options:
 <tr class="even">
 <td><code>rnn</code></td>
 <td>False</td>
-<td>Run RNN model in <code>forecasts<code/>. It may take a take a long time.</td>
+<td>Run RNN model in <code>forecasts</code>. It may take a take a long time.</td>
 </tr>
 </tbody>
 </table>
