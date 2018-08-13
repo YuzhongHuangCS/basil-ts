@@ -24,3 +24,6 @@ for req in inputs:
                              json=json.load(infile))
     with open(outfile, 'w') as out:
         json.dump(resp.json(), out, indent = 2)
+
+
+os.system("Rscript -e 'library(rmarkdown); rmarkdown::render(\"tests/README.Rmd\")'")
