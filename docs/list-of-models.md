@@ -14,9 +14,13 @@ List of models
     -   [M4-Comp](#m4-comp)
     -   [M4-Meta](#m4-meta)
     -   [Mean](#mean)
+    -   [NNETAR](#nnetar)
     -   [RW](#rw)
     -   [RW-DRIFT](#rw-drift)
     -   [RW-SEAS](#rw-seas)
+    -   [STLM-AR](#stlm-ar)
+    -   [TBATS](#tbats)
+    -   [THETAF](#thetaf)
 -   [Other models to add](#other-models-to-add)
 -   [M4 competition](#m4-competition)
     -   [Misc](#misc)
@@ -31,10 +35,10 @@ Summary table
 
 <table>
 <colgroup>
-<col width="53%" />
-<col width="10%" />
-<col width="14%" />
-<col width="21%" />
+<col width="56%" />
+<col width="9%" />
+<col width="13%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -112,22 +116,46 @@ Summary table
 <td align="left"><code>forecast::Arima(c(0,0,0))</code></td>
 </tr>
 <tr class="even">
+<td align="left"><strong>NNETAR</strong> <br /> Autoregressive neural net</td>
+<td align="center"></td>
+<td align="left"><code>nnetar_forecast</code></td>
+<td align="left"><code>forecast::nnetar()</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><strong>RW</strong> <br /> Random walk / ARIMA(0,1,0)</td>
 <td align="center">X</td>
 <td align="left"><code>rw_forecast</code></td>
 <td align="left"><code>forecast::rwf()</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><strong>RW-DRIFT</strong> <br /> Random walk with drift</td>
 <td align="center">X</td>
 <td align="left"><code>rw_drift_forecast</code></td>
 <td align="left"><code>forecast::rwf(drift = TRUE)</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>RW-SEAS</strong> <br /> Seasonal random walk</td>
 <td align="center">X</td>
 <td align="left"><code>rw_seasonal_forecast</code></td>
 <td align="left"><code>forecast::snaive()</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>STLM-AR</strong> <br /> Seasonal and Trend Decomposition using Loess with AR modeling of the seasonally adjusted series</td>
+<td align="center"></td>
+<td align="left"><code>stlm_ar_forecast</code></td>
+<td align="left"><code>forecast::stlm(modelfunction = stats::ar)</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>TBATS</strong> <br /> Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components</td>
+<td align="center"></td>
+<td align="left"><code>tbats_forecast</code></td>
+<td align="left"><code>forecast::tbats()</code></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>THETAF</strong> <br /> Theta forecasting method</td>
+<td align="center"></td>
+<td align="left"><code>thetaf_forecast</code></td>
+<td align="left"><code>forecast::thetaf()</code></td>
 </tr>
 </tbody>
 </table>
@@ -227,6 +255,14 @@ Implemented with `forecast::Arima(c(0,0,0))`
 
 This model always predicts the mean of the input time series, and the prediction interval is similarly estimated using the input time series variance, although with a standard uncertainty correction for the number of observations.
 
+### NNETAR
+
+Autoregressive neural net
+
+Implemented with `forecast::nnetar()`
+
+ADD
+
 ### RW
 
 Random walk / ARIMA(0,1,0)
@@ -250,6 +286,30 @@ Seasonal random walk
 Implemented with `forecast::snaive()`
 
 Seasonal random walk with *Y*<sub>*t*</sub> = *Y*<sub>*t* − *m*</sub> + *Z*<sub>*t*</sub>, where *m* is the seasonal frequency.
+
+### STLM-AR
+
+Seasonal and Trend Decomposition using Loess with AR modeling of the seasonally adjusted series
+
+Implemented with `forecast::stlm(modelfunction = stats::ar)`
+
+ADD
+
+### TBATS
+
+Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components
+
+Implemented with `forecast::tbats()`
+
+Specialized for time series with complex seasonal patterns. See [De Livera et al., 2011](https://doi.org/10.1198/jasa.2011.tm09771).
+
+### THETAF
+
+Theta forecasting method
+
+Implemented with `forecast::thetaf()`
+
+Assimakopoulos and Nikolopoulos (2000) theta forecasting model.
 
 Other models to add
 -------------------
@@ -359,8 +419,6 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-14.png)
 
-### What will be the long-term interest rate for Portugal (PRT) in April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-15.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-16.png)
@@ -368,6 +426,8 @@ Example forecasts
 ![](list-of-models_files/figure-markdown_github/example-forecasts-17.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-18.png)
+
+### What will be the long-term interest rate for Portugal (PRT) in April 2018?
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-19.png)
 
@@ -389,8 +449,6 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-28.png)
 
-### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
-
 ![](list-of-models_files/figure-markdown_github/example-forecasts-29.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-30.png)
@@ -407,6 +465,8 @@ Example forecasts
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-36.png)
 
+### What will be the maximum sea ice extent on the Baffin Bay Gulf of St. Lawrence between 21 March 2018 and 10 April 2018?
+
 ![](list-of-models_files/figure-markdown_github/example-forecasts-37.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-38.png)
@@ -418,3 +478,27 @@ Example forecasts
 ![](list-of-models_files/figure-markdown_github/example-forecasts-41.png)
 
 ![](list-of-models_files/figure-markdown_github/example-forecasts-42.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-43.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-44.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-45.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-46.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-47.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-48.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-49.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-50.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-51.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-52.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-53.png)
+
+![](list-of-models_files/figure-markdown_github/example-forecasts-54.png)
