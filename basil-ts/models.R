@@ -14,12 +14,16 @@ model_dictionary <- list(
   "RW-SEAS"       = "rw_seasonal_forecast",
   "Arithmetic RW" = "arithmetic_rw_forecast",
   "Geometric RW"  = "geometric_rw_forecast",
-  "DS-RW" = "rw_deseasoned_forecast",
-  "DS-SES" = "ses_deseasoned_forecast",
-  "DS-Holt" = "holt_deseasoned_forecast",
+  "NNETAR"        = "nnetar_forecast",
+  "TBATS"         = "tbats_forecast",
+  "STLM-AR"       = "stlm_ar_forecast",
+  "THETA"         = "thetaf_forecast",
+  "DS-RW"         = "rw_deseasoned_forecast",
+  "DS-SES"        = "ses_deseasoned_forecast",
+  "DS-Holt"       = "holt_deseasoned_forecast",
   "DS-Holt-damped" = "damped_deseasoned_forecast",
-  "M4-Comb" = "m4comb_forecast",
-  "M4-Meta" = "m4meta_forecast"
+  "M4-Comb"       = "m4comb_forecast",
+  "M4-Meta"       = "m4meta_forecast"
 )
 
 #' Get model function based on short name
@@ -264,6 +268,93 @@ m4meta_forecast <- function(ts, lambda, h) {
 }
 
 
+nnetar_forecast <- function(ts, lambda, h) {
+  doc <- list(
+    short_name = "NNETAR",
+    long_name = "Autoregressive neural net",
+    basis_function = "forecast::nnetar()",
+    lambda_heuristic = FALSE,
+    notes = "ADD"
+  )
+  
+  lambda <- NULL
+  
+  model <- forecast::nnetar(ts, lambda = lambda)
+  model$model_string <- model$method
+  
+  fcast    <- forecast(model, h = h, level = 95, PI = TRUE, npaths = 1e3)
+  # bug in forecast, names is "Series 1" not expected "95%"
+  colnames(fcast$upper) <- colnames(fcast$lower) <- "95%"
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}
+
+tbats_forecast <- function(ts, lambda, h) {
+  doc <- list(
+    short_name = "TBATS",
+    long_name = "Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components",
+    basis_function = "forecast::tbats()",
+    lambda_heuristic = FALSE,
+    notes = "Specialized for time series with complex seasonal patterns. See [De Livera et al., 2011](https://doi.org/10.1198/jasa.2011.tm09771)."
+  )
+  
+  model <- forecast::tbats(ts)
+  model$model_string <- as.character(model)
+  
+  fcast    <- forecast(model, h = h, level = 95)
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}
+
+stlm_ar_forecast <- function(ts, lambda, h) {
+  doc <- list(
+    short_name = "STLM-AR",
+    long_name = "Seasonal and Trend Decomposition using Loess with AR modeling of the seasonally adjusted series",
+    basis_function = "forecast::stlm(modelfunction = stats::ar)",
+    lambda_heuristic = FALSE,
+    notes = "ADD"
+  )
+  
+  lambda <- NULL
+  
+  model <- forecast::stlm(ts, lambda = lambda, modelfunction = stats::ar)
+  model$model_string <- "STLM-AR"
+  
+  fcast    <- forecast(model, h = h, level = 95)
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}
+
+thetaf_forecast <- function(ts, lambda, h) {
+  doc <- list(
+    short_name = "THETAF",
+    long_name = "Theta forecasting method",
+    basis_function = "forecast::thetaf()",
+    lambda_heuristic = FALSE,
+    notes = "Assimakopoulos and Nikolopoulos (2000) theta forecasting model."
+  )
+  
+  model <- forecast::thetaf(ts, h = h, level = 95)
+  model$model_string <- "Theta model"
+  
+  fcast    <- forecast(model, h = h, level = 95)
+  # fix bug in forecast
+  colnames(fcast$upper) <- colnames(fcast$lower) <- "95%"
+  fcast$se <- forecast_se(fcast, tail = TRUE)
+  fcast$trunc_lower <- -Inf
+  fcast$trunc_upper <- Inf 
+  
+  list(model = model, fcast = fcast)
+}
 
 # Models on de-seasoned data ----------------------------------------------
 

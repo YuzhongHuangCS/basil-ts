@@ -296,7 +296,7 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
 #' and bug fixes, there is nothing in here that should change. I.e. there are 
 #' no optimizable modeling decisions in here. 
 #' 
-create_single_forecast <- function(ts, model = "auto ARIMA", parsed_request = NULL) {
+create_single_forecast <- function(ts, model = "Auto ARIMA", parsed_request = NULL) {
   pr <- parsed_request
   
   result <- tryCatch({
