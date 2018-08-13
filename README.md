@@ -141,6 +141,11 @@ List of options:
 <td>True</td>
 <td>Do not estimate secondary models in <code>forecasts<code>, only estimate main ARIMA model forecast.</td>
 </tr>
+<tr class="even">
+<td><code>rnn</code></td>
+<td>False</td>
+<td>Run RNN model in <code>forecasts<code>. It may take a take a long time.</td>
+</tr>
 </tbody>
 </table>
 
