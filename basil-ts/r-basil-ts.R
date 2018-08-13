@@ -51,6 +51,7 @@ r_basil_ts <- function(fh = NULL) {
   backcast <- FALSE
   drop_after <- as.Date("9999-12-31")
   quick <- TRUE
+  rnn <- FALSE
   #fh = "tests/io/andy_input_1145.json"
   
   if (length(args) > 0) {
@@ -59,6 +60,7 @@ r_basil_ts <- function(fh = NULL) {
     backcast     <- ifelse(args[2]=="True", TRUE, backcast)
     drop_after   <- as.Date(args[3])
     quick        <- ifelse(args[4]=="True", TRUE, FALSE)
+    rnn          <- ifelse(args[5]=="True", TRUE, FALSE)
     fh <- paste0("basil-ts/request-", request_id, ".json")
   } else if (length(args)==0 && exists("fh") && is.null(fh)) {
     # function is being sourced
@@ -125,7 +127,7 @@ r_basil_ts <- function(fh = NULL) {
   
   # Create the forecast(s), potentially for multiple models
   out       <- create_forecasts(target, pr, quick = quick)
-  if (!quick) {
+  if (rnn) {
     out_rnn   <- create_forecasts(target, pr, rnn = TRUE)
     out$forecasts[["RNN"]] = out_rnn$forecasts[["RNN"]]
   }

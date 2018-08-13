@@ -55,6 +55,8 @@ def get_forecast():
     backcast   = request.args.get('backcast')
     drop_after = request.args.get('drop-after')
     quick      = request.args.get('quick')
+    rnn        = request.args.get('rnn')
+
     if backcast is None:
         backcast = False
     if backcast == 'True':
@@ -73,6 +75,11 @@ def get_forecast():
         quick = True
     else:
         quick = False
+
+    if rnn is not None and rnn == 'True':
+        rnn = True
+    else:
+        rnn = False
 
     if content is None:
         raise InvalidUsage('Request does not contain JSON data', status_code=400)
@@ -100,13 +107,14 @@ def get_forecast():
     with open(request_fh, "w") as outfile:
         json.dump(content, outfile)
     try:
-        cmd = 'Rscript --vanilla basil-ts/r-basil-ts.R {} {} {} {} > log/{}.log 2>&1'.format(request_id, str(backcast), str(drop_after), str(quick), request_id)
+        cmd = 'Rscript --vanilla basil-ts/r-basil-ts.R {} {} {} {} {} > log/{}.log 2>&1'.format(request_id, str(backcast), str(drop_after), str(quick), str(rnn), request_id)
         app.logger.info(cmd)
         subprocess.check_call(cmd, shell = True)
     except subprocess.CalledProcessError as e:
         if os.path.exists(request_fh):
             os.remove(request_fh)
-        raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': open('log/{}.log'.format(request_id)).read()})
+        with open('log/{}.log'.format(request_id), 'r') as logfile:
+            raise InvalidUsage("Internal R error", status_code=500, payload = {'r_error_message': logfile.read()})
 
     resp_fh = 'basil-ts/forecast-' + request_id + '.json'
     with open(resp_fh, "r") as resp:

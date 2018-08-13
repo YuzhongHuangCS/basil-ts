@@ -10,3 +10,5 @@ basil-ts.Rproj
 *.DS_Store
 
 log/*
+rnn/cache/*
+rnn/locl/*
