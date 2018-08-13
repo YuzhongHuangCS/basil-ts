@@ -254,7 +254,17 @@ class TestBackcastFeature(unittest.TestCase):
         assert payload['parsed_request']['partial_train'][0]   == ''
         assert payload['parsed_request']['partial_outcome'][0] == True
 
+class TestRnnWorks(unittest.TestCase):
+    def setUp(self):
+        app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+        self.app = app.test_client()
 
+    def test_rnn_returns_good_status(self):
+        with open("tests/io/example1.json", "rb") as req:
+            response = self.app.post('/forecast?quick=False&rnn=True',
+                                     data = req,
+                                     content_type = 'application/json')
+        assert response.status_code == 200
 
 if __name__ == "__main__":
     unittest.main()
