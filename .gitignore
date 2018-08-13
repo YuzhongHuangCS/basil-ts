@@ -8,3 +8,5 @@ README.html
 basil-ts.Rproj
 
 *.DS_Store
+
+log/*
