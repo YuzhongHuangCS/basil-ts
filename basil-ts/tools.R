@@ -45,8 +45,8 @@ plot_fcast <- function(ifp_id) {
 
 brier <- function(prediction, outcome, ordered = TRUE) {
   stopifnot(length(prediction)==length(outcome))
-  stopifnot(all(outcome %in% c(0L, 1L)))
-  stopifnot(all.equal(sum(prediction), sum(outcome), 1L))
+  stopifnot(all(outcome %in% c(0L, 1L, NA)))
+  stopifnot(all.equal(sum(prediction), sum(outcome), 1L) | any(is.na(prediction)))
   
   if (ordered) {
     pairs <- NULL
