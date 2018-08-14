@@ -9,7 +9,7 @@ suppressPackageStartupMessages({
   library("jsonlite")
   library("stringr")
   library("truncnorm")
-  
+
   library("tidyverse")
   library("ggplot2")
 })
@@ -18,7 +18,7 @@ suppressPackageStartupMessages({
 get_target <- function(ifp_id) {
   input_fh <- sprintf("tests/io/andy_input_%s.json", ifp_id)
   request  <- jsonlite::fromJSON(input_fh)
-  
+
   target <- data.frame(
     date  = as.Date(request$payload$historical_data$ts[, 1]),
     value = as.numeric(request$payload$historical_data$ts[, 2])
@@ -45,9 +45,9 @@ plot_fcast <- function(ifp_id) {
 
 brier <- function(prediction, outcome, ordered = TRUE) {
   stopifnot(length(prediction)==length(outcome))
-  stopifnot(all(outcome %in% c(0L, 1L)))
-  stopifnot(all.equal(sum(prediction), sum(outcome), 1L))
-  
+  stopifnot(all(outcome %in% c(0L, 1L, NA)))
+  stopifnot(all.equal(sum(prediction), sum(outcome), 1L) | any(is.na(prediction)))
+
   if (ordered) {
     pairs <- NULL
     for (i in 1:(length(prediction)-1)) {
@@ -59,7 +59,7 @@ brier <- function(prediction, outcome, ordered = TRUE) {
   } else {
     brier <- sum((prediction - outcome)^2)
   }
-  
+
   return(brier)
 }
 
