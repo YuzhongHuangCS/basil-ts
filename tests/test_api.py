@@ -3,6 +3,7 @@ import json
 import sys
 sys.path.append('.')
 from app import app
+import os
 
 #os.chdir("/Users/andybega/Work/2017-HFC/SAGE-ward-share/basil-ts")
 
@@ -268,3 +269,5 @@ class TestBackcastFeature(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    
+    

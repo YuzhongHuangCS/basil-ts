@@ -214,16 +214,17 @@ Right now the tests are spread over several files/commands. Anyways.
 ```bash
 # from basil-ts dir
 
-# API tests
-python3 tests/test_api.py
+# Basic tests one should run before committing code changes;
+# this will run R unit tests and Python API tests
+python3 tests/test.py
 
-# Unit tests (R)
+# Run separately:
 Rscript 'basil-ts/tests/testthat.R'
+python3 tests/test_api.py
 
 # Run all RCT-A requests
 # needs app running in another terminal
 python3 tests/run_all.py
-Rscript -e 'library(rmarkdown); rmarkdown::render("tests/README.Rmd")'
 
 # To run a specific IFP
 bash tests/test.sh 1055
@@ -231,6 +232,7 @@ bash tests/test.sh 1055
 # To pretty format io files
 bash tools/format_inputs.sh
 
+# To run a couple of IFPs with the full set of models
 python3 tests/run_extended_models.py
 ```
 

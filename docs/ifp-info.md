@@ -7,7 +7,7 @@ IFP info
 |     2135| What will be the long-term interest rate for South Africa (ZAF) in July 2018?                                                                | FALSE           | 2018-05-15      |
 |     2126| How many earthquakes of magnitude 6 or stronger will occur worldwide in July 2018?                                                           | TRUE            | 2018-05-17      |
 |     2117| How many battle deaths will ACLED record in Central African Republic in August 2018?                                                         | TRUE            | 2018-05-30      |
-|     2099| What will be the daily closing price of Swiss Market Index (INDEXSWX: SMI) on 28 June 2018?                                                  | NA              | 2018-06-21      |
+|     2099| What will be the daily closing price of Swiss Market Index (INDEXSWX: SMI) on 28 June 2018?                                                  | NA              | 2018-06-26      |
 |     2072| How many 'hacking or malware (HACK)' data breaches will Privacy Rights Clearinghouse record in July 2018?                                    | TRUE            | 2018-05-31      |
 |     2000| How many deaths perpetrated by Boko Haram will the Council on Foreign Relations report for June 2018?                                        | TRUE            | 2018-05-27      |
 |     1973| What will be the short-term interest rate for Indonesia (IDN) in July 2018?                                                                  | FALSE           | 2018-03-03      |
