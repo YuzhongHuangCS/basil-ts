@@ -296,7 +296,7 @@ update_norm_avg <- function(mean, se, yobs, yn, N, lambda = NULL) {
 #' and bug fixes, there is nothing in here that should change. I.e. there are 
 #' no optimizable modeling decisions in here. 
 #' 
-create_single_forecast <- function(ts, model = "Auto ARIMA", parsed_request = NULL) {
+create_single_forecast <- function(ts, model = "Auto ARIMA", parsed_request = NULL, raw = FALSE) {
   pr <- parsed_request
   
   result <- tryCatch({
@@ -304,6 +304,10 @@ create_single_forecast <- function(ts, model = "Auto ARIMA", parsed_request = NU
     model_function <- get_model(model)
     res <- model_function(ts, lambda = pr$lambda, h = pr$h)
     
+    if (raw) {
+      return(res)
+    }
+
     mdl   <- res$model
     fcast <- res$fcast
     
@@ -479,6 +483,34 @@ create_forecasts <- function(target, parsed_request, quick = FALSE, rnn = FALSE)
   forecasts <- lapply(forecasts, clean_model)
   names(forecasts) <- model_types
   
+
+  target_ts2 <- ts(
+    data = as.numeric(head(target, -as.integer(pr$h))$value),
+    frequency = fr
+  )
+  forecasts2   <- lapply(model_types, create_single_forecast,
+                        ts = target_ts2, parsed_request = pr, raw=TRUE)
+  names(forecasts2) <- model_types
+
+  answer = as.numeric(tail(target, 1)$value)
+
+  smallest_diff = Inf
+  smallest_method = ""
+  for (method in names(forecasts2)) {
+    result = forecasts2[[method]]
+    if ("fcast" %in% names(result)) {
+      pred = tail(as.vector(result$fcast$mean), 1)
+      diff = (pred - answer)^2
+
+      if (diff < smallest_diff) {
+        smallest_diff = diff
+        smallest_method = method
+      }
+    }
+  }
+
+  forecasts[["BACKTEST"]] = forecasts[[smallest_method]]
+
   return(list(forecasts = forecasts, parsed_request = pr))
 }
 
